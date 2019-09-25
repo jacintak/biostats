@@ -1,0 +1,34 @@
+
+name: # name of the website
+output_dir: "." # output directory of rendered html file - "." is in source file (not a sub directory)
+exclude: ["*.md"] # ignore the readme file
+navbar:
+  title: "Jacinta's GitHub"
+  href: https://jacintak.github.io/index.html
+  left: # start from left hand side of nav bar, right: is for right hand side
+    - text: "Mechanistic models of ectotherm development"
+      menu: # drop down menu
+       - text: "About"
+         href: https://jacintak.github.io/model-about.html
+       - text: "Pipeline"
+         href: https://jacintak.github.io/model-pipeline.html
+       - text: "Resources"
+         href: https://jacintak.github.io/model-resources.html
+    - text: "Teaching intro statistics"
+      href: index.html
+      menu: # drop down menu
+       - text: "Quick guide to R/exams"
+         href: r-exams-guide.html
+       - text: "Lecture 1: Parameter estimation"
+         href: biostats-GLM1.html
+       - text: "Lecture 2: Multiple regression"
+         href: biostats-GLM2.html
+       - text: "Lecture 3: Evaluating models"
+         href: biostats-GLM3.html
+output: 
+  html_document:
+    toc: true # table of contents
+    toc_float: true
+    theme: readable
+    code_download: yes
+
