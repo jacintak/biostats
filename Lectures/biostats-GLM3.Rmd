@@ -1,0 +1,449 @@
+---
+title: "Statistical modelling"
+author:
+- Dr Jacinta Kong
+- School of Natural Sciences
+- kongj@tcd.ie
+output:
+  html_document:
+    code_download: yes
+    df_print: paged
+    theme: readable
+    toc: yes
+subtitle: 'Lecture 3: Evaluating linear models'
+editor_options:
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+library(knitr)
+opts_chunk$set(echo = F, warning = FALSE, message = FALSE, comment = NA, fig.height = 3, fig.width = 3, dpi = 100, fig.align = "center", fig.show = "hold")
+library(tidyverse)
+library(cowplot)
+theme_set(theme_classic())
+library(MASS)
+options(ggplot2.continuous.colour="viridis")
+scale_colour_discrete <- function(...)   scale_colour_viridis_d()
+```
+***
+
+# Overall lecture aims
+
+* Identify the structure of general linear models
+* Describe how linear models are parametrized
+* Understand how to use linear models
+* Understand how to interpret and evaluate linear models
+
+## Other resources
+ 
+* Seeing Theory. Chapter 6. https://seeing-theory.brown.edu/regression-analysis/index.html
+* Statistics: an introduction using R. Michael J. Crawley. Wiley Press. Chapters 7 - 11.
+* Experimental Design and Data Analysis for Biologists. Gerry P. Quinn & Michael J. Keough. Cambridge Press. Chapters 5, 6, 8, 12.
+* https://learningstatisticswithr.com/book/index.html
+
+## By the end of this lecture you should:
+ 
+* Know how the coefficient of determination is calculated
+* Understand how to evaluate the fit of a model based on the coefficient of determination
+* Understand the assumptions of linear regression
+* Be able to evaluate the appropriateness of a linear model to data based on residual plots
+
+***
+
+# By now you should be comfortable with building and interpreting basic linear models in R 
+
+> but how do we know whether our model is a "good" one?
+
+We need to evaluate our model. There are a few things we should consider:
+
+1. How much variation in the data is explained by the model?
+2. Are linear models appropriate for our hypotheses?
+
+***
+
+# What does a linear model tell us?
+
+1. What will a new value of Y be, given a new value of X?
+2. Does the population slope $\beta_1$ differ to 0?
+3. **How much variation in Y can be explained its linear relationship with X?**
+  * Coefficient of determination ($R^2$)
+  * Partitioning variance (F ratio)
+  
+# How much variation in Y can be explained its linear relationship with X?
+
+$$ \frac{Var_{\text{explained by the line}}}{Var_{\text{not explained by the line}}} = Ratio$$
+
+> We need to know the total amount of variation and all possible sources of variation (like the F-ratio & ANOVA)
+
+## What is or isn't explained by the line
+
+### Isn't: Sum of Squares of the Error (SSY)
+
+The bit not explained by the null (total variation in the data). Remember, the null is $\bar{y}$ = the mean of Y.
+
+$$SSY = y_i - \bar{y}$$
+
+```{r SSY, fig.cap = "Black line is the mean of Y", fig.height = 5, fig.width = 5}
+plot(Height ~ Girth, trees)
+abline(mean(trees$Height),0, lwd=3, lty = 2)
+for(i in seq_along(trees$Height)) {
+	  segments(x0 = trees$Girth[i], y0= trees$Height[i], 
+	           x1 = trees$Girth[i], y1=mean(trees$Height), col = "blue")
+	}
+```
+
+### Isn't: Sum of Squares of the Residual (SSE)
+The bit not explained by the line
+
+$$SSE = y_i - \hat{y_i}$$
+
+```{r SSE, fig.cap = "Residuals (blue lines) are the difference between the data point and the predicted line (black line)", fig.height = 5, fig.width = 5}
+plot(Height ~ Girth, trees)
+tree_lm <- lm(Height ~ Girth, trees)
+abline(tree_lm, lwd=3)
+for(i in seq_along(trees$Height)) {
+	  segments(x0 = trees$Girth[i], y0 = trees$Height[i], 
+	           x1 = trees$Girth[i], y1= coef(tree_lm)[1]+coef(tree_lm)[2]*trees$Girth[i], col = "blue")
+	}
+```
+
+
+### Isn't: Sum of Squares of the Regression (SSR)
+How well the line estimates the mean of Y
+
+$$SSR = \hat{y_i} - \bar{y}$$
+
+```{r SSR, fig.cap = "Residuals (blue lines) are the difference between the data point and the predicted line (black line)", fig.height = 5, fig.width = 5}
+plot(Height ~ Girth, trees)
+abline(tree_lm, lwd=3)
+abline(mean(trees$Height),0, lwd=3, lty = 2)
+for(i in seq_along(trees$Height)) {
+	  segments(x0 = trees$Girth[i], y0 = mean(trees$Height), 
+	           x1 = trees$Girth[i], y1= coef(tree_lm)[1]+coef(tree_lm)[2]*trees$Girth[i], col = "blue")
+	}
+```
+
+
+> Accounting for all variation in the data:
+> SSY = SSE + SSR
+
+# So which bits do we use?
+
+$$ \frac{Var_{\text{explained by the line}}}{Var_{\text{not explained by the line}}} = Ratio$$
+
+Interpreting ratios:  
+Ratio > 1 = Line explains more than residual  
+Ratio ≤ 1 = Line explains very little (null hypothesis)  
+
+We want to know how steep the line is relative to how much the line gets wrong:
+
+$$ \frac{SSR}{SSE} = Ratio$$
+
+**Can we use this ratio to evaluate our model?**
+
+Turns out, SSE depends on the total variation of Y, meaning it's not that informative. *We need to standardise it relative to the total amount of variation*. How can we do that?
+
+> SSY, the Sum of Squares of the Error. The bit not explained by the null
+
+Thus, "fit" is given by $\frac{SSR}{SSY} = R^2$
+
+# Coefficient of determination $R^2$
+
+> This is the proportion of variation that your model (your line) explains
+
+1 = no deviance from line (good)  
+0 = strong deviance from line (not good)  
+
+It is related to correlation coefficients. Basically, $R^2 = r^2$
+
+```{r fit, fig.cap = "Which fits better?"}
+data.frame(x = 1:100, y = 1:100) %>% 
+ggplot(aes(x, y)) + 
+  geom_point() +
+  geom_smooth(method = "lm", se = F) +
+  annotate("text", x= 75,y =25, label=expression(paste(R^2, "=" ))) +
+  annotate("text", x= 85,y =25, label=round(summary(data.frame(x = 1:100, y = (1:100)) %>% 
+  lm())$r.squared, 2))
+
+data.frame(x = 1:100, y = (1:100)+ runif(100, max = 80)) %>% 
+ggplot(aes(x, y)) + 
+  geom_point() +
+  geom_smooth(method = "lm", se = F) +
+  annotate("text", x= 75,y =25, label=expression(paste(R^2, "=" ))) +
+  annotate("text", x= 90,y =25, label=round(summary(data.frame(x = 1:100, y = (1:100)+ runif(100, max = 80)) %>% 
+  lm())$r.squared, 2))
+```
+
+R will calculate $R^2$ for you. Going back the tree height and girth example, the $R^2$ is `r summary(tree_lm)$r.squared`.
+
+```{r summary, fig.cap="See the Multiple R-squared"}
+summary(tree_lm)
+```
+
+*** 
+
+# But there are other things to check that are more important!
+
+> We make assumptions of the error structure in linear regression
+
+Remember:  
+$$Y_i = \beta_0 + \beta_1 \times X_i + \varepsilon_i$$
+
+* Does not change our estimates of $\beta_0$ or $\beta_1$
+* Affects our confidence intervals of the estimate and thus hypothesis testing
+* Because $\varepsilon_i$ is random, our assumptions also apply to the response variable $y_i$
+
+```{r meme, fig.cap = "Remember back to lecture 11"}
+library(memer)
+meme_get("ThinkAboutIt") %>% 
+  meme_text_top("Can't fit a linear model") %>% 
+  meme_text_bottom("if the data are not linear")
+```
+
+
+***
+
+# Assumptions of linear regression
+
+In addition to this main condition, there are 4 assumptions of linear regression:
+
+1. Normality
+2. Homogeneity of Variance
+3. Independence
+4. Fixed X
+
+>**ALWAYS** check these assumptions every time you fit a model. No exceptions!
+
+## Mammal brain and body size
+
+Let's look at the relationship between brain mass and body mass for different mammals. The dataset is called `mammals` in the  `MASS` package.  
+```{r mammal brains}
+ggplot(mammals, aes(body, brain)) + geom_point()
+```
+
+
+# 1. Normality
+
+> Population Y values and error terms ($\varepsilon_i$) are normally distributed for each level of the predictor variable ($x_i$)
+  
+The distribution of the response variable, Y, should be normally distributed (not skewed). We can graphically check this using a histogram of brain size.
+
+```{r mammal hist, fig.cap="Is this a normal distribution?"}
+ggplot(mammals, aes(brain)) + geom_histogram()  # also hist()
+```
+
+
+## Quantile-Quantile plots
+
+* We can also visualise the spread of data with a quantile-quantile plot.
+* The linear line is the expected relationship following a normal distribution. Do our points follow the line?
+* What does it mean when the points don't follow the line?
+
+```{r, mammal quantile}
+ggplot(mammals, aes(sample=brain)) + 
+  stat_qq() + 
+  stat_qq_line() +  # also qqnorm()
+  ylab("Brain size")
+```
+
+
+## The residuals of the model should be also normally distributed 
+
+```{r, fig.cap = "Looks like distribution of brain size is skewed to the right. What does this mean biologically?"}
+lm_bb <- lm(brain ~ body, mammals) # our linear model
+ggplot(lm_bb, aes(sample = rstandard(lm_bb))) + 
+  geom_qq() + 
+  stat_qq_line() + # plot standardised residuals
+  ylab("Standardised residuals")
+```
+
+
+## What happens when the data is not normal?
+
+* collect more data, increase sample size for each level of $x$
+* use a non-parametric test 
+     * e.g. Spearman's Rank Correlation
+* ignore it (with good reason). Linear regressions are robust to skewness
+* Fit another statistical model with more appropriate error structures
+* Transform the data
+
+## Applying a transformation
+
+* Some transformations:
+     * Log or natural log
+     * Square root or cube root
+* Note: `log(0)`is undefined so you could make data positive before you log transform them
+* More sophisticated transformations not covered in this module
+
+## Transforming brain size
+
+* Let's try some transformations on the data
+* What is the transformation doing? 
+* Which would you choose?
+
+```{r transform, fig.width=8}
+plot_grid(
+  ggplot(mammals, aes(sample = (brain))) + stat_qq() + stat_qq_line() + labs(title="Untransformed"),
+  ggplot(mammals, aes(sample = log(brain))) + stat_qq() + stat_qq_line() + labs(title="log10 transformed"),
+ ggplot(mammals, aes(sample = sqrt(brain))) + stat_qq() + stat_qq_line() + labs(title="square root transformed"),
+ align = 'h', ncol = 3)
+```
+
+
+## Re-run the model with transformed data
+
+```{r new graph, fig.cap= "That looks better!"}
+lm_bb <- lm(log(brain) ~ body, mammals) # our linear model
+ggplot(lm_bb, aes(sample = rstandard(lm_bb))) + 
+  geom_qq() + 
+  stat_qq_line() + # plot standardised residuals
+  ylab("Standardised residuals")
+```
+
+# 2. Homogeneity of Variance
+
+> Population Y values and error terms ($\varepsilon_i$) have the same variance for each level of the predictor variable ($x_i$)
+
+* Related to the assumptions of Normality but more important!
+* Should expect a normal distribution of standardised residuals
+* Expect no relationship between standardised (or non-standardised) residuals and fitted values of model
+
+Causes:
+
+* small sample size
+* outliers
+* non-normally distributed variables
+
+Deal with it like as normality
+
+## Are there trends in the residual vs fitted values?
+
+```{r resid, fig.width=8, fig.height=6}
+par(mfrow=c(1,2))
+plot(lm((brain) ~ body, mammals) , which=c(3), main = "untransformed")
+plot( lm(log(brain) ~ log(body), mammals) , which=c(3), main = "transformed")
+```
+
+# 3. Independence
+
+> Population Y values and error terms ($\varepsilon_i$) are independent
+
+* They do not influence each other (not autocorrelated)
+* Often because of inappropriate experimental design
+    * time series
+    * pseudo-replication
+    * repeated measurements
+* Increases Type I error
+
+
+## Dealing with independence
+
+Best thing is to choose a different model  
+
+# 4. Fixed X
+
+> The predictor variable ($x_i$) is fixed. i.e. a known constant
+
+Called Type I model or fixed effects model  
+
+* Often broken in biological stats
+* Predictor variables can be random
+* Called Type II (random effects model)
+* Hypothesis testing of Type I applies to Type II
+
+*** 
+
+
+# Other regression diagnostics
+
+* How well does the model fit the data?
+     * Coefficient of determination $R^2$
+* Is a simple linear regression appropriate?
+    * e.g. polynomial or curvilinear model
+* Are there effects of outliers in the model?
+
+## Outliers, leverage and Influence
+
+* Outliers can be checked before applying a model
+* Sometimes influential data points are not outliers
+* Leverage = how much x influences y
+* Influence = how much x influences the slope of the line (Cook's Distance)
+
+## Outliers in the mammal dataset
+
+```{r outliers, fig.cap= "Looks like humans, water opossums & musk shrew have high influence in the regression"}
+plot(lm(log(brain) ~ log(body), mammals) , which=c(5))
+```
+
+***
+
+# Putting it all together
+
+These assumptions can be checked by looking at the residual plots. R shows residual plots using the function `plot(lm())`.
+
+```{r residual plot, fig.height=7, fig.width=8}
+par(mfrow=c(2,2))
+plot(lm(log(brain) ~ log(body), mammals))
+```
+
+Let's evaluate the residual plot, starting from the top left:
+
+* Are the residuals vs fitted values equal (i.e. a straight line)? If there are humps or valleys, the model may not be appropriate for the data.
+* Are the standardised residuals normally distributed? Linear models assume that residuals are normally distributed. If not, your model is inappropriate for your data or your data is skewed in some way.
+* Is there a pattern to your $\sqrt{\mbox{Standardised residuals}}$? Linear models assume equal variance so there should be no pattern in your residuals.
+* Are there any outlier data points that have strong leverage in the model? E.g. potential outliers or influential data points.
+
+***
+
+# Explaining as much about the response as possibe
+
+When fitting model we want to know:  
+
+$$ Ratio_N = \frac{Var_{among}}{Var_{within}}$$
+
+$N$ = sample size  
+Var = variation
+
+Last lecture we calculated Sum of Squares (SS) and coefficients of determination ($R^2$)  
+But SS is influenced by sample size...
+
+## Calculating variance: Moving beyond Sum of Squares (SS)
+
+* Take a mean value of variation (Mean Squares, MS), like arithmetic mean, but with what denominator?
+* degrees of freedom as denominator  
+
+$$ MS = \frac{SS}{df}$$
+
+## What are the degrees of freedom?
+ 
+ * For the regression line: 1 degree of freedom 
+ * For the error? Well we know two parameters $Y = ax + b$ so $df = n-2$
+ * So we divide SSR by 1 df (i.e. it stays the same) and we divide SSE by n-2
+ * What is the total degrees of freedom in a simple linear model?
+
+
+## Partitioning variances with ANOVA
+
+* MS are estimates of variance in the response explained or not by the predictors corrected for sample size
+* We can now compare variation among and within groups
+
+## Ratio of two sample variances (F ratio)
+
+
+$$ Ratio = \frac{SSR}{SSE}$$  
+becomes
+$$ F = \frac{MSR}{MSE}$$  
+  
+This is the ratio of two sample variance (F ratio)
+
+
+## Hypothesis testing with F ratios
+
+
+```{r fratio, fig.height = 6, fig.width = 6, fig.cap= "F distribution"}
+x <- seq(0.001, 5, len = 100)
+plot(df(x, 3, 4), type = 'l', xlab = NA, ylab = NA)
+```
+
+Use F distributions to test probability that the value is due to chance at a given significance level - like the t distribution.
+

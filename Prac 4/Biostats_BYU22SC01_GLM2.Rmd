@@ -1,0 +1,239 @@
+---
+title: 'Parameterising statistical models: Functional response curves'
+author: "Jacinta Kong & Yvonne Buckley"
+output:
+  pdf_document: default
+  word_document: default
+  tufte::tufte_handout: default
+subtitle: Part 2
+editor_options:
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(dev = 'pdf')
+options(width = 60)
+knitr::opts_chunk$set(fig.show = "hold", comment = NA)
+```
+
+# Background
+
+In the previous practical, we replicated the foraging activity of a predator to estimate the parameters of a function response of a predator. Refer to the previous handout for background information. In this practical, we will use R to:
+
+1. Input the data
+2. Visualise the functional response
+3. Perform linear regressions to determine which type of function response our predator follows
+4. Extract parameter estimates
+5. Plot functional responses on top of data
+6. Make statistical and biological inferences about our results
+
+Many of these tasks have been covered in previous practicals. If you run into problems try working it out yourself (e.g. google it/check previous prac handouts) before asking the demonstrators for help - after all, problem solving is an important skill you can put on your CV. 
+
+*Recall there are four types of functional responses. Here we will only examine Type I and Type II but which of these two models does our predator follow?*
+
+When collecting any data and parameterising statistical models we always need to check our data and check whether the statistical model we use is appropriate for our data. This practical handout uses example data to show the results but you should use the class data.
+
+> The purpose of the practical is to get you to think about these experiments and the functional response models, not to find a particular result so don't get hung up on whether the data are perfect and perfectly fit the model. Instead concentrate on understanding what the model is doing, what the data is showing and discussing why there are differences between the model and the data (if any). 
+
+# Assessment
+There are nine questions (total of 20 marks) in a separate document that needs to be completed and handed to the demonstrator before the end of class. This is worth 10% of your final mark. The questions relate to the analysis and interpretation of your own data throughout the handout, not the example dataset.
+
+# Inputting your data in R
+
+We will be running R within RStudio. We will need to input our data as a comma separated values file (.csv). Make sure you save your spreadsheet file as a .csv. You can use "Save As" to change the file format. As always when you input your data into R, check that it has loaded the data correctly.
+
+```{r input}
+class.data <- read.csv("Biostats_Prac4_example_data.csv") # load your data into R.
+# change this file name to your file name
+head(class.data) # check the first 6 rows of data
+```
+
+In this example, total foraging time was 1 minute and search rate was 1 tap per second.
+
+Data looks good in the example data but we need to do a bit of housekeeping for the data. R does not like spaces in header (column) names and R is case sensitive. You may notice that R has changed spaces in the headers to '.' when importing as a '.csv'. You can change the header names using `names()` to something meaningful to you.
+
+```{r header names}
+names(class.data) <- c("Group.name", "Search.rate",	"Handling.procedure", 
+                       "H","Replicate", "Ha", "Time")
+# names() is a function to call a list of column names of your data
+names(class.data)
+```
+
+Remember in the experiment we used jars with or without lids while handling prey. This is an extra variable that adds additional variation to our data. To start we will analyse the subset of the data collected without lids. The function `subset()` is very useful for selecting data given a condition (in this case, jars without lids). We will save the subsetted dataset under a new name.
+
+```{r lids}
+data <- subset(class.data, Handling.procedure == "No")
+# subset(data, variable == "Selected category")
+```
+
+> There are many spreadsheet programs. Excel is only one of them but it is owned by a big company that not everyone has access to or uses. Excel's default format (.xlsx) is not great for sharing among people with different types of computers, nor is it great for storing data like dates or times the way we would like - it was originally designed for accounting, not science. These Excel errors can create scientific mistakes. Comma separated vales files (csv) are portable, meaning they can easily be opened by all types of computers and because the data is not stored with any fancy formatting like in Excel, there is lower risk of errors. Many fields of science are also currently undergoing a "reproducibility crisis" meaning that scientists have not been able to replicate previous studies, which is an important part of the scientific method, and so how do we know that those results are not fake? All of these points are part of the reason why we want you to learn R - by manipulating all your data in R and sharing the code, you can minimise making mistakes beyond your control, and you can check other people's code to make sure they have analysed their data properly
+
+# Visualising the data
+
+First graph Ha and H. How would you describe the graph?  
+What kind of functional response does it look like? (I, II or III)?  
+Remind yourself what each parameter means, how it was calculated and how it relates to the predator-prey interaction we are modelling.  
+
+```{r graphs}
+plot(Ha ~ H, data) # the basic plot function in R is plot(X ~ Y, data) 
+```
+
+This graph is a start but it is lacking in proper axis labels, units and a caption. You can change the axis labels with `plot(Ha ~ H, data, xlab = "insert x label here", ylab = "insert y label here")`. If you so fancy, try changing the symbols of the graphs using `pch = "4` and the colour by `col = "red"`. You can see all available options online or `??pch`. 
+
+Anything within "" marks are treated as text in R and shown as is written. Do not forget units!
+
+_Re-draw the graph with the proper labels._
+
+
+# Exploring a Type I functional response
+
+Recall, what does a Type I functional response look like and what does it mathematically represent?  
+
+> Linear regressions are models in the form of $Y = \beta X + \alpha$. What do these letters mean?
+
+Let's see if our "predator" has a Type I functional response.
+
+```{r a linear regression}
+type1mod <- lm(Ha ~ H, data) # lm means linear model in R. Let's run the model
+coef(type1mod) # look at the coefficients of the model (slope & intercept)
+```
+
+In a Type I functional response, what do the intercept and gradient of model represent, biologically?  
+Let's look at the linear regression with the actual data. To plot a straight line you can use the function `abline()` (from point a to b, get it?). You will need to replace the coefficients with your own.
+
+```{r}
+plot(Ha ~ H, data)
+abline(5.50340885, 0.05398574) #in the form abline(intercept, gradient). 
+# I've copy pasted the correct numbers here but for a simple Y~X model used here you can use abline(type1mod)
+```
+
+## Check your model
+
+The first thing you should **always** do when fitting any statistical model is to check that your data do not violate the assumptions of the model. We can look at the residual plots of the model for this. 
+
+```{r check yourself before your wreck yourself, fig.height=6}
+par(mfrow = c(2,2)) # tell R how many graphs to plot at once
+plot(type1mod) # plot the residual plots 
+par(mfrow = c(1,1)) # reset the graphing layout in R
+```
+
+Let's evaluate the residual plot, starting from the top left:
+
+* Are the residuals vs fitted values equal (i.e. a straight line)? If there are humps or valleys, the model may not be appropriate for the data.
+* Are the standardised residuals normally distributed? Linear models assume that residuals are normally distributed. If not, your model is inappropriate for your data or your data is skewed in some way.
+* Is there a pattern to your $\sqrt{\mbox{Standardised residuals}}$? Linear models assume equal variance so there should be no pattern in your residuals.
+* Are there any outlier data points that have strong leverage in the model? E.g. potential outliers or influential data points.
+
+If you are satisfied that your model is appropriate, then we can interpret the model output. The summary of the model will tell you the details about the model.
+
+```{r summary}
+summary(type1mod)
+```
+
+There are a lot of things to unpack here. First check that the model seems reasonable. Check that the degrees of freedom (df) are calculated properly. One important thing to evaluate is how much variation in the response variable is explained by the predictor variables. This is given by the $R^2$ value (multiple $R^2$), expressed as a value between 0 (poor fit) and 1 (perfect fit). We are not concerned with the *t* and *P* values here that are testing the hypothesis that the coefficients are not equal to 0, but you can think about what that might mean.  
+
+## Assessment
+Answer Questions 1 & 2 on the assessment handout.
+
+*********************
+
+# Exploring a Type II model
+
+If we cannot describe the number of prey eaten from our data using a linear model, following a Type I functional response, then perhaps a Type II functional response is better. Remind yourself what a Type II response looks like.
+
+If we want to model a Type II function response, then we will need to manipulate our data in R to match the linearised Type II response (See the previous practical).  
+Why would we do this?
+
+```{r new parameters}
+data$Ha.1 <- 1/data$Ha
+data$HT.1 <- 1/(data$H * data$Time)
+```
+
+Now we can use our new variables in a new linear model.
+
+## Visualising the data
+Use your knowledge of R to plot a properly labelled figure and write a caption for your own data (Hint: see above).
+
+```{r type 2 model, echo=FALSE}
+type2mod <- lm(Ha.1 ~ HT.1, data) # a new linear model with the linearised parameters
+coef(type2mod) # look at the coefficients of the model (slope & intercept)
+plot(Ha.1 ~ HT.1, data)
+abline(type2mod)
+```
+
+Compare the regression line with your data, is it a good fit?  
+Is there much variation between your reps?  
+
+
+## Check the Type II model
+
+As always, let's have a look at the model residuals:
+
+```{r check yourself twice before your wreck yourself, fig.height=6, eval=FALSE}
+par(mfrow = c(2,2)) # tell R how many graphs to plot at once
+plot(type2mod) # plot the residual plots 
+par(mfrow = c(1,1)) # reset the graphing layout in R
+```
+
+## Assessment
+Answer Questions 3, 4 & 5 on the assessment handout.
+
+***
+
+# Comparing handling time
+
+What happens when you change handling time by using jars with lids?  
+Rerun the analysis using the jars with lid data.  
+You can select those data using `data <- subset(class.data, Handling.procedure == "Yes")`.
+
+## Assessment
+Answer Questions 6, 7, 8 & 9 on the assessment handout.
+
+*********
+
+> After pracs 3 and 4, you have now completed all the steps of the scientific method: Coming up with a hypothesis, designing an experiment, collecting data, analysing data & revising your initial hypothesis. Congratulations! You are a scientist now.
+
+*************************
+
+## Visualising all the data
+
+You do not need to subset your data. We can do it all in one go and plot both categories of data in a single graph.  
+Here is an example using base R:
+
+```{r ancova base}
+class.data$Ha.1 <- 1/class.data$Ha
+class.data$HT.1 <- 1/(class.data$H * class.data$Time)
+
+plot(Ha.1~ HT.1, subset(class.data, Handling.procedure == "No"),
+     xlab = expression(paste("Prey density  (HT"^-1,")")),
+     ylab = expression(paste("Prey captured  (Ha"^-1,")")),
+     ylim = c(0, 1),
+     xlim = c(0, 0.2))
+points(Ha.1 ~ HT.1, subset(class.data, Handling.procedure == "Yes"), pch = 19)
+abline(lm(Ha.1 ~ HT.1, subset(class.data, Handling.procedure == "No")), lty = 2)
+abline(lm(Ha.1 ~ HT.1, subset(class.data, Handling.procedure == "Yes")))
+legend("topleft", legend = c("Without lid", "With Lid"), pch = c(1,19), lty = c(2,1))
+
+```
+
+See if you can understand the chunk of code. `lty` refers to line type (e.g. dashed or solid) when plotting lines. Is there a difference in the slopes or intercepts of the statistical models?  
+We can also do this using `Tidyverse` as shown in your textbook "Getting Started With R" by Beckerman, Childs & Petchey (with some extra flourishes):
+
+```{r ancova tidyverse, message=FALSE, warning=FALSE}
+library(tidyverse)
+
+class.data %>%
+  mutate(Ha.1 = 1/Ha,
+         HT.1 = 1/(H * Time)) %>%
+  ggplot(aes(HT.1, Ha.1, colour = Handling.procedure)) +
+  geom_point() +
+  geom_smooth(method = "lm", se = FALSE) +
+  labs(x = expression(paste("Prey density  (HT"^-1,")")),
+       y = expression(paste("Prey captured  (Ha"^-1,")")),
+       colour = "Handling procedure") +
+  theme_classic() +
+  scale_colour_discrete(labels = c("With lid", "Without lid"))
+```
+
+
