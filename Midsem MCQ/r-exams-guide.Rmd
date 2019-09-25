@@ -1,8 +1,20 @@
 ---
 title: "Quick guide to R/exams"
-author: "Jacinta Kong"
 date: "`r format(Sys.Date(), '%d-%b-%Y')`"
-output: html_document
+author: |
+ | School of Natural Sciences
+ | kongj@tcd.ie
+ [Dr Jacinta Kong](https://jacintak.github.io/index.html)
+subtitle: |
+  | [Back to jacintak/biostats](https://jacintak.github.io/biostats/index.html)
+editor_options:
+  chunk_output_type: console
+output: 
+  html_document:
+    toc: true # table of contents
+    toc_float: true
+    theme: readable
+    code_download: yes
 ---
 
 [`R/exams`](www.r-exams.org) is an R package that generates a reproducible workflow for designing, producing and marking exams.  
