@@ -1302,7 +1302,7 @@ window.initializeCodeFolding = function(show) {
 
     // create a collapsable div to wrap the code in
     var div = $('<div class="collapse r-code-collapse"></div>');
-    if (show || $(this)[0].classList.contains('fold-show'))
+    if (show)
       div.addClass('in');
     var id = 'rcode-643E0F36' + currentIndex++;
     div.attr('id', id);
@@ -1434,6 +1434,7 @@ code {
 }
 img {
   max-width:100%;
+  height: auto;
 }
 .tabbed-pane {
   padding-top: 12px;
@@ -1608,7 +1609,7 @@ div.tocify {
 <h4 class="author">Dr Jacinta Kong</h4>
 <h4 class="author">School of Natural Sciences</h4>
 <h4 class="author"><a href="mailto:kongj@tcd.ie" class="email">kongj@tcd.ie</a></h4>
-<h4 class="date">25-Sep-2019</h4>
+<h4 class="date">17-Oct-2019</h4>
 
 </div>
 
