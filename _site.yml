@@ -29,5 +29,10 @@ output:
     toc: true # table of contents
     toc_float: true
     theme: readable
-    code_download: yes
+    highlight: textmate
+    include:
+      after_body: C:/Users/kongj/OneDrive - TCDUD.onmicrosoft.com/jacintak.github.io/footer.html
+    css: C:/Users/kongj/OneDrive - TCDUD.onmicrosoft.com/jacintak.github.io/styles.css
+
+
 

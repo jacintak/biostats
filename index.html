@@ -24,9 +24,7 @@
 <link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
 <script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
-<script src="site_libs/navigation-1.1/codefolding.js"></script>
-<script src="site_libs/navigation-1.1/sourceembed.js"></script>
-<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
 
 <style type="text/css">code{white-space: pre;}</style>
@@ -72,11 +70,9 @@ h6 {
 .table th:not([align]) {
   text-align: left;
 }
-#rmd-source-code {
-  display: none;
-}
 </style>
 
+<link rel="stylesheet" href="C:\Users\kongj\ONEDRI~1.COM\JACINT~1.IO\styles.css" type="text/css" />
 
 
 
@@ -254,9 +250,6 @@ $(document).ready(function () {
 </style>
 
 <!-- code folding -->
-<style type="text/css">
-.code-folding-btn { margin-bottom: 4px; }
-</style>
 
 
 
@@ -399,13 +392,6 @@ div.tocify {
 
 <div class="fluid-row" id="header">
 
-<div class="btn-group pull-right">
-<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
-<ul class="dropdown-menu" style="min-width: 50px;">
-<li><a id="rmd-download-source" href="#">Download Rmd</a></li>
-</ul>
-</div>
-
 
 
 <h1 class="title toc-ignore">Teaching Biostats</h1>
@@ -422,7 +408,13 @@ div.tocify {
 <p>I have also added my lecture handouts with the option to download the .rmd file. The students get three lectures on statistical models from me, which is not a lot for an introductory class. The lectures thus focus on understanding the concepts of slopes and intercepts of linear models and introduces fixed and random slope models, as well as interactions. It takes a GLM centric approach with less emphasis on classifying linear models according to data types.</p>
 </div>
 
-<div id="rmd-source-code">LS0tDQp0aXRsZTogIlRlYWNoaW5nIEJpb3N0YXRzIg0KLS0tDQoNCiMgUiBwYWNrYWdlIGBleGFtc2ANCg0KUGFydCBvZiBteSByZXNwb25zaWJpbGl0aWVzIGlzIHRlYWNoaW5nIGludHJvZHVjdG9yeSBzdGF0cy4gRm9yIHRoaXMsIEkgaGF2ZSB3cml0dGVuIGEgcXVpY2sgZ3VpZGUgdG8gdGhlIHBhY2thZ2UgYGV4YW1zYCB3aGljaCBtYWtlcyByYW5kb21pc2VkIE1DUXMgdGhhdCB5b3UgY2FuIGV4cG9ydCB0byBvbmxpbmUgbGVhcm5pbmcgbWFtYW5nZW1lbnQgc3lzdGVtcyAod2UgdXNlIGJsYWNrYm9hcmQpLiANCg0KIyBMZWN0dXJlcyBvbiBzdGF0aXN0aWNhbCBtb2RlbGxpbmcNCg0KSSBoYXZlIGFsc28gYWRkZWQgbXkgbGVjdHVyZSBoYW5kb3V0cyB3aXRoIHRoZSBvcHRpb24gdG8gZG93bmxvYWQgdGhlIC5ybWQgZmlsZS4gVGhlIHN0dWRlbnRzIGdldCB0aHJlZSBsZWN0dXJlcyBvbiBzdGF0aXN0aWNhbCBtb2RlbHMgZnJvbSBtZSwgd2hpY2ggaXMgbm90IGEgbG90IGZvciBhbiBpbnRyb2R1Y3RvcnkgY2xhc3MuIFRoZSBsZWN0dXJlcyB0aHVzIGZvY3VzIG9uIHVuZGVyc3RhbmRpbmcgdGhlIGNvbmNlcHRzIG9mIHNsb3BlcyBhbmQgaW50ZXJjZXB0cyBvZiBsaW5lYXIgbW9kZWxzIGFuZCBpbnRyb2R1Y2VzIGZpeGVkIGFuZCByYW5kb20gc2xvcGUgbW9kZWxzLCBhcyB3ZWxsIGFzIGludGVyYWN0aW9ucy4gSXQgdGFrZXMgYSBHTE0gY2VudHJpYyBhcHByb2FjaCB3aXRoIGxlc3MgZW1waGFzaXMgb24gY2xhc3NpZnlpbmcgbGluZWFyIG1vZGVscyBhY2NvcmRpbmcgdG8gZGF0YSB0eXBlcy4NCg==</div>
+<footer>
+	    		<ul>
+	    		    <li><a href="https://jacintakongresearch.wordpress.com">Jacinta D. Kong</a></li>
+	        		<li><a href="mailto:kongj@tcd.ie">email</a></li>
+	        		<li><a href="https://github.com/jacintak">github.com/jacintak</a></li>
+				</ul>
+</footer>
 
 
 </div>
@@ -458,11 +450,6 @@ $(document).ready(function () {
 </script>
 
 <!-- code folding -->
-<script>
-$(document).ready(function () {
-  window.initializeSourceEmbed("index.Rmd");
-});
-</script>
 
 <script>
 $(document).ready(function ()  {
