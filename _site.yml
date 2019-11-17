@@ -25,9 +25,27 @@ navbar:
        - text: "Lecture 3: Evaluating models"
          href: biostats-GLM3.html
     - text: "colRoz"
-      menu: # drop down menu
+      menu:
        - text: "Quick guide to colRoz"
          href: https://jacintak.github.io/colRoz/index.html
+       - text: "Warramaba"
+         href: https://jacintak.github.io/colRoz/warramaba-palette.html
+       - text: "Lizards"
+         href: https://jacintak.github.io/colRoz/lizards-palette.html
+       - text: "Landscapes"
+         href: https://jacintak.github.io/colRoz/landscapes-palette.html
+       - text: "Birds"
+         href: https://jacintak.github.io/colRoz/birds-palette.html
+       - text: "Frogs"
+         href: https://jacintak.github.io/colRoz/frogs-palette.html
+       - text: "Snakes"
+         href: https://jacintak.github.io/colRoz/snakes-palette.html
+       - text: "Plants"
+         href: https://jacintak.github.io/colRoz/plants-palette.html
+       - text: "Fish"
+         href: https://jacintak.github.io/colRoz/fish-palette.html
+       - text: "Inverts"
+         href: https://jacintak.github.io/colRoz/inverts-palette.html
 output: 
   html_document:
     toc: true # table of contents
@@ -35,8 +53,8 @@ output:
     theme: readable
     highlight: textmate
     include:
-      after_body: C:/Users/kongj/OneDrive - TCDUD.onmicrosoft.com/jacintak.github.io/footer.html
-    css: C:/Users/kongj/OneDrive - TCDUD.onmicrosoft.com/jacintak.github.io/styles.css
+      after_body: ../../jacintak.github.io/footer.html
+    css: ../../jacintak.github.io/styles.css
 
 
 
