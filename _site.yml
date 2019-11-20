@@ -46,6 +46,9 @@ navbar:
          href: https://jacintak.github.io/colRoz/fish-palette.html
        - text: "Inverts"
          href: https://jacintak.github.io/colRoz/inverts-palette.html
+  right:
+    - icon: fa-github
+      href: https://github.com/jacintak
 output: 
   html_document:
     toc: true # table of contents
