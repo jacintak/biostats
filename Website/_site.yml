@@ -50,14 +50,16 @@ navbar:
     - icon: fa-github
       href: https://github.com/jacintak
 output: 
-  html_document:
+  bookdown::html_document2:
     toc: true # table of contents
     toc_float: true
     theme: readable
+    code_download: yes
+    code_folding: show
     highlight: textmate
     include:
-      after_body: ../../jacintak.github.io/footer.html
-    css: ../../jacintak.github.io/styles.css
+      after_body: ../../../jacintak.github.io/footer.html
+    css: ../../../jacintak.github.io/styles.css
 
 
 
