@@ -18,6 +18,8 @@ navbar:
       menu: # drop down menu
        - text: "Quick guide to R/exams"
          href: r-exams-guide.html
+       - text: "Introduction to R"
+         href: Drop_in_1.html
        - text: "Lecture 1: Simple linear models"
          href: biostats-GLM1.html
        - text: "Lecture 2: Multiple regression"
