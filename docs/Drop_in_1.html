@@ -406,6 +406,9 @@ div.tocify {
     <li>
       <a href="biostats-GLM3.html">Lecture 3: Evaluating models</a>
     </li>
+    <li>
+      <a href="GLM-Assumptions-worksheet.html">Worksheet for Lecture 3: Checking Assumptions</a>
+    </li>
   </ul>
 </li>
 <li class="dropdown">
@@ -875,42 +878,57 @@ small_sleep
 <h2>Viewing data</h2>
 <p>For bigger datasets it is easier to view a subset of the data or to use the <code>View()</code> function:</p>
 <pre class="r"><code>head(mammal_sleep, n = 6) # View the first 6 rows (6 is default, can be changed)
-                 Species   BodyWt BrainWt NonDreaming Dreaming TotalSleep LifeSpan
-1        Africanelephant 6654.000  5712.0          NA       NA        3.3     38.6
-2 Africangiantpouchedrat    1.000     6.6         6.3      2.0        8.3      4.5
-3              ArcticFox    3.385    44.5          NA       NA       12.5     14.0
-4   Arcticgroundsquirrel    0.920     5.7          NA       NA       16.5       NA
-5          Asianelephant 2547.000  4603.0         2.1      1.8        3.9     69.0
-6                 Baboon   10.550   179.5         9.1      0.7        9.8     27.0
-  Gestation Predation Exposure Danger
-1       645         3        5      3
-2        42         3        1      3
-3        60         1        1      1
-4        25         5        2      3
-5       624         3        5      4
-6       180         4        4      4
+                 Species   BodyWt BrainWt NonDreaming
+1        Africanelephant 6654.000  5712.0          NA
+2 Africangiantpouchedrat    1.000     6.6         6.3
+3              ArcticFox    3.385    44.5          NA
+4   Arcticgroundsquirrel    0.920     5.7          NA
+5          Asianelephant 2547.000  4603.0         2.1
+6                 Baboon   10.550   179.5         9.1
+  Dreaming TotalSleep LifeSpan Gestation Predation Exposure
+1       NA        3.3     38.6       645         3        5
+2      2.0        8.3      4.5        42         3        1
+3       NA       12.5     14.0        60         1        1
+4       NA       16.5       NA        25         5        2
+5      1.8        3.9     69.0       624         3        5
+6      0.7        9.8     27.0       180         4        4
+  Danger
+1      3
+2      3
+3      1
+4      3
+5      4
+6      4
 View(mammal_sleep)</code></pre>
 </div>
 <div id="summarising-data" class="section level2">
 <h2>Summarising data</h2>
 <p><code>summary()</code> shows some summary statistics for the specific variable</p>
 <pre class="r"><code>summary(mammal_sleep) # for all columns
-   Species              BodyWt            BrainWt         NonDreaming    
- Length:62          Min.   :   0.005   Min.   :   0.14   Min.   : 2.100  
- Class :character   1st Qu.:   0.600   1st Qu.:   4.25   1st Qu.: 6.250  
- Mode  :character   Median :   3.342   Median :  17.25   Median : 8.350  
-                    Mean   : 198.790   Mean   : 283.13   Mean   : 8.673  
-                    3rd Qu.:  48.202   3rd Qu.: 166.00   3rd Qu.:11.000  
-                    Max.   :6654.000   Max.   :5712.00   Max.   :17.900  
-                                                         NA&#39;s   :14      
-    Dreaming       TotalSleep       LifeSpan         Gestation        Predation    
- Min.   :0.000   Min.   : 2.60   Min.   :  2.000   Min.   : 12.00   Min.   :1.000  
- 1st Qu.:0.900   1st Qu.: 8.05   1st Qu.:  6.625   1st Qu.: 35.75   1st Qu.:2.000  
- Median :1.800   Median :10.45   Median : 15.100   Median : 79.00   Median :3.000  
- Mean   :1.972   Mean   :10.53   Mean   : 19.878   Mean   :142.35   Mean   :2.871  
- 3rd Qu.:2.550   3rd Qu.:13.20   3rd Qu.: 27.750   3rd Qu.:207.50   3rd Qu.:4.000  
- Max.   :6.600   Max.   :19.90   Max.   :100.000   Max.   :645.00   Max.   :5.000  
- NA&#39;s   :12      NA&#39;s   :4       NA&#39;s   :4         NA&#39;s   :4                       
+   Species              BodyWt            BrainWt       
+ Length:62          Min.   :   0.005   Min.   :   0.14  
+ Class :character   1st Qu.:   0.600   1st Qu.:   4.25  
+ Mode  :character   Median :   3.342   Median :  17.25  
+                    Mean   : 198.790   Mean   : 283.13  
+                    3rd Qu.:  48.202   3rd Qu.: 166.00  
+                    Max.   :6654.000   Max.   :5712.00  
+                                                        
+  NonDreaming        Dreaming       TotalSleep   
+ Min.   : 2.100   Min.   :0.000   Min.   : 2.60  
+ 1st Qu.: 6.250   1st Qu.:0.900   1st Qu.: 8.05  
+ Median : 8.350   Median :1.800   Median :10.45  
+ Mean   : 8.673   Mean   :1.972   Mean   :10.53  
+ 3rd Qu.:11.000   3rd Qu.:2.550   3rd Qu.:13.20  
+ Max.   :17.900   Max.   :6.600   Max.   :19.90  
+ NA&#39;s   :14       NA&#39;s   :12      NA&#39;s   :4      
+    LifeSpan         Gestation        Predation    
+ Min.   :  2.000   Min.   : 12.00   Min.   :1.000  
+ 1st Qu.:  6.625   1st Qu.: 35.75   1st Qu.:2.000  
+ Median : 15.100   Median : 79.00   Median :3.000  
+ Mean   : 19.878   Mean   :142.35   Mean   :2.871  
+ 3rd Qu.: 27.750   3rd Qu.:207.50   3rd Qu.:4.000  
+ Max.   :100.000   Max.   :645.00   Max.   :5.000  
+ NA&#39;s   :4         NA&#39;s   :4                       
     Exposure         Danger     
  Min.   :1.000   Min.   :1.000  
  1st Qu.:1.000   1st Qu.:1.000  

@@ -26,6 +26,8 @@ navbar:
          href: biostats-GLM2.html
        - text: "Lecture 3: Evaluating models"
          href: biostats-GLM3.html
+       - text: "Worksheet for Lecture 3: Checking Assumptions"
+         href: GLM-Assumptions-worksheet.html
     - text: "colRoz"
       menu:
        - text: "Quick guide to colRoz"

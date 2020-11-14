@@ -1,0 +1,11 @@
+---
+title: "Teaching Biostats"
+---
+
+# R package `exams`
+
+Part of my responsibilities is teaching introductory stats. For this, I have written a quick guide to the package `exams` which makes randomised MCQs that you can export to online learning mamangement systems (we use blackboard). 
+
+# Lectures on statistical modelling
+
+I have also added my lecture handouts with the option to download the .rmd file. The students get three lectures on statistical models from me, which is not a lot for an introductory class. The lectures thus focus on understanding the concepts of slopes and intercepts of linear models and introduces fixed and random slope models, as well as interactions. It takes a GLM centric approach with less emphasis on classifying linear models according to data types.
