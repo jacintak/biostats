@@ -12,6 +12,7 @@ knitr::opts_chunk$set(echo = FALSE)
 crab_lm <- lm(CL ~ CW, MASS::crabs)
 ```
 
+> The aim of this tutorial is to go through the fundamentals of conducting a 1 predictor linear model in `R`
 
 ## Crabs
 <p align="center">

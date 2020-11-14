@@ -11,6 +11,8 @@ library(learnr)
 knitr::opts_chunk$set(echo = FALSE)
 ```
 
+> The aim of this tutorial is to visualise and examine some assumptions of linear regression
+
 # Checking assumptions
 
 Checking that our data meets the assumption of linear models is pretty important. Else, we might make the wrong conclusion! Unfortunately, these checks may be ignored or forgotten about but that's no excuse.  

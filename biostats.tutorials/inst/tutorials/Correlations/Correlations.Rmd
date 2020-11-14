@@ -12,6 +12,8 @@ knitr::opts_chunk$set(echo = FALSE)
 cor.iris <- cor.test(iris$Petal.Length, iris$Sepal.Length)
 ```
 
+> The aim of this tutorial is to look at correlations.
+
 ## Exploring correlations
 
 Let's look at the relationship between the length of iris petals and the width of their sepals.  

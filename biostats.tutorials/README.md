@@ -6,7 +6,7 @@ Follow this checklist in order to make sure you are set up:
 
 1. Have you installed R version 4.0 or above? - if not, install R
     * You can check your R package version using `R.version()$version.string`
-2. Have you installed RStudio version 1.0.136? - if not installing RStudio
+2. Have you installed RStudio version 1.0.136 or above? - if not installing RStudio
     * You can check your RStudio version using `RStudio.Version()$version`
 3. Have you installed the following packages? - if not use `install.packages()` to do so
     * `Tidyverse`
@@ -20,7 +20,7 @@ If everything works then you should see a Tutorials tab in one of your RStudio w
 
 # Installing the tutorials
 
-Now we need to install the tutorial. The tutorials are stored in a Package. You will only have to install the package once at the beginning.   
+Now we need to install the tutorial. The tutorials are stored in a Package available on GitHub. You will only have to install the package once at the beginning.   
 Use the following code:
 
 ```
