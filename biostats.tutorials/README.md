@@ -12,6 +12,7 @@ Follow this checklist in order to make sure you are set up:
     * `Tidyverse`
     * `learnr`
     * `devtools`
+    * `rmarkdown` incl `knitr`
 
 If everything works then you should see a Tutorials tab in one of your RStudio windows (perhaps next to Environment and History) 
 
@@ -19,25 +20,31 @@ If everything works then you should see a Tutorials tab in one of your RStudio w
 
 # Installing the tutorials
 
-Now we need to install the tutorial. The tutorials are stored in a Package. Use the following code:
+Now we need to install the tutorial. The tutorials are stored in a Package. You will only have to install the package once at the beginning.   
+Use the following code:
 
 ```
 devtools::install_github("jacintak/biostats", subdir = "biostats.tutorials", dependencies = TRUE)
 ```
-Hopefully the package loaded properly. If not, make sure you have the above packages installed.  
-You will only have to do this once at the beginning.
+
+If you are asked to install any other packages, choose yes but don't do any compiling (press no if asked).  
+If the package installed properly, you should automatically see the tutorials in the Tutorial tab.
 
 ***
 
 # Running a tutorial
 
 You should be able to run a tutorial from the Tutorial tab when you open RStudio without needing to do anything.  
-Make sure it's a tutorial from the biostats.tutorials package.  
+Make sure it's a tutorial from the `biostats.tutorials` package.  
 
 If you click run tutorial, the tutorial will show up in the tab. You can click the "Show in new window" icon to open it in another window. Press the "Home" icon to return to the Tutorials tab.  
 
-Otherwise use this code and the tutorial will open in another window:
+If that doesn't work use this code and the tutorial will open in another window:
 
 ```
-learnr::run_tutorial("Introduction", package = "biostats.tutorials")
+learnr::run_tutorial("<insert name of the tutorial to run>", package = "biostats.tutorials")
 ```
+
+If neither works, check that the `biostats.tutorials` package installed properly.  
+
+Quit a tutorial by pressing the "Stop" icon.

@@ -396,6 +396,9 @@ div.tocify {
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
+      <a href="index.html">Description</a>
+    </li>
+    <li>
       <a href="r-exams-guide.html">Quick guide to R/exams</a>
     </li>
     <li>
@@ -462,16 +465,25 @@ div.tocify {
 </div>
 
 
+<p>This site contains some of my materials for teaching introductory statistics and computation to biologists (undergraduate) as well as documentation for how to make such teaching material. The material is freely available.</p>
+<hr />
 <div id="r-package-exams" class="section level1" number="1">
 <h1><span class="header-section-number">1</span> R package <code>exams</code></h1>
-<p>Part of my responsibilities is teaching introductory stats. For this, I have written a quick guide to the package <code>exams</code> which makes randomised MCQs that you can export to online learning mamangement systems (we use blackboard).</p>
+<p>This is a a quick guide to the package <code>exams</code> which makes randomised MCQs that you can export to online learning management systems (we use blackboard). Here, random number generators are your friend. Just watch out for rounding errors. You can make the output nicer with <code>knitr::kable()</code> or similar HTML formatting.</p>
+<hr />
 </div>
 <div id="lectures-on-statistical-modelling" class="section level1" number="2">
 <h1><span class="header-section-number">2</span> Lectures on statistical modelling</h1>
-<p>I have also added my lecture handouts with the option to download the .rmd file. The students get three lectures on statistical models from me, which is not a lot for an introductory class. The lectures thus focus on understanding the concepts of slopes and intercepts of linear models and introduces fixed and random slope models, as well as interactions. It takes a GLM centric approach with less emphasis on classifying linear models according to data types.</p>
+<p>These are my lecture handouts with the option to download the .rmd file. The students get three lectures on statistical models from me, which is not a lot for an introductory class. The lectures thus focus on understanding the concepts of slopes and intercepts of linear models and introduces fixed and random slope models, as well as interactions. It takes a GLM centric approach with less emphasis on classifying linear models according to data types.</p>
+<hr />
+</div>
+<div id="biostats-tutorials-with-learnr" class="section level1" number="3">
+<h1><span class="header-section-number">3</span> Biostats tutorials with <code>learnr</code></h1>
+<p>The <a href="https://github.com/jacintak/biostats/tree/master/biostats.tutorials">biostats.tutorials</a> folder on my biostats repo contains an R package of learnr tutorials for biostats. You will need to install it from the subdirectory so you don’t get all my website files too. See the README.</p>
+<hr />
 </div>
 
-<div id="rmd-source-code">LS0tDQp0aXRsZTogIlRlYWNoaW5nIEJpb3N0YXRzIg0KLS0tDQoNCiMgUiBwYWNrYWdlIGBleGFtc2ANCg0KUGFydCBvZiBteSByZXNwb25zaWJpbGl0aWVzIGlzIHRlYWNoaW5nIGludHJvZHVjdG9yeSBzdGF0cy4gRm9yIHRoaXMsIEkgaGF2ZSB3cml0dGVuIGEgcXVpY2sgZ3VpZGUgdG8gdGhlIHBhY2thZ2UgYGV4YW1zYCB3aGljaCBtYWtlcyByYW5kb21pc2VkIE1DUXMgdGhhdCB5b3UgY2FuIGV4cG9ydCB0byBvbmxpbmUgbGVhcm5pbmcgbWFtYW5nZW1lbnQgc3lzdGVtcyAod2UgdXNlIGJsYWNrYm9hcmQpLiANCg0KIyBMZWN0dXJlcyBvbiBzdGF0aXN0aWNhbCBtb2RlbGxpbmcNCg0KSSBoYXZlIGFsc28gYWRkZWQgbXkgbGVjdHVyZSBoYW5kb3V0cyB3aXRoIHRoZSBvcHRpb24gdG8gZG93bmxvYWQgdGhlIC5ybWQgZmlsZS4gVGhlIHN0dWRlbnRzIGdldCB0aHJlZSBsZWN0dXJlcyBvbiBzdGF0aXN0aWNhbCBtb2RlbHMgZnJvbSBtZSwgd2hpY2ggaXMgbm90IGEgbG90IGZvciBhbiBpbnRyb2R1Y3RvcnkgY2xhc3MuIFRoZSBsZWN0dXJlcyB0aHVzIGZvY3VzIG9uIHVuZGVyc3RhbmRpbmcgdGhlIGNvbmNlcHRzIG9mIHNsb3BlcyBhbmQgaW50ZXJjZXB0cyBvZiBsaW5lYXIgbW9kZWxzIGFuZCBpbnRyb2R1Y2VzIGZpeGVkIGFuZCByYW5kb20gc2xvcGUgbW9kZWxzLCBhcyB3ZWxsIGFzIGludGVyYWN0aW9ucy4gSXQgdGFrZXMgYSBHTE0gY2VudHJpYyBhcHByb2FjaCB3aXRoIGxlc3MgZW1waGFzaXMgb24gY2xhc3NpZnlpbmcgbGluZWFyIG1vZGVscyBhY2NvcmRpbmcgdG8gZGF0YSB0eXBlcy4NCg==</div>
+<div id="rmd-source-code">LS0tDQp0aXRsZTogIlRlYWNoaW5nIEJpb3N0YXRzIg0KLS0tDQoNClRoaXMgc2l0ZSBjb250YWlucyBzb21lIG9mIG15IG1hdGVyaWFscyBmb3IgdGVhY2hpbmcgaW50cm9kdWN0b3J5IHN0YXRpc3RpY3MgYW5kIGNvbXB1dGF0aW9uIHRvIGJpb2xvZ2lzdHMgKHVuZGVyZ3JhZHVhdGUpIGFzIHdlbGwgYXMgZG9jdW1lbnRhdGlvbiBmb3IgaG93IHRvIG1ha2Ugc3VjaCB0ZWFjaGluZyBtYXRlcmlhbC4gVGhlIG1hdGVyaWFsIGlzIGZyZWVseSBhdmFpbGFibGUuIA0KDQoqKioNCg0KIyBSIHBhY2thZ2UgYGV4YW1zYA0KDQpUaGlzIGlzIGEgYSBxdWljayBndWlkZSB0byB0aGUgcGFja2FnZSBgZXhhbXNgIHdoaWNoIG1ha2VzIHJhbmRvbWlzZWQgTUNRcyB0aGF0IHlvdSBjYW4gZXhwb3J0IHRvIG9ubGluZSBsZWFybmluZyBtYW5hZ2VtZW50IHN5c3RlbXMgKHdlIHVzZSBibGFja2JvYXJkKS4gSGVyZSwgcmFuZG9tIG51bWJlciBnZW5lcmF0b3JzIGFyZSB5b3VyIGZyaWVuZC4gSnVzdCB3YXRjaCBvdXQgZm9yIHJvdW5kaW5nIGVycm9ycy4gWW91IGNhbiBtYWtlIHRoZSBvdXRwdXQgbmljZXIgd2l0aCBga25pdHI6OmthYmxlKClgIG9yIHNpbWlsYXIgSFRNTCBmb3JtYXR0aW5nLg0KDQoqKioNCg0KIyBMZWN0dXJlcyBvbiBzdGF0aXN0aWNhbCBtb2RlbGxpbmcNCg0KVGhlc2UgYXJlIG15IGxlY3R1cmUgaGFuZG91dHMgd2l0aCB0aGUgb3B0aW9uIHRvIGRvd25sb2FkIHRoZSAucm1kIGZpbGUuIFRoZSBzdHVkZW50cyBnZXQgdGhyZWUgbGVjdHVyZXMgb24gc3RhdGlzdGljYWwgbW9kZWxzIGZyb20gbWUsIHdoaWNoIGlzIG5vdCBhIGxvdCBmb3IgYW4gaW50cm9kdWN0b3J5IGNsYXNzLiBUaGUgbGVjdHVyZXMgdGh1cyBmb2N1cyBvbiB1bmRlcnN0YW5kaW5nIHRoZSBjb25jZXB0cyBvZiBzbG9wZXMgYW5kIGludGVyY2VwdHMgb2YgbGluZWFyIG1vZGVscyBhbmQgaW50cm9kdWNlcyBmaXhlZCBhbmQgcmFuZG9tIHNsb3BlIG1vZGVscywgYXMgd2VsbCBhcyBpbnRlcmFjdGlvbnMuIEl0IHRha2VzIGEgR0xNIGNlbnRyaWMgYXBwcm9hY2ggd2l0aCBsZXNzIGVtcGhhc2lzIG9uIGNsYXNzaWZ5aW5nIGxpbmVhciBtb2RlbHMgYWNjb3JkaW5nIHRvIGRhdGEgdHlwZXMuDQoNCioqKg0KDQojIEJpb3N0YXRzIHR1dG9yaWFscyB3aXRoIGBsZWFybnJgDQoNClRoZSBbYmlvc3RhdHMudHV0b3JpYWxzXShodHRwczovL2dpdGh1Yi5jb20vamFjaW50YWsvYmlvc3RhdHMvdHJlZS9tYXN0ZXIvYmlvc3RhdHMudHV0b3JpYWxzKSBmb2xkZXIgb24gbXkgYmlvc3RhdHMgcmVwbyBjb250YWlucyBhbiBSIHBhY2thZ2Ugb2YgbGVhcm5yIHR1dG9yaWFscyBmb3IgYmlvc3RhdHMuIFlvdSB3aWxsIG5lZWQgdG8gaW5zdGFsbCBpdCBmcm9tIHRoZSBzdWJkaXJlY3Rvcnkgc28geW91IGRvbid0IGdldCBhbGwgbXkgd2Vic2l0ZSBmaWxlcyB0b28uIFNlZSB0aGUgUkVBRE1FLg0KDQoqKioNCg==</div>
 <footer>
 	    		<ul>
 	    		    <li><i class="fas fa-home"></i><a href="https://jacintakongresearch.wordpress.com"> Jacinta D. Kong</a></li>

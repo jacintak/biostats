@@ -16,6 +16,8 @@ navbar:
          href: https://jacintak.github.io/model-resources.html
     - text: "Teaching intro statistics"
       menu: # drop down menu
+       - text: "Description"
+         href: index.html
        - text: "Quick guide to R/exams"
          href: r-exams-guide.html
        - text: "Introduction to R"

@@ -1,0 +1,97 @@
+---
+title: "Correlations"
+output: 
+    learnr::tutorial:
+runtime: shiny_prerendered
+description: "Learn about correlations. Correlation is not causation."
+---
+
+```{r setup, include=FALSE}
+library(learnr)
+knitr::opts_chunk$set(echo = FALSE)
+cor.iris <- cor.test(iris$Petal.Length, iris$Sepal.Length)
+```
+
+## Exploring correlations
+
+Let's look at the relationship between the length of iris petals and the width of their sepals.  
+Here is the graph:
+
+```{r graph}
+plot(Petal.Length ~ Sepal.Length, iris)
+```
+
+If we wanted to test whether there was a correlation between the length of iris petals and the width of their sepals, we need to formulate our hypotheses first or we won't know what we are testing:
+
+```{r hypotheses, echo=FALSE}
+quiz(caption = "Hypotheses",
+     question("What is our null hypothesis?",
+              answer("There is no correlation between petal length and sepal length", correct = TRUE),
+              answer("There is a correlation between petal length and sepal length"),
+              answer("There is no correlation between petal width and sepal length"),
+              answer("There is no correlation between petal length and petal length"),
+  allow_retry = TRUE
+     ),
+     question("What is our alternative hypothesis?",
+              answer("There is no correlation between petal length and sepal length"),
+              answer("There is a correlation between petal length and sepal length", correct = TRUE),
+              answer("There is a correlation between petal width and sepal length"),
+              answer("There is a correlation between petal length and petal length"),
+  allow_retry = TRUE
+     )
+)
+```
+
+## Time to do our correlation
+
+The structure of the correlation test function was covered in the lecture. Review it if you don't remember then type in the formula we need for our correlation test below (case sensitive with appropriate spaces):
+
+```{r formula, echo = FALSE}
+question_text(
+  "Please enter the complete function for doing our correlation test in R:",
+  answer("cor.test(iris$Sepal.Length, iris$Petal.Length)", correct = TRUE),
+  answer("cor.test(iris$Petal.Length, iris$Sepal.Length)", correct = TRUE),
+  allow_retry = TRUE
+)
+```
+
+
+### Describing our results
+How would you describe the correlation? Refer to the lecture for appropriate descriptors.
+
+***
+
+### What is the correlation coefficient?
+```{r formula2, echo = FALSE}
+question_text(
+  "Enter the correlation coefficient to 2 decimal places:",
+  answer(paste(round(cor.iris$estimate, 2)), correct = TRUE),
+  allow_retry = TRUE
+)
+```
+
+### Evaluating our hypothesis
+```{r test, echo=FALSE}
+question_radio(
+  paste0("The P value is ", cor.iris$p.value, ". Would you accept the null hypothesis?"),
+  answer("no", correct = TRUE),
+  answer("yes", message = 'Compare the P value with the significance level we are testing at')
+)
+```
+
+## Reversing the correlation
+
+What would happen if we reversed the correlation test formula? Try it.  
+Also try reversing the graph above so that sepal length is the response variable and petal length is the predictor variable.  
+
+```{r reverse, echo=FALSE}
+question_radio(
+  "What happened when you reversed the correlation test formula",
+  answer("The correlation coefficient changed"),
+  answer("The correlation coefficient didn't change", correct = TRUE)
+)
+```
+
+That's correlation!
+
+
