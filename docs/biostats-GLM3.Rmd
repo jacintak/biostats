@@ -346,7 +346,7 @@ ggplot(lm_bb, aes(sample = rstandard(lm_bb))) +
   ylab("Standardised residuals")
 ```
 
-If you transform data, then the model estimates refer to the transformed units. Remember to tranform them back to their correct units.
+If you transform data, then the model estimates refer to the transformed units. Remember to transform them back to their correct units.
 
 # 2. Homogeneity of Variance
 
