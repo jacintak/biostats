@@ -478,6 +478,7 @@ Quantile-Quantile (Q-Q) plots are useful alternatives to visualising distributio
 <pre><code>qqnorm(chickwts$weight) # the weight of chicks fed different diets (built in dataset)</code></pre>
 <p>Here, the quantiles of our observations are plotted against the theoretical quantiles if our observations followed a normal distribution.<br />
 <strong>Question</strong> - What would you expect to see if our observations followed a normal distribution?</p>
+<pre class="r fold-hide"><code>Observations to fall along a straight line at approx a 45 degree angle</code></pre>
 <p>We can add a reference line to the above to help us evaluate how linear the Q-Q plot is. We can make the line red and thicker for fun.</p>
 <pre><code>qqnorm(chickwts$weight) # the weight of chicks fed different diets (built in dataset)
 qqline(chickwts$weight, col = &quot;red&quot;, lwd = 2)</code></pre>
@@ -496,6 +497,7 @@ qqline(rgamma(100, 3, 5)) # You should be able to see the skewness in the data. 
 <pre><code>qqnorm(Loblolly$age) # the ages of pine trees, can also try rbinom(100, 10, 0.5)
 qqline(Loblolly$age)</code></pre>
 <p><strong>Question</strong> - What is the main difference between the Q-Q plots of the continuous and discrete data?</p>
+<pre class="r fold-hide"><code>You can see the discrete nature of the observations in the clustered groupings in the QQ plot - the staircase pattern</code></pre>
 <p>Why do you think that is?<br />
 You can also see it using <code>hist()</code></p>
 </div>
@@ -521,6 +523,7 @@ hist(trees$Girth)</code></pre>
 <h1><span class="header-section-number">2</span> Homoscedasticity</h1>
 <p>Homoscedasticity is the statistical term for homogeneity of variance. The opposite is called <em>Heteroscedasticity</em>.</p>
 <p><strong>Question</strong> - What would you expect to see in a bar plot showing means and standard deviation for the assumption of homogeneity of variance to be met?</p>
+<pre class="r fold-hide"><code>We want the variation across our grouped observations to be similar so the error bars of standard deviation should also be similar.</code></pre>
 Look at this graph - does it show homoscedasticity or heteroscedasticity?
 <div class="figure" style="text-align: center"><span id="fig:homo"></span>
 <img src="GLM-Assumptions-worksheet_files/figure-html/homo-1.png" alt="Bar plot of mean of two groups (A &amp; B). Error bars indicate standard deviation" width="672" />
@@ -538,6 +541,7 @@ Figure 2.2: A scatter plot and a fitted model
 </div>
 <p>Here, you can see that as the value of <code>x</code> increases so does the scatter around the trend line in <code>y</code>. It is sometimes referred to as a shotgun pattern or cone/triangle pattern. It’s common in time series data because your observations are not independent of each other, the value of one observation is dependent on what happens earlier in time. In other words, your response variable can be modelled based on the standard deviation.</p>
 <p><strong>Question</strong> - What would you expect to see in a scatter plot for the assumption of homogeneity of variance to be met?</p>
+<pre class="r fold-hide"><code>We want the variation across our grouped observations to be similar so the spread of observations along they axis (vertically) across the values of x (horizontally) should be similar.</code></pre>
 <p>You can assess this for a linear model from the (standardised or non-standardised) residual plot vs fitted values. Here’s the residual plot using the above data. Can you see the unequal variance?</p>
 <p><img src="GLM-Assumptions-worksheet_files/figure-html/resid-1.png" width="672" style="display: block; margin: auto;" /><img src="GLM-Assumptions-worksheet_files/figure-html/resid-2.png" width="672" style="display: block; margin: auto;" /></p>
 <p>One way of dealing with heteroscedasticity is to use weighted least squares regression where the parameters are fitted to a single observation based on its residual to correct for variation in the residuals (that scatter). But that is beyond the scope of this module.</p>
