@@ -4,9 +4,9 @@ Welcome! We need to set up our computer to start using tutorials in R.
 
 Follow this checklist in order to make sure you are set up:
 
-1. Have you installed R version 4.0 or above? - if not, install R
+1. Have you installed R version 4.0 or above? - if not, install/update R
     * You can check your R package version using `R.version()$version.string`
-2. Have you installed RStudio version 1.0.136 or above? - if not installing RStudio
+2. Have you installed RStudio version 1.0.136 or above? - if not install/update RStudio
     * You can check your RStudio version using `RStudio.Version()$version`
 3. Have you installed the following packages? - if not use `install.packages()` to do so
     * `learnr` - needed to run the tutorials
