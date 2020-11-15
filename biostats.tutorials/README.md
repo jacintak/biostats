@@ -9,10 +9,9 @@ Follow this checklist in order to make sure you are set up:
 2. Have you installed RStudio version 1.0.136 or above? - if not installing RStudio
     * You can check your RStudio version using `RStudio.Version()$version`
 3. Have you installed the following packages? - if not use `install.packages()` to do so
-    * `Tidyverse`
-    * `learnr`
-    * `devtools`
-    * `rmarkdown` incl `knitr`
+    * `learnr` - needed to run the tutorials
+    * `remotes` (or `devtools`) - needed to install the tutorials
+    * `knitr` - for displaying content
 
 If everything works then you should see a Tutorials tab in one of your RStudio windows (perhaps next to Environment and History) 
 
@@ -24,7 +23,7 @@ Now we need to install the tutorial. The tutorials are stored in a Package avail
 Use the following code:
 
 ```
-devtools::install_github("jacintak/biostats", subdir = "biostats.tutorials", dependencies = TRUE)
+remotes::install_github("jacintak/biostats", subdir = "biostats.tutorials", dependencies = TRUE)
 ```
 
 If you are asked to install any other packages, choose yes but don't do any compiling (press no if asked).  

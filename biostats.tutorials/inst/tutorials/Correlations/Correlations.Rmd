@@ -8,7 +8,7 @@ description: "Learn about correlations. Correlation is not causation."
 
 ```{r setup, include=FALSE}
 library(learnr)
-knitr::opts_chunk$set(echo = FALSE)
+knitr::opts_chunk$set(comment = NA, echo = FALSE)
 cor.iris <- cor.test(iris$Petal.Length, iris$Sepal.Length)
 ```
 

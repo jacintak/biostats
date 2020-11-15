@@ -402,7 +402,7 @@ div.tocify {
       <a href="r-exams-guide.html">Quick guide to R/exams</a>
     </li>
     <li>
-      <a href="Drop_in_1.html">Introduction to R</a>
+      <a href="Drop_in_1.html">Setting up R</a>
     </li>
     <li>
       <a href="biostats-GLM1.html">Lecture 1: Simple linear models</a>
@@ -412,9 +412,6 @@ div.tocify {
     </li>
     <li>
       <a href="biostats-GLM3.html">Lecture 3: Evaluating models</a>
-    </li>
-    <li>
-      <a href="GLM-Assumptions-worksheet.html">Worksheet for Lecture 3: Checking Assumptions</a>
     </li>
   </ul>
 </li>
@@ -475,6 +472,7 @@ div.tocify {
 <div id="lectures-on-statistical-modelling" class="section level1" number="2">
 <h1><span class="header-section-number">2</span> Lectures on statistical modelling</h1>
 <p>These are my lecture handouts with the option to download the .rmd file. The students get three lectures on statistical models from me, which is not a lot for an introductory class. The lectures thus focus on understanding the concepts of slopes and intercepts of linear models and introduces fixed and random slope models, as well as interactions. It takes a GLM centric approach with less emphasis on classifying linear models according to data types.</p>
+<p>I used code folding for creating question and hidden answers.</p>
 <hr />
 </div>
 <div id="biostats-tutorials-with-learnr" class="section level1" number="3">
@@ -483,7 +481,7 @@ div.tocify {
 <hr />
 </div>
 
-<div id="rmd-source-code">LS0tDQp0aXRsZTogIlRlYWNoaW5nIEJpb3N0YXRzIg0KLS0tDQoNClRoaXMgc2l0ZSBjb250YWlucyBzb21lIG9mIG15IG1hdGVyaWFscyBmb3IgdGVhY2hpbmcgaW50cm9kdWN0b3J5IHN0YXRpc3RpY3MgYW5kIGNvbXB1dGF0aW9uIHRvIGJpb2xvZ2lzdHMgKHVuZGVyZ3JhZHVhdGUpIGFzIHdlbGwgYXMgZG9jdW1lbnRhdGlvbiBmb3IgaG93IHRvIG1ha2Ugc3VjaCB0ZWFjaGluZyBtYXRlcmlhbC4gVGhlIG1hdGVyaWFsIGlzIGZyZWVseSBhdmFpbGFibGUuIA0KDQoqKioNCg0KIyBSIHBhY2thZ2UgYGV4YW1zYA0KDQpUaGlzIGlzIGEgYSBxdWljayBndWlkZSB0byB0aGUgcGFja2FnZSBgZXhhbXNgIHdoaWNoIG1ha2VzIHJhbmRvbWlzZWQgTUNRcyB0aGF0IHlvdSBjYW4gZXhwb3J0IHRvIG9ubGluZSBsZWFybmluZyBtYW5hZ2VtZW50IHN5c3RlbXMgKHdlIHVzZSBibGFja2JvYXJkKS4gSGVyZSwgcmFuZG9tIG51bWJlciBnZW5lcmF0b3JzIGFyZSB5b3VyIGZyaWVuZC4gSnVzdCB3YXRjaCBvdXQgZm9yIHJvdW5kaW5nIGVycm9ycy4gWW91IGNhbiBtYWtlIHRoZSBvdXRwdXQgbmljZXIgd2l0aCBga25pdHI6OmthYmxlKClgIG9yIHNpbWlsYXIgSFRNTCBmb3JtYXR0aW5nLg0KDQoqKioNCg0KIyBMZWN0dXJlcyBvbiBzdGF0aXN0aWNhbCBtb2RlbGxpbmcNCg0KVGhlc2UgYXJlIG15IGxlY3R1cmUgaGFuZG91dHMgd2l0aCB0aGUgb3B0aW9uIHRvIGRvd25sb2FkIHRoZSAucm1kIGZpbGUuIFRoZSBzdHVkZW50cyBnZXQgdGhyZWUgbGVjdHVyZXMgb24gc3RhdGlzdGljYWwgbW9kZWxzIGZyb20gbWUsIHdoaWNoIGlzIG5vdCBhIGxvdCBmb3IgYW4gaW50cm9kdWN0b3J5IGNsYXNzLiBUaGUgbGVjdHVyZXMgdGh1cyBmb2N1cyBvbiB1bmRlcnN0YW5kaW5nIHRoZSBjb25jZXB0cyBvZiBzbG9wZXMgYW5kIGludGVyY2VwdHMgb2YgbGluZWFyIG1vZGVscyBhbmQgaW50cm9kdWNlcyBmaXhlZCBhbmQgcmFuZG9tIHNsb3BlIG1vZGVscywgYXMgd2VsbCBhcyBpbnRlcmFjdGlvbnMuIEl0IHRha2VzIGEgR0xNIGNlbnRyaWMgYXBwcm9hY2ggd2l0aCBsZXNzIGVtcGhhc2lzIG9uIGNsYXNzaWZ5aW5nIGxpbmVhciBtb2RlbHMgYWNjb3JkaW5nIHRvIGRhdGEgdHlwZXMuDQoNCioqKg0KDQojIEJpb3N0YXRzIHR1dG9yaWFscyB3aXRoIGBsZWFybnJgDQoNClRoZSBbYmlvc3RhdHMudHV0b3JpYWxzXShodHRwczovL2dpdGh1Yi5jb20vamFjaW50YWsvYmlvc3RhdHMvdHJlZS9tYXN0ZXIvYmlvc3RhdHMudHV0b3JpYWxzKSBmb2xkZXIgb24gbXkgYmlvc3RhdHMgcmVwbyBjb250YWlucyBhbiBSIHBhY2thZ2Ugb2YgbGVhcm5yIHR1dG9yaWFscyBmb3IgYmlvc3RhdHMuIFlvdSB3aWxsIG5lZWQgdG8gaW5zdGFsbCBpdCBmcm9tIHRoZSBzdWJkaXJlY3Rvcnkgc28geW91IGRvbid0IGdldCBhbGwgbXkgd2Vic2l0ZSBmaWxlcyB0b28uIFNlZSB0aGUgUkVBRE1FLg0KDQoqKioNCg==</div>
+<div id="rmd-source-code">LS0tDQp0aXRsZTogIlRlYWNoaW5nIEJpb3N0YXRzIg0KLS0tDQoNClRoaXMgc2l0ZSBjb250YWlucyBzb21lIG9mIG15IG1hdGVyaWFscyBmb3IgdGVhY2hpbmcgaW50cm9kdWN0b3J5IHN0YXRpc3RpY3MgYW5kIGNvbXB1dGF0aW9uIHRvIGJpb2xvZ2lzdHMgKHVuZGVyZ3JhZHVhdGUpIGFzIHdlbGwgYXMgZG9jdW1lbnRhdGlvbiBmb3IgaG93IHRvIG1ha2Ugc3VjaCB0ZWFjaGluZyBtYXRlcmlhbC4gVGhlIG1hdGVyaWFsIGlzIGZyZWVseSBhdmFpbGFibGUuIA0KDQoqKioNCg0KIyBSIHBhY2thZ2UgYGV4YW1zYA0KDQpUaGlzIGlzIGEgYSBxdWljayBndWlkZSB0byB0aGUgcGFja2FnZSBgZXhhbXNgIHdoaWNoIG1ha2VzIHJhbmRvbWlzZWQgTUNRcyB0aGF0IHlvdSBjYW4gZXhwb3J0IHRvIG9ubGluZSBsZWFybmluZyBtYW5hZ2VtZW50IHN5c3RlbXMgKHdlIHVzZSBibGFja2JvYXJkKS4gSGVyZSwgcmFuZG9tIG51bWJlciBnZW5lcmF0b3JzIGFyZSB5b3VyIGZyaWVuZC4gSnVzdCB3YXRjaCBvdXQgZm9yIHJvdW5kaW5nIGVycm9ycy4gWW91IGNhbiBtYWtlIHRoZSBvdXRwdXQgbmljZXIgd2l0aCBga25pdHI6OmthYmxlKClgIG9yIHNpbWlsYXIgSFRNTCBmb3JtYXR0aW5nLg0KDQoqKioNCg0KIyBMZWN0dXJlcyBvbiBzdGF0aXN0aWNhbCBtb2RlbGxpbmcNCg0KVGhlc2UgYXJlIG15IGxlY3R1cmUgaGFuZG91dHMgd2l0aCB0aGUgb3B0aW9uIHRvIGRvd25sb2FkIHRoZSAucm1kIGZpbGUuIFRoZSBzdHVkZW50cyBnZXQgdGhyZWUgbGVjdHVyZXMgb24gc3RhdGlzdGljYWwgbW9kZWxzIGZyb20gbWUsIHdoaWNoIGlzIG5vdCBhIGxvdCBmb3IgYW4gaW50cm9kdWN0b3J5IGNsYXNzLiBUaGUgbGVjdHVyZXMgdGh1cyBmb2N1cyBvbiB1bmRlcnN0YW5kaW5nIHRoZSBjb25jZXB0cyBvZiBzbG9wZXMgYW5kIGludGVyY2VwdHMgb2YgbGluZWFyIG1vZGVscyBhbmQgaW50cm9kdWNlcyBmaXhlZCBhbmQgcmFuZG9tIHNsb3BlIG1vZGVscywgYXMgd2VsbCBhcyBpbnRlcmFjdGlvbnMuIEl0IHRha2VzIGEgR0xNIGNlbnRyaWMgYXBwcm9hY2ggd2l0aCBsZXNzIGVtcGhhc2lzIG9uIGNsYXNzaWZ5aW5nIGxpbmVhciBtb2RlbHMgYWNjb3JkaW5nIHRvIGRhdGEgdHlwZXMuICANCg0KSSB1c2VkIGNvZGUgZm9sZGluZyBmb3IgY3JlYXRpbmcgcXVlc3Rpb24gYW5kIGhpZGRlbiBhbnN3ZXJzLg0KDQoqKioNCg0KIyBCaW9zdGF0cyB0dXRvcmlhbHMgd2l0aCBgbGVhcm5yYA0KDQpUaGUgW2Jpb3N0YXRzLnR1dG9yaWFsc10oaHR0cHM6Ly9naXRodWIuY29tL2phY2ludGFrL2Jpb3N0YXRzL3RyZWUvbWFzdGVyL2Jpb3N0YXRzLnR1dG9yaWFscykgZm9sZGVyIG9uIG15IGJpb3N0YXRzIHJlcG8gY29udGFpbnMgYW4gUiBwYWNrYWdlIG9mIGxlYXJuciB0dXRvcmlhbHMgZm9yIGJpb3N0YXRzLiBZb3Ugd2lsbCBuZWVkIHRvIGluc3RhbGwgaXQgZnJvbSB0aGUgc3ViZGlyZWN0b3J5IHNvIHlvdSBkb24ndCBnZXQgYWxsIG15IHdlYnNpdGUgZmlsZXMgdG9vLiBTZWUgdGhlIFJFQURNRS4NCg0KKioqDQo=</div>
 <footer>
 	    		<ul>
 	    		    <li><i class="fas fa-home"></i><a href="https://jacintakongresearch.wordpress.com"> Jacinta D. Kong</a></li>

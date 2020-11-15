@@ -20,7 +20,7 @@ navbar:
          href: index.html
        - text: "Quick guide to R/exams"
          href: r-exams-guide.html
-       - text: "Introduction to R"
+       - text: "Setting up R"
          href: Drop_in_1.html
        - text: "Lecture 1: Simple linear models"
          href: biostats-GLM1.html
@@ -28,8 +28,6 @@ navbar:
          href: biostats-GLM2.html
        - text: "Lecture 3: Evaluating models"
          href: biostats-GLM3.html
-       - text: "Worksheet for Lecture 3: Checking Assumptions"
-         href: GLM-Assumptions-worksheet.html
     - text: "colRoz"
       menu:
        - text: "Quick guide to colRoz"

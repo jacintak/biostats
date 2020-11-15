@@ -8,8 +8,8 @@ description: >
 
 ```{r setup, include=FALSE}
 library(learnr)
-knitr::opts_chunk$set(echo = FALSE)
-library(MASS)
+knitr::opts_chunk$set(echo = FALSE, comment = NA)
+crabs <- MASS::crabs
 lm_crabs <- lm(CL ~ sex, MASS::crabs)
 ```
 
@@ -269,7 +269,7 @@ The P value is the same! So are the group means.
 ### Exercises
 Test your understanding so far by answering the questions below.
 ```{r recap}
-knitr::kable(anova(lm(Pulse ~ Exer, survey)), digits = 3)
+knitr::kable(anova(lm(Pulse ~ Exer, MASS::survey)), digits = 3)
 quiz(
   question_radio(
     "Based on the above ANOVA table, would you accept or reject the null hypothesis?",

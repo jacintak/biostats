@@ -7,8 +7,8 @@ description: "Look at simple linear regressions"
 
 ```{r setup, include=FALSE}
 library(learnr)
-library(MASS)
-knitr::opts_chunk$set(echo = FALSE)
+crabs <- MASS::crabs
+knitr::opts_chunk$set(comment = NA, echo = FALSE)
 crab_lm <- lm(CL ~ CW, MASS::crabs)
 ```
 

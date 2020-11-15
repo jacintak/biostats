@@ -10,9 +10,8 @@
 
 
 
-<meta name="date" content="2020-01-01" />
 
-<title>Introduction to R</title>
+<title>Setup R</title>
 
 <script src="site_libs/header-attrs-2.5/header-attrs.js"></script>
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
@@ -398,7 +397,7 @@ div.tocify {
       <a href="r-exams-guide.html">Quick guide to R/exams</a>
     </li>
     <li>
-      <a href="Drop_in_1.html">Introduction to R</a>
+      <a href="Drop_in_1.html">Setting up R</a>
     </li>
     <li>
       <a href="biostats-GLM1.html">Lecture 1: Simple linear models</a>
@@ -408,9 +407,6 @@ div.tocify {
     </li>
     <li>
       <a href="biostats-GLM3.html">Lecture 3: Evaluating models</a>
-    </li>
-    <li>
-      <a href="GLM-Assumptions-worksheet.html">Worksheet for Lecture 3: Checking Assumptions</a>
     </li>
   </ul>
 </li>
@@ -454,8 +450,7 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">Introduction to R</h1>
-<h4 class="date">2020</h4>
+<h1 class="title toc-ignore">Setup R</h1>
 
 </div>
 
@@ -472,7 +467,7 @@ div.tocify {
 <li>Do you know how to set up scripts and directories in RStudio?</li>
 <li>Are your folders organised in a logical and sensible way?</li>
 </ul>
-<p>If you’ve answered no to any of the above questions, then continue on. Some of you may already have R and RStudio installed from previous modules - that’s great! Check that your version and packages are all up to date (Under the Packages tab, click Update).</p>
+<p>If you’ve answered no to any of the above questions, then continue on. Some of you may already have R and RStudio installed from previous modules - that’s great! Check that your version and packages are all up to date (For packages - Under the Packages tab, click Update, For RStudio - Under Help menu at the top, click check for updates).</p>
 <p>Regardless, you should work through this handout to make sure you are comfortable with the basics of R. Use this as a reference throughout semester as we will be revisiting these concepts.</p>
 <hr />
 </div>
@@ -554,186 +549,6 @@ div.tocify {
 <div id="why-r" class="section level1">
 <h1>Why R?</h1>
 <p>R is just one of <em>many</em> programming languages but R is specially designed for doing statistics. Hence it is widely taught in statistic classes. There are other statistics programs (even Excel can do basic statistical tests) but these are normally “point-and-click” programs where you click a button and magic happens. The advantage of R is that it is an open source software where you can <em>see</em> how your data is being manipulated. Which means it’s transparent, you can check whether the statistics is done correctly and is easier to see how statistical theory is being applied. It’s no longer magic but <em>science</em>.</p>
-<div id="r-structure-terminology" class="section level2">
-<h2>R structure &amp; terminology</h2>
-<p>R can do calculations so you can use it like a calculator. More than that, R is a statistical environment that consist of <strong>packages</strong>. Packages are a set of <strong>functions</strong> that does something to input depending on the underlying code. All your packages are stored in your <strong>Library</strong>. When you download R it comes with a basic set of packages as default which works straight out of the box. This is called <strong>base R</strong>.</p>
-<p>We can customise and expand the functionality of R by installing more packages, which are made by people and distributed freely. For example, I wrote this document in RStudio using an additional package called <code>Rmarkdown</code> (neat right?) which lets me make HTML, word or PDF files of text, code and figures or tables. These packages will need to be <strong>called</strong> when you open R to activate them or R will not use them. Though, where possible we will be sticking to base R.</p>
-<pre><code># setup MASS 
-library(MASS) # If I wanted to use the package MASS, I must enter and run the library() function at the start of my script</code></pre>
-<p>Information is stored in R’s memory as <strong>variables</strong>. These can be <strong>numbers</strong> (e.g. 1, 2, 3) or <strong>strings</strong> (called characters, e.g. <code>"hello"</code>). Strings are identified by quotation marks (<code>"</code> or <code>'</code>). RStudio helpfully colour codes these different types. You can also change the colour scheme of RStudio.</p>
-<p>To send information to R you can type in the function or code directly into the Console and press Enter or in a script and press Run (or Ctrl+Enter). Try typing this into the Console and pressing enter:</p>
-<pre class="r"><code>2+2
-[1] 4</code></pre>
-<p><em>Make sure to remember to press enter. Entering in the code doesn’t execute it.</em></p>
-<p>Usually information is <strong>assigned a name</strong> which we use to call later. This information is now a <strong>named variable</strong>. We assign information to a variable using a left pointing arrow <code>&lt;-</code>:</p>
-<pre class="r"><code>a &lt;- 2+2 # assign 2+2 to the variable called a
-a
-[1] 4</code></pre>
-<p>Now the named variable a is stored in R’s short-term memory (called RAM - random access memory - in computing terms; also a good album by Daft Punk). This is different to long-term memory like files saved on your computer. When you close R, RAM is cleared - like your browser history when you use private mode!</p>
-<p>If you enter <code>a</code> in the console it will give you the answer to <code>2+2</code> that we told it. Under the “Environment” tab, it should list <code>a</code>. <strong>Variable names are case sensitive and can be a combination of (most) symbols, letters and numbers (but no spaces).</strong></p>
-<p>Variables help with simplifying our code by calling from memory. If we have another variable <code>b</code> we can add <code>a</code> and <code>b</code>.</p>
-<pre class="r"><code>b &lt;- 10
-a + b
-[1] 14</code></pre>
-<p>We can assign strings to variables too.</p>
-<pre class="r"><code>c &lt;- &quot;hello&quot;
-c
-[1] &quot;hello&quot;</code></pre>
-<p><strong>Variables should be informative and meaningful</strong></p>
-<p>Calculations of variables don’t work on strings. You can’t add strings together. Trying <code>c + a</code> should give an error.</p>
-<p>Variables can store multiple pieces of information in an <strong>array</strong>. Strings and numbers cannot be mixed in the same array - they must all be the same type of data. <code>c</code> stands for concatenate (meaning link together) with your data within brackets separated by commas (spaces are optional but makes it easier to read code). We can use <code>class()</code> to see what type of variable our data are: “character” for strings, “numeric” for numbers.</p>
-<pre class="r"><code>string_array &lt;- c(&quot;red&quot;, &quot;blue&quot;, &quot;green&quot;)
-string_array
-[1] &quot;red&quot;   &quot;blue&quot;  &quot;green&quot;
-class(string_array)
-[1] &quot;character&quot;
-
-number_array &lt;- c(1, 2, 3)
-number_array
-[1] 1 2 3
-class(number_array)
-[1] &quot;numeric&quot;
-
-class(c(&quot;red&quot;, 1, &quot;green&quot;, 4)) # mixing strings and numbers will default to character
-[1] &quot;character&quot;</code></pre>
-<p>If you manipulate the number array it will apply the calculation to all numbers. <code>*</code> is multiply. <code>/</code> is divide:</p>
-<pre class="r"><code>number_array * 2
-[1] 2 4 6
-number_array / 10
-[1] 0.1 0.2 0.3</code></pre>
-<p>You can add arrays together as long as they have the same <strong>length</strong> (number of data). <code>length()</code> tells you how many observations are in the variable. <code>seq()</code> is a function to generate a sequence of numbers - here 3 evenly spaced numbers between 10 and 20:</p>
-<pre class="r"><code>length(number_array)
-[1] 3
-number_array2 &lt;- seq(10, 20, length.out = 3)
-number_array2
-[1] 10 15 20
-
-number_array + number_array2
-[1] 11 17 23</code></pre>
-<p>Often data is stored in multiple arrays which we can combine together to form <strong>columns</strong> and <strong>rows</strong>. This becomes a <strong>data frame</strong>. The columns have <strong>names</strong> or column headers that you can check or assign names using <code>names()</code>.</p>
-<pre class="r"><code>our_data &lt;- data.frame(colo = string_array, numbr = number_array2)
-our_data
-   colo numbr
-1   red    10
-2  blue    15
-3 green    20
-names(our_data) # original headers
-[1] &quot;colo&quot;  &quot;numbr&quot;
-names(our_data) &lt;- c(&quot;colour&quot;, &quot;number&quot;) # give new names
-names(our_data) # updated headers
-[1] &quot;colour&quot; &quot;number&quot;</code></pre>
-<p>We can view some meta-information of our data in a few ways:</p>
-<pre class="r"><code>ncol(our_data) # the number of columns
-[1] 2
-nrow(our_data) # the number of rows
-[1] 3
-str(our_data) # summary of data types: num = numeric, chr = character
-&#39;data.frame&#39;:   3 obs. of  2 variables:
- $ colour: chr  &quot;red&quot; &quot;blue&quot; &quot;green&quot;
- $ number: num  10 15 20
-class(our_data) # type of variable
-[1] &quot;data.frame&quot;</code></pre>
-<p>Now that there’s a mix of numbers and strings we cannot manipulate our data frame as a whole. Instead we need to specify which variable we want within the data frame. We use <code>$</code> to specify which column to look at by its column name:</p>
-<pre class="r"><code>our_data$number
-[1] 10 15 20
-our_data$number * 2
-[1] 20 30 40</code></pre>
-<blockquote>
-<p>The bit before the $ is the name of the data frame stored in R’s memory.<br />
-The bit after the $ is the name of the variable within the data frame that we want.<br />
-Like: data_frame_name$variable_name<br />
-This is really important to understand because it is how we tell R what information we want from it’s memory. We will see this again and again.</p>
-</blockquote>
-<p>We can also specify a single cell in our data frame by referring to the column and row number in square brackets. <strong>R checks rows first then columns</strong>:</p>
-<pre class="r"><code>our_data
-  colour number
-1    red     10
-2   blue     15
-3  green     20
-our_data[1,2] # First row, second column
-[1] 10
-our_data[2,1] # Second row, first column
-[1] &quot;blue&quot;</code></pre>
-<p>Omitting a number shows all values in the row or column.</p>
-<pre class="r"><code>our_data[,2] # second column - same as our_data$number
-[1] 10 15 20
-our_data[2,] # Second row
-  colour number
-2   blue     15</code></pre>
-</div>
-<div id="other-data-manipulation" class="section level2">
-<h2>Other data manipulation</h2>
-<p>R also has a few built in functions for various calculations. Here are some examples:</p>
-<pre class="r"><code>log10(our_data$number) # log10 transformation
-[1] 1.000000 1.176091 1.301030
-log(our_data$number) # natural log transformation
-[1] 2.302585 2.708050 2.995732
-exp(our_data$number) # exponential
-[1]     22026.47   3269017.37 485165195.41
-10^(our_data$number) # Power of 10
-[1] 1e+10 1e+15 1e+20
-mean(our_data$number) # calculate the mean
-[1] 15</code></pre>
-</div>
-<div id="factors" class="section level2">
-<h2>Factors</h2>
-<p>Sometime we need our character strings to represent categorical groups. That’s where <strong>factors</strong> come in. They are a special data class of variable consisting of groups with sub-categories (called <strong>levels</strong>). We can turn character strings into factors and vice versa by using <code>as.character()</code> or <code>as.factor()</code> and saving the output as a new variable. Let’s turn our string array into a factor:</p>
-<pre class="r"><code>string_factor &lt;- as.factor(string_array)
-str(string_factor) # Now we can see it is a factor and our colours have become levels (the sub-categories).
- Factor w/ 3 levels &quot;blue&quot;,&quot;green&quot;,..: 3 1 2
-string_factor &lt;- as.character(string_factor)
-str(string_factor) # Now it&#39;s back to a character
- chr [1:3] &quot;red&quot; &quot;blue&quot; &quot;green&quot;</code></pre>
-<p>Factors are important, particularly when doing statistical hypothesis testing because it dictates the <em>order</em> in which R handles the data, otherwise R will default to ordering in alphabetical order.</p>
-<p>So to summarise:</p>
-<table>
-<thead>
-<tr class="header">
-<th>Type of data</th>
-<th>Example</th>
-<th>R class</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>numeric</td>
-<td>1,2,3</td>
-<td>numeric (num)</td>
-</tr>
-<tr class="even">
-<td>strings</td>
-<td>“I”, “like”, “R”</td>
-<td>character (chr)</td>
-</tr>
-<tr class="odd">
-<td>categorical (ordinal or nominal)</td>
-<td>“group A”, “group B”</td>
-<td>factor with levels</td>
-</tr>
-</tbody>
-</table>
-<p>We can reorder the levels of a factor:</p>
-<pre class="r"><code>string_factor &lt;- factor(string_array, levels = c(&quot;green&quot;, &quot;blue&quot;, &quot;red&quot;))
-string_factor # Now you see that green is the first level
-[1] red   blue  green
-Levels: green blue red
-string_factor &lt;- relevel(string_factor, &quot;red&quot;)
-string_factor # Relevel shifts the order of factors to make the specified one first - now red is first
-[1] red   blue  green
-Levels: red green blue</code></pre>
-<p>We can be more specific about the order too. Above those were nominal categories but we can also use ordinal categories by including <code>ordered = TRUE</code>.</p>
-<pre class="r"><code>ordinal_factor &lt;- factor(c(&quot;low&quot;, &quot;med&quot;, &quot;high&quot;), ordered = TRUE, levels = c(&quot;low&quot;, &quot;med&quot;, &quot;high&quot;))
-ordinal_factor
-[1] low  med  high
-Levels: low &lt; med &lt; high</code></pre>
-<p>R will treat these ordered factor levels differently to unordered factor levels but the difference is not important for what we will do in this module and unordered factors levels in the order we want will be fine.</p>
-<hr />
-</div>
-<div id="commenting" class="section level2">
-<h2>Commenting</h2>
-<p>The <code>#</code> (hash/pound) sign indicates comments. Anything after this symbol is not run in R. It is used for commenting. Commenting is really important for writing notes or telling the user what is going on - see examples in this document. This becomes really important if you are sharing your code with someone else, including your future self.</p>
-<hr />
-</div>
 </div>
 <div id="why-rstudio" class="section level1">
 <h1>Why RStudio?</h1>
@@ -928,34 +743,8 @@ View(mammal_sleep)</code></pre>
 summary(mammal_sleep$BodyWt) # summary statistics for body weight
     Min.  1st Qu.   Median     Mean  3rd Qu.     Max. 
    0.005    0.600    3.342  198.790   48.202 6654.000 </code></pre>
-</div>
-<div id="missing-data" class="section level2">
-<h2>Missing data</h2>
-<p>Missing data is denoted in R as <code>NA</code>.</p>
 <hr />
 </div>
-</div>
-<div id="plotting" class="section level1">
-<h1>Plotting</h1>
-<p>The base R function to make a plot is <code>plot(y axis ~ x axis, data = data frame)</code>. You can customise all components of the graph - try looking up how to change the point style.</p>
-<pre class="r"><code>plot(TotalSleep ~ LifeSpan, mammal_sleep)</code></pre>
-<div class="figure">
-<img src="Drop_in_1_files/figure-html/unnamed-chunk-21-1.png" alt="Relationship between the total hours of sleep and life span in mammals" width="672" />
-<p class="caption">
-Relationship between the total hours of sleep and life span in mammals
-</p>
-</div>
-<p>If you want a challenge, try replicating this figure using the <code>mammal_sleep</code> dataset:</p>
-<div class="figure">
-<img src="Drop_in_1_files/figure-html/unnamed-chunk-22-1.png" alt="Relationship between log10(body weight) and life span in mammals" width="672" />
-<p class="caption">
-Relationship between log10(body weight) and life span in mammals
-</p>
-</div>
-<p>I won’t tell you how but by the end of the module you should be able to make figures that are suitable for scientific reports - not implying that the figure above is a standard.</p>
-<hr />
-<p>That’s the basics of R. We will revisit these concepts again throughout the practicals.</p>
-<hr />
 </div>
 <div id="tips" class="section level1">
 <h1>Tips</h1>
@@ -984,25 +773,56 @@ Relationship between log10(body weight) and life span in mammals
 <li>Are all your versions and packages up to date?</li>
 <li>Do you know how to create and save an R script?</li>
 <li>Do you know how to set your working directory?</li>
+<li>Can you import data into R?</li>
+<li>Can you run a line of code?</li>
+<li>Can you use a function?</li>
 </ul>
 <hr />
 </div>
-<div id="recap-quiz" class="section level1">
-<h1>Recap quiz</h1>
-<p><strong>Answer these questions to check your understanding. Click code to show the answer</strong><br />
-What does <code>#</code> mean in R code?</p>
-<pre class="r fold-hide"><code># creates a comment to accompany code. Any text after # is not executed (run)</code></pre>
-<p>What is the function to load a package at the start of a script?</p>
-<pre class="r fold-hide"><code>library() is the function to load a package</code></pre>
-<p>What is the output if you ran the following lines of code?</p>
-<pre><code>cat &lt;- 10
-dog &lt;- 20
-cat + dog</code></pre>
-<pre class="r fold-hide"><code>30</code></pre>
-<p>What is the working directory in computing?</p>
-<pre class="r fold-hide"><code>Working directories are the location (folder) on your computer that the program is looking in by default. All file address are relative to the working directory</code></pre>
-<p>What is the difference between the function <code>getwd()</code> and <code>setwd()</code>?</p>
-<pre class="r fold-hide"><code>getwd() tells you what R thinks the working directory is, setwd() tells R what you want the working directory to be</code></pre>
+<div id="now-run-a-tutorial" class="section level1">
+<h1>Now run a tutorial</h1>
+</div>
+<div id="introduction" class="section level1">
+<h1>Introduction</h1>
+<p>Welcome! We need to set up our computer to start using tutorials in R.</p>
+<p>Follow this checklist in order to make sure you are set up:</p>
+<ol style="list-style-type: decimal">
+<li>Have you installed R version 4.0 or above? - if not, install R
+<ul>
+<li>You can check your R package version using <code>R.version()$version.string</code></li>
+</ul></li>
+<li>Have you installed RStudio version 1.0.136 or above? - if not installing RStudio
+<ul>
+<li>You can check your RStudio version using <code>RStudio.Version()$version</code></li>
+</ul></li>
+<li>Have you installed the following packages? - if not use <code>install.packages()</code> to do so
+<ul>
+<li><code>learnr</code></li>
+<li><code>remotes</code> (or <code>devtools</code>)</li>
+<li><code>knitr</code></li>
+</ul></li>
+</ol>
+<p>If everything works then you should see a Tutorials tab in one of your RStudio windows (perhaps next to Environment and History)</p>
+<hr />
+</div>
+<div id="installing-the-tutorials" class="section level1">
+<h1>Installing the tutorials</h1>
+<p>Now we need to install the tutorial. The tutorials are stored in a Package available on GitHub. You will only have to install the package once at the beginning.<br />
+Use the following code:</p>
+<pre><code>remotes::install_github(&quot;jacintak/biostats&quot;, subdir = &quot;biostats.tutorials&quot;, dependencies = TRUE)</code></pre>
+<p>If you are asked to install any other packages, choose yes but don’t do any compiling (press no if asked).<br />
+If the package installed properly, you should automatically see the tutorials in the Tutorial tab.</p>
+<hr />
+</div>
+<div id="running-a-tutorial" class="section level1">
+<h1>Running a tutorial</h1>
+<p>You should be able to run a tutorial from the Tutorial tab when you open RStudio without needing to do anything.<br />
+Make sure it’s a tutorial from the <code>biostats.tutorials</code> package.</p>
+<p>If you click run tutorial, the tutorial will show up in the tab. You can click the “Show in new window” icon to open it in another window. Press the “Home” icon to return to the Tutorials tab.</p>
+<p>If that doesn’t work use this code and the tutorial will open in another window:</p>
+<pre><code>learnr::run_tutorial(&quot;&lt;insert name of the tutorial to run&gt;&quot;, package = &quot;biostats.tutorials&quot;)</code></pre>
+<p>If neither works, check that the <code>biostats.tutorials</code> package installed properly.</p>
+<p>Quit a tutorial by pressing the “Stop” icon.</p>
 </div>
 
 
