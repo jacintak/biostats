@@ -2,7 +2,8 @@
 title: "Introduction to R"
 output: learnr::tutorial
 runtime: shiny_prerendered
-description: "Learn about how data in handled in R and basic functions"
+description: >
+    Learn about how data in processed in R and basic functions
 ---
 
 ```{r setup, include=FALSE}

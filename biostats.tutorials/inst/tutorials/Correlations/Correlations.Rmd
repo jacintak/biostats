@@ -3,7 +3,7 @@ title: "Correlations"
 output: 
     learnr::tutorial:
 runtime: shiny_prerendered
-description: "Learn about correlations. Correlation is not causation."
+description: "Learn about correlations. Correlation is not causation"
 ---
 
 ```{r setup, include=FALSE}

@@ -9,6 +9,7 @@ description: >
 ```{r setup, include=FALSE}
 library(learnr)
 knitr::opts_chunk$set(comment = NA, echo = FALSE)
+mammals <- MASS::mammals
 ```
 
 > The aim of this tutorial is to visualise and examine some assumptions of linear regression
@@ -150,6 +151,41 @@ hist(trees$Girth)
 ```
 
 > We can deal with non-normal data by applying a transformation (e.g. log10), collecting more data  (if a low sample size is the root cause of non-normality) or making sure that a linear regression following a normal distribution is the most appropriate way to analyse our data
+
+### Applying a transformation
+
+The `mammals` dataset in the package `MASS` contains body sizes of a range of mammals but body size is very skewed to the right.
+```{r trans}
+qqnorm(mammals$body)
+```
+
+```{r transquiz}
+question("What does it imply if body size is right skewed?",
+         answer("There are very few heavy mammals", correct = TRUE),
+         answer("There are very few light mammals"),
+         answer("Most mammals are found on the right"),
+         answer("Most mammals are found on the left"),
+         allow_retry = TRUE,
+         incorrect = "What does skewedness tell you about the distribution of data?",
+         random_answer_order = TRUE
+)
+```
+
+We can apply a transformation to make the distribution of body size approximate a normal distribution. Below is the function to plot the Q-Q plot of body size with a reference line. Modify the code to apply a log10 transformation to body size 
+```{r transformation, exercise = TRUE}
+qqnorm(mammals$body)
+qqline(mammals$body)
+```
+```{r transformation-hint}
+what is the function to log10 transform a variable?
+```
+```{r transformation-hint-2}
+Have you applied the transformation to both lines of code?
+```
+```{r transformation-solution}
+qqnorm(log10(mammals$body))
+qqline(log10(mammals$body))
+```
 
 ***
 
