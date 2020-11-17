@@ -1,0 +1,167 @@
+---
+title: "Functional Programming"
+output: learnr::tutorial
+runtime: shiny_prerendered
+description: "Learn about functions and loops"
+---
+
+```{r setup, include=FALSE}
+library(learnr)
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+
+# Functional programming
+
+Functions and loops
+
+## Functions
+
+Functions form the backbone of R. Functions are pieces of code that take an input, processes it and produces an output. R contains a set of built in functions for doing basic things like generating a sequence of numbers between 1 and 10. Try it yourself:
+
+```{r seq, exercise = TRUE}
+seq(1, 10)
+```
+Functions in R have 4 general components: a name, inputs, what happens to the inputs and the output taking the general form `function_name(input)`
+
+In the case above, the function is called `seq`, the inputs are `1` and `10` indicating the first and last numbers of the sequence respectively and the output is a sequence of 10 numbers.  
+
+Functions can be nested within each other - this is the functional programming aspect of R. Then the output of one function is sent directly to the next function.  
+
+For example we can take the mean of our sequence of numbers above:  
+```{r meanseq, exercise = TRUE}
+mean(seq(1,10))
+```
+
+When functions are nested like this, R does not save the intermediate output (here, the sequence of numbers) to the environment.
+
+*But we know this already* you say. Yeah, I say, but manual functions behave the same way so you need to understand the basics of R before you move on to more advanced stuff.
+
+***
+
+### Manual functions
+
+Built in functions are handy but when we want to do more complex tasks, we need to make our own functions. This is also useful when we need to do repetitive tasks. We could copy the code over and over again while changing parameter values but this increases the chance of making an error and is harder to debug or modify.
+
+> A guide to functional programming in R is Hadley Wickham's book [Advanced R](http://adv-r.had.co.nz/Functional-programming.html). Refer to it and other for more expertise
+
+Manual functions in R take a general structure following what we've described above:
+
+```
+function_name <- function(x) {Function does stuff}
+```
+
+* `function_name` is the name of the function. This is what is used to call the function when it is stored in the R environment
+* `function()` tells R that this is a manual function
+* `x` are the user inputs of the function
+* `{}` tell R what to do with `x`. This can be as many things as you want. 
+
+Once the function is stored in R's memory, we can use it like any regular function in R
+
+***
+
+### Your first function
+
+Let's make a function to print us a message telling us what the mean of a vector of numbers is. Complete the code below to print the mean of our sequence of numbers between 1 and 10:
+```{r first, exercise = TRUE}
+print_mean <- function(x){
+  message(paste("The mean is", mean(x)))
+}
+
+print_mean()
+```
+
+The answer should be 5.5  
+
+That's a small example of printing strings. But strings aren't useful for further processing. what if we *also* wanted to use the calculated mean? We'd have to tell R to calculate the mean separately and provide the output in a way that can be used in further code. We can ask the function to calculate an intermediary variable called `x_mean` *and* return that value to the R environment.
+
+Run this modified function and see what the difference is:
+```{r second, exercise = TRUE, exercise.lines = 8}
+print_mean <- function(x){
+  x_mean <- mean(x)
+  message(paste("The mean is", x_mean))
+  return(x_mean)
+}
+
+```
+```{r second-hint}
+don't forget to run the function using print_mean() with the sequence of numbers we want
+```
+
+We've made three modifications to our original `print_mean` function. Let's break this down:
+
+1. When the function gets a sequence of numbers (called x) it's going to calculate the mean of those numbers and store them in a variable called `x_mean`. `x_mean` doesn't get stored in the environment and only exists while the function is running. 
+2. After `x_mean` is calculated the function is going to print a message saying what the value stored in `x_mean` is. So the calculation of the mean is separated from the printing of the message
+3. To tell R to inform us of what `x_mean` is we tell it to `return` 
+
+Now the function tells us what the mean is and we can either assign that to a variable name or feed the output into another function
+
+> Functions can take more than one input. They can also be assigned "default" values to parameters that get overwritten by any user input.
+> However, functions can only return one output using `return`. To return multiple values, we need to tell R to save them to a list.
+
+You don't have to use `return` - it will also work if you jus printed `x_mean` but it is best practice as it specifically tells R what value to give. If you don't tell R to produce an output then it won't show any results. Try it - modify the code above by removing the `return` function and see what happens. 
+
+### Multiple returns
+
+Say we want a function to give us more information at the end. We can return multiple values as a list:
+```{r multi, exercise = TRUE, exercise.lines = 15}
+print_mean <- function(x){
+  x_mean <- mean(x)
+  message(paste("The mean is", x_mean))
+  mean_TF <- ifelse(x_mean < 4, TRUE, FALSE)
+  results <- list(x_mean = x_mean, mean_TF = mean_TF)
+  return(results)
+}
+
+fun_results <- print_mean(seq(1,10))
+fun_results
+```
+
+What happened when you ran the above?
+
+There are two more modification to this third function compared to the second version.
+
+1. There's a named variable called `mean_TF` which is an `ifelse` statement - that is, a function nested within a function. This `ifelse` statement is *vectorised* which is something we prefer over `if` and `else` statements because of the way that R processes objects. Here the statement is testing whether the logic that `x_mean` is less than 4 and returning a logical variable (`TRUE/FALSE`)
+2. `results` is a named variable containing a list with two items: our `x_mean` variable and our `mean_TF` variable. This is what is returned at the end
+
+To help us see the results we've saved the output (the list) into a variable called `fun_results`
+
+### Recap
+
+**That's the basics**
+
+```{r fun-recap}
+quiz(caption = "Test your knowledge",
+  question("What is the structure of a manually defined function taking the input x?",
+           answer("function(x){}", correct = TRUE),
+           answer("function(x)"),
+           answer("function{x}"),
+           answer("function{x}()"),
+           allow_retry = TRUE,
+           random_answer_order = TRUE
+  ),
+  question("How do you return multiple values from a function?",
+           answer("Save your output as a named list", correct = TRUE),
+           answer("Use return on a single variable"),
+           answer("Add more variable to the brackets in function()"),
+           allow_retry = TRUE,
+           random_answer_order = TRUE
+  ),
+  question_text("Enter the output of the function below if a was 22",
+                answer("32", correct = TRUE),
+                allow_retry = TRUE
+  )
+)
+```
+
+```
+function(a){
+  b <- a + 10
+  c <- b - 12
+  return(b)
+}
+```
+
+## Loops
+
+Sometimes we need to run a function multiple times while changing the inputs.
