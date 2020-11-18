@@ -16,13 +16,10 @@
 <script src="site_libs/header-attrs-2.5/header-attrs.js"></script>
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<link href="site_libs/bootstrap-3.3.5/css/readable.min.css" rel="stylesheet" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
-<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
-<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
-<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <script src="site_libs/navigation-1.1/codefolding.js"></script>
 <link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
@@ -120,33 +117,33 @@ summary {
 <style type="text/css">
 /* padding for bootstrap navbar */
 body {
-  padding-top: 66px;
+  padding-top: 51px;
   padding-bottom: 40px;
 }
 /* offset scroll position for anchor links (for fixed navbar)  */
 .section h1 {
-  padding-top: 71px;
-  margin-top: -71px;
+  padding-top: 56px;
+  margin-top: -56px;
 }
 .section h2 {
-  padding-top: 71px;
-  margin-top: -71px;
+  padding-top: 56px;
+  margin-top: -56px;
 }
 .section h3 {
-  padding-top: 71px;
-  margin-top: -71px;
+  padding-top: 56px;
+  margin-top: -56px;
 }
 .section h4 {
-  padding-top: 71px;
-  margin-top: -71px;
+  padding-top: 56px;
+  margin-top: -56px;
 }
 .section h5 {
-  padding-top: 71px;
-  margin-top: -71px;
+  padding-top: 56px;
+  margin-top: -56px;
 }
 .section h6 {
-  padding-top: 71px;
-  margin-top: -71px;
+  padding-top: 56px;
+  margin-top: -56px;
 }
 .dropdown-submenu {
   position: relative;
@@ -269,69 +266,6 @@ $(document).ready(function () {
 
 
 
-<style type="text/css">
-
-#TOC {
-  margin: 25px 0px 20px 0px;
-}
-@media (max-width: 768px) {
-#TOC {
-  position: relative;
-  width: 100%;
-}
-}
-
-@media print {
-.toc-content {
-  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
-  float: right;
-}
-}
-
-.toc-content {
-  padding-left: 30px;
-  padding-right: 40px;
-}
-
-div.main-container {
-  max-width: 1200px;
-}
-
-div.tocify {
-  width: 20%;
-  max-width: 260px;
-  max-height: 85%;
-}
-
-@media (min-width: 768px) and (max-width: 991px) {
-  div.tocify {
-    width: 25%;
-  }
-}
-
-@media (max-width: 767px) {
-  div.tocify {
-    width: 100%;
-    max-width: none;
-  }
-}
-
-.tocify ul, .tocify li {
-  line-height: 20px;
-}
-
-.tocify-subheader .tocify-item {
-  font-size: 0.90em;
-}
-
-.tocify .list-group-item {
-  border-radius: 0px;
-}
-
-
-</style>
-
-
 
 </head>
 
@@ -339,16 +273,6 @@ div.tocify {
 
 
 <div class="container-fluid main-container">
-
-
-<!-- setup 3col/9col grid for toc_float and main content  -->
-<div class="row-fluid">
-<div class="col-xs-12 col-sm-4 col-md-3">
-<div id="TOC" class="tocify">
-</div>
-</div>
-
-<div class="toc-content col-xs-12 col-sm-8 col-md-9">
 
 
 
@@ -391,7 +315,7 @@ div.tocify {
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="index.html">Description</a>
+      <a href="index.html">Introduction</a>
     </li>
     <li>
       <a href="r-exams-guide.html">Quick guide to R/exams</a>
@@ -455,6 +379,7 @@ div.tocify {
 </div>
 
 
+<hr />
 <div id="welcome-to-statistics-and-computation-for-biologists" class="section level1">
 <h1>Welcome to Statistics and Computation for Biologists</h1>
 <p>Training to become a scientist can be broken down into two parts. First, there is content to learn - these are technical details or “how to” which come from textbooks, lectures or resources on the Internet.</p>
@@ -710,20 +635,20 @@ small_sleep
 </blockquote>
 <p>For bigger datasets it is easier to view a subset of the data or to use the <code>View()</code> function:</p>
 <pre class="r"><code>head(mammal_sleep, n = 6) # View the first 6 rows (6 is default, can be changed)
-                 Species   BodyWt BrainWt NonDreaming Dreaming TotalSleep LifeSpan
-1        Africanelephant 6654.000  5712.0          NA       NA        3.3     38.6
-2 Africangiantpouchedrat    1.000     6.6         6.3      2.0        8.3      4.5
-3              ArcticFox    3.385    44.5          NA       NA       12.5     14.0
-4   Arcticgroundsquirrel    0.920     5.7          NA       NA       16.5       NA
-5          Asianelephant 2547.000  4603.0         2.1      1.8        3.9     69.0
-6                 Baboon   10.550   179.5         9.1      0.7        9.8     27.0
-  Gestation Predation Exposure Danger
-1       645         3        5      3
-2        42         3        1      3
-3        60         1        1      1
-4        25         5        2      3
-5       624         3        5      4
-6       180         4        4      4</code></pre>
+                 Species   BodyWt BrainWt NonDreaming Dreaming TotalSleep LifeSpan Gestation Predation
+1        Africanelephant 6654.000  5712.0          NA       NA        3.3     38.6       645         3
+2 Africangiantpouchedrat    1.000     6.6         6.3      2.0        8.3      4.5        42         3
+3              ArcticFox    3.385    44.5          NA       NA       12.5     14.0        60         1
+4   Arcticgroundsquirrel    0.920     5.7          NA       NA       16.5       NA        25         5
+5          Asianelephant 2547.000  4603.0         2.1      1.8        3.9     69.0       624         3
+6                 Baboon   10.550   179.5         9.1      0.7        9.8     27.0       180         4
+  Exposure Danger
+1        5      3
+2        1      3
+3        1      1
+4        2      3
+5        5      4
+6        4      4</code></pre>
 <pre><code>View(mammal_sleep)</code></pre>
 <div id="data-structure" class="section level2">
 <h2>Data structure</h2>
@@ -752,30 +677,22 @@ small_sleep
 <h2>Summarising data</h2>
 <p><code>summary()</code> shows some summary statistics for the specific variable</p>
 <pre class="r"><code>summary(mammal_sleep) # for all columns
-   Species              BodyWt            BrainWt         NonDreaming    
- Length:62          Min.   :   0.005   Min.   :   0.14   Min.   : 2.100  
- Class :character   1st Qu.:   0.600   1st Qu.:   4.25   1st Qu.: 6.250  
- Mode  :character   Median :   3.342   Median :  17.25   Median : 8.350  
-                    Mean   : 198.790   Mean   : 283.13   Mean   : 8.673  
-                    3rd Qu.:  48.202   3rd Qu.: 166.00   3rd Qu.:11.000  
-                    Max.   :6654.000   Max.   :5712.00   Max.   :17.900  
-                                                         NA&#39;s   :14      
-    Dreaming       TotalSleep       LifeSpan         Gestation        Predation    
- Min.   :0.000   Min.   : 2.60   Min.   :  2.000   Min.   : 12.00   Min.   :1.000  
- 1st Qu.:0.900   1st Qu.: 8.05   1st Qu.:  6.625   1st Qu.: 35.75   1st Qu.:2.000  
- Median :1.800   Median :10.45   Median : 15.100   Median : 79.00   Median :3.000  
- Mean   :1.972   Mean   :10.53   Mean   : 19.878   Mean   :142.35   Mean   :2.871  
- 3rd Qu.:2.550   3rd Qu.:13.20   3rd Qu.: 27.750   3rd Qu.:207.50   3rd Qu.:4.000  
- Max.   :6.600   Max.   :19.90   Max.   :100.000   Max.   :645.00   Max.   :5.000  
- NA&#39;s   :12      NA&#39;s   :4       NA&#39;s   :4         NA&#39;s   :4                       
-    Exposure         Danger     
- Min.   :1.000   Min.   :1.000  
- 1st Qu.:1.000   1st Qu.:1.000  
- Median :2.000   Median :2.000  
- Mean   :2.419   Mean   :2.613  
- 3rd Qu.:4.000   3rd Qu.:4.000  
- Max.   :5.000   Max.   :5.000  
-                                
+   Species              BodyWt            BrainWt         NonDreaming        Dreaming    
+ Length:62          Min.   :   0.005   Min.   :   0.14   Min.   : 2.100   Min.   :0.000  
+ Class :character   1st Qu.:   0.600   1st Qu.:   4.25   1st Qu.: 6.250   1st Qu.:0.900  
+ Mode  :character   Median :   3.342   Median :  17.25   Median : 8.350   Median :1.800  
+                    Mean   : 198.790   Mean   : 283.13   Mean   : 8.673   Mean   :1.972  
+                    3rd Qu.:  48.202   3rd Qu.: 166.00   3rd Qu.:11.000   3rd Qu.:2.550  
+                    Max.   :6654.000   Max.   :5712.00   Max.   :17.900   Max.   :6.600  
+                                                         NA&#39;s   :14       NA&#39;s   :12     
+   TotalSleep       LifeSpan         Gestation        Predation        Exposure         Danger     
+ Min.   : 2.60   Min.   :  2.000   Min.   : 12.00   Min.   :1.000   Min.   :1.000   Min.   :1.000  
+ 1st Qu.: 8.05   1st Qu.:  6.625   1st Qu.: 35.75   1st Qu.:2.000   1st Qu.:1.000   1st Qu.:1.000  
+ Median :10.45   Median : 15.100   Median : 79.00   Median :3.000   Median :2.000   Median :2.000  
+ Mean   :10.53   Mean   : 19.878   Mean   :142.35   Mean   :2.871   Mean   :2.419   Mean   :2.613  
+ 3rd Qu.:13.20   3rd Qu.: 27.750   3rd Qu.:207.50   3rd Qu.:4.000   3rd Qu.:4.000   3rd Qu.:4.000  
+ Max.   :19.90   Max.   :100.000   Max.   :645.00   Max.   :5.000   Max.   :5.000   Max.   :5.000  
+ NA&#39;s   :4       NA&#39;s   :4         NA&#39;s   :4                                                       
 summary(mammal_sleep$BodyWt) # summary statistics for body weight
     Min.  1st Qu.   Median     Mean  3rd Qu.     Max. 
    0.005    0.600    3.342  198.790   48.202 6654.000 </code></pre>
@@ -868,8 +785,6 @@ Make sure it’s a tutorial from the <code>biostats.tutorials</code> package.</p
 
 
 
-</div>
-</div>
 
 </div>
 
@@ -907,32 +822,6 @@ $(document).ready(function () {
 });
 </script>
 
-<script>
-$(document).ready(function ()  {
-
-    // move toc-ignore selectors from section div to header
-    $('div.section.toc-ignore')
-        .removeClass('toc-ignore')
-        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
-
-    // establish options
-    var options = {
-      selectors: "h1,h2,h3",
-      theme: "bootstrap3",
-      context: '.toc-content',
-      hashGenerator: function (text) {
-        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
-      },
-      ignoreSelector: ".toc-ignore",
-      scrollTo: 0
-    };
-    options.showAndHide = true;
-    options.smoothScroll = true;
-
-    // tocify
-    var toc = $("#TOC").tocify(options).data("toc-tocify");
-});
-</script>
 
 <!-- dynamically load mathjax for compatibility with self-contained -->
 <script>
