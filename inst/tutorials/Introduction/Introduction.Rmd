@@ -1,0 +1,518 @@
+---
+title: "Introduction to R"
+output: learnr::tutorial
+runtime: shiny_prerendered
+description: >
+    Learn about how data in processed in R and basic functions
+---
+
+```{r setup, include=FALSE}
+library(learnr)
+knitr::opts_chunk$set(echo = FALSE)
+string_array <- c("red", "blue", "green")
+number_array2 <- seq(10, 20, length.out = 3)
+number_array <- c(1, 2, 3)
+our_data <- data.frame(colour = string_array, number = number_array2)
+```
+
+# R structure & terminology
+
+## Packages
+
+R can do calculations so you can use it like a calculator. More than that, R is a statistical environment that consist of **packages**. Packages are a set of **functions** that does something to input depending on the underlying code. All your packages are stored in your **Library**. When you download R it comes with a basic set of packages as default which works straight out of the box. This is called **base R**.  
+
+We can customise and expand the functionality of R by installing more packages, which are made by people and distributed freely. For example, I made this package of stats tutorials which I uploaded to Github (a website for hosting and sharing code) and you downloaded this package. Though, where possible we will be sticking to base R.
+
+Packages need to be **called** when you open R to activate them or R will not use them.  
+If I wanted to use the package `MASS`, I must enter and run the `library()` function at the start of my script to tell R that we are going to use `MASS`
+
+```
+# setup MASS 
+library(MASS) # We will be using this package in these tutorials
+```
+
+***
+
+## Variables
+
+Information is stored in R's memory as **variables**. These can be **numbers** (e.g. 1, 2, 3) or **strings** (called characters, e.g. `"hello"`). Strings are identified by quotation marks (`"` or `'`). RStudio helpfully colour codes these different types. You can also change the colour scheme of RStudio. 
+
+To send information to R you can type in the function or code directly into the Console and press Enter or in a script and press Run (or Ctrl+Enter). Try typing this into the Console and pressing enter:
+
+```
+2+2
+```
+
+> **Make sure to remember to press enter. Entering in the code doesn't execute it**  
+
+Usually information is **assigned a name** which we use to call later. This information is now a **named variable**. We assign information to a variable using a left pointing arrow `<-`:
+
+Modify this code to assign `2+2` to the variable called `a`. Press run. If you are correct then it should give you `4`.
+```{r ex1, exercise = TRUE}
+a  2+2 
+a
+```
+
+Now the named variable a is stored in R's short-term memory (called RAM - random access memory - in computing terms; also a good album by Daft Punk). This is different to long-term memory like files saved on your computer. When you close R, RAM is cleared - like your browser history when you use private mode!  
+
+If you enter `a` in the console it will give you the answer to `2+2` that we told it. Under the "Environment" tab, it should list `a`. **Variable names are case sensitive and can be a combination of (most) symbols, letters and numbers (but no spaces).**  
+
+Variables help with simplifying our code by calling from memory. If we have another variable `b` we can add `a` and `b`.
+```{r ex2, exercise = TRUE}
+b <- 10
+a + b
+```
+
+We can assign strings to variables too.
+```{r ex3, exercise = TRUE}
+c <- "hello"
+c
+```
+
+> **Variables should be informative and meaningful**  
+
+Calculations of variables don't work on strings. You can't add strings together.  
+
+Trying `c + a` should give an error.  
+```{r ex4, exercise = TRUE}
+c + a 
+```
+
+```{r recap1}
+quiz(caption = "Recap!",
+     question_text(
+       paste("Enter the function to load the package lattice"),
+       answer("library(lattice)", correct = TRUE),
+       allow_retry = TRUE
+     ),
+     question("Which of these codes is used to assign information to a variable in R?",
+         answer("<-", correct = TRUE),
+         answer("-"),
+         answer("->"),
+         answer("~"),
+         allow_retry = TRUE,
+         random_answer_order = TRUE
+)
+)
+```
+
+***
+
+## Arrays
+
+Variables can store multiple pieces of information in an **array**. Strings and numbers cannot be mixed in the same array - they must all be the same type of data. `c` stands for concatenate (meaning link together) with your data within brackets separated by commas (spaces are optional but makes it easier to read code). We can use `class()` to see what type of variable our data are: "character" for strings, "numeric" for numbers. 
+
+```{r ex5, exercise = TRUE}
+string_array <- c("red", "blue", "green")
+string_array
+class(string_array)
+```
+
+```{r ex6, exercise = TRUE}
+number_array <- c(1, 2, 3)
+number_array
+class(number_array)
+```
+
+```{r ex7, exercise = TRUE}
+class(c("red", 1, "green", 4)) # mixing strings and numbers will default to character
+```
+
+If you manipulate the number array it will apply the calculation to all numbers. 
+`*` is multiply. `/` is divide:
+
+Enter the code to multiply `number_array` by 2: 
+```{r ex8, exercise = TRUE}
+number_array * 2
+```
+
+```{r recap2}
+quiz(caption = "Recap!",
+  question_radio(
+    'If I saved the word "rainbow" as a variable called r, would this be classed as a character or a numeric vector in R?',
+    answer("character", correct = TRUE, message = "It's a string so it will stored in R as a character. check with class()"),
+    answer("numeric")
+  ),
+  question("Which of these codes will divide the number array by 10?",
+           answer("number_array / 10", correct = TRUE),
+           answer("10 / number_array"),
+           answer("number_array * 10"),
+           answer("10 * number_array"),
+           allow_retry = TRUE,
+           random_answer_order = TRUE
+  ),
+  question("What would happen if I ran number_array + 4?",
+           answer("It would add 4 to each observation in number_array", correct = TRUE),
+           answer("It would add 4 to the end of number_array"),
+           answer("It would add 4 to the beginning of number_array"),
+           answer("It would add 4 more observations to number_array"),
+           allow_retry = TRUE,
+           random_answer_order = TRUE
+  )
+)
+```
+
+You can add arrays together as long as they have the same **length** (number of data). `length()` tells you how many observations are in the variable. 
+
+```{r length}
+question_text(
+  paste("Enter the function to see how many observations are in number_array"),
+  answer("length(number_array)", correct = TRUE),
+  allow_retry = TRUE
+)
+```
+
+`seq()` is a function to generate a sequence of numbers - it takes the general form of `seq(minimum, maximum, length.out = <number of observations>)`
+
+Complete the code below to create a sequence of 3 numbers between 10 and 20 saved to a variable called `number_array2`:
+```{r seq, exercise = TRUE}
+number_array2 <- 
+number_array2
+```
+```{r seq-hint}
+Use seq() and what do you include in it?
+```
+```{r seq-solution}
+number_array2 <- seq(10, 20, length.out = 3)
+```
+
+What is the output when you add two number arrays together? Modify this code to add `number_array` and `number_array2` together:
+```{r add, exercise = TRUE}
+number_array * number_array
+```
+
+***
+
+## Data frames
+
+Often data is stored in multiple arrays which we can combine together to form **columns** and **rows**. This becomes a **data frame**. The columns have **names** or column headers that you can check or assign names using `names()`.
+
+Run this code and see if you can match the output with the code:
+```{r frame, exercise = TRUE}
+our_data <- data.frame(colo = string_array, numbr = number_array2)
+our_data
+names(our_data) # original headers
+```
+
+We can rename the columns by giving `names()` a character vector of the new names.  
+Here is the code to rename the column headers but there is an error. Fix the code and press run. If you are correct then the new column names should be `"colour"` & `"number"`:
+```{r rename, exercise = TRUE}
+our_data <- data.frame(colo = string_array, numbr = number_array2)
+names(our_dat)a <- c("colour", "number") # give new names
+names(our_data) # updated headers
+```
+
+We can view some meta-information of our data in a few ways:
+```
+ncol(our_data) # the number of columns
+nrow(our_data) # the number of rows
+str(our_data) # summary of data types: num = numeric, chr = character
+class(our_data) # type of variable
+```
+
+```{r recap3}
+quiz(caption = "Recap!",
+  question_radio(
+    "If I have information stored in two columns and 5 rows, is this a data frame or an array?",
+    answer("data frame", correct = TRUE, message = "There are multiple columns so it's a data frame"),
+    answer("array")
+  ),
+  question("What is the class of a data frame called by class()?",
+           answer("data.frame", correct = TRUE),
+           answer("numeric"),
+           answer("character"),
+           answer("integer"),
+           allow_retry = TRUE,
+           random_answer_order = TRUE
+  ),
+question_text(
+  paste("How many rows are in the dataset below according to it's data structure (str)?"),
+  answer("31", correct = TRUE),
+  allow_retry = TRUE
+)
+)
+str(trees)
+```
+
+***
+
+## Variables of a data frame
+
+Now that there's a mix of numbers and strings we cannot manipulate our data frame as a whole. Instead we need to specify which variable we want within the data frame. We use `$` to specify which column to look at by its column name.
+
+What would you expect if you ran the code below?
+```{r var, exercise = TRUE}
+our_data$number
+```
+
+> The bit before the $ is the name of the data frame stored in R's memory.  
+> The bit after the $ is the name of the variable within the data frame that we want.  
+> Like: data_frame_name$variable_name  
+> This is really important to understand because it is how we tell R what information we want from it's memory. We will see this again and again.
+
+Modify the code below to multiply the `number` column in the data frame `our_data` by 100
+```{r var2, exercise = TRUE}
+our_data-number * 2
+```
+
+
+We can also specify a single cell in our data frame by referring to the column and row number in square brackets `[]`.
+
+> **R checks rows first then columns** so R reads square brackets as [row, column]
+
+Enter the code to specify the first row & second column of `our_data`. The output should be `r our_data[1,2]`.
+```{r square, exercise = TRUE}
+our_data
+```
+
+Omitting a number shows all values in the row or column.
+```{r square2, exercise = TRUE}
+our_data[,2] # second column - same as our_data$number
+our_data[2,] # Second row
+```
+
+
+```{r recap4}
+quiz(caption = "Recap!",
+     question("Which observation will our_data[2,1] show?",
+              answer("First row, second column"),
+              answer("Second row, first column", correct = TRUE),
+              answer("First row, all columns"),
+              answer("Second column, all rows"),
+              allow_retry = TRUE,
+              random_answer_order = TRUE
+     ),
+     question("How would you do the equivalent of our_data$colour using square brackets?",
+              answer("our_data[,2]"),
+              answer("our_data[2,]"),
+              answer("our_data[,1]", correct = TRUE),
+              answer("our_data[1,]"),
+              allow_retry = TRUE,
+              random_answer_order = TRUE
+     ),
+     question_radio(
+       "R reads data frames as columns then rows",
+       answer("True"),
+       answer("False", correct = TRUE),
+       allow_retry = TRUE
+     )
+)
+```
+
+***
+
+## Other data manipulation
+
+R also has a few built in functions for various calculations. Here are some examples:
+```{r other, exercise = TRUE}
+log(our_data$number) # natural log transformation
+exp(our_data$number) # exponential
+10^(our_data$number) # Power of 10
+mean(our_data$number) # calculate the mean
+```
+
+If `log` takes the natural log of a numeric array, how would you modify the code below to do `log10`?
+```{r log, exercise = TRUE}
+log(our_data$number) 
+```
+
+```{r quiz}
+question_radio(
+  "What does ^ mean in R when used on numbers?",
+  answer("To the power of", correct = TRUE),
+  answer("To make a superscript"),
+  allow_retry = TRUE
+)
+```
+
+***
+
+## Factors
+
+Sometime we need our character strings to represent categorical groups. That's where **factors** come in. They are a special data class of variable consisting of groups with sub-categories (called **levels**). We can turn character strings into factors and vice versa by using `as.character()` or `as.factor()` and saving the output as a new variable. Let's turn our string array into a factor:
+
+Turn our `string_array` into a factor called `string_factor`:
+```{r string, exercise = TRUE}
+```
+```{r string-solution}
+string_factor <- as.factor(string_array)
+str(string_factor) # Now we can see it is a factor and our colours have become levels (the sub-categories).
+```
+
+Now turn `string_factor` back into a character vector:
+```{r character, exercise = TRUE}
+
+```
+```{r character-solution}
+string_factor <- as.character(string_factor)
+str(string_factor) # Now it's back to a character
+```
+
+Factors are important, particularly when doing statistical hypothesis testing because it dictates the *order* in which R handles the data, otherwise R will default to ordering in alphabetical order.
+
+So to summarise:
+
+| Type of data          | Example              | R class            |
+|-----------------------|----------------------|--------------------|
+| numeric               | 1,2,3                | numeric (num)      |
+| strings               | "I", "like", "R"     | character (chr)    |
+| categorical (ordinal or nominal) | "group A", "group B" | factor with levels |
+
+We can reorder the levels of a factor by manually specifying the order of all the levels using `levels = c(<order of levels>)`:
+
+Fix the typo in this code to create `string_factor` with the levels ordered as `c("green", "blue", "red")`:
+```{r order, exercise = TRUE}
+string_factor <- factor(string_array, lvls = c("green", "blue", "red"))
+string_factor 
+```
+
+We can also do this using `relevel()` but it only specifies the first level.  
+
+Complete this line of code to make the first level of `string_factor` red.
+```{r relevel, exercise = TRUE}
+string_factor <- relevel(string_factor, "green")
+string_factor
+```
+
+We can be more specific about the order too. Above those were nominal categories but we can also use ordinal categories by including `ordered = TRUE`.
+
+Add the missing component of this code to make `ordinal_factor` an ordered factor:
+```{r ordinal, exercise = TRUE}
+ordinal_factor <- factor(c("low", "med", "high"), levels = c("low", "med", "high"))
+ordinal_factor
+```
+
+R will treat these ordered factor levels differently to unordered factor levels but the difference is not important for what we will do in this module and unordered factors levels in the order we want will be fine.
+
+```{r recap5}
+quiz(
+question(
+  "What are levels of a factor?",
+  answer("A numeric array"),
+  answer("A discrete continuous variable"),
+  answer("The sub-categories of a categorical variable", correct = TRUE),
+  allow_retry = TRUE,
+  random_answer_order = TRUE
+),
+question(
+  "What will relevel do to a factor?",
+  answer("Reorder the levels", correct = TRUE),
+  answer("Create a factor"),
+  answer("Make the levels ordered"),
+  answer("Specify the order of all the levels"),
+  allow_retry = TRUE,
+  random_answer_order = TRUE
+),
+question_text(
+  paste("What is the function to turn a factor into a character vector (without brackets)?"),
+  answer("as.character", correct = TRUE),
+  allow_retry = TRUE
+)
+)
+
+```
+
+***
+
+## Commenting
+
+The `#` (hash/pound) sign indicates comments. Anything after this symbol is not run in R. It is used for commenting. Commenting is really important for writing notes or telling the user what is going on - see examples in this document. This becomes really important if you are sharing your code with someone else, including your future self.
+
+***
+
+## Missing data
+
+Missing data is denoted in R as `NA`. 
+
+***
+
+## Plotting 
+
+> The base R function to make a plot is `plot(y axis ~ x axis, data = data frame)`. 
+
+Use the above information to plot the circumference of orange trees on the y axis with age on the x axis. The data frame is called `Orange` with columns called `circumference` and `age` - The dataframe is preloaded in R, you don't need to do anything to use it:
+```{r plot, exercise = TRUE}
+
+```
+```{r plot-solution}
+plot(circumference ~ age, Orange)
+```
+
+> You can change the colour of the points by specifying `col = "colour name"` with the name of the colour in quotation marks
+
+Modify your code above to change the colour of the points to blue:
+```{r plotblue, exercise = TRUE}
+
+```
+```{r plotblue-hint}
+You need to add col to the plot function - within the brackets
+```
+```{r plotblue-solution}
+plot(circumference ~ age, Orange, col = "blue")
+```
+
+> You can change the point type by specifying `pch = number`. You can look up which numbers refer to which point type online
+
+Modify your plotting code with blue points to change the points to a solid fill point (the number is 16):
+```{r plotsolid, exercise = TRUE}
+
+```
+```{r plotsolid-hint}
+You need to add pch to the plot function - within the brackets
+```
+```{r plotsolid-solution}
+plot(circumference ~ age, Orange, col = "blue", pch = 16)
+```
+
+> You can change the axes labels with `xlab = "label"` and `ylab = "label"` within `plot()`
+
+Last one - modify your plotting code with blue solid points to have the axes labels capitalised:
+```{r plotlab, exercise = TRUE}
+
+```
+```{r plotlab-hint}
+You need to add xlab and ylab to the plot function - within the brackets and specify the labels in quotation marks
+```
+```{r plotlab-solution}
+plot(circumference ~ age, Orange, col = "blue", pch = 16, xlab = "Age", ylab = "Circumference")
+```
+
+
+***
+
+## Recap quiz
+
+That's the basics of R. We will revisit these concepts again throughout the practicals.
+
+```{r recap6}
+quiz(caption = "Recap!",
+question(
+  "What does `#` mean in R code?",
+  answer("Hashtag"),
+  answer("Number"),
+  answer("Comments", correct = TRUE),
+  answer("Missin data"),
+  allow_retry = TRUE,
+  random_answer_order = TRUE
+),
+question(
+  "What does `NA` mean in R code?",
+  answer("Hashtag"),
+  answer("Number"),
+  answer("Comments"),
+  answer("Missin data", correct = TRUE),
+  allow_retry = TRUE,
+  random_answer_order = TRUE
+),
+question_text(
+  paste("What is the output if you ran the lines of code shown below?"),
+  answer("30", correct = TRUE),
+  allow_retry = TRUE
+)
+)
+cat("cat <- 10")
+cat("dog <- 20")
+cat("cat + dog")
+```
+
+

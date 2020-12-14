@@ -11,5 +11,5 @@ LazyData: true
 Depends: R (> 4.0), learnr
 Imports: knitr, MASS
 Year: 2020
-URL: https://jacintak.github.io/biostats
+URL: https://jacintak.github.io/project/biostats-tutorials/
 

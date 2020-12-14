@@ -1,0 +1,289 @@
+---
+title: "Simple linear regression"
+output: learnr::tutorial
+runtime: shiny_prerendered
+description: "Look at simple linear regressions"
+---
+
+```{r setup, include=FALSE}
+library(learnr)
+crabs <- MASS::crabs
+knitr::opts_chunk$set(comment = NA, echo = FALSE)
+crab_lm <- lm(CL ~ CW, MASS::crabs)
+```
+
+> The aim of this tutorial is to go through the fundamentals of conducting a 1 predictor linear model in `R`
+
+## Crabs
+<p align="center">
+![](https://jacintakongresearch.files.wordpress.com/2020/10/image-1.png)
+</p>
+
+Let's look at simple linear regressions using the `crabs` dataset in R. This dataset is located in the package `MASS` so you can try this at home by loading `library(MASS)` first. Here, `MASS` is loaded for you. 
+
+We should always check the dataset so that we understand the structure of our data before analysing it.
+
+```{r check, echo = TRUE}
+str(crabs)
+```
+
+We should also look at the help file for this dataset: `help(crabs)`. We can see that there are two categorical variables (Factors) and five continuous variables (numeric). `sp` is the abbreviation of species in zoology.
+
+```{r question1, echo = FALSE}
+quiz(caption = "How well do you understand the data?",
+     question_text(
+       "How many crabs of each combination of species and sex was measured? This is the sample size.",
+       answer("50", correct = TRUE),
+       allow_retry = TRUE
+     ),
+     question_text(
+       "How many species were measured?",
+       answer("2", correct = TRUE),
+       allow_retry = TRUE
+     ),
+     question_text(
+       "How many sexes of crabs are there?",
+       answer("2", correct = TRUE),
+       allow_retry = TRUE
+     )
+)
+```
+
+
+## Our hypotheses
+
+For this tutorial we will concentrate on carapace width (`CW`) and carapace length (`CL`). Carapace is fancy word for the shell of a crab. Say we wanted to know whether there is a relationship between carapace width (predictor) and length (response) for all these pooled crabs together (not considering sex or species).  
+
+The first thing we must do is formulate our hypotheses - the null hypothesis (H0) and the alternative hypothesis (H1). Remember that a hypothesis must be testable and must be falsifiable.
+
+```{r hypotheses, echo=FALSE}
+quiz(caption = "Hypotheses",
+     question("What is our null hypothesis?",
+              answer("There is no relationship between shell length and shell width", correct = TRUE),
+              answer("There is a correlation between shell length and shell width"),
+              answer("There is relationship between shell length and shell width"),
+              answer("There is no correlation between shell length and shell width"),
+              incorrect = "Incorrect. Correlation is not causation",
+              allow_retry = TRUE,
+              random_answer_order = TRUE
+     ),
+     question("What is our alternative hypothesis?",
+              answer("There is no relationship between shell length and shell width"),
+              answer("There is a correlation between shell length and shell width"),
+              answer("There is relationship between shell length and shell width", correct = TRUE),
+              answer("There is no correlation between shell length and shell width"),
+              incorrect = "Incorrect. Correlation is not causation",
+              allow_retry = TRUE,
+              random_answer_order = TRUE
+     )
+)
+```
+
+
+## Our model
+
+In this tutorial, our dataset is called `crabs`, our response variable is carapace length (`CL`) and our predictor variable is carapace width (`CW`). Mathematically we write this as:  
+
+$$CL = \beta_0 + \beta_1CW$$
+```{r math, echo=FALSE}
+question(sprintf("In the above model, what does $\\beta_0$ and $\\beta_1$ represent in a linear regression:"),
+         answer(paste0(sprintf("$\\beta_0$ = "), "slope", sprintf(" and $\\beta_1$ = "), "intercept")),
+         answer(paste0(sprintf("$\\beta_0$ = "), "intercept", sprintf(" and $\\beta_1$ = "), "slope"), correct = TRUE),
+         answer(paste0(sprintf("$\\beta_0$ = "), "response variable", sprintf(" and $\\beta_1$ = "), "predictor variable")),
+         answer(paste0(sprintf("$\\beta_0$ = "), "predictor variable", sprintf(" and $\\beta_1$ = "), "response variable")),
+         allow_retry = TRUE,
+         random_answer_order = TRUE
+)
+```
+
+### Linear regression in R
+A linear regression in R follows the general formula `lm(response ~ predictor, data)` where `lm` stands for linear model, `response` is our response variable, `predictor` is our predictor variable and `data` is the name of our dataset.
+
+Now write the linear regression function for this tutorial and then call it:
+
+```{r lm, exercise=TRUE, exercise.lines = 2}
+
+```
+```{r lm-hint}
+It starts with lm
+```
+```{r lm-solution}
+lm(CL ~ CW, crabs)
+```
+Did you get some information?  
+It should tell us two things:
+
+1. Call is the formula used. It should be the same as the linear model code
+2. Coefficients are the estimated coefficients of the model - the intercept (`Intercept`) and the slope (`CW` because carapace width is our predictor variable)
+
+```{r coef-cals}
+quiz(caption = "Coefficients",
+     question("How did R calculate these coefficients?",
+              answer("Ordinary least squares regression", correct = TRUE),
+              answer("Ordinary most squares regression"),
+              answer("Random regression"),
+              answer("Random squared regression"),
+              incorrect = "Incorrect. Remember back to the lecture on how linear regressions are parameterised",
+              allow_retry = TRUE,
+              random_answer_order = TRUE
+     ),
+     question("The value for the slope is positive. What does that mean?",
+       answer("The relationship between carapace width and length is negative"),
+       answer("The relationship between carapace width and length is positive", correct = TRUE),
+       answer("There is no relationship between carapace width and length"),
+       allow_retry = TRUE
+     )
+)
+```
+
+### Parameterising our model
+
+Now that you have all the above information to parameterise our linear model $CL = \beta_0 + \beta_1CW$.
+
+```{r param, echo=FALSE}
+coef <- round(crab_lm$coefficients, 2)
+question("What is our paramterised model?",
+         answer(paste0("CL = ", coef[1], " + ", coef[2], "CW"), correct = TRUE),
+         answer(paste0("CL = ", coef[1], " - ", coef[2], "CW")),
+         answer(paste0("CL = ", coef[2], " + ", coef[1], "CW")),
+         answer(paste0("CL = ", coef[2], coef[1], "CW")),
+         allow_retry = TRUE,
+         random_answer_order = TRUE
+)
+```
+
+## Plotting the regression
+
+Great! We have our model. We should plot it with our data to make sure it makes sense.  
+
+> Remember the general formula to plot a graph is `plot(response ~ predictor, data)`
+
+```{r plot, fig.cap= "Graph of carapace length against carapace width of crabs"}
+plot(CL ~ CW, crabs)
+```
+
+### Adding our regression line
+
+Let's add the regression line to the above plot. We need to plot the graph and run an additional line of code that plots a straight line
+
+> The formula to plot a straight line is abline(intercept, slope) because it plots a line from a to b. The intercept is the first value, the slope is the second value.
+
+Below is the function to plot the graph above. Complete the `abline()` formula to plot our regression line then press run.  
+Here are the coefficients again for the intercept and slope respectively: `r crab_lm$coefficients`
+
+```{r abline, exercise=TRUE, exercise.lines = 5}
+plot(CL ~ CW, crabs)
+abline()
+```
+```{r abline-hint}
+The slope and the intercept of our model was calculated by lm(CL ~ CW, crabs)
+```
+```{r abline-solution}
+plot(CL ~ CW, crabs)
+abline(crab_lm$coefficients[1], crab_lm$coefficients[2])
+```
+
+If you're correct the graph should look like this:
+
+```{r plot-abline, fig.cap= "Graph of carapace length against carapace width of crabs with a regression line"}
+plot(CL ~ CW, crabs)
+abline(lm(CL ~ CW, crabs))
+```
+
+## Evaluating our hypothesis
+
+Ok! So we've fitted the model *but* we haven't evaluated whether to accept or reject our hypotheses yet. Regression coefficients don't tell us everything, we need more information by looking at the `summary` of our linear regression.
+
+> `summary(<insert lm function here>)` gives us more information about our linear regression
+
+### The summary of a linear regression
+
+```{r summary, echo = TRUE}
+summary(lm(CL ~ CW, crabs))
+```
+
+Let's break it down:
+
+* Call is the formula used to do the regression
+* Residuals are the residuals of the ordinary least squares regression
+* Coefficients are the estimated coefficients we saw earlier *plus* the standard error of these estimates, a t-value from a t-test testing whether the estimated coefficient is significantly different to 0 (important for later!) and the P value of this t-test
+* Some additional information about the regression at the bottom which we won't look at now
+
+### Testing our null hypothesis $H0$
+
+> $H0$: There is no relationship between shell length and shell width
+
+Here are three regression lines (blue, orange, green) representing three hypotheses. If we expect no relationship between shell length and width following our null hypothesis, which regression line would we expect to see?  
+
+```{r null, fig.cap= "Graph of carapace length against carapace width of crabs with hypothesised regressions"}
+plot(CL ~ CW, crabs)
+abline(mean(crabs$CL), 0, col = "orange", lwd = 2)
+abline(-3, 1, col = "blue", lwd = 2)
+abline(70, -1, col = "darkgreen", lwd = 2)
+legend("topleft", c("positive", "negative", "0"), lwd = c(2,2,2), col = c("blue", "darkgreen", "orange"), title = "slope", bty = "n")
+
+question("Which regression line is our null hypothesis?",
+         answer("Orange", correct = TRUE, message = "The slope should be 0. It should look like a flat line with an intercept of the mean of the response variable"),
+         answer("Blue"),
+         answer("Green"),
+         allow_retry = TRUE,
+         random_answer_order = TRUE
+)
+```
+
+Look at the P-value column of the slope (CW) in the `summary` above.  
+The P value of the significance test on the slope of our linear regression is < 0.05 so we can **reject the null hypothesis and accept the alternative hypothesis**:
+
+* ~~H0: There is no relationship between shell length and shell width~~
+* H1: There is a relationship between shell length and shell width
+
+We can take it one step further and be more specific about our conclusions because we know more about the relationship between slope length and width:
+
+> Conclusion: There is a positive relationship between shell length and shell width
+
+## Using our regression for prediction
+
+The last thing we can do after fitting a model and testing hypotheses is to use our model to make *predictions*. We can calculate the value of the response variable from any given value of the predictor variable.
+
+**What is the carapace length of a crab with a carapace width of 30 mm?**  
+Here we are told the value of carapace width: CW = 30  
+We know the parameterised linear model: `r paste0("CL = ", coef[1], " + ", coef[2], "CW")`  
+So we can substitue in the value of 30 into CW in our parameterised model like:  
+`r paste0("CL = ", coef[1], " + ", coef[2], " x ", 30)`  
+and solve for CL
+
+```{r predict}
+ans <- round(crab_lm$coefficients[1],2) + round(crab_lm$coefficients[2]*30, 2)
+question_text(
+  "What is the carapace length of a crab with a carapace width of 30 mm? To 2 decimal places",
+  answer(paste(ans), correct = TRUE),
+  allow_retry = TRUE
+)
+```
+
+Try another one:
+
+```{r predict2}
+length <- sample(1:70,1)
+ans <- round(crab_lm$coefficients[1],2) + round(crab_lm$coefficients[2]*length, 2)
+question_text(
+  paste("What is the carapace length of a crab with a carapace width of ", length, " mm? To 2 decimal places"),
+  answer(paste(ans), correct = TRUE),
+  allow_retry = TRUE
+)
+```
+
+## Summary
+
+That's the basics of linear regression. Here's a summary of what we've done:
+
+* Looked at the structure of data
+* Formulated hypotheses
+* Constructed a linear regression in R
+* Parametrised a linear regression from R output
+* Visualised a linear regression
+* Evaluated hypotheses and made a conclusion
+* Used linear regression to make predictions
+
+Happy crabby is happy for you!
+![](https://jacintakongresearch.files.wordpress.com/2020/10/image.png)

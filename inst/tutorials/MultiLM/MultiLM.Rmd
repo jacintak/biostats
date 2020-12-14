@@ -1,0 +1,680 @@
+---
+title: "Multiple regression"
+output: 
+  learnr::tutorial:
+    progressive: true
+runtime: shiny_prerendered
+description: >
+    Look at linear regressions with two or more continuous predictor variables
+---
+
+```{r setup, include=FALSE}
+library(learnr)
+knitr::opts_chunk$set(echo = F, warning = FALSE, message = FALSE, comment = NA, fig.align = "center", fig.show = "hold")
+crabs <- MASS::crabs
+fixed <- lm(CL ~ CW + sex, crabs)
+random <- lm(CL ~ CW * sex, crabs)
+palette(c("#D55E00", "#0072B2"))
+```
+
+# Multiple regression
+
+> The aim of this tutorial is to look at multiple regression - 2 or more predictor variables
+
+## Crab shell length with shell width and sex
+
+We'll be using the `crabs` dataset from the package `MASS` in this tutorial.
+
+![](https://jacintakongresearch.files.wordpress.com/2020/10/image.png)
+
+Models with more than 1 predictor variable are called multiple regression. There is still one response variable and it is continuous. The predictor variables can be a combination of continuous or categorical:
+
+| Predictors | Commonly called |
+|:----------:|:----:|
+| 2 continuous | Multiple linear regression |
+| 2 categorical | Two way ANOVA |
+| 1 continuous, 1 categorical | Multiple linear regression/ANCOVA |
+
+> Don't get hung up on the names - they are all linear regression. Two-way ANOVAs and Analysis of Covariance (ANCOVA) are just special cases of multiple regression, sometimes with unique assumptions
+
+The underlying theory is the same as simple linear regressions. If there are 3 categorical predictors, then we do three-way ANOVA etc. The model becomes complex With more predictor variables and potentially less informative or more difficult to interpret. Remember there is a trade-off between generality & complexity of your model. Thus keep it simple enough to answer your question.
+
+Multiple regression models the effect of multiple predictors on response. Remember we measured the shell length and width of crabs in the simple linear regression tutorial. We also compared shell length between male and female crabs in the ANOVA tutorial. With multiple regression we can ask: *Does the relationship between shell length and width depend on the sex of the crab?*  
+
+Shell length (`CL`) is our continuous response variable.  
+Shell width (`CW`) is one of the predictor variables and is continuous.  
+Sex (`sex`) is the second predictor variable and is categorical with two groups (called levels in R): Male (`M`) and Female (`F`).  
+
+> Importantly, multiple regression alow us to ask "does including information about sex improve our ability to detect/understand trends in our data?"
+
+### Let's look at the data
+
+```{r crab-graph, fig.cap= "Do you think the relationship between shell length and width differs with the sex of the crab?"}
+plot(CL ~ CW, crabs, pch = 20, col = sex, bty = "l")
+legend("bottomright", bty = "n", c("Females", "Males"), pch = c(20, 20), col = c(1,2))
+```
+
+### Types of linear models
+
+There are two general types of multiple regression model:
+
+1. Additive model (**Fixed slopes model**)
+2. Interactive model (**Random slopes model**)
+
+The difference is in how they calculate the slope and the intercept of the linear regression.  
+**This changes the interpretation of the model**
+
+```{r quiz1}
+question("What is the difference between a simple linear regression and a multiple linear regression?",
+         answer("There is no difference"),
+         answer("Simple linear regressions have two predictor variables, multiple linear regressions have one"),
+         answer("Simple linear regressions have one predictor variables, multiple linear regressions have two", correct = TRUE),
+         answer("Simple linear regressions have two response variables, multiple linear regressions have one"),
+         answer("Simple linear regressions have one response variables, multiple linear regressions have two"),
+         allow_retry = TRUE,
+         random_answer_order = TRUE
+)
+```
+
+## Fixed slopes model
+
+The linear model is:
+
+$$ shell \space length  = \beta_{0_{sex}} + \beta_{1} shell \space width + \varepsilon_i$$
+
+Now the intercept parameter ($\beta_{0_{sex}}$) specifies that it is dependent on the sex of the crab.  
+In effect, we are fitting *two* lines to this data - one for each level of sex - each of these lines is technically called **partial regression lines**.  
+
+> In fixed slopes models the effect of one predictor on the response variable is **additive** of the other (hence also called additive model)
+
+There is no interaction between the predictor variables sex or shell width. Thus the two fitted lines have the same slope ($\beta_{1}$)
+
+Our hypotheses are:
+
+* H0: There is no effect of shell width or sex on the response variable
+* H1: There is an effect of shell width or sex on the response variable
+
+***
+
+### Fixed slopes models in R
+
+The general `lm()` function in R we used for simple linear regression is also used for multiple regression
+
+> `lm(Y ~ A + B, data)` where A & B are the two predictor variables and `+` indicates the relationship between the two predictors - in a fixed slopes model this is *additive*
+
+The function below does an additive multiple regression in R but there is an error. Fix the error and run the code.
+```{r fixed-mod, exercise = TRUE}
+fixed_crabs <- lm(CL ~ CW + sex)
+```
+
+Did you get the coefficients below?
+```{r coef-fixed}
+coef(fixed)
+```
+
+Let's start with the first two coefficients. The interpretation for these coefficients is the same as simple linear regression. There's the intercept `(Intercept)` and there's the slope `CW`.  
+**But** remember we are expecting *two* lines in our model. Which line are these coefficients are referring to?
+
+```{r quiz2}
+question_radio(
+  "Given what you know about how R orders levels in a factor in alphabetical order, for which level do you think the first two coefficients are modelling?",
+  answer("Female crabs", correct = TRUE, message = "F comes before M. It also says sexM in the next coefficient which tells you that is for males"),
+  answer("Male crabs"),
+  allow_retry = TRUE
+)
+```
+
+So the first two coefficients are the intercept and slope of the linear regression for females. Let's draw the line.
+
+Below is the code to plot the previous graph. Add in the regression line for females using `abline()` based on the coefficients above and press run:
+```{r fixed, exercise = TRUE}
+plot(CL ~ CW, crabs, pch = 20, col = sex, bty = "l")
+legend("bottomright", bty = "n", c("Females", "Males"), pch = c(20, 20), col = c(1,2))
+abline()
+```
+```{r fixed-hint}
+What parameters does the function abline() take to draw a line from a to b?
+```
+```{r fixed-hint-2}
+abline takes the intercept and slope in that order - what is the intercept and slope of the regression for females?
+```
+```{r fixed-solution}
+abline(-0.8065037, 0.8977534)
+```
+
+
+Parametrised slope for females:  
+*Female shell length* = `r round(coef(fixed)[1],3)` + `r round(coef(fixed)[2],3)` *shell width*
+
+Halfway there! Now for the males!
+
+Since the slope of the regression for males is the same as females we already know the value of $\beta_{1}$ is `r round(coef(fixed)[2],3)`. But we need to manually calculate the intercept for males.
+
+Like when we did an ANOVA, the estimate for `sexM` is the **difference in the intercept between males and females**. To calculate the intercept for males we need to add the estimated coefficient of the intercept for females with the difference. 
+
+Now that you know how to parameterise the linear regression for males:
+```{r param, echo=FALSE}
+coef <- round(fixed$coefficients, 2)
+question("What is the paramterised model for males crabs?",
+         answer(paste0("CL = ", (coef[1]+coef[3]), " + ", coef[2], "CW"), correct = TRUE),
+         answer(paste0("CL = ", coef[1], " - ", coef[2], "CW"), message = "Incorrect. This is the regression for females"),
+         answer(paste0("CL = ", coef[3], " + ", coef[2], "CW"), message = "Incorrect. This is the difference in the intercept"),
+         answer(paste0("CL = ", coef[1], " + ", coef[3], "CW"), message = "Incorrect. This is the difference in the intercept"),
+         allow_retry = TRUE,
+         random_answer_order = TRUE
+)
+```
+
+> R shows the difference between parameter estimates so you need to extract the correct values. They are the partial regression coefficients that show the change in the response variable with one predictor variable *while holding all other predictor variables constant*
+
+### Plotting the model output
+
+Now that you have both parametrised models, complete the code below to plot both of the regression lines for males and females. Also see if you can colour the regression lines to match the figure legend - `col = 1` is orange for females and `col = 2` is blue for males (I changed the default R colour palette for this tutorial).  
+
+```{r final-graph, exercise = TRUE, exercise.lines = 8}
+plot(CL ~ CW, crabs, pch = 20, col = sex, bty = "l")
+legend("bottomright", bty = "n", c("Females", "Males"), pch = c(20, 20), col = c(1,2))
+
+
+```
+```{r final-graph-hint}
+The function abline() only plots one linear line. Here, we need two lines so two lines of abline() code
+```
+```{r final-graph-hint-2}
+You can change the colour, line type and line with of abline() using the general parameters for col, lty and lwd. 
+```
+
+*That's fine but... it's not a finished figure*  
+A proper figure should have informative axis labels - what does CL or CW mean? - and any units should be included in brackets.  
+Adding these would make it a proper figure like in a professional scientific paper
+
+> The parameters to change the x axis label is `xlab = "<insert label">` and `ylab = "<insert label">` for the y axis label in the `plot()` function like `plot(<formula for graph>, xlab = "<label>", ylab = "<label>")`
+
+Modify your code above to change the axes labels to carapace length or width and include units in brackets
+```{r fixed-improved-graph, exercise = TRUE, exercise.lines = 8}
+plot(CL ~ CW, crabs, pch = 20, col = sex, bty = "l")
+legend("bottomright", bty = "n", c("Females", "Males"), pch = c(20, 20), col = c(1,2))
+
+
+```
+```{r fixed-improved-graph-hint}
+Brackets are allowed like (<text>)
+```
+```{r fixed-improved-graph-hint-2}
+What are the units for shell length and shell width?
+```
+
+Your final graph should look like this:
+
+```{r final-fixed-plot-ans, fig.cap= "Very professional!"}
+plot(CL ~ CW, crabs, pch = 20, col = sex, xlab = "Carapace width (mm)", ylab = "Carapace length (mm)", bty = "l")
+legend("bottomright", bty = "n", c("Females", "Males"), pch = c(20, 20), col = c(1,2))
+abline(fixed$coefficients[1], fixed$coefficients[2], col = 1)
+abline((fixed$coefficients[1] + fixed$coefficients[3]), fixed$coefficients[2], col = 2)
+```
+
+You should also practice writing an appropriate figure caption to accompany your figure.
+
+***
+
+### Predicting new values
+
+Good! Now we can use our two regression models to predict the shell length of male or female crabs.  
+
+*Female shell length* = `r round(coef(fixed)[1],3)` + `r round(coef(fixed)[2],3)` *shell width*  
+*Male shell length* = `r round(coef(fixed)[1] + coef(fixed)[3],3)` + `r round(coef(fixed)[2],3)` *shell width*
+
+```{r predict-fixed}
+female <- sample(1:70,1)
+ans_female <- round(fixed$coefficients[1],2) + round(fixed$coefficients[2]*female, 2)
+male <- sample(1:70,1)
+ans_male <- round((fixed$coefficients[1] + fixed$coefficients[3]),2) + round(fixed$coefficients[2]*male, 2)
+
+quiz(
+      question_text(
+        paste("What is the carapace length of a female crab with a carapace width of", female, " mm? To 2 decimal places"),
+        answer(paste(ans_female), correct = TRUE),
+        allow_retry = TRUE
+      ),
+      question_text(
+        paste("What is the carapace length of a male crab with a carapace width of", male, " mm? To 2 decimal places"),
+        answer(paste(ans_male), correct = TRUE),
+        allow_retry = TRUE
+      )
+)
+```
+
+### Evaluating hypotheses
+
+Finally, we can look at the model `summary()` to see whether we should accept or reject our null hypothesis.
+
+Remember our hypotheses are:
+
+* H0: There is no effect of shell width or sex on the response variable
+* H1: There is an effect of shell width or sex on the response variable
+
+Enter the code to check the `summary()` of the fixed slopes linear regression
+```{r fixed-summary, exercise = TRUE}
+
+```
+```{r fixed-summary-hint}
+Check the summary of the model with summary(). What goes inside summary()?
+```
+
+In `summary()` we see `R` has done a series of t-tests on the estimated coefficients. As in a simple linear regression the null hypothesis tested on the intercept and slope for females is whether these estimates are different to 0. This null hypothesis is not very informative for the intercept - it is more informative about the slope because it tests our overall H0.
+
+```{r fixed-test}
+quiz(
+  question_radio(
+    "Based on the test on the slope coefficient above, would you accept or reject the null hypothesis?",
+    answer("Accept"),
+    answer("Reject", correct = TRUE, message = "The P value is less than 0.05"),
+    allow_retry = TRUE
+  ),
+  question_radio(
+    "Which statement matches your conclusion?",
+    answer("There is no effect of shell width or sex on the response variable"),
+    answer("There is an effect of shell width or sex on the response variable", correct = TRUE),
+    allow_retry = TRUE
+  )
+)
+```
+
+For a simple fixed slopes regression like here we would write this in a sentence in a scientific report like:
+
+"Carapace width predicted carapace length for male and female crabs (0.90, t(197) = -3.5, P = <0.01). Male crabs were on had 0.44 mm longer shells than females across all shell widths (t(197) = 4.595, P < 0.01)."
+
+You might want to put this in a table. t refers to the t-test done on the coefficient for slope. In the brackets are the degrees of freedom stated in the residual standard error output. The standards for reporting might vary across disciplines. 
+
+***
+
+## Random slopes
+
+The random slopes model has in interaction term so it's sometimes called an **interactive model**.
+
+> In random slopes models, both the slope and the intercept are estimated for each level of the factor
+
+Mathematically this is written as:
+
+$$ shell \space length  = \beta_{0_{sex}} + \beta_{1_{sex}} shell \space width + \varepsilon_i$$
+Now, both $\beta_0$ and $\beta_1$ vary according to sex.
+
+```{r quiz3}
+question_text(
+  paste("How many regression lines are fitted to our crab dataset when we do a random slopes model?"),
+  answer("2", correct = TRUE, message = "Two lines. One for males and one for females. Each with different slopes and intercepts"),
+  allow_retry = TRUE,
+  incorrect = "Incorrect. Think about what we are trying to model here and try again"
+)
+```
+
+***
+
+### Hypotheses of a random slopes model
+
+Because both the slopes and intercepts vary, the way we write our hypothesis changes compared to the fixed model. Now we need to *describe the relationship between the two predictors on the outcome of the response variable*. 
+
+```{r hypotheses, echo=FALSE}
+quiz(caption = "Can you work out the hypotheses?",
+     question("What is our null hypothesis?",
+              answer("The effect of shell width on shell length is not dependent on the sex of the crab", correct = TRUE),
+              answer("The effect of shell width on shell length is dependent on the sex of the crab"),
+              answer("There is relationship between shell length and shell width"),
+              answer("There is no relationship between shell length and shell width"),
+              incorrect = "Incorrect. Think about what the wording implies",
+              allow_retry = TRUE,
+              random_answer_order = TRUE
+     ),
+     question("What is our alternative hypothesis?",
+              answer("The effect of shell width on shell length is not dependent on the sex of the crab"),
+              answer("The effect of shell width on shell length is dependent on the sex of the crab", correct = TRUE),
+              answer("There is relationship between shell length and shell width"),
+              answer("There is no relationship between shell length and shell width"),
+              incorrect = "Incorrect. Think about what the wording implies",
+              allow_retry = TRUE,
+              random_answer_order = TRUE
+     )
+)
+```
+
+Another way of phrasing the interaction is "there is an interaction between shell width and sex on shell length" or "there is no effect of shell width or sex or their interaction on the length of crab shells".  
+
+Interactions imply that the effect of sex and shell width have multiplicative effects on shell length when considered together. This effect could be antagonistic or synergistic.
+
+### Linear models with interactions in R
+
+> The interaction between predictor variables in a `lm()` function is denoted by `*`
+
+It's time to do the linear model.
+
+Fix this linear model function to do a multiplicative linear regression in R. Press run
+```{r random, exercise = TRUE, exercise.lines = 3}
+lm(lm(CL ~ CW * sex, carbs
+```
+```{r random-hint}
+Remember linear models require the lm() function
+```
+```{r random-hint-2}
+What's the difference in the R formula between an additive model and a multiplicative model?
+```
+```{r random-solution}
+lm(CL ~ CW * sex, crabs)
+```
+
+***
+
+### Parameterising the model
+
+The process of parameterising the model is *exactly* the same as we've done before but now we have *four* coefficients representing the slopes and intercepts for our two regression lines. So you should be expecting what's coming up. 
+
+> Another way of denoting interactions in R is `:` so `A:B` means this is the interaction between `A` and `B`
+
+```{r param-quiz, echo=FALSE}
+random
+question("What do the estimated coefficients for sexM and CW:sexM represent?",
+         answer("The difference in the slope or intercept for males compared to females", correct = TRUE),
+         answer("The difference in the slope or intercept for females compared to males", message = "Incorrect. Remember R is calculating females first before males because they are in alphabetical order"), 
+         answer("The estimated slope or intercept for males"), 
+         answer("The estimated slope or intercept for females"),
+         allow_retry = TRUE,
+         random_answer_order = TRUE
+)
+```
+
+In the fixed slopes model we only needed to manually calculate the intercept. Now we need to manually calculate the slope **and** intercept.  
+
+Let's start with the intercept
+
+***
+
+#### The intercept
+
+Parameterising the intercept is exactly the same as the fixed slopes model - `(Intercept)` and `sexM` mean the same thing - so we should be able to do this right away.
+
+```{r quiz-slopes}
+coef <- round(coef(random),2)
+print(coef)
+quiz(
+     question_text(
+       paste("What is the intercept for females from the coefficients above?"),
+       answer(paste(coef[1]), correct = TRUE, message = "(Intercept) refers to the intercept for female crabs"),
+       allow_retry = TRUE
+     ),
+      question_text(
+       paste("What is the intercept for males from the coefficients above?"),
+       answer(paste(coef[1] + coef[3]), correct = TRUE),
+       allow_retry = TRUE,
+       incorrect = "Remember what we did for parameterising the fixed slopes model"
+     )
+)
+```
+
+***
+
+#### The slope
+
+Parameterising the slope is the same process as the intercept.
+
+> The coefficient estimate `CW:SexM` is the **difference in the value of the slope relative to the slope for female** `CW`
+
+Remember: female is alphabetically before male so R calculates the variances for females first, then males.  
+
+We are given the slope for females already. We need to work out the slope for males by adding the coefficient estimates together (or in this case subtracting the difference because the difference in negative)
+
+What we need:  
+Parametrised slope for males = Slope for females + difference in slope for males compared to females  
+
+Information provided from the `R` output:  
+Slope for females = `r round(coef(random)[2],3)`  
+Difference in slope for males compared to females = `r round(coef(random)[4],3)`
+
+```{r male-slope}
+question_text(
+  paste("Use the above information to calculate the slope for males"),
+  answer(paste(coef[2] + coef[4]), correct = TRUE),
+  allow_retry = TRUE,
+  incorrect = "Keep trying - you have all the information already"
+)
+```
+
+***
+
+### Plotting the regression
+
+Did you get the parameterised partial regression equations below?  
+
+*Female shell length* = `r round(coef(random)[1],3)` + `r round(coef(random)[2],3)` *shell width*  
+*Male shell length* = `r round(coef(random)[1] + coef(random)[3],3)` + `r round(coef(random)[2] + coef(random)[4],3)` *shell width*
+
+The good news is that was as hard as it gets in this module.  
+
+We need to plot our regression slopes with the original data *and* appropriate axes labels and a legend.  
+
+> You can pull out just the coefficients of a linear regression from `lm()` by calling the variable `coefficients` like `lm(<lm formula>)$coefficients`. Then you can refer to specific coefficients by using square brackets `[]`. So getting the first coefficient for intercept is `lm(<lm formula>)$coefficients[1]`
+
+Here is the code to plot the complete fixed slopes model shown above. I have already included the random slopes regression in a variable called `model`. You don't need to change the `plot()` or `legend()` functions.  
+Modify both the `abline()` functions to show the random slopes regression lines.
+
+```{r random-final-graph, exercise = TRUE, exercise.lines = 15}
+# The random slopes linear regression saved in a variable called "model"
+model <- lm(CL ~ CW * sex, crabs)
+
+# Functions to plot the graph and the legend
+plot(CL ~ CW, crabs, pch = 20, col = sex, xlab = "Carapace width (mm)", ylab = "Carapace length (mm)", bty = "l")
+legend("bottomright", bty = "n", c("Females", "Males"), pch = c(20, 20), col = c(1,2))
+
+# Functions to plot the regression lines
+# Female crabs
+abline(model$coefficients[1], model$coefficients[2], col = 1)
+# Male crabs
+abline((model$coefficients[1] + model$coefficients[3]), model$coefficients[2], col = 2)
+```
+```{r random-final-graph-hint}
+Recall what our final parameterised regressions were and how we calculated the slope and intercept
+```
+```{r random-final-graph-hint-2}
+What is the abline for males doing to calculate the intercept and how is the function getting the value of the slope?
+```
+```{r random-final-graph-solution}
+# The random slopes linear regression saved in a variable called "model"
+model <- lm(CL ~ CW * sex, crabs)
+
+# Functions to plot the graph and the legend
+plot(CL ~ CW, crabs, pch = 20, col = sex, xlab = "Carapace width (mm)", ylab = "Carapace length (mm)", bty = "l")
+legend("bottomright", bty = "n", c("Females", "Males"), pch = c(20, 20), col = c(1,2))
+
+# Functions to plot the regression lines
+# Female crabs
+abline(model$coefficients[1], model$coefficients[2], col = 1)
+# Male crabs
+abline((model$coefficients[1] + model$coefficients[3]), (model$coefficients[2] + model$coefficients[4]), col = 2)
+```
+
+If you can do this you can plot the output of any linear regression!  
+Don't forget to write an appropriate figure caption to accompany your figure.
+
+***
+
+### Predicting new values
+
+Now to use the linear regression to predict the length of crab shells.
+
+```{r predict-random}
+female <- sample(1:70,1)
+ans_female <- round(fixed$coefficients[1],2) + round(fixed$coefficients[2]*female, 2)
+male <- sample(1:70,1)
+ans_male <- round((fixed$coefficients[1] + fixed$coefficients[3]),2) + round((fixed$coefficients[2] + fixed$coefficients[4]),2)
+
+quiz(caption = "Test yourself",
+      question_text(
+        paste("What is the carapace length of a female crab with a carapace width of ", female, " mm? To 2 decimal places"),
+        answer(paste(ans_female), correct = TRUE),
+        allow_retry = TRUE
+      ),
+      question_text(
+        paste("What is the carapace length of a male crab with a carapace width of ", male, " mm? To 2 decimal places"),
+        answer(paste(ans_male), correct = TRUE),
+        allow_retry = TRUE
+      )
+)
+```
+
+***
+
+### Evaluating hypotheses
+
+Here's the `summary()` of our random slopes model
+```{r summary-random, echo = TRUE}
+summary(lm(CL ~ CW * sex, crabs))
+```
+
+> H0: There is no effect of shell width or sex or their interaction on shell length  
+> H1: There is an effect of shell width or sex or their interaction on shell length
+
+Like with the fixed slopes model, the hypothesis tests on the coefficient estimates for the slope are the important ones:
+
+* `CW` - This tests whether the slope of females is different to 0
+    * This gives an indication of whether shell width can predict shell length
+* `CW:sexM` - This tests whether the slope for males is different to females
+    * This tests whether there is an interaction between sex and shell width
+    * If this is non-significant, then a multiplicative model is overly complex to describe our biological pattern (because it uses too many parameters) and perhaps a fixed slopes model is a better descriptor. Aiming to minimise the number of parameters used in a linear model is the statistical concept of *model parsimony*
+
+
+```{r random-test}
+quiz(
+  question_radio(
+    "Based on the test on the slope coefficient above, would you accept or reject the null hypothesis?",
+    answer("Accept"),
+    answer("Reject", correct = TRUE, message = "The P value is less than 0.05"),
+    allow_retry = TRUE
+  ),
+  question_radio(
+    "Based on the test on the intercept coefficient above, would a fixed slopes model or random slopes model be more parsimonious to describe the effect of sex and shell width on shell length?",
+    answer("Fixed slopes model", correct = TRUE, message = "The interaction is non-significant so there is little statistical difference between the fixed slopes and random slopes model so we use the fixed slopes model because it is more parsimonious"),
+    answer("Random slopes model"),
+    allow_retry = TRUE
+  )
+)
+```
+
+For a random slopes regression like here we would write this in a sentence in a scientific report like:
+
+"There was no interaction between sex and carapace width on carapace length (-0.01, t(196) = -1.04, P = 0.3). Carapace width predicted carapace length (0.9, t(196) = 98.1, P < 0.01"  
+
+If the P value is really small there's no point writing a really small number - shorten it to P < 0.01, P < 0.001 or P < 0.0001. The absolute value of the P value is not that informative. Actually, P values are a flawed way to evaluate hypotheses but that is advanced biostatistics. 
+
+***
+
+## The multiple regression ANOVA table
+
+We can look at the ANOVA table for a random or fixed slopes model. If it's a random slopes model the amount of variation in shell length attributed to the interaction between sex and shell width will also be displayed.
+
+Here is the ANOVA table for the random slopes model (the more complex one):
+
+```{r anova-table-random}
+fixp <- function(x, dig=3){
+  x <- as.data.frame(x)
+  
+  if(substr(names(x)[ncol(x)],1,2) != "Pr")
+    warning("The name of the last column didn't start with Pr. This may indicate that p-values weren't in the last row, and thus, that this function is inappropriate.")
+  x[,ncol(x)] <- round(x[,ncol(x)], dig)
+  for(i in 1:nrow(x)){
+    x[i,ncol(x)] <- ifelse(x[i,ncol(x)] == 0,
+                           paste0("< 0.", paste0(rep(0,dig-1), collapse=""), "1"),
+                           x[i,ncol(x)])
+  }
+  
+  x
+}
+knitr::kable(fixp(anova(random)))
+```
+
+This is what the above ANOVA table is showing:  
+
+|  Source of variation  | SS | df | MS | F | P |
+|:---------------------:|:--:|:--:|:--:|:-:|---|
+| Factor A | SSR of A | number of levels of A - 1 | |  |   |
+| Factor B | SSR of B | number of levels of B - 1 ||   |   |
+| Factor A x B | SSR of A & B | df of A x df of B ||   |   |
+| Within error | SSE | levels of A x levels of B X (number of observations - 1) | |   |   |
+|  Total error   | SSY | (levels of A x levels of B X number of observations) - 1 |    |   |   |
+
+> Variance of predictors (SS) is partitioned out from total SS in order it is entered in to R
+
+We can also use the F test on the interaction in the ANOVA table to test the null hypothesis that the effect of shell width on shell length is not dependent of the sex of the crab.
+
+```{r quiz4}
+question_radio(
+  "Based on the F test on the interaction in the above ANOVA table, would you accept or reject the null hypothesis?",
+  answer("Accept", correct = TRUE, message = "The P value is less than 0.05. There is no interaction between sex and shell width"),
+  answer("Reject"),
+  allow_retry = TRUE
+)
+```
+
+
+***
+
+## Summary
+
+That's the basics of linear regression!  
+They are widely used in biological statistics so you'll likely come across them when reading scientific studies.  
+
+The same concepts apply for any number or combination of predictor variables. Two, three, four predictor variables and so forth...it just becomes more complex to parameterise.  
+
+Remember, the aim is to quantify how much variation in the response variable is attributable to each predictor variable - minimise those residuals!
+
+Common statistical analyses you should be able to do by applying the concepts in these lectures:
+1 continuous response variable &:
+
+* 1 continuous predictor variable - simple linear regression
+* 2 continuous predictor variables (with/without their interaction) - multiple regression
+* 1 categorical predictor variable - One-way ANOVA
+* 1 continuous predictor variable & 1 categorical predictor variable (with/without their interaction) - ANCOVA/multiple regression
+* 2 categorical predictor variables (with/without their interaction) - Two-way ANOVA
+
+### The interaction term A:B
+
+* Measures the dependence of the level of one factor on the level of the other factors
+* If interaction term is not significant:
+  * effect of one factor on other is additive (independent of each other)
+* If significant:
+  * indicates synergistic or antagonistic effects between factors
+  * Should be main conclusion of analysis
+
+
+### Recap time!
+
+Test your understanding so far by answering the questions below.
+
+```{r recap}
+depth <- sample(min(crabs$BD):max(crabs$BD),1)
+coef <- coef(lm(FL ~ BD * sp, crabs))
+ans <- round(coef[1],2) + round(coef[2] * depth,2)
+
+quiz(
+  question(
+    "What is the difference between an additive and interactive linear model? Select all that apply",
+    answer("An additive model does not describe an interaction between the two predictor variables", correct = TRUE),
+    answer("An interactive model describes that the effect of one predictor variable on the response variable is dependent on the second predictor variable.", correct = TRUE),
+    answer("An additive model describes an interaction between the two predictor variables"),
+    answer("An interactive model describes that the effect of one predictor variable on the response variable is independent of the second predictor variable."),
+    allow_retry = TRUE,
+    random_answer_order = TRUE
+  ),
+  question(
+    "What is the function to conduct an interactive multiple regression model in R? (There might be more than 1 correct answer)",
+    answer("lm(Y ~ A + B, data)"),
+    answer("lm(Y ~ A * B, data)", correct = TRUE),
+    answer("lm(Y ~ A + B + A:B, data)", correct = TRUE, message = "This also works because of the interaction is described by the term A:B"),
+    answer("lm(Y ~ A:B, data)"),
+    allow_retry = TRUE
+  ),
+  question_text(
+    paste("Based on the random slopes regression below, what is the frontal lobe (FL) size of an blue crab (spB) with a body depth of ", depth, " mm? To 2 decimal places, no units"),
+    answer(paste(ans), correct = TRUE),
+    allow_retry = TRUE
+  )
+)
+summary(lm(FL ~ BD * sp, crabs))
+```

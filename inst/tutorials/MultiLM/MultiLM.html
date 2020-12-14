@@ -1,0 +1,1038 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+<meta name="progressive" content="true" />
+<meta name="allow-skip" content="false" />
+
+<title>Multiple regression</title>
+
+
+<!-- highlightjs -->
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+<!-- taken from https://github.com/rstudio/rmarkdown/blob/67b7f5fc779e4cfdfd0f021d3d7745b6b6e17149/inst/rmd/h/default.html#L296-L362 -->
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("section-TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+<!-- end tabsets -->
+
+
+
+</head>
+
+<body>
+
+
+
+<div class="pageContent band">
+<div class="bandContent page">
+
+<div class="topics">
+
+<div id="section-multiple-regression" class="section level1">
+<h1>Multiple regression</h1>
+<blockquote>
+<p>The aim of this tutorial is to look at multiple regression - 2 or more predictor variables</p>
+</blockquote>
+<div id="section-crab-shell-length-with-shell-width-and-sex" class="section level2">
+<h2>Crab shell length with shell width and sex</h2>
+<p>We’ll be using the <code>crabs</code> dataset from the package <code>MASS</code> in this tutorial.</p>
+<p><img src="https://jacintakongresearch.files.wordpress.com/2020/10/image.png" /></p>
+<p>Models with more than 1 predictor variable are called multiple regression. There is still one response variable and it is continuous. The predictor variables can be a combination of continuous or categorical:</p>
+<table>
+<thead>
+<tr class="header">
+<th align="center">Predictors</th>
+<th align="center">Commonly called</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">2 continuous</td>
+<td align="center">Multiple linear regression</td>
+</tr>
+<tr class="even">
+<td align="center">2 categorical</td>
+<td align="center">Two way ANOVA</td>
+</tr>
+<tr class="odd">
+<td align="center">1 continuous, 1 categorical</td>
+<td align="center">Multiple linear regression/ANCOVA</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>Don’t get hung up on the names - they are all linear regression. Two-way ANOVAs and Analysis of Covariance (ANCOVA) are just special cases of multiple regression, sometimes with unique assumptions</p>
+</blockquote>
+<p>The underlying theory is the same as simple linear regressions. If there are 3 categorical predictors, then we do three-way ANOVA etc. The model becomes complex With more predictor variables and potentially less informative or more difficult to interpret. Remember there is a trade-off between generality &amp; complexity of your model. Thus keep it simple enough to answer your question.</p>
+<p>Multiple regression models the effect of multiple predictors on response. Remember we measured the shell length and width of crabs in the simple linear regression tutorial. We also compared shell length between male and female crabs in the ANOVA tutorial. With multiple regression we can ask: <em>Does the relationship between shell length and width depend on the sex of the crab?</em></p>
+<p>Shell length (<code>CL</code>) is our continuous response variable.<br />
+Shell width (<code>CW</code>) is one of the predictor variables and is continuous.<br />
+Sex (<code>sex</code>) is the second predictor variable and is categorical with two groups (called levels in R): Male (<code>M</code>) and Female (<code>F</code>).</p>
+<blockquote>
+<p>Importantly, multiple regression alow us to ask “does including information about sex improve our ability to detect/understand trends in our data?”</p>
+</blockquote>
+<div id="section-lets-look-at-the-data" class="section level3">
+<h3>Let’s look at the data</h3>
+<div class="figure" style="text-align: center">
+<img src="MultiLM_files/figure-html/crab-graph-1.png" alt="Do you think the relationship between shell length and width differs with the sex of the crab?" width="624" />
+<p class="caption">
+Do you think the relationship between shell length and width differs with the sex of the crab?
+</p>
+</div>
+</div>
+<div id="section-types-of-linear-models" class="section level3">
+<h3>Types of linear models</h3>
+<p>There are two general types of multiple regression model:</p>
+<ol style="list-style-type: decimal">
+<li>Additive model (<strong>Fixed slopes model</strong>)</li>
+<li>Interactive model (<strong>Random slopes model</strong>)</li>
+</ol>
+<p>The difference is in how they calculate the slope and the intercept of the linear regression.<br />
+<strong>This changes the interpretation of the model</strong></p>
+<div class="panel panel-default">
+<div data-label="quiz1" class="tutorial-question panel-body">
+<div id="quiz1-answer_container" class="shiny-html-output"></div>
+<div id="quiz1-message_container" class="shiny-html-output"></div>
+<div id="quiz1-action_button_container" class="shiny-html-output"></div>
+<script>if (Tutorial.triggerMathJax) Tutorial.triggerMathJax()</script>
+</div>
+</div>
+</div>
+</div>
+<div id="section-fixed-slopes-model" class="section level2">
+<h2>Fixed slopes model</h2>
+<p>The linear model is:</p>
+<p><span class="math display">\[ shell \space length  = \beta_{0_{sex}} + \beta_{1} shell \space width + \varepsilon_i\]</span></p>
+<p>Now the intercept parameter (<span class="math inline">\(\beta_{0_{sex}}\)</span>) specifies that it is dependent on the sex of the crab.<br />
+In effect, we are fitting <em>two</em> lines to this data - one for each level of sex - each of these lines is technically called <strong>partial regression lines</strong>.</p>
+<blockquote>
+<p>In fixed slopes models the effect of one predictor on the response variable is <strong>additive</strong> of the other (hence also called additive model)</p>
+</blockquote>
+<p>There is no interaction between the predictor variables sex or shell width. Thus the two fitted lines have the same slope (<span class="math inline">\(\beta_{1}\)</span>)</p>
+<p>Our hypotheses are:</p>
+<ul>
+<li>H0: There is no effect of shell width or sex on the response variable</li>
+<li>H1: There is an effect of shell width or sex on the response variable</li>
+</ul>
+<hr />
+<div id="section-fixed-slopes-models-in-r" class="section level3">
+<h3>Fixed slopes models in R</h3>
+<p>The general <code>lm()</code> function in R we used for simple linear regression is also used for multiple regression</p>
+<blockquote>
+<p><code>lm(Y ~ A + B, data)</code> where A &amp; B are the two predictor variables and <code>+</code> indicates the relationship between the two predictors - in a fixed slopes model this is <em>additive</em></p>
+</blockquote>
+The function below does an additive multiple regression in R but there is an error. Fix the error and run the code.
+<div class="tutorial-exercise" data-label="fixed-mod" data-caption="Code" data-completion="1" data-diagnostics="1" data-startover="1" data-lines="0">
+<pre class="text"><code>fixed_crabs &lt;- lm(CL ~ CW + sex)</code></pre>
+<script type="application/json" data-opts-chunk="1">{"fig.width":6.5,"fig.height":4,"fig.retina":2,"fig.align":"center","fig.keep":"high","fig.show":"hold","out.width":624,"warning":false,"error":false,"message":false,"exercise.df_print":"paged","exercise.checker":"NULL"}</script>
+</div>
+<p>Did you get the coefficients below?</p>
+<pre><code>(Intercept)          CW        sexM 
+ -0.8065037   0.8977534   0.4415263 </code></pre>
+<p>Let’s start with the first two coefficients. The interpretation for these coefficients is the same as simple linear regression. There’s the intercept <code>(Intercept)</code> and there’s the slope <code>CW</code>.<br />
+<strong>But</strong> remember we are expecting <em>two</em> lines in our model. Which line are these coefficients are referring to?</p>
+<div class="panel panel-default">
+<div data-label="quiz2" class="tutorial-question panel-body">
+<div id="quiz2-answer_container" class="shiny-html-output"></div>
+<div id="quiz2-message_container" class="shiny-html-output"></div>
+<div id="quiz2-action_button_container" class="shiny-html-output"></div>
+<script>if (Tutorial.triggerMathJax) Tutorial.triggerMathJax()</script>
+</div>
+</div>
+<p>So the first two coefficients are the intercept and slope of the linear regression for females. Let’s draw the line.</p>
+Below is the code to plot the previous graph. Add in the regression line for females using <code>abline()</code> based on the coefficients above and press run:
+<div class="tutorial-exercise" data-label="fixed" data-caption="Code" data-completion="1" data-diagnostics="1" data-startover="1" data-lines="0">
+<pre class="text"><code>plot(CL ~ CW, crabs, pch = 20, col = sex, bty = &quot;l&quot;)
+legend(&quot;bottomright&quot;, bty = &quot;n&quot;, c(&quot;Females&quot;, &quot;Males&quot;), pch = c(20, 20), col = c(1,2))
+abline()</code></pre>
+<script type="application/json" data-opts-chunk="1">{"fig.width":6.5,"fig.height":4,"fig.retina":2,"fig.align":"center","fig.keep":"high","fig.show":"hold","out.width":624,"warning":false,"error":false,"message":false,"exercise.df_print":"paged","exercise.checker":"NULL"}</script>
+</div>
+<div class="tutorial-exercise-support" data-label="fixed-hint" data-caption="Code" data-completion="1" data-diagnostics="1" data-startover="1" data-lines="0">
+<pre class="text"><code>What parameters does the function abline() take to draw a line from a to b?</code></pre>
+</div>
+<div class="tutorial-exercise-support" data-label="fixed-hint-2" data-caption="Code" data-completion="1" data-diagnostics="1" data-startover="1" data-lines="0">
+<pre class="text"><code>abline takes the intercept and slope in that order - what is the intercept and slope of the regression for females?</code></pre>
+</div>
+<div class="tutorial-exercise-support" data-label="fixed-solution" data-caption="Code" data-completion="1" data-diagnostics="1" data-startover="1" data-lines="0">
+<pre class="text"><code>abline(-0.8065037, 0.8977534)</code></pre>
+</div>
+<p>Parametrised slope for females:<br />
+<em>Female shell length</em> = -0.807 + 0.898 <em>shell width</em></p>
+<p>Halfway there! Now for the males!</p>
+<p>Since the slope of the regression for males is the same as females we already know the value of <span class="math inline">\(\beta_{1}\)</span> is 0.898. But we need to manually calculate the intercept for males.</p>
+<p>Like when we did an ANOVA, the estimate for <code>sexM</code> is the <strong>difference in the intercept between males and females</strong>. To calculate the intercept for males we need to add the estimated coefficient of the intercept for females with the difference.</p>
+<p>Now that you know how to parameterise the linear regression for males: <div class="panel panel-default">
+<div data-label="param" class="tutorial-question panel-body">
+<div id="param-answer_container" class="shiny-html-output"></div>
+<div id="param-message_container" class="shiny-html-output"></div>
+<div id="param-action_button_container" class="shiny-html-output"></div>
+<script>if (Tutorial.triggerMathJax) Tutorial.triggerMathJax()</script>
+</div>
+</div></p>
+<blockquote>
+<p>R shows the difference between parameter estimates so you need to extract the correct values. They are the partial regression coefficients that show the change in the response variable with one predictor variable <em>while holding all other predictor variables constant</em></p>
+</blockquote>
+</div>
+<div id="section-plotting-the-model-output" class="section level3">
+<h3>Plotting the model output</h3>
+<p>Now that you have both parametrised models, complete the code below to plot both of the regression lines for males and females. Also see if you can colour the regression lines to match the figure legend - <code>col = 1</code> is orange for females and <code>col = 2</code> is blue for males (I changed the default R colour palette for this tutorial).</p>
+<div class="tutorial-exercise" data-label="final-graph" data-caption="Code" data-completion="1" data-diagnostics="1" data-startover="1" data-lines="8">
+<pre class="text"><code>plot(CL ~ CW, crabs, pch = 20, col = sex, bty = &quot;l&quot;)
+legend(&quot;bottomright&quot;, bty = &quot;n&quot;, c(&quot;Females&quot;, &quot;Males&quot;), pch = c(20, 20), col = c(1,2))</code></pre>
+<script type="application/json" data-opts-chunk="1">{"fig.width":6.5,"fig.height":4,"fig.retina":2,"fig.align":"center","fig.keep":"high","fig.show":"hold","out.width":624,"warning":false,"error":false,"message":false,"exercise.df_print":"paged","exercise.checker":"NULL"}</script>
+</div>
+<div class="tutorial-exercise-support" data-label="final-graph-hint" data-caption="Code" data-completion="1" data-diagnostics="1" data-startover="1" data-lines="0">
+<pre class="text"><code>The function abline() only plots one linear line. Here, we need two lines so two lines of abline() code</code></pre>
+</div>
+<div class="tutorial-exercise-support" data-label="final-graph-hint-2" data-caption="Code" data-completion="1" data-diagnostics="1" data-startover="1" data-lines="0">
+<pre class="text"><code>You can change the colour, line type and line with of abline() using the general parameters for col, lty and lwd. </code></pre>
+</div>
+<p><em>That’s fine but… it’s not a finished figure</em><br />
+A proper figure should have informative axis labels - what does CL or CW mean? - and any units should be included in brackets.<br />
+Adding these would make it a proper figure like in a professional scientific paper</p>
+<blockquote>
+<p>The parameters to change the x axis label is <code>xlab = "&lt;insert label"&gt;</code> and <code>ylab = "&lt;insert label"&gt;</code> for the y axis label in the <code>plot()</code> function like <code>plot(&lt;formula for graph&gt;, xlab = "&lt;label&gt;", ylab = "&lt;label&gt;")</code></p>
+</blockquote>
+Modify your code above to change the axes labels to carapace length or width and include units in brackets
+<div class="tutorial-exercise" data-label="fixed-improved-graph" data-caption="Code" data-completion="1" data-diagnostics="1" data-startover="1" data-lines="8">
+<pre class="text"><code>plot(CL ~ CW, crabs, pch = 20, col = sex, bty = &quot;l&quot;)
+legend(&quot;bottomright&quot;, bty = &quot;n&quot;, c(&quot;Females&quot;, &quot;Males&quot;), pch = c(20, 20), col = c(1,2))</code></pre>
+<script type="application/json" data-opts-chunk="1">{"fig.width":6.5,"fig.height":4,"fig.retina":2,"fig.align":"center","fig.keep":"high","fig.show":"hold","out.width":624,"warning":false,"error":false,"message":false,"exercise.df_print":"paged","exercise.checker":"NULL"}</script>
+</div>
+<div class="tutorial-exercise-support" data-label="fixed-improved-graph-hint" data-caption="Code" data-completion="1" data-diagnostics="1" data-startover="1" data-lines="0">
+<pre class="text"><code>Brackets are allowed like (&lt;text&gt;)</code></pre>
+</div>
+<div class="tutorial-exercise-support" data-label="fixed-improved-graph-hint-2" data-caption="Code" data-completion="1" data-diagnostics="1" data-startover="1" data-lines="0">
+<pre class="text"><code>What are the units for shell length and shell width?</code></pre>
+</div>
+<p>Your final graph should look like this:</p>
+<div class="figure" style="text-align: center">
+<img src="MultiLM_files/figure-html/final-fixed-plot-ans-1.png" alt="Very professional!" width="624" />
+<p class="caption">
+Very professional!
+</p>
+</div>
+<p>You should also practice writing an appropriate figure caption to accompany your figure.</p>
+<hr />
+</div>
+<div id="section-predicting-new-values" class="section level3">
+<h3>Predicting new values</h3>
+<p>Good! Now we can use our two regression models to predict the shell length of male or female crabs.</p>
+<p><em>Female shell length</em> = -0.807 + 0.898 <em>shell width</em><br />
+<em>Male shell length</em> = -0.365 + 0.898 <em>shell width</em></p>
+<p><div class="panel-heading tutorial-quiz-title">Quiz</div><div class="panel panel-default">
+<div data-label="predict-fixed-1" class="tutorial-question panel-body">
+<div id="predict-fixed-1-answer_container" class="shiny-html-output"></div>
+<div id="predict-fixed-1-message_container" class="shiny-html-output"></div>
+<div id="predict-fixed-1-action_button_container" class="shiny-html-output"></div>
+<script>if (Tutorial.triggerMathJax) Tutorial.triggerMathJax()</script>
+</div>
+</div><div class="panel panel-default">
+<div data-label="predict-fixed-2" class="tutorial-question panel-body">
+<div id="predict-fixed-2-answer_container" class="shiny-html-output"></div>
+<div id="predict-fixed-2-message_container" class="shiny-html-output"></div>
+<div id="predict-fixed-2-action_button_container" class="shiny-html-output"></div>
+<script>if (Tutorial.triggerMathJax) Tutorial.triggerMathJax()</script>
+</div>
+</div></p>
+</div>
+<div id="section-evaluating-hypotheses" class="section level3">
+<h3>Evaluating hypotheses</h3>
+<p>Finally, we can look at the model <code>summary()</code> to see whether we should accept or reject our null hypothesis.</p>
+<p>Remember our hypotheses are:</p>
+<ul>
+<li>H0: There is no effect of shell width or sex on the response variable</li>
+<li>H1: There is an effect of shell width or sex on the response variable</li>
+</ul>
+Enter the code to check the <code>summary()</code> of the fixed slopes linear regression
+<div class="tutorial-exercise" data-label="fixed-summary" data-caption="Code" data-completion="1" data-diagnostics="1" data-startover="1" data-lines="0">
+<script type="application/json" data-opts-chunk="1">{"fig.width":6.5,"fig.height":4,"fig.retina":2,"fig.align":"center","fig.keep":"high","fig.show":"hold","out.width":624,"warning":false,"error":false,"message":false,"exercise.df_print":"paged","exercise.checker":"NULL"}</script>
+</div>
+<div class="tutorial-exercise-support" data-label="fixed-summary-hint" data-caption="Code" data-completion="1" data-diagnostics="1" data-startover="1" data-lines="0">
+<pre class="text"><code>Check the summary of the model with summary(). What goes inside summary()?</code></pre>
+</div>
+<p>In <code>summary()</code> we see <code>R</code> has done a series of t-tests on the estimated coefficients. As in a simple linear regression the null hypothesis tested on the intercept and slope for females is whether these estimates are different to 0. This null hypothesis is not very informative for the intercept - it is more informative about the slope because it tests our overall H0.</p>
+<p><div class="panel-heading tutorial-quiz-title">Quiz</div><div class="panel panel-default">
+<div data-label="fixed-test-1" class="tutorial-question panel-body">
+<div id="fixed-test-1-answer_container" class="shiny-html-output"></div>
+<div id="fixed-test-1-message_container" class="shiny-html-output"></div>
+<div id="fixed-test-1-action_button_container" class="shiny-html-output"></div>
+<script>if (Tutorial.triggerMathJax) Tutorial.triggerMathJax()</script>
+</div>
+</div><div class="panel panel-default">
+<div data-label="fixed-test-2" class="tutorial-question panel-body">
+<div id="fixed-test-2-answer_container" class="shiny-html-output"></div>
+<div id="fixed-test-2-message_container" class="shiny-html-output"></div>
+<div id="fixed-test-2-action_button_container" class="shiny-html-output"></div>
+<script>if (Tutorial.triggerMathJax) Tutorial.triggerMathJax()</script>
+</div>
+</div></p>
+<p>For a simple fixed slopes regression like here we would write this in a sentence in a scientific report like:</p>
+<p>“Carapace width predicted carapace length for male and female crabs (0.90, t(197) = -3.5, P = &lt;0.01). Male crabs were on had 0.44 mm longer shells than females across all shell widths (t(197) = 4.595, P &lt; 0.01).”</p>
+<p>You might want to put this in a table. t refers to the t-test done on the coefficient for slope. In the brackets are the degrees of freedom stated in the residual standard error output. The standards for reporting might vary across disciplines.</p>
+<hr />
+</div>
+</div>
+<div id="section-random-slopes" class="section level2">
+<h2>Random slopes</h2>
+<p>The random slopes model has in interaction term so it’s sometimes called an <strong>interactive model</strong>.</p>
+<blockquote>
+<p>In random slopes models, both the slope and the intercept are estimated for each level of the factor</p>
+</blockquote>
+<p>Mathematically this is written as:</p>
+<p><span class="math display">\[ shell \space length  = \beta_{0_{sex}} + \beta_{1_{sex}} shell \space width + \varepsilon_i\]</span> Now, both <span class="math inline">\(\beta_0\)</span> and <span class="math inline">\(\beta_1\)</span> vary according to sex.</p>
+<div class="panel panel-default">
+<div data-label="quiz3" class="tutorial-question panel-body">
+<div id="quiz3-answer_container" class="shiny-html-output"></div>
+<div id="quiz3-message_container" class="shiny-html-output"></div>
+<div id="quiz3-action_button_container" class="shiny-html-output"></div>
+<script>if (Tutorial.triggerMathJax) Tutorial.triggerMathJax()</script>
+</div>
+</div>
+<hr />
+<div id="section-hypotheses-of-a-random-slopes-model" class="section level3">
+<h3>Hypotheses of a random slopes model</h3>
+<p>Because both the slopes and intercepts vary, the way we write our hypothesis changes compared to the fixed model. Now we need to <em>describe the relationship between the two predictors on the outcome of the response variable</em>.</p>
+<p><div class="panel-heading tutorial-quiz-title">Can you work out the hypotheses?</div><div class="panel panel-default">
+<div data-label="hypotheses-1" class="tutorial-question panel-body">
+<div id="hypotheses-1-answer_container" class="shiny-html-output"></div>
+<div id="hypotheses-1-message_container" class="shiny-html-output"></div>
+<div id="hypotheses-1-action_button_container" class="shiny-html-output"></div>
+<script>if (Tutorial.triggerMathJax) Tutorial.triggerMathJax()</script>
+</div>
+</div><div class="panel panel-default">
+<div data-label="hypotheses-2" class="tutorial-question panel-body">
+<div id="hypotheses-2-answer_container" class="shiny-html-output"></div>
+<div id="hypotheses-2-message_container" class="shiny-html-output"></div>
+<div id="hypotheses-2-action_button_container" class="shiny-html-output"></div>
+<script>if (Tutorial.triggerMathJax) Tutorial.triggerMathJax()</script>
+</div>
+</div></p>
+<p>Another way of phrasing the interaction is “there is an interaction between shell width and sex on shell length” or “there is no effect of shell width or sex or their interaction on the length of crab shells”.</p>
+<p>Interactions imply that the effect of sex and shell width have multiplicative effects on shell length when considered together. This effect could be antagonistic or synergistic.</p>
+</div>
+<div id="section-linear-models-with-interactions-in-r" class="section level3">
+<h3>Linear models with interactions in R</h3>
+<blockquote>
+<p>The interaction between predictor variables in a <code>lm()</code> function is denoted by <code>*</code></p>
+</blockquote>
+<p>It’s time to do the linear model.</p>
+Fix this linear model function to do a multiplicative linear regression in R. Press run
+<div class="tutorial-exercise" data-label="random" data-caption="Code" data-completion="1" data-diagnostics="1" data-startover="1" data-lines="3">
+<pre class="text"><code>lm(lm(CL ~ CW * sex, carbs</code></pre>
+<script type="application/json" data-opts-chunk="1">{"fig.width":6.5,"fig.height":4,"fig.retina":2,"fig.align":"center","fig.keep":"high","fig.show":"hold","out.width":624,"warning":false,"error":false,"message":false,"exercise.df_print":"paged","exercise.checker":"NULL"}</script>
+</div>
+<div class="tutorial-exercise-support" data-label="random-hint" data-caption="Code" data-completion="1" data-diagnostics="1" data-startover="1" data-lines="0">
+<pre class="text"><code>Remember linear models require the lm() function</code></pre>
+</div>
+<div class="tutorial-exercise-support" data-label="random-hint-2" data-caption="Code" data-completion="1" data-diagnostics="1" data-startover="1" data-lines="0">
+<pre class="text"><code>What&#39;s the difference in the R formula between an additive model and a multiplicative model?</code></pre>
+</div>
+<div class="tutorial-exercise-support" data-label="random-solution" data-caption="Code" data-completion="1" data-diagnostics="1" data-startover="1" data-lines="0">
+<pre class="text"><code>lm(CL ~ CW * sex, crabs)</code></pre>
+</div>
+<hr />
+</div>
+<div id="section-parameterising-the-model" class="section level3">
+<h3>Parameterising the model</h3>
+<p>The process of parameterising the model is <em>exactly</em> the same as we’ve done before but now we have <em>four</em> coefficients representing the slopes and intercepts for our two regression lines. So you should be expecting what’s coming up.</p>
+<blockquote>
+<p>Another way of denoting interactions in R is <code>:</code> so <code>A:B</code> means this is the interaction between <code>A</code> and <code>B</code></p>
+</blockquote>
+<pre><code>
+Call:
+lm(formula = CL ~ CW * sex, data = crabs)
+
+Coefficients:
+(Intercept)           CW         sexM      CW:sexM  
+   -1.06353      0.90493      0.90693     -0.01281  </code></pre>
+<div class="panel panel-default">
+<div data-label="param-quiz" class="tutorial-question panel-body">
+<div id="param-quiz-answer_container" class="shiny-html-output"></div>
+<div id="param-quiz-message_container" class="shiny-html-output"></div>
+<div id="param-quiz-action_button_container" class="shiny-html-output"></div>
+<script>if (Tutorial.triggerMathJax) Tutorial.triggerMathJax()</script>
+</div>
+</div>
+<p>In the fixed slopes model we only needed to manually calculate the intercept. Now we need to manually calculate the slope <strong>and</strong> intercept.</p>
+<p>Let’s start with the intercept</p>
+<hr />
+<div id="section-the-intercept" class="section level4">
+<h4>The intercept</h4>
+<p>Parameterising the intercept is exactly the same as the fixed slopes model - <code>(Intercept)</code> and <code>sexM</code> mean the same thing - so we should be able to do this right away.</p>
+<pre><code>(Intercept)          CW        sexM     CW:sexM 
+      -1.06        0.90        0.91       -0.01 </code></pre>
+<p><div class="panel-heading tutorial-quiz-title">Quiz</div><div class="panel panel-default">
+<div data-label="quiz-slopes-1" class="tutorial-question panel-body">
+<div id="quiz-slopes-1-answer_container" class="shiny-html-output"></div>
+<div id="quiz-slopes-1-message_container" class="shiny-html-output"></div>
+<div id="quiz-slopes-1-action_button_container" class="shiny-html-output"></div>
+<script>if (Tutorial.triggerMathJax) Tutorial.triggerMathJax()</script>
+</div>
+</div><div class="panel panel-default">
+<div data-label="quiz-slopes-2" class="tutorial-question panel-body">
+<div id="quiz-slopes-2-answer_container" class="shiny-html-output"></div>
+<div id="quiz-slopes-2-message_container" class="shiny-html-output"></div>
+<div id="quiz-slopes-2-action_button_container" class="shiny-html-output"></div>
+<script>if (Tutorial.triggerMathJax) Tutorial.triggerMathJax()</script>
+</div>
+</div></p>
+<hr />
+</div>
+<div id="section-the-slope" class="section level4">
+<h4>The slope</h4>
+<p>Parameterising the slope is the same process as the intercept.</p>
+<blockquote>
+<p>The coefficient estimate <code>CW:SexM</code> is the <strong>difference in the value of the slope relative to the slope for female</strong> <code>CW</code></p>
+</blockquote>
+<p>Remember: female is alphabetically before male so R calculates the variances for females first, then males.</p>
+<p>We are given the slope for females already. We need to work out the slope for males by adding the coefficient estimates together (or in this case subtracting the difference because the difference in negative)</p>
+<p>What we need:<br />
+Parametrised slope for males = Slope for females + difference in slope for males compared to females</p>
+<p>Information provided from the <code>R</code> output:<br />
+Slope for females = 0.905<br />
+Difference in slope for males compared to females = -0.013</p>
+<div class="panel panel-default">
+<div data-label="male-slope" class="tutorial-question panel-body">
+<div id="male-slope-answer_container" class="shiny-html-output"></div>
+<div id="male-slope-message_container" class="shiny-html-output"></div>
+<div id="male-slope-action_button_container" class="shiny-html-output"></div>
+<script>if (Tutorial.triggerMathJax) Tutorial.triggerMathJax()</script>
+</div>
+</div>
+<hr />
+</div>
+</div>
+<div id="section-plotting-the-regression" class="section level3">
+<h3>Plotting the regression</h3>
+<p>Did you get the parameterised partial regression equations below?</p>
+<p><em>Female shell length</em> = -1.064 + 0.905 <em>shell width</em><br />
+<em>Male shell length</em> = -0.157 + 0.892 <em>shell width</em></p>
+<p>The good news is that was as hard as it gets in this module.</p>
+<p>We need to plot our regression slopes with the original data <em>and</em> appropriate axes labels and a legend.</p>
+<blockquote>
+<p>You can pull out just the coefficients of a linear regression from <code>lm()</code> by calling the variable <code>coefficients</code> like <code>lm(&lt;lm formula&gt;)$coefficients</code>. Then you can refer to specific coefficients by using square brackets <code>[]</code>. So getting the first coefficient for intercept is <code>lm(&lt;lm formula&gt;)$coefficients[1]</code></p>
+</blockquote>
+<p>Here is the code to plot the complete fixed slopes model shown above. I have already included the random slopes regression in a variable called <code>model</code>. You don’t need to change the <code>plot()</code> or <code>legend()</code> functions.<br />
+Modify both the <code>abline()</code> functions to show the random slopes regression lines.</p>
+<div class="tutorial-exercise" data-label="random-final-graph" data-caption="Code" data-completion="1" data-diagnostics="1" data-startover="1" data-lines="15">
+<pre class="text"><code># The random slopes linear regression saved in a variable called &quot;model&quot;
+model &lt;- lm(CL ~ CW * sex, crabs)
+
+# Functions to plot the graph and the legend
+plot(CL ~ CW, crabs, pch = 20, col = sex, xlab = &quot;Carapace width (mm)&quot;, ylab = &quot;Carapace length (mm)&quot;, bty = &quot;l&quot;)
+legend(&quot;bottomright&quot;, bty = &quot;n&quot;, c(&quot;Females&quot;, &quot;Males&quot;), pch = c(20, 20), col = c(1,2))
+
+# Functions to plot the regression lines
+# Female crabs
+abline(model$coefficients[1], model$coefficients[2], col = 1)
+# Male crabs
+abline((model$coefficients[1] + model$coefficients[3]), model$coefficients[2], col = 2)</code></pre>
+<script type="application/json" data-opts-chunk="1">{"fig.width":6.5,"fig.height":4,"fig.retina":2,"fig.align":"center","fig.keep":"high","fig.show":"hold","out.width":624,"warning":false,"error":false,"message":false,"exercise.df_print":"paged","exercise.checker":"NULL"}</script>
+</div>
+<div class="tutorial-exercise-support" data-label="random-final-graph-hint" data-caption="Code" data-completion="1" data-diagnostics="1" data-startover="1" data-lines="0">
+<pre class="text"><code>Recall what our final parameterised regressions were and how we calculated the slope and intercept</code></pre>
+</div>
+<div class="tutorial-exercise-support" data-label="random-final-graph-hint-2" data-caption="Code" data-completion="1" data-diagnostics="1" data-startover="1" data-lines="0">
+<pre class="text"><code>What is the abline for males doing to calculate the intercept and how is the function getting the value of the slope?</code></pre>
+</div>
+<div class="tutorial-exercise-support" data-label="random-final-graph-solution" data-caption="Code" data-completion="1" data-diagnostics="1" data-startover="1" data-lines="0">
+<pre class="text"><code># The random slopes linear regression saved in a variable called &quot;model&quot;
+model &lt;- lm(CL ~ CW * sex, crabs)
+
+# Functions to plot the graph and the legend
+plot(CL ~ CW, crabs, pch = 20, col = sex, xlab = &quot;Carapace width (mm)&quot;, ylab = &quot;Carapace length (mm)&quot;, bty = &quot;l&quot;)
+legend(&quot;bottomright&quot;, bty = &quot;n&quot;, c(&quot;Females&quot;, &quot;Males&quot;), pch = c(20, 20), col = c(1,2))
+
+# Functions to plot the regression lines
+# Female crabs
+abline(model$coefficients[1], model$coefficients[2], col = 1)
+# Male crabs
+abline((model$coefficients[1] + model$coefficients[3]), (model$coefficients[2] + model$coefficients[4]), col = 2)</code></pre>
+</div>
+<p>If you can do this you can plot the output of any linear regression!<br />
+Don’t forget to write an appropriate figure caption to accompany your figure.</p>
+<hr />
+</div>
+<div id="section-predicting-new-values-1" class="section level3">
+<h3>Predicting new values</h3>
+<p>Now to use the linear regression to predict the length of crab shells.</p>
+<p><div class="panel-heading tutorial-quiz-title">Test yourself</div><div class="panel panel-default">
+<div data-label="predict-random-1" class="tutorial-question panel-body">
+<div id="predict-random-1-answer_container" class="shiny-html-output"></div>
+<div id="predict-random-1-message_container" class="shiny-html-output"></div>
+<div id="predict-random-1-action_button_container" class="shiny-html-output"></div>
+<script>if (Tutorial.triggerMathJax) Tutorial.triggerMathJax()</script>
+</div>
+</div><div class="panel panel-default">
+<div data-label="predict-random-2" class="tutorial-question panel-body">
+<div id="predict-random-2-answer_container" class="shiny-html-output"></div>
+<div id="predict-random-2-message_container" class="shiny-html-output"></div>
+<div id="predict-random-2-action_button_container" class="shiny-html-output"></div>
+<script>if (Tutorial.triggerMathJax) Tutorial.triggerMathJax()</script>
+</div>
+</div></p>
+<hr />
+</div>
+<div id="section-evaluating-hypotheses-1" class="section level3">
+<h3>Evaluating hypotheses</h3>
+<p>Here’s the <code>summary()</code> of our random slopes model</p>
+<pre class="r"><code>summary(lm(CL ~ CW * sex, crabs))</code></pre>
+<pre><code>
+Call:
+lm(formula = CL ~ CW * sex, data = crabs)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-1.45735 -0.48672  0.01333  0.53359  1.51816 
+
+Coefficients:
+             Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept) -1.063535   0.337404  -3.152  0.00188 ** 
+CW           0.904927   0.009225  98.095  &lt; 2e-16 ***
+sexM         0.906927   0.458137   1.980  0.04915 *  
+CW:sexM     -0.012805   0.012325  -1.039  0.30010    
+---
+Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+
+Residual standard error: 0.6775 on 196 degrees of freedom
+Multiple R-squared:  0.9911,    Adjusted R-squared:  0.9909 
+F-statistic:  7259 on 3 and 196 DF,  p-value: &lt; 2.2e-16</code></pre>
+<blockquote>
+<p>H0: There is no effect of shell width or sex or their interaction on shell length<br />
+H1: There is an effect of shell width or sex or their interaction on shell length</p>
+</blockquote>
+<p>Like with the fixed slopes model, the hypothesis tests on the coefficient estimates for the slope are the important ones:</p>
+<ul>
+<li><code>CW</code> - This tests whether the slope of females is different to 0
+<ul>
+<li>This gives an indication of whether shell width can predict shell length</li>
+</ul></li>
+<li><code>CW:sexM</code> - This tests whether the slope for males is different to females
+<ul>
+<li>This tests whether there is an interaction between sex and shell width</li>
+<li>If this is non-significant, then a multiplicative model is overly complex to describe our biological pattern (because it uses too many parameters) and perhaps a fixed slopes model is a better descriptor. Aiming to minimise the number of parameters used in a linear model is the statistical concept of <em>model parsimony</em></li>
+</ul></li>
+</ul>
+<p><div class="panel-heading tutorial-quiz-title">Quiz</div><div class="panel panel-default">
+<div data-label="random-test-1" class="tutorial-question panel-body">
+<div id="random-test-1-answer_container" class="shiny-html-output"></div>
+<div id="random-test-1-message_container" class="shiny-html-output"></div>
+<div id="random-test-1-action_button_container" class="shiny-html-output"></div>
+<script>if (Tutorial.triggerMathJax) Tutorial.triggerMathJax()</script>
+</div>
+</div><div class="panel panel-default">
+<div data-label="random-test-2" class="tutorial-question panel-body">
+<div id="random-test-2-answer_container" class="shiny-html-output"></div>
+<div id="random-test-2-message_container" class="shiny-html-output"></div>
+<div id="random-test-2-action_button_container" class="shiny-html-output"></div>
+<script>if (Tutorial.triggerMathJax) Tutorial.triggerMathJax()</script>
+</div>
+</div></p>
+<p>For a random slopes regression like here we would write this in a sentence in a scientific report like:</p>
+<p>“There was no interaction between sex and carapace width on carapace length (-0.01, t(196) = -1.04, P = 0.3). Carapace width predicted carapace length (0.9, t(196) = 98.1, P &lt; 0.01”</p>
+<p>If the P value is really small there’s no point writing a really small number - shorten it to P &lt; 0.01, P &lt; 0.001 or P &lt; 0.0001. The absolute value of the P value is not that informative. Actually, P values are a flawed way to evaluate hypotheses but that is advanced biostatistics.</p>
+<hr />
+</div>
+</div>
+<div id="section-the-multiple-regression-anova-table" class="section level2">
+<h2>The multiple regression ANOVA table</h2>
+<p>We can look at the ANOVA table for a random or fixed slopes model. If it’s a random slopes model the amount of variation in shell length attributed to the interaction between sex and shell width will also be displayed.</p>
+<p>Here is the ANOVA table for the random slopes model (the more complex one):</p>
+<table>
+<thead>
+<tr class="header">
+<th align="left"></th>
+<th align="right">Df</th>
+<th align="right">Sum Sq</th>
+<th align="right">Mean Sq</th>
+<th align="right">F value</th>
+<th align="left">Pr(&gt;F)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">CW</td>
+<td align="right">1</td>
+<td align="right">9985.1555424</td>
+<td align="right">9985.1555424</td>
+<td align="right">21755.190084</td>
+<td align="left">&lt; 0.001</td>
+</tr>
+<tr class="even">
+<td align="left">sex</td>
+<td align="right">1</td>
+<td align="right">9.6932648</td>
+<td align="right">9.6932648</td>
+<td align="right">21.119232</td>
+<td align="left">&lt; 0.001</td>
+</tr>
+<tr class="odd">
+<td align="left">CW:sex</td>
+<td align="right">1</td>
+<td align="right">0.4954377</td>
+<td align="right">0.4954377</td>
+<td align="right">1.079436</td>
+<td align="left">0.3</td>
+</tr>
+<tr class="even">
+<td align="left">Residuals</td>
+<td align="right">196</td>
+<td align="right">89.9597052</td>
+<td align="right">0.4589781</td>
+<td align="right">NA</td>
+<td align="left">NA</td>
+</tr>
+</tbody>
+</table>
+<p>This is what the above ANOVA table is showing:</p>
+<table>
+<thead>
+<tr class="header">
+<th align="center">Source of variation</th>
+<th align="center">SS</th>
+<th align="center">df</th>
+<th align="center">MS</th>
+<th align="center">F</th>
+<th>P</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">Factor A</td>
+<td align="center">SSR of A</td>
+<td align="center">number of levels of A - 1</td>
+<td align="center"></td>
+<td align="center"></td>
+<td></td>
+</tr>
+<tr class="even">
+<td align="center">Factor B</td>
+<td align="center">SSR of B</td>
+<td align="center">number of levels of B - 1</td>
+<td align="center"></td>
+<td align="center"></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td align="center">Factor A x B</td>
+<td align="center">SSR of A &amp; B</td>
+<td align="center">df of A x df of B</td>
+<td align="center"></td>
+<td align="center"></td>
+<td></td>
+</tr>
+<tr class="even">
+<td align="center">Within error</td>
+<td align="center">SSE</td>
+<td align="center">levels of A x levels of B X (number of observations - 1)</td>
+<td align="center"></td>
+<td align="center"></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td align="center">Total error</td>
+<td align="center">SSY</td>
+<td align="center">(levels of A x levels of B X number of observations) - 1</td>
+<td align="center"></td>
+<td align="center"></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>Variance of predictors (SS) is partitioned out from total SS in order it is entered in to R</p>
+</blockquote>
+<p>We can also use the F test on the interaction in the ANOVA table to test the null hypothesis that the effect of shell width on shell length is not dependent of the sex of the crab.</p>
+<div class="panel panel-default">
+<div data-label="quiz4" class="tutorial-question panel-body">
+<div id="quiz4-answer_container" class="shiny-html-output"></div>
+<div id="quiz4-message_container" class="shiny-html-output"></div>
+<div id="quiz4-action_button_container" class="shiny-html-output"></div>
+<script>if (Tutorial.triggerMathJax) Tutorial.triggerMathJax()</script>
+</div>
+</div>
+<hr />
+</div>
+<div id="section-summary" class="section level2">
+<h2>Summary</h2>
+<p>That’s the basics of linear regression!<br />
+They are widely used in biological statistics so you’ll likely come across them when reading scientific studies.</p>
+<p>The same concepts apply for any number or combination of predictor variables. Two, three, four predictor variables and so forth…it just becomes more complex to parameterise.</p>
+<p>Remember, the aim is to quantify how much variation in the response variable is attributable to each predictor variable - minimise those residuals!</p>
+<p>Common statistical analyses you should be able to do by applying the concepts in these lectures: 1 continuous response variable &amp;:</p>
+<ul>
+<li>1 continuous predictor variable - simple linear regression</li>
+<li>2 continuous predictor variables (with/without their interaction) - multiple regression</li>
+<li>1 categorical predictor variable - One-way ANOVA</li>
+<li>1 continuous predictor variable &amp; 1 categorical predictor variable (with/without their interaction) - ANCOVA/multiple regression</li>
+<li>2 categorical predictor variables (with/without their interaction) - Two-way ANOVA</li>
+</ul>
+<div id="section-the-interaction-term-ab" class="section level3">
+<h3>The interaction term A:B</h3>
+<ul>
+<li>Measures the dependence of the level of one factor on the level of the other factors</li>
+<li>If interaction term is not significant:
+<ul>
+<li>effect of one factor on other is additive (independent of each other)</li>
+</ul></li>
+<li>If significant:
+<ul>
+<li>indicates synergistic or antagonistic effects between factors</li>
+<li>Should be main conclusion of analysis</li>
+</ul></li>
+</ul>
+</div>
+<div id="section-recap-time" class="section level3">
+<h3>Recap time!</h3>
+<p>Test your understanding so far by answering the questions below.</p>
+<p><div class="panel-heading tutorial-quiz-title">Quiz</div><div class="panel panel-default">
+<div data-label="recap-1" class="tutorial-question panel-body">
+<div id="recap-1-answer_container" class="shiny-html-output"></div>
+<div id="recap-1-message_container" class="shiny-html-output"></div>
+<div id="recap-1-action_button_container" class="shiny-html-output"></div>
+<script>if (Tutorial.triggerMathJax) Tutorial.triggerMathJax()</script>
+</div>
+</div><div class="panel panel-default">
+<div data-label="recap-2" class="tutorial-question panel-body">
+<div id="recap-2-answer_container" class="shiny-html-output"></div>
+<div id="recap-2-message_container" class="shiny-html-output"></div>
+<div id="recap-2-action_button_container" class="shiny-html-output"></div>
+<script>if (Tutorial.triggerMathJax) Tutorial.triggerMathJax()</script>
+</div>
+</div><div class="panel panel-default">
+<div data-label="recap-3" class="tutorial-question panel-body">
+<div id="recap-3-answer_container" class="shiny-html-output"></div>
+<div id="recap-3-message_container" class="shiny-html-output"></div>
+<div id="recap-3-action_button_container" class="shiny-html-output"></div>
+<script>if (Tutorial.triggerMathJax) Tutorial.triggerMathJax()</script>
+</div>
+</div></p>
+<pre><code>
+Call:
+lm(formula = FL ~ BD * sp, data = crabs)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-1.14609 -0.31569 -0.06879  0.30463  1.97806 
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)  1.81190    0.22987   7.882 2.18e-13 ***
+BD           0.97307    0.01775  54.809  &lt; 2e-16 ***
+spO         -0.50560    0.35684  -1.417   0.1581    
+BD:spO       0.04798    0.02478   1.936   0.0543 .  
+---
+Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+
+Residual standard error: 0.5419 on 196 degrees of freedom
+Multiple R-squared:  0.9763,    Adjusted R-squared:  0.976 
+F-statistic:  2694 on 3 and 196 DF,  p-value: &lt; 2.2e-16</code></pre>
+
+<script type="application/shiny-prerendered" data-context="server-start">
+library(learnr)
+knitr::opts_chunk$set(echo = F, warning = FALSE, message = FALSE, comment = NA, fig.align = "center", fig.show = "hold")
+crabs <- MASS::crabs
+fixed <- lm(CL ~ CW + sex, crabs)
+random <- lm(CL ~ CW * sex, crabs)
+palette(c("#D55E00", "#0072B2"))
+</script>
+ 
+<script type="application/shiny-prerendered" data-context="server">
+learnr:::register_http_handlers(session, metadata = NULL)
+</script>
+ 
+<script type="application/shiny-prerendered" data-context="server">
+session$onSessionEnded(function() {
+        learnr:::session_stop_event(session)
+      })
+</script>
+ 
+<script type="application/shiny-prerendered" data-context="server">
+learnr:::question_prerendered_chunk(structure(list(type = "learnr_radio", label = "quiz1", question = structure("What is the difference between a simple linear regression and a multiple linear regression?", html = TRUE, class = c("html", "character")), answers = list(structure(list(id = "lnr_ans_b42f400",     option = "There is no difference", value = "There is no difference",     label = structure("There is no difference", html = TRUE, class = c("html",     "character")), correct = FALSE, message = NULL), class = c("tutorial_question_answer", "tutorial_quiz_answer")), structure(list(id = "lnr_ans_93404a8",     option = "Simple linear regressions have two predictor variables, multiple linear regressions have one",     value = "Simple linear regressions have two predictor variables, multiple linear regressions have one",     label = structure("Simple linear regressions have two predictor variables, multiple linear regressions have one", html = TRUE, class = c("html",     "character")), correct = FALSE, message = NULL), class = c("tutorial_question_answer", "tutorial_quiz_answer")), structure(list(id = "lnr_ans_5d8c78c",     option = "Simple linear regressions have one predictor variables, multiple linear regressions have two",     value = "Simple linear regressions have one predictor variables, multiple linear regressions have two",     label = structure("Simple linear regressions have one predictor variables, multiple linear regressions have two", html = TRUE, class = c("html",     "character")), correct = TRUE, message = NULL), class = c("tutorial_question_answer", "tutorial_quiz_answer")), structure(list(id = "lnr_ans_35ab5fe",     option = "Simple linear regressions have two response variables, multiple linear regressions have one",     value = "Simple linear regressions have two response variables, multiple linear regressions have one",     label = structure("Simple linear regressions have two response variables, multiple linear regressions have one", html = TRUE, class = c("html",     "character")), correct = FALSE, message = NULL), class = c("tutorial_question_answer", "tutorial_quiz_answer")), structure(list(id = "lnr_ans_67677",     option = "Simple linear regressions have one response variables, multiple linear regressions have two",     value = "Simple linear regressions have one response variables, multiple linear regressions have two",     label = structure("Simple linear regressions have one response variables, multiple linear regressions have two", html = TRUE, class = c("html",     "character")), correct = FALSE, message = NULL), class = c("tutorial_question_answer", "tutorial_quiz_answer"))), button_labels = list(submit = structure("Submit Answer", html = TRUE, class = c("html", "character")), try_again = structure("Try Again", html = TRUE, class = c("html", "character"))), messages = list(correct = structure("Correct!", html = TRUE, class = c("html", "character")), try_again = structure("Incorrect", html = TRUE, class = c("html", "character")), incorrect = structure("Incorrect", html = TRUE, class = c("html", "character")), message = NULL, post_message = NULL), ids = list(    answer = "quiz1-answer", question = "quiz1"), loading = structure("<strong>Loading:<\u002fstrong> \nWhat is the difference between a simple linear regression and a multiple linear regression?\n<br/><br/><br/>", html = TRUE, class = c("html", "character")), random_answer_order = TRUE, allow_retry = TRUE,     seed = 1389108523.35315, options = list()), class = c("learnr_radio", "tutorial_question")))
+</script>
+ 
+<script type="application/shiny-prerendered" data-context="server">
+`tutorial-exercise-fixed-mod-result` <- learnr:::setup_exercise_handler(reactive(req(input$`tutorial-exercise-fixed-mod-code-editor`)), session)
+output$`tutorial-exercise-fixed-mod-output` <- renderUI({
+  `tutorial-exercise-fixed-mod-result`()
+})
+</script>
+ 
+<script type="application/shiny-prerendered" data-context="server">
+learnr:::question_prerendered_chunk(structure(list(type = "learnr_radio", label = "quiz2", question = structure("Given what you know about how R orders levels in a factor in alphabetical order, for which level do you think the first two coefficients are modelling?", html = TRUE, class = c("html", "character")), answers = list(structure(list(id = "lnr_ans_152ecad",     option = "Female crabs", value = "Female crabs", label = structure("Female crabs", html = TRUE, class = c("html",     "character")), correct = TRUE, message = structure("F comes before M. It also says sexM in the next coefficient which tells you that is for males", html = TRUE, class = c("html",     "character"))), class = c("tutorial_question_answer", "tutorial_quiz_answer")), structure(list(id = "lnr_ans_2046236", option = "Male crabs",     value = "Male crabs", label = structure("Male crabs", html = TRUE, class = c("html",     "character")), correct = FALSE, message = NULL), class = c("tutorial_question_answer", "tutorial_quiz_answer"))), button_labels = list(submit = structure("Submit Answer", html = TRUE, class = c("html", "character")), try_again = structure("Try Again", html = TRUE, class = c("html", "character"))), messages = list(correct = structure("Correct!", html = TRUE, class = c("html", "character")), try_again = structure("Incorrect", html = TRUE, class = c("html", "character")), incorrect = structure("Incorrect", html = TRUE, class = c("html", "character")), message = NULL, post_message = NULL), ids = list(    answer = "quiz2-answer", question = "quiz2"), loading = structure("<strong>Loading:<\u002fstrong> \nGiven what you know about how R orders levels in a factor in alphabetical order, for which level do you think the first two coefficients are modelling?\n<br/><br/><br/>", html = TRUE, class = c("html", "character")), random_answer_order = FALSE, allow_retry = TRUE,     seed = 1506845495.29832, options = list()), class = c("learnr_radio", "tutorial_question")))
+</script>
+ 
+<script type="application/shiny-prerendered" data-context="server">
+`tutorial-exercise-fixed-result` <- learnr:::setup_exercise_handler(reactive(req(input$`tutorial-exercise-fixed-code-editor`)), session)
+output$`tutorial-exercise-fixed-output` <- renderUI({
+  `tutorial-exercise-fixed-result`()
+})
+</script>
+ 
+<script type="application/shiny-prerendered" data-context="server">
+learnr:::question_prerendered_chunk(structure(list(type = "learnr_radio", label = "param", question = structure("What is the paramterised model for males crabs?", html = TRUE, class = c("html", "character")), answers = list(structure(list(id = "lnr_ans_2e48170",     option = "CL = -0.37 + 0.9CW", value = "CL = -0.37 + 0.9CW",     label = structure("CL = -0.37 + 0.9CW", html = TRUE, class = c("html",     "character")), correct = TRUE, message = NULL), class = c("tutorial_question_answer", "tutorial_quiz_answer")), structure(list(id = "lnr_ans_469c893",     option = "CL = -0.81 - 0.9CW", value = "CL = -0.81 - 0.9CW",     label = structure("CL = -0.81 - 0.9CW", html = TRUE, class = c("html",     "character")), correct = FALSE, message = structure("Incorrect. This is the regression for females", html = TRUE, class = c("html",     "character"))), class = c("tutorial_question_answer", "tutorial_quiz_answer")), structure(list(id = "lnr_ans_becd73a", option = "CL = 0.44 + 0.9CW",     value = "CL = 0.44 + 0.9CW", label = structure("CL = 0.44 + 0.9CW", html = TRUE, class = c("html",     "character")), correct = FALSE, message = structure("Incorrect. This is the difference in the intercept", html = TRUE, class = c("html",     "character"))), class = c("tutorial_question_answer", "tutorial_quiz_answer")), structure(list(id = "lnr_ans_7e3a000", option = "CL = -0.81 + 0.44CW",     value = "CL = -0.81 + 0.44CW", label = structure("CL = -0.81 + 0.44CW", html = TRUE, class = c("html",     "character")), correct = FALSE, message = structure("Incorrect. This is the difference in the intercept", html = TRUE, class = c("html",     "character"))), class = c("tutorial_question_answer", "tutorial_quiz_answer"))), button_labels = list(submit = structure("Submit Answer", html = TRUE, class = c("html", "character")), try_again = structure("Try Again", html = TRUE, class = c("html", "character"))), messages = list(correct = structure("Correct!", html = TRUE, class = c("html", "character")), try_again = structure("Incorrect", html = TRUE, class = c("html", "character")), incorrect = structure("Incorrect", html = TRUE, class = c("html", "character")), message = NULL, post_message = NULL), ids = list(    answer = "param-answer", question = "param"), loading = structure("<strong>Loading:<\u002fstrong> \nWhat is the paramterised model for males crabs?\n<br/><br/><br/>", html = TRUE, class = c("html", "character")), random_answer_order = TRUE, allow_retry = TRUE,     seed = 105622406.450816, options = list()), class = c("learnr_radio", "tutorial_question")))
+</script>
+ 
+<script type="application/shiny-prerendered" data-context="server">
+`tutorial-exercise-final-graph-result` <- learnr:::setup_exercise_handler(reactive(req(input$`tutorial-exercise-final-graph-code-editor`)), session)
+output$`tutorial-exercise-final-graph-output` <- renderUI({
+  `tutorial-exercise-final-graph-result`()
+})
+</script>
+ 
+<script type="application/shiny-prerendered" data-context="server">
+`tutorial-exercise-fixed-improved-graph-result` <- learnr:::setup_exercise_handler(reactive(req(input$`tutorial-exercise-fixed-improved-graph-code-editor`)), session)
+output$`tutorial-exercise-fixed-improved-graph-output` <- renderUI({
+  `tutorial-exercise-fixed-improved-graph-result`()
+})
+</script>
+ 
+<script type="application/shiny-prerendered" data-context="server">
+learnr:::question_prerendered_chunk(structure(list(type = "learnr_text", label = "predict-fixed-1",     question = structure("What is the carapace length of a female crab with a carapace width of 35  mm? To 2 decimal places", html = TRUE, class = c("html",     "character")), answers = list(structure(list(id = "lnr_ans_da7b9c8",         option = "30.61", value = "30.61", label = structure("30.61", html = TRUE, class = c("html",         "character")), correct = TRUE, message = NULL), class = c("tutorial_question_answer",     "tutorial_quiz_answer"))), button_labels = list(submit = structure("Submit Answer", html = TRUE, class = c("html",     "character")), try_again = structure("Try Again", html = TRUE, class = c("html",     "character"))), messages = list(correct = structure("Correct!", html = TRUE, class = c("html",     "character")), try_again = structure("Incorrect", html = TRUE, class = c("html",     "character")), incorrect = structure("Incorrect", html = TRUE, class = c("html",     "character")), message = NULL, post_message = NULL), ids = list(        answer = "predict-fixed-1-answer", question = "predict-fixed-1"),     loading = structure("<strong>Loading:<\u002fstrong> \nWhat is the carapace length of a female crab with a carapace width of 35  mm? To 2 decimal places\n<br/><br/><br/>", html = TRUE, class = c("html",     "character")), random_answer_order = FALSE, allow_retry = TRUE,     seed = 132317235.938385, options = list(placeholder = "Enter answer here...",         trim = TRUE)), class = c("learnr_text", "tutorial_question")))
+</script>
+ 
+<script type="application/shiny-prerendered" data-context="server">
+learnr:::question_prerendered_chunk(structure(list(type = "learnr_text", label = "predict-fixed-2",     question = structure("What is the carapace length of a male crab with a carapace width of 47  mm? To 2 decimal places", html = TRUE, class = c("html",     "character")), answers = list(structure(list(id = "lnr_ans_ff0a1ba",         option = "41.83", value = "41.83", label = structure("41.83", html = TRUE, class = c("html",         "character")), correct = TRUE, message = NULL), class = c("tutorial_question_answer",     "tutorial_quiz_answer"))), button_labels = list(submit = structure("Submit Answer", html = TRUE, class = c("html",     "character")), try_again = structure("Try Again", html = TRUE, class = c("html",     "character"))), messages = list(correct = structure("Correct!", html = TRUE, class = c("html",     "character")), try_again = structure("Incorrect", html = TRUE, class = c("html",     "character")), incorrect = structure("Incorrect", html = TRUE, class = c("html",     "character")), message = NULL, post_message = NULL), ids = list(        answer = "predict-fixed-2-answer", question = "predict-fixed-2"),     loading = structure("<strong>Loading:<\u002fstrong> \nWhat is the carapace length of a male crab with a carapace width of 47  mm? To 2 decimal places\n<br/><br/><br/>", html = TRUE, class = c("html",     "character")), random_answer_order = FALSE, allow_retry = TRUE,     seed = 828574182.114165, options = list(placeholder = "Enter answer here...",         trim = TRUE)), class = c("learnr_text", "tutorial_question")))
+</script>
+ 
+<script type="application/shiny-prerendered" data-context="server">
+`tutorial-exercise-fixed-summary-result` <- learnr:::setup_exercise_handler(reactive(req(input$`tutorial-exercise-fixed-summary-code-editor`)), session)
+output$`tutorial-exercise-fixed-summary-output` <- renderUI({
+  `tutorial-exercise-fixed-summary-result`()
+})
+</script>
+ 
+<script type="application/shiny-prerendered" data-context="server">
+learnr:::question_prerendered_chunk(structure(list(type = "learnr_radio", label = "fixed-test-1",     question = structure("Based on the test on the slope coefficient above, would you accept or reject the null hypothesis?", html = TRUE, class = c("html",     "character")), answers = list(structure(list(id = "lnr_ans_67cc6fb",         option = "Accept", value = "Accept", label = structure("Accept", html = TRUE, class = c("html",         "character")), correct = FALSE, message = NULL), class = c("tutorial_question_answer",     "tutorial_quiz_answer")), structure(list(id = "lnr_ans_2b8e90e",         option = "Reject", value = "Reject", label = structure("Reject", html = TRUE, class = c("html",         "character")), correct = TRUE, message = structure("The P value is less than 0.05", html = TRUE, class = c("html",         "character"))), class = c("tutorial_question_answer",     "tutorial_quiz_answer"))), button_labels = list(submit = structure("Submit Answer", html = TRUE, class = c("html",     "character")), try_again = structure("Try Again", html = TRUE, class = c("html",     "character"))), messages = list(correct = structure("Correct!", html = TRUE, class = c("html",     "character")), try_again = structure("Incorrect", html = TRUE, class = c("html",     "character")), incorrect = structure("Incorrect", html = TRUE, class = c("html",     "character")), message = NULL, post_message = NULL), ids = list(        answer = "fixed-test-1-answer", question = "fixed-test-1"),     loading = structure("<strong>Loading:<\u002fstrong> \nBased on the test on the slope coefficient above, would you accept or reject the null hypothesis?\n<br/><br/><br/>", html = TRUE, class = c("html",     "character")), random_answer_order = FALSE, allow_retry = TRUE,     seed = 431442288.299094, options = list()), class = c("learnr_radio", "tutorial_question")))
+</script>
+ 
+<script type="application/shiny-prerendered" data-context="server">
+learnr:::question_prerendered_chunk(structure(list(type = "learnr_radio", label = "fixed-test-2",     question = structure("Which statement matches your conclusion?", html = TRUE, class = c("html",     "character")), answers = list(structure(list(id = "lnr_ans_68b5aa",         option = "There is no effect of shell width or sex on the response variable",         value = "There is no effect of shell width or sex on the response variable",         label = structure("There is no effect of shell width or sex on the response variable", html = TRUE, class = c("html",         "character")), correct = FALSE, message = NULL), class = c("tutorial_question_answer",     "tutorial_quiz_answer")), structure(list(id = "lnr_ans_e554a72",         option = "There is an effect of shell width or sex on the response variable",         value = "There is an effect of shell width or sex on the response variable",         label = structure("There is an effect of shell width or sex on the response variable", html = TRUE, class = c("html",         "character")), correct = TRUE, message = NULL), class = c("tutorial_question_answer",     "tutorial_quiz_answer"))), button_labels = list(submit = structure("Submit Answer", html = TRUE, class = c("html",     "character")), try_again = structure("Try Again", html = TRUE, class = c("html",     "character"))), messages = list(correct = structure("Correct!", html = TRUE, class = c("html",     "character")), try_again = structure("Incorrect", html = TRUE, class = c("html",     "character")), incorrect = structure("Incorrect", html = TRUE, class = c("html",     "character")), message = NULL, post_message = NULL), ids = list(        answer = "fixed-test-2-answer", question = "fixed-test-2"),     loading = structure("<strong>Loading:<\u002fstrong> \nWhich statement matches your conclusion?\n<br/><br/><br/>", html = TRUE, class = c("html",     "character")), random_answer_order = FALSE, allow_retry = TRUE,     seed = 48039524.4776299, options = list()), class = c("learnr_radio", "tutorial_question")))
+</script>
+ 
+<script type="application/shiny-prerendered" data-context="server">
+learnr:::question_prerendered_chunk(structure(list(type = "learnr_text", label = "quiz3", question = structure("How many regression lines are fitted to our crab dataset when we do a random slopes model?", html = TRUE, class = c("html", "character")), answers = list(structure(list(id = "lnr_ans_fb37490",     option = "2", value = "2", label = structure("2", html = TRUE, class = c("html",     "character")), correct = TRUE, message = structure("Two lines. One for males and one for females. Each with different slopes and intercepts", html = TRUE, class = c("html",     "character"))), class = c("tutorial_question_answer", "tutorial_quiz_answer"))), button_labels = list(submit = structure("Submit Answer", html = TRUE, class = c("html", "character")), try_again = structure("Try Again", html = TRUE, class = c("html", "character"))), messages = list(correct = structure("Correct!", html = TRUE, class = c("html", "character")), try_again = structure("Incorrect. Think about what we are trying to model here and try again", html = TRUE, class = c("html", "character")), incorrect = structure("Incorrect. Think about what we are trying to model here and try again", html = TRUE, class = c("html", "character")), message = NULL, post_message = NULL), ids = list(    answer = "quiz3-answer", question = "quiz3"), loading = structure("<strong>Loading:<\u002fstrong> \nHow many regression lines are fitted to our crab dataset when we do a random slopes model?\n<br/><br/><br/>", html = TRUE, class = c("html", "character")), random_answer_order = FALSE, allow_retry = TRUE,     seed = 93148939.9566242, options = list(placeholder = "Enter answer here...",         trim = TRUE)), class = c("learnr_text", "tutorial_question")))
+</script>
+ 
+<script type="application/shiny-prerendered" data-context="server">
+learnr:::question_prerendered_chunk(structure(list(type = "learnr_radio", label = "hypotheses-1",     question = structure("What is our null hypothesis?", html = TRUE, class = c("html",     "character")), answers = list(structure(list(id = "lnr_ans_96da1d4",         option = "The effect of shell width on shell length is not dependent on the sex of the crab",         value = "The effect of shell width on shell length is not dependent on the sex of the crab",         label = structure("The effect of shell width on shell length is not dependent on the sex of the crab", html = TRUE, class = c("html",         "character")), correct = TRUE, message = NULL), class = c("tutorial_question_answer",     "tutorial_quiz_answer")), structure(list(id = "lnr_ans_e895ee0",         option = "The effect of shell width on shell length is dependent on the sex of the crab",         value = "The effect of shell width on shell length is dependent on the sex of the crab",         label = structure("The effect of shell width on shell length is dependent on the sex of the crab", html = TRUE, class = c("html",         "character")), correct = FALSE, message = NULL), class = c("tutorial_question_answer",     "tutorial_quiz_answer")), structure(list(id = "lnr_ans_b5a7524",         option = "There is relationship between shell length and shell width",         value = "There is relationship between shell length and shell width",         label = structure("There is relationship between shell length and shell width", html = TRUE, class = c("html",         "character")), correct = FALSE, message = NULL), class = c("tutorial_question_answer",     "tutorial_quiz_answer")), structure(list(id = "lnr_ans_1771b7f",         option = "There is no relationship between shell length and shell width",         value = "There is no relationship between shell length and shell width",         label = structure("There is no relationship between shell length and shell width", html = TRUE, class = c("html",         "character")), correct = FALSE, message = NULL), class = c("tutorial_question_answer",     "tutorial_quiz_answer"))), button_labels = list(submit = structure("Submit Answer", html = TRUE, class = c("html",     "character")), try_again = structure("Try Again", html = TRUE, class = c("html",     "character"))), messages = list(correct = structure("Correct!", html = TRUE, class = c("html",     "character")), try_again = structure("Incorrect. Think about what the wording implies", html = TRUE, class = c("html",     "character")), incorrect = structure("Incorrect. Think about what the wording implies", html = TRUE, class = c("html",     "character")), message = NULL, post_message = NULL), ids = list(        answer = "hypotheses-1-answer", question = "hypotheses-1"),     loading = structure("<strong>Loading:<\u002fstrong> \nWhat is our null hypothesis?\n<br/><br/><br/>", html = TRUE, class = c("html",     "character")), random_answer_order = TRUE, allow_retry = TRUE,     seed = 1832913666.14648, options = list()), class = c("learnr_radio", "tutorial_question")))
+</script>
+ 
+<script type="application/shiny-prerendered" data-context="server">
+learnr:::question_prerendered_chunk(structure(list(type = "learnr_radio", label = "hypotheses-2",     question = structure("What is our alternative hypothesis?", html = TRUE, class = c("html",     "character")), answers = list(structure(list(id = "lnr_ans_5cc3d7b",         option = "The effect of shell width on shell length is not dependent on the sex of the crab",         value = "The effect of shell width on shell length is not dependent on the sex of the crab",         label = structure("The effect of shell width on shell length is not dependent on the sex of the crab", html = TRUE, class = c("html",         "character")), correct = FALSE, message = NULL), class = c("tutorial_question_answer",     "tutorial_quiz_answer")), structure(list(id = "lnr_ans_be01900",         option = "The effect of shell width on shell length is dependent on the sex of the crab",         value = "The effect of shell width on shell length is dependent on the sex of the crab",         label = structure("The effect of shell width on shell length is dependent on the sex of the crab", html = TRUE, class = c("html",         "character")), correct = TRUE, message = NULL), class = c("tutorial_question_answer",     "tutorial_quiz_answer")), structure(list(id = "lnr_ans_571cad",         option = "There is relationship between shell length and shell width",         value = "There is relationship between shell length and shell width",         label = structure("There is relationship between shell length and shell width", html = TRUE, class = c("html",         "character")), correct = FALSE, message = NULL), class = c("tutorial_question_answer",     "tutorial_quiz_answer")), structure(list(id = "lnr_ans_2d6fbf1",         option = "There is no relationship between shell length and shell width",         value = "There is no relationship between shell length and shell width",         label = structure("There is no relationship between shell length and shell width", html = TRUE, class = c("html",         "character")), correct = FALSE, message = NULL), class = c("tutorial_question_answer",     "tutorial_quiz_answer"))), button_labels = list(submit = structure("Submit Answer", html = TRUE, class = c("html",     "character")), try_again = structure("Try Again", html = TRUE, class = c("html",     "character"))), messages = list(correct = structure("Correct!", html = TRUE, class = c("html",     "character")), try_again = structure("Incorrect. Think about what the wording implies", html = TRUE, class = c("html",     "character")), incorrect = structure("Incorrect. Think about what the wording implies", html = TRUE, class = c("html",     "character")), message = NULL, post_message = NULL), ids = list(        answer = "hypotheses-2-answer", question = "hypotheses-2"),     loading = structure("<strong>Loading:<\u002fstrong> \nWhat is our alternative hypothesis?\n<br/><br/><br/>", html = TRUE, class = c("html",     "character")), random_answer_order = TRUE, allow_retry = TRUE,     seed = 2017385835.06058, options = list()), class = c("learnr_radio", "tutorial_question")))
+</script>
+ 
+<script type="application/shiny-prerendered" data-context="server">
+`tutorial-exercise-random-result` <- learnr:::setup_exercise_handler(reactive(req(input$`tutorial-exercise-random-code-editor`)), session)
+output$`tutorial-exercise-random-output` <- renderUI({
+  `tutorial-exercise-random-result`()
+})
+</script>
+ 
+<script type="application/shiny-prerendered" data-context="server">
+learnr:::question_prerendered_chunk(structure(list(type = "learnr_radio", label = "param-quiz", question = structure("What do the estimated coefficients for sexM and CW:sexM represent?", html = TRUE, class = c("html", "character")), answers = list(structure(list(id = "lnr_ans_ba7b9d5",     option = "The difference in the slope or intercept for males compared to females",     value = "The difference in the slope or intercept for males compared to females",     label = structure("The difference in the slope or intercept for males compared to females", html = TRUE, class = c("html",     "character")), correct = TRUE, message = NULL), class = c("tutorial_question_answer", "tutorial_quiz_answer")), structure(list(id = "lnr_ans_819b579",     option = "The difference in the slope or intercept for females compared to males",     value = "The difference in the slope or intercept for females compared to males",     label = structure("The difference in the slope or intercept for females compared to males", html = TRUE, class = c("html",     "character")), correct = FALSE, message = structure("Incorrect. Remember R is calculating females first before males because they are in alphabetical order", html = TRUE, class = c("html",     "character"))), class = c("tutorial_question_answer", "tutorial_quiz_answer")), structure(list(id = "lnr_ans_4b9449d", option = "The estimated slope or intercept for males",     value = "The estimated slope or intercept for males", label = structure("The estimated slope or intercept for males", html = TRUE, class = c("html",     "character")), correct = FALSE, message = NULL), class = c("tutorial_question_answer", "tutorial_quiz_answer")), structure(list(id = "lnr_ans_981494d",     option = "The estimated slope or intercept for females",     value = "The estimated slope or intercept for females", label = structure("The estimated slope or intercept for females", html = TRUE, class = c("html",     "character")), correct = FALSE, message = NULL), class = c("tutorial_question_answer", "tutorial_quiz_answer"))), button_labels = list(submit = structure("Submit Answer", html = TRUE, class = c("html", "character")), try_again = structure("Try Again", html = TRUE, class = c("html", "character"))), messages = list(correct = structure("Correct!", html = TRUE, class = c("html", "character")), try_again = structure("Incorrect", html = TRUE, class = c("html", "character")), incorrect = structure("Incorrect", html = TRUE, class = c("html", "character")), message = NULL, post_message = NULL), ids = list(    answer = "param-quiz-answer", question = "param-quiz"), loading = structure("<strong>Loading:<\u002fstrong> \nWhat do the estimated coefficients for sexM and CW:sexM represent?\n<br/><br/><br/>", html = TRUE, class = c("html", "character")), random_answer_order = TRUE, allow_retry = TRUE,     seed = 1962085933.08633, options = list()), class = c("learnr_radio", "tutorial_question")))
+</script>
+ 
+<script type="application/shiny-prerendered" data-context="server">
+learnr:::question_prerendered_chunk(structure(list(type = "learnr_text", label = "quiz-slopes-1",     question = structure("What is the intercept for females from the coefficients above?", html = TRUE, class = c("html",     "character")), answers = list(structure(list(id = "lnr_ans_3c00b34",         option = "-1.06", value = "-1.06", label = structure("-1.06", html = TRUE, class = c("html",         "character")), correct = TRUE, message = structure("(Intercept) refers to the intercept for female crabs", html = TRUE, class = c("html",         "character"))), class = c("tutorial_question_answer",     "tutorial_quiz_answer"))), button_labels = list(submit = structure("Submit Answer", html = TRUE, class = c("html",     "character")), try_again = structure("Try Again", html = TRUE, class = c("html",     "character"))), messages = list(correct = structure("Correct!", html = TRUE, class = c("html",     "character")), try_again = structure("Incorrect", html = TRUE, class = c("html",     "character")), incorrect = structure("Incorrect", html = TRUE, class = c("html",     "character")), message = NULL, post_message = NULL), ids = list(        answer = "quiz-slopes-1-answer", question = "quiz-slopes-1"),     loading = structure("<strong>Loading:<\u002fstrong> \nWhat is the intercept for females from the coefficients above?\n<br/><br/><br/>", html = TRUE, class = c("html",     "character")), random_answer_order = FALSE, allow_retry = TRUE,     seed = 236137601.39004, options = list(placeholder = "Enter answer here...",         trim = TRUE)), class = c("learnr_text", "tutorial_question")))
+</script>
+ 
+<script type="application/shiny-prerendered" data-context="server">
+learnr:::question_prerendered_chunk(structure(list(type = "learnr_text", label = "quiz-slopes-2",     question = structure("What is the intercept for males from the coefficients above?", html = TRUE, class = c("html",     "character")), answers = list(structure(list(id = "lnr_ans_6363bbd",         option = "-0.15", value = "-0.15", label = structure("-0.15", html = TRUE, class = c("html",         "character")), correct = TRUE, message = NULL), class = c("tutorial_question_answer",     "tutorial_quiz_answer"))), button_labels = list(submit = structure("Submit Answer", html = TRUE, class = c("html",     "character")), try_again = structure("Try Again", html = TRUE, class = c("html",     "character"))), messages = list(correct = structure("Correct!", html = TRUE, class = c("html",     "character")), try_again = structure("Remember what we did for parameterising the fixed slopes model", html = TRUE, class = c("html",     "character")), incorrect = structure("Remember what we did for parameterising the fixed slopes model", html = TRUE, class = c("html",     "character")), message = NULL, post_message = NULL), ids = list(        answer = "quiz-slopes-2-answer", question = "quiz-slopes-2"),     loading = structure("<strong>Loading:<\u002fstrong> \nWhat is the intercept for males from the coefficients above?\n<br/><br/><br/>", html = TRUE, class = c("html",     "character")), random_answer_order = FALSE, allow_retry = TRUE,     seed = 1556492450.2752, options = list(placeholder = "Enter answer here...",         trim = TRUE)), class = c("learnr_text", "tutorial_question")))
+</script>
+ 
+<script type="application/shiny-prerendered" data-context="server">
+learnr:::question_prerendered_chunk(structure(list(type = "learnr_text", label = "male-slope", question = structure("Use the above information to calculate the slope for males", html = TRUE, class = c("html", "character")), answers = list(structure(list(id = "lnr_ans_b38772b",     option = "0.89", value = "0.89", label = structure("0.89", html = TRUE, class = c("html",     "character")), correct = TRUE, message = NULL), class = c("tutorial_question_answer", "tutorial_quiz_answer"))), button_labels = list(submit = structure("Submit Answer", html = TRUE, class = c("html", "character")), try_again = structure("Try Again", html = TRUE, class = c("html", "character"))), messages = list(correct = structure("Correct!", html = TRUE, class = c("html", "character")), try_again = structure("Keep trying - you have all the information already", html = TRUE, class = c("html", "character")), incorrect = structure("Keep trying - you have all the information already", html = TRUE, class = c("html", "character")), message = NULL, post_message = NULL), ids = list(    answer = "male-slope-answer", question = "male-slope"), loading = structure("<strong>Loading:<\u002fstrong> \nUse the above information to calculate the slope for males\n<br/><br/><br/>", html = TRUE, class = c("html", "character")), random_answer_order = FALSE, allow_retry = TRUE,     seed = 440087888.795068, options = list(placeholder = "Enter answer here...",         trim = TRUE)), class = c("learnr_text", "tutorial_question")))
+</script>
+ 
+<script type="application/shiny-prerendered" data-context="server">
+`tutorial-exercise-random-final-graph-result` <- learnr:::setup_exercise_handler(reactive(req(input$`tutorial-exercise-random-final-graph-code-editor`)), session)
+output$`tutorial-exercise-random-final-graph-output` <- renderUI({
+  `tutorial-exercise-random-final-graph-result`()
+})
+</script>
+ 
+<script type="application/shiny-prerendered" data-context="server">
+learnr:::question_prerendered_chunk(structure(list(type = "learnr_text", label = "predict-random-1",     question = structure("What is the carapace length of a female crab with a carapace width of  27  mm? To 2 decimal places", html = TRUE, class = c("html",     "character")), answers = list(structure(list(id = "lnr_ans_bac8e71",         option = "23.43", value = "23.43", label = structure("23.43", html = TRUE, class = c("html",         "character")), correct = TRUE, message = NULL), class = c("tutorial_question_answer",     "tutorial_quiz_answer"))), button_labels = list(submit = structure("Submit Answer", html = TRUE, class = c("html",     "character")), try_again = structure("Try Again", html = TRUE, class = c("html",     "character"))), messages = list(correct = structure("Correct!", html = TRUE, class = c("html",     "character")), try_again = structure("Incorrect", html = TRUE, class = c("html",     "character")), incorrect = structure("Incorrect", html = TRUE, class = c("html",     "character")), message = NULL, post_message = NULL), ids = list(        answer = "predict-random-1-answer", question = "predict-random-1"),     loading = structure("<strong>Loading:<\u002fstrong> \nWhat is the carapace length of a female crab with a carapace width of  27  mm? To 2 decimal places\n<br/><br/><br/>", html = TRUE, class = c("html",     "character")), random_answer_order = FALSE, allow_retry = TRUE,     seed = 455718548.28779, options = list(placeholder = "Enter answer here...",         trim = TRUE)), class = c("learnr_text", "tutorial_question")))
+</script>
+ 
+<script type="application/shiny-prerendered" data-context="server">
+learnr:::question_prerendered_chunk(structure(list(type = "learnr_text", label = "predict-random-2",     question = structure("What is the carapace length of a male crab with a carapace width of  27  mm? To 2 decimal places", html = TRUE, class = c("html",     "character")), answers = list(structure(list(id = "lnr_ans_22a8407",         option = "NA", value = "NA", label = structure("NA", html = TRUE, class = c("html",         "character")), correct = TRUE, message = NULL), class = c("tutorial_question_answer",     "tutorial_quiz_answer"))), button_labels = list(submit = structure("Submit Answer", html = TRUE, class = c("html",     "character")), try_again = structure("Try Again", html = TRUE, class = c("html",     "character"))), messages = list(correct = structure("Correct!", html = TRUE, class = c("html",     "character")), try_again = structure("Incorrect", html = TRUE, class = c("html",     "character")), incorrect = structure("Incorrect", html = TRUE, class = c("html",     "character")), message = NULL, post_message = NULL), ids = list(        answer = "predict-random-2-answer", question = "predict-random-2"),     loading = structure("<strong>Loading:<\u002fstrong> \nWhat is the carapace length of a male crab with a carapace width of  27  mm? To 2 decimal places\n<br/><br/><br/>", html = TRUE, class = c("html",     "character")), random_answer_order = FALSE, allow_retry = TRUE,     seed = 1854355910.1365, options = list(placeholder = "Enter answer here...",         trim = TRUE)), class = c("learnr_text", "tutorial_question")))
+</script>
+ 
+<script type="application/shiny-prerendered" data-context="server">
+learnr:::question_prerendered_chunk(structure(list(type = "learnr_radio", label = "random-test-1",     question = structure("Based on the test on the slope coefficient above, would you accept or reject the null hypothesis?", html = TRUE, class = c("html",     "character")), answers = list(structure(list(id = "lnr_ans_5e4668",         option = "Accept", value = "Accept", label = structure("Accept", html = TRUE, class = c("html",         "character")), correct = FALSE, message = NULL), class = c("tutorial_question_answer",     "tutorial_quiz_answer")), structure(list(id = "lnr_ans_c226fa5",         option = "Reject", value = "Reject", label = structure("Reject", html = TRUE, class = c("html",         "character")), correct = TRUE, message = structure("The P value is less than 0.05", html = TRUE, class = c("html",         "character"))), class = c("tutorial_question_answer",     "tutorial_quiz_answer"))), button_labels = list(submit = structure("Submit Answer", html = TRUE, class = c("html",     "character")), try_again = structure("Try Again", html = TRUE, class = c("html",     "character"))), messages = list(correct = structure("Correct!", html = TRUE, class = c("html",     "character")), try_again = structure("Incorrect", html = TRUE, class = c("html",     "character")), incorrect = structure("Incorrect", html = TRUE, class = c("html",     "character")), message = NULL, post_message = NULL), ids = list(        answer = "random-test-1-answer", question = "random-test-1"),     loading = structure("<strong>Loading:<\u002fstrong> \nBased on the test on the slope coefficient above, would you accept or reject the null hypothesis?\n<br/><br/><br/>", html = TRUE, class = c("html",     "character")), random_answer_order = FALSE, allow_retry = TRUE,     seed = 1962124297.58631, options = list()), class = c("learnr_radio", "tutorial_question")))
+</script>
+ 
+<script type="application/shiny-prerendered" data-context="server">
+learnr:::question_prerendered_chunk(structure(list(type = "learnr_radio", label = "random-test-2",     question = structure("Based on the test on the intercept coefficient above, would a fixed slopes model or random slopes model be more parsimonious to describe the effect of sex and shell width on shell length?", html = TRUE, class = c("html",     "character")), answers = list(structure(list(id = "lnr_ans_3b21409",         option = "Fixed slopes model", value = "Fixed slopes model",         label = structure("Fixed slopes model", html = TRUE, class = c("html",         "character")), correct = TRUE, message = structure("The interaction is non-significant so there is little statistical difference between the fixed slopes and random slopes model so we use the fixed slopes model because it is more parsimonious", html = TRUE, class = c("html",         "character"))), class = c("tutorial_question_answer",     "tutorial_quiz_answer")), structure(list(id = "lnr_ans_1626e38",         option = "Random slopes model", value = "Random slopes model",         label = structure("Random slopes model", html = TRUE, class = c("html",         "character")), correct = FALSE, message = NULL), class = c("tutorial_question_answer",     "tutorial_quiz_answer"))), button_labels = list(submit = structure("Submit Answer", html = TRUE, class = c("html",     "character")), try_again = structure("Try Again", html = TRUE, class = c("html",     "character"))), messages = list(correct = structure("Correct!", html = TRUE, class = c("html",     "character")), try_again = structure("Incorrect", html = TRUE, class = c("html",     "character")), incorrect = structure("Incorrect", html = TRUE, class = c("html",     "character")), message = NULL, post_message = NULL), ids = list(        answer = "random-test-2-answer", question = "random-test-2"),     loading = structure("<strong>Loading:<\u002fstrong> \nBased on the test on the intercept coefficient above, would a fixed slopes model or random slopes model be more parsimonious to describe the effect of sex and shell width on shell length?\n<br/><br/><br/>", html = TRUE, class = c("html",     "character")), random_answer_order = FALSE, allow_retry = TRUE,     seed = 746231616.152509, options = list()), class = c("learnr_radio", "tutorial_question")))
+</script>
+ 
+<script type="application/shiny-prerendered" data-context="server">
+learnr:::question_prerendered_chunk(structure(list(type = "learnr_radio", label = "quiz4", question = structure("Based on the F test on the interaction in the above ANOVA table, would you accept or reject the null hypothesis?", html = TRUE, class = c("html", "character")), answers = list(structure(list(id = "lnr_ans_9d8bbdf",     option = "Accept", value = "Accept", label = structure("Accept", html = TRUE, class = c("html",     "character")), correct = TRUE, message = structure("The P value is less than 0.05. There is no interaction between sex and shell width", html = TRUE, class = c("html",     "character"))), class = c("tutorial_question_answer", "tutorial_quiz_answer")), structure(list(id = "lnr_ans_4a955da", option = "Reject",     value = "Reject", label = structure("Reject", html = TRUE, class = c("html",     "character")), correct = FALSE, message = NULL), class = c("tutorial_question_answer", "tutorial_quiz_answer"))), button_labels = list(submit = structure("Submit Answer", html = TRUE, class = c("html", "character")), try_again = structure("Try Again", html = TRUE, class = c("html", "character"))), messages = list(correct = structure("Correct!", html = TRUE, class = c("html", "character")), try_again = structure("Incorrect", html = TRUE, class = c("html", "character")), incorrect = structure("Incorrect", html = TRUE, class = c("html", "character")), message = NULL, post_message = NULL), ids = list(    answer = "quiz4-answer", question = "quiz4"), loading = structure("<strong>Loading:<\u002fstrong> \nBased on the F test on the interaction in the above ANOVA table, would you accept or reject the null hypothesis?\n<br/><br/><br/>", html = TRUE, class = c("html", "character")), random_answer_order = FALSE, allow_retry = TRUE,     seed = 125723547.441455, options = list()), class = c("learnr_radio", "tutorial_question")))
+</script>
+ 
+<script type="application/shiny-prerendered" data-context="server">
+learnr:::question_prerendered_chunk(structure(list(type = "learnr_checkbox", label = "recap-1", question = structure("What is the difference between an additive and interactive linear model? Select all that apply", html = TRUE, class = c("html", "character")), answers = list(structure(list(id = "lnr_ans_d4f87bc",     option = "An additive model does not describe an interaction between the two predictor variables",     value = "An additive model does not describe an interaction between the two predictor variables",     label = structure("An additive model does not describe an interaction between the two predictor variables", html = TRUE, class = c("html",     "character")), correct = TRUE, message = NULL), class = c("tutorial_question_answer", "tutorial_quiz_answer")), structure(list(id = "lnr_ans_5085ec8",     option = "An interactive model describes that the effect of one predictor variable on the response variable is dependent on the second predictor variable.",     value = "An interactive model describes that the effect of one predictor variable on the response variable is dependent on the second predictor variable.",     label = structure("An interactive model describes that the effect of one predictor variable on the response variable is dependent on the second predictor variable.", html = TRUE, class = c("html",     "character")), correct = TRUE, message = NULL), class = c("tutorial_question_answer", "tutorial_quiz_answer")), structure(list(id = "lnr_ans_7dc6282",     option = "An additive model describes an interaction between the two predictor variables",     value = "An additive model describes an interaction between the two predictor variables",     label = structure("An additive model describes an interaction between the two predictor variables", html = TRUE, class = c("html",     "character")), correct = FALSE, message = NULL), class = c("tutorial_question_answer", "tutorial_quiz_answer")), structure(list(id = "lnr_ans_5441417",     option = "An interactive model describes that the effect of one predictor variable on the response variable is independent of the second predictor variable.",     value = "An interactive model describes that the effect of one predictor variable on the response variable is independent of the second predictor variable.",     label = structure("An interactive model describes that the effect of one predictor variable on the response variable is independent of the second predictor variable.", html = TRUE, class = c("html",     "character")), correct = FALSE, message = NULL), class = c("tutorial_question_answer", "tutorial_quiz_answer"))), button_labels = list(submit = structure("Submit Answer", html = TRUE, class = c("html", "character")), try_again = structure("Try Again", html = TRUE, class = c("html", "character"))), messages = list(correct = structure("Correct!", html = TRUE, class = c("html", "character")), try_again = structure("Incorrect", html = TRUE, class = c("html", "character")), incorrect = structure("Incorrect", html = TRUE, class = c("html", "character")), message = NULL, post_message = NULL), ids = list(    answer = "recap-1-answer", question = "recap-1"), loading = structure("<strong>Loading:<\u002fstrong> \nWhat is the difference between an additive and interactive linear model? Select all that apply\n<br/><br/><br/>", html = TRUE, class = c("html", "character")), random_answer_order = TRUE, allow_retry = TRUE,     seed = 841147046.60831, options = list()), class = c("learnr_checkbox", "tutorial_question")))
+</script>
+ 
+<script type="application/shiny-prerendered" data-context="server">
+learnr:::question_prerendered_chunk(structure(list(type = "learnr_checkbox", label = "recap-2", question = structure("What is the function to conduct an interactive multiple regression model in R? (There might be more than 1 correct answer)", html = TRUE, class = c("html", "character")), answers = list(structure(list(id = "lnr_ans_1731c3d",     option = "lm(Y ~ A + B, data)", value = "lm(Y ~ A + B, data)",     label = structure("lm(Y ~ A + B, data)", html = TRUE, class = c("html",     "character")), correct = FALSE, message = NULL), class = c("tutorial_question_answer", "tutorial_quiz_answer")), structure(list(id = "lnr_ans_fd222cd",     option = "lm(Y ~ A * B, data)", value = "lm(Y ~ A * B, data)",     label = structure("lm(Y ~ A * B, data)", html = TRUE, class = c("html",     "character")), correct = TRUE, message = NULL), class = c("tutorial_question_answer", "tutorial_quiz_answer")), structure(list(id = "lnr_ans_2e13547",     option = "lm(Y ~ A + B + A:B, data)", value = "lm(Y ~ A + B + A:B, data)",     label = structure("lm(Y ~ A + B + A:B, data)", html = TRUE, class = c("html",     "character")), correct = TRUE, message = structure("This also works because of the interaction is described by the term A:B", html = TRUE, class = c("html",     "character"))), class = c("tutorial_question_answer", "tutorial_quiz_answer")), structure(list(id = "lnr_ans_fec57ff", option = "lm(Y ~ A:B, data)",     value = "lm(Y ~ A:B, data)", label = structure("lm(Y ~ A:B, data)", html = TRUE, class = c("html",     "character")), correct = FALSE, message = NULL), class = c("tutorial_question_answer", "tutorial_quiz_answer"))), button_labels = list(submit = structure("Submit Answer", html = TRUE, class = c("html", "character")), try_again = structure("Try Again", html = TRUE, class = c("html", "character"))), messages = list(correct = structure("Correct!", html = TRUE, class = c("html", "character")), try_again = structure("Incorrect", html = TRUE, class = c("html", "character")), incorrect = structure("Incorrect", html = TRUE, class = c("html", "character")), message = NULL, post_message = NULL), ids = list(    answer = "recap-2-answer", question = "recap-2"), loading = structure("<strong>Loading:<\u002fstrong> \nWhat is the function to conduct an interactive multiple regression model in R? (There might be more than 1 correct answer)\n<br/><br/><br/>", html = TRUE, class = c("html", "character")), random_answer_order = FALSE, allow_retry = TRUE,     seed = 349331212.33733, options = list()), class = c("learnr_checkbox", "tutorial_question")))
+</script>
+ 
+<script type="application/shiny-prerendered" data-context="server">
+learnr:::question_prerendered_chunk(structure(list(type = "learnr_text", label = "recap-3", question = structure("Based on the random slopes regression below, what is the frontal lobe (FL) size of an blue crab (spB) with a body depth of  19.1  mm? To 2 decimal places, no units", html = TRUE, class = c("html", "character")), answers = list(structure(list(id = "lnr_ans_eab7ebe",     option = "20.4", value = "20.4", label = structure("20.4", html = TRUE, class = c("html",     "character")), correct = TRUE, message = NULL), class = c("tutorial_question_answer", "tutorial_quiz_answer"))), button_labels = list(submit = structure("Submit Answer", html = TRUE, class = c("html", "character")), try_again = structure("Try Again", html = TRUE, class = c("html", "character"))), messages = list(correct = structure("Correct!", html = TRUE, class = c("html", "character")), try_again = structure("Incorrect", html = TRUE, class = c("html", "character")), incorrect = structure("Incorrect", html = TRUE, class = c("html", "character")), message = NULL, post_message = NULL), ids = list(    answer = "recap-3-answer", question = "recap-3"), loading = structure("<strong>Loading:<\u002fstrong> \nBased on the random slopes regression below, what is the frontal lobe (FL) size of an blue crab (spB) with a body depth of  19.1  mm? To 2 decimal places, no units\n<br/><br/><br/>", html = TRUE, class = c("html", "character")), random_answer_order = FALSE, allow_retry = TRUE,     seed = 242048712.887287, options = list(placeholder = "Enter answer here...",         trim = TRUE)), class = c("learnr_text", "tutorial_question")))
+</script>
+ <!--html_preserve-->
+<script type="application/shiny-prerendered" data-context="dependencies">
+{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["header-attrs"]},{"type":"character","attributes":{},"value":["2.5"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["rmd/h/pandoc"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["header-attrs.js"]},{"type":"NULL"},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["rmarkdown"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["2.5"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["jquery"]},{"type":"character","attributes":{},"value":["1.11.3"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["rmd/h/jquery"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["jquery.min.js"]},{"type":"NULL"},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["rmarkdown"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["2.5"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["bootstrap"]},{"type":"character","attributes":{},"value":["3.3.5"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["rmd/h/bootstrap"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["viewport"]}},"value":[{"type":"character","attributes":{},"value":["width=device-width, initial-scale=1"]}]},{"type":"character","attributes":{},"value":["js/bootstrap.min.js","shim/html5shiv.min.js","shim/respond.min.js"]},{"type":"character","attributes":{},"value":["css/cerulean.min.css"]},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["rmarkdown"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["2.5"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["pagedtable"]},{"type":"character","attributes":{},"value":["1.1"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["rmd/h/pagedtable-1.1"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["js/pagedtable.js"]},{"type":"character","attributes":{},"value":["css/pagedtable.css"]},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["rmarkdown"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["2.5"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["highlightjs"]},{"type":"character","attributes":{},"value":["9.12.0"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["rmd/h/highlightjs"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["highlight.js"]},{"type":"character","attributes":{},"value":["textmate.css"]},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["rmarkdown"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["2.5"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["tutorial"]},{"type":"character","attributes":{},"value":["0.10.1"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["lib/tutorial"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["tutorial.js"]},{"type":"character","attributes":{},"value":["tutorial.css"]},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["learnr"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["0.10.1"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["tutorial-autocompletion"]},{"type":"character","attributes":{},"value":["0.10.1"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["lib/tutorial"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["tutorial-autocompletion.js"]},{"type":"NULL"},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["learnr"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["0.10.1"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["tutorial-diagnostics"]},{"type":"character","attributes":{},"value":["0.10.1"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["lib/tutorial"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["tutorial-diagnostics.js"]},{"type":"NULL"},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["learnr"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["0.10.1"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["tutorial-format"]},{"type":"character","attributes":{},"value":["0.10.1"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["rmarkdown/templates/tutorial/resources"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["tutorial-format.js"]},{"type":"character","attributes":{},"value":["tutorial-format.css","rstudio-theme.css"]},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["learnr"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["0.10.1"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["jquery"]},{"type":"character","attributes":{},"value":["1.11.3"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["rmd/h/jquery"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["jquery.min.js"]},{"type":"NULL"},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["rmarkdown"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["2.5"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["navigation"]},{"type":"character","attributes":{},"value":["1.1"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["rmd/h/navigation-1.1"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["tabsets.js"]},{"type":"NULL"},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["rmarkdown"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["2.5"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["highlightjs"]},{"type":"character","attributes":{},"value":["9.12.0"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["rmd/h/highlightjs"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["highlight.js"]},{"type":"character","attributes":{},"value":["default.css"]},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["rmarkdown"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["2.5"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["anchor-sections"]},{"type":"character","attributes":{},"value":["1.0"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["rmd/h/anchor-sections"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["anchor-sections.js"]},{"type":"character","attributes":{},"value":["anchor-sections.css"]},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["rmarkdown"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["2.5"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["jquery"]},{"type":"character","attributes":{},"value":["1.11.3"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["rmd/h/jquery"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["jquery.min.js"]},{"type":"NULL"},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["rmarkdown"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["2.5"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["font-awesome"]},{"type":"character","attributes":{},"value":["5.1.0"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["rmd/h/fontawesome"]}]},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["css/all.css","css/v4-shims.css"]},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["rmarkdown"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["2.5"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["bootbox"]},{"type":"character","attributes":{},"value":["4.4.0"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["lib/bootbox"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["bootbox.min.js"]},{"type":"NULL"},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["learnr"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["0.10.1"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["idb-keyvalue"]},{"type":"character","attributes":{},"value":["3.2.0"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["lib/idb-keyval"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["idb-keyval-iife-compat.min.js"]},{"type":"NULL"},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["learnr"]},{"type":"logical","attributes":{},"value":[false]},{"type":"character","attributes":{},"value":["0.10.1"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["tutorial"]},{"type":"character","attributes":{},"value":["0.10.1"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["lib/tutorial"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["tutorial.js"]},{"type":"character","attributes":{},"value":["tutorial.css"]},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["learnr"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["0.10.1"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["tutorial-autocompletion"]},{"type":"character","attributes":{},"value":["0.10.1"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["lib/tutorial"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["tutorial-autocompletion.js"]},{"type":"NULL"},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["learnr"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["0.10.1"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["tutorial-diagnostics"]},{"type":"character","attributes":{},"value":["0.10.1"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["lib/tutorial"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["tutorial-diagnostics.js"]},{"type":"NULL"},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["learnr"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["0.10.1"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["ace"]},{"type":"character","attributes":{},"value":["1.2.6"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["lib/ace"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["ace.js"]},{"type":"NULL"},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["learnr"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["0.10.1"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["clipboardjs"]},{"type":"character","attributes":{},"value":["1.5.15"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["lib/clipboardjs"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["clipboard.min.js"]},{"type":"NULL"},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["learnr"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["0.10.1"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["ace"]},{"type":"character","attributes":{},"value":["1.2.6"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["lib/ace"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["ace.js"]},{"type":"NULL"},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["learnr"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["0.10.1"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["clipboardjs"]},{"type":"character","attributes":{},"value":["1.5.15"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["lib/clipboardjs"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["clipboard.min.js"]},{"type":"NULL"},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["learnr"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["0.10.1"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["ace"]},{"type":"character","attributes":{},"value":["1.2.6"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["lib/ace"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["ace.js"]},{"type":"NULL"},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["learnr"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["0.10.1"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["clipboardjs"]},{"type":"character","attributes":{},"value":["1.5.15"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["lib/clipboardjs"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["clipboard.min.js"]},{"type":"NULL"},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["learnr"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["0.10.1"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["ace"]},{"type":"character","attributes":{},"value":["1.2.6"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["lib/ace"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["ace.js"]},{"type":"NULL"},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["learnr"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["0.10.1"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["clipboardjs"]},{"type":"character","attributes":{},"value":["1.5.15"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["lib/clipboardjs"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["clipboard.min.js"]},{"type":"NULL"},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["learnr"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["0.10.1"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["ace"]},{"type":"character","attributes":{},"value":["1.2.6"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["lib/ace"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["ace.js"]},{"type":"NULL"},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["learnr"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["0.10.1"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["clipboardjs"]},{"type":"character","attributes":{},"value":["1.5.15"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["lib/clipboardjs"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["clipboard.min.js"]},{"type":"NULL"},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["learnr"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["0.10.1"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["ace"]},{"type":"character","attributes":{},"value":["1.2.6"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["lib/ace"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["ace.js"]},{"type":"NULL"},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["learnr"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["0.10.1"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["clipboardjs"]},{"type":"character","attributes":{},"value":["1.5.15"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["lib/clipboardjs"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["clipboard.min.js"]},{"type":"NULL"},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["learnr"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["0.10.1"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["ace"]},{"type":"character","attributes":{},"value":["1.2.6"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["lib/ace"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["ace.js"]},{"type":"NULL"},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["learnr"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["0.10.1"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","version","src","meta","script","stylesheet","head","attachment","package","all_files","pkgVersion"]},"class":{"type":"character","attributes":{},"value":["html_dependency"]}},"value":[{"type":"character","attributes":{},"value":["clipboardjs"]},{"type":"character","attributes":{},"value":["1.5.15"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["file"]}},"value":[{"type":"character","attributes":{},"value":["lib/clipboardjs"]}]},{"type":"NULL"},{"type":"character","attributes":{},"value":["clipboard.min.js"]},{"type":"NULL"},{"type":"NULL"},{"type":"NULL"},{"type":"character","attributes":{},"value":["learnr"]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["0.10.1"]}]}]}
+</script>
+<!--/html_preserve-->
+<!--html_preserve-->
+<script type="application/shiny-prerendered" data-context="execution_dependencies">
+{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["packages"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["packages","version"]},"class":{"type":"character","attributes":{},"value":["data.frame"]},"row.names":{"type":"integer","attributes":{},"value":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40]}},"value":[{"type":"character","attributes":{},"value":["backports","base","checkmate","compiler","datasets","digest","ellipsis","evaluate","fastmap","graphics","grDevices","highr","htmltools","htmlwidgets","httpuv","jsonlite","knitr","later","learnr","magrittr","markdown","MASS","methods","mime","promises","R6","Rcpp","rlang","rmarkdown","rprojroot","shiny","stats","stringi","stringr","tools","utils","withr","xfun","xtable","yaml"]},{"type":"character","attributes":{},"value":["1.2.0","4.0.3","2.0.0","4.0.3","4.0.3","0.6.27","0.3.1","0.14","1.0.1","4.0.3","4.0.3","0.8","0.5.0","1.5.2","1.5.4","1.7.1","1.30","1.1.0.1","0.10.1","1.5","1.1","7.3-53","4.0.3","0.9","1.1.1","2.5.0","1.0.5","0.4.8","2.5","1.3-2","1.5.0","4.0.3","1.5.3","1.4.0","4.0.3","4.0.3","2.3.0","0.19","1.8-4","2.2.1"]}]}]}
+</script>
+<!--/html_preserve-->
+</div>
+</div>
+</div>
+
+</div> <!-- topics -->
+
+<div class="topicsContainer">
+<div class="topicsPositioner">
+<div class="band">
+<div class="bandContent topicsListContainer">
+
+<!-- begin doc-metadata -->
+<div id="doc-metadata">
+<h2 class="title toc-ignore" style="display:none;">Multiple regression</h2>
+</div>
+<!-- end doc-metadata -->
+
+</div> <!-- bandContent.topicsListContainer -->
+</div> <!-- band -->
+</div> <!-- topicsPositioner -->
+</div> <!-- topicsContainer -->
+
+
+</div> <!-- bandContent page -->
+</div> <!-- pageContent band -->
+
+
+
+
+<script>
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+</script>
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+
+</body>
+
+</html>

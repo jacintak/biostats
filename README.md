@@ -23,7 +23,7 @@ Now we need to install the tutorial. The tutorials are stored in a Package avail
 Use the following code:
 
 ```
-remotes::install_github("jacintak/biostats", subdir = "biostats.tutorials", dependencies = TRUE)
+remotes::install_github("jacintak/biostats", dependencies = TRUE)
 ```
 
 If you are asked to install any other packages, choose yes but don't do any compiling (press no if asked).  
