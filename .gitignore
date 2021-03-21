@@ -3,5 +3,5 @@
 .RData
 .Ruserdata
 drafts/
-inst/*/*.html
-inst/*/*_files
+inst/*/*/*.html
+inst/*/*/*_files/
