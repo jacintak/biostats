@@ -46,4 +46,8 @@ learnr::run_tutorial("<insert name of the tutorial to run>", package = "biostats
 
 If neither works, check that the `biostats.tutorials` package installed properly.  
 
+It may take some time to load a tutorial - don't fret, give it time.
+
+If all else fails, don't fret and let a demonstrator know at the start of the prac. Also let a demonstrator know if you have any issues with the display.
+
 Quit a tutorial by pressing the "Stop" icon.
