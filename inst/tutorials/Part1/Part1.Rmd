@@ -13,20 +13,24 @@ description: "2021 Practical 4"
 ```{r setup, include=FALSE}
 library(learnr)
 knitr::opts_chunk$set(echo = FALSE)
+tutorial_options(exercise.lines = 5)
 ```
 
-## How to use this tutorial
+## How to use this worksheet
 
-You can interact with this tutorial through the Tutorial tab in RStudio. This window can be resized and expanded. However, I recommend clicking the pop out button (in between the home icon and the stop icon) to open the tutorial in a separate window. 
+This worksheet is an interactive document run through RStudio. It is made using the R package `learnr`, which you installed before the prac. The worksheet has interactive code chunks that you can use to enter `R` code and quizzes to test yourself - which makes this more fun than a regular word document or PDF and lets you practice R coding.
+
+You can interact with this worksheet through the Tutorial tab in RStudio. This window can be resized and expanded. However, I recommend clicking the pop out button (in between the home icon and the stop icon) to open the tutorial in a separate window. 
 
 ***
 
-This tutorial has interactive code chunks that you can use to enter `R` code. Try it:  
-*Here's a simple exercise with an empty code chunk provided for entering the answer. Click __Run Code__ to run the code. The __Hint__ button will tell you a hint.*
+**Code chunks**  
+Code chunks are independent of the main RStudio Environment. Anything you type here will not be saved to memory, but you won't need to. Try it:  
+*Here's a simple exercise with an empty code chunk provided for entering the answer. Click __Run Code__ to run the code. The __Hint__ button will tell you a hint. If you are really stuck, the last hint may be the solution.*
 
 Write the R code required to add two plus two (the answer should be 4):
 
-```{r test, exercise=TRUE, exercise.eval=TRUE}
+```{r test, exercise=TRUE, exercise.eval=TRUE, exercise.lines = 5}
 
 ```
 
@@ -38,9 +42,12 @@ You need a + somewhere. You do not need =
 2+2
 ```
 
+You can use RStudio and R scripts at the same time for trying things out or taking notes. 
+
 ***
 
-There are also quizzes to test your understanding. **These are not part of the CA**. The questions are meant to check you understand the material. The CA is accessed separately.
+**Quizzes**  
+**Quizzes here are not part of the CA.** The questions are meant to check you understand the material and your answers are not visible to anyone else. The CA is accessed separately.
 
 *Here's a quiz. Try it out to see how it works. Click __submit__ and it will tell you what you got correct. What happens when you put an incorrect answer in?*
 ```{r test-quiz}
@@ -58,6 +65,16 @@ question_text(
   paste("What is the answer to the above coding exercise?"),
   answer("4", correct = TRUE),
   allow_retry = TRUE
+),
+question_checkbox(
+  "Which of these are not fish? Select all that apply.",
+  answer("Seadragon"),
+  answer("Starfish", correct = TRUE),
+  answer("Jellyfish", correct = TRUE),
+  answer("Cuttlefish", correct = TRUE),
+  answer("Alligator gar"),
+  allow_retry = TRUE,
+  random_answer_order = TRUE
 )
 )
 ```
@@ -65,7 +82,7 @@ question_text(
 ***
 
 Well done!  
-Your answers should be saved if you open the tutorial again. You can reset your answers by clicking **Start Over** at the end of the menu. 
+Your answers are saved if you open the tutorial again. You can reset your answers by clicking **Start Over** at the end of the menu. You can run these tutorials any time you like if you want to practice again. Although you can come back to this tutorial at any time, I recommend taking your own notes for your reference. There are also discussion questions in bold that you should think about or write down an answer.  
 
 Click **Next Topic** to progress to the practical instructions.  
 You can navigate between topics using the buttons or the menu. You may not be able to skip ahead if you haven't completed all the exercises.
@@ -74,15 +91,23 @@ You can navigate between topics using the buttons or the menu. You may not be ab
 
 ## Introduction to statistical modelling
 
-Welcome! In this practical and in three lectures (with Dr Jacinta Kong), we will be looking at statistical modelling. 
+Welcome! In the last two practicals (4 and 5) and in three lectures we will be looking at statistical modelling. 
 
-In these sessions we will focus on the practical aspects of *applying* statistics (implementation & interpretation) with real data - not on the theory or mathematical proofs. Equations are kept to a minimum (promise). R is the tool most data scientists use to conduct statistics so that is what we will use too - we have also progressed beyond the realm of doing stats by hand (sorry, t-test).
+We have progressed beyond the realm of doing stats by hand and where t-tests are not appropriate for the types of data we will look at or the hypotheses we test. R will be the tool we will use.
 
-The practicals and lectures will feed off each other so you should be up to date. This practical comes first so we will start with an introduction to statistical modelling that we will continue in the lectures.
+In these sessions, we will focus on the practical aspects of *applying* statistics (implementation & interpretation) with real data - not on the theory or mathematical proofs - in fact, nearly all the relevant theory has been introduced to you in previous lectures. Equations are kept to a minimum (promise). 
+
+The practicals and lectures will feed off each other and these will also build upon the previous lectures and practicals. I expect you to be up to date with the module material. As this practical comes first, we will start with an introduction to statistical modelling that we will continue in the lectures.
+
+The demonstrators are available if you have questions about the concepts or have technical issues with running the practical. Do talk to them. They will be checking in and making sure you are keeping to time.
+
+Dr Jacinta Kong
+
+***
 
 ### What is statistical modelling?
 
-Statistical modelling is an umbrella term in statistics, it can refer to many things and even a philosophical way of thinking about data.
+Statistical modelling is an umbrella term in statistics, it can refer to many things and broadly speaking is a philosophical way of thinking about data.
 
 A definition:
 
@@ -100,8 +125,28 @@ We use models to:
  * Make evidence-based decisions
      * Run simulations - "what if...?", what happens if we change something?
  
-As part of the Scientific Method, we can compare our model with real world data. If our models are wrong, we can adjust them and formulate new hypotheses. Thus, *all models are wrong but some are useful*.
- 
+If our model doesn't match what we observe from empirical data, that's OK! We can refine our model (our hypothesis) to better match what we observe. **That's the Scientific Method.** Remember, doing science isn't about "proving" a hypothesis or being "right" - it's when we "fail" or are wrong that progress happens.
+
+We will see in the lectures that there is a trade-off between precision, generality and realism of models - there is no, one "perfect" model.
+
+> To paraphrase a quote: all models are wrong but some can be useful
+
+***
+
+### Variables vs parameters
+
+Distinguishing between variables and parameters is important in statistics, particularly for modelling.
+
+**Variables** - These are quantities that change with each iteration of a statistical model. E.g. the predictor (independent) variable and the response (dependent) variable.  
+
+**Parameters** - These are quantities that do not change with each iteration of a statistical model. They are often a constant and often represent the assumptions about our biological system we make to model it. If we change the fundamental assumptions of the model, then the *value* of the parameter may change. Often the value of the parameter is **unknown** to us and need to be *parametrised* from empirical data.  
+
+A variable could switch to being a parameter or vice versa depending on the experimental design and hypothesis tested, which in turn determines the statistical model. These decisions should be made when planning an experiment, not during or afterwards. 
+
+We will go through the process of parametrising in the next practical and in the lectures.
+
+***
+
 ### Types of models
 
 Models can be characterised in several ways.
@@ -109,7 +154,7 @@ Models can be characterised in several ways.
 Depending on what they describe:
 
  * **Theoretic models** describe processes - explored here
- * **Empirical models** describe data - explored in lectures
+ * **Empirical models** describe data - explored in lectures and in practical 5
 
 Some biological systems can be described both ways.
 
@@ -119,7 +164,7 @@ Models can be placed on a spectrum of simple to complex, and specific to general
 
    * A simple and general model are analytical models like functional responses (discussed here)
    * A simple and specific model are linear regression models (discussed in lectures)
-   * A complex and general model are global climate forcasting models
+   * A complex and general model are global climate forecasting models
    * A complex and specific model are phenomenological models (e.g. growth of a species)
  
 ***
@@ -166,6 +211,8 @@ In these practicals we will look at a theoretic model of a pathogen response (pr
 
 The majority of this practical will focus on the practicalities of designing experiments and collecting data, which we covered earlier in the module. The data collected in this practical must be submitted to Blackboard and will be used in the next practical.
 
+I recommend taking your time with these practical and the concepts because they are fundamental to biological statistics you are likely to encounter again (plus are highly relevant to your final report). There is no need to rush.
+
 ***
 
 ### Learning objectives
@@ -183,7 +230,10 @@ Part B: Designing an experiment (40 mins)
 
  * Apply your knowledge about experimental design and hypothesis formulation to a biological problem in practice
 
-Part C: Collecting data (1.5 hours)  
+Part C: Collecting data (**1 hour**) 
+
+This is the main activity of the practical that will take the most time and you can't rush/skip it.
+
 **Learning objectives:** 
 
  * Know how to run a simulation of a model and extract data 
@@ -195,7 +245,7 @@ You will be uploading your data to Blackboard that will be checked as part of th
 
 ### Continuous Assessment
 
-I recommend to do the CA *after* finishing this practical. Give yourself 30 mins to do the CA.
+I recommend doing the CA *after* Part B. Give yourself 30 mins to do the CA but don't spend too long on it because you need to finish Part C.
 
 The CA is worth 10% and is due at the end of the prac.  
 There are 9 questions to answer for 1 mark each.  
@@ -210,7 +260,7 @@ The CA aims to assess your understanding of the concepts in this practical and y
 
 In programming, it's *really easy* to make mistakes like typos so that code doesn't work. That is no means a reflection on you or your ability to code/learn. If your code is not working take a moment to breathe.  
 
-Then, check whether it's a minor thing like a spelling mistake, or a missing quotation mark or bracket, or whether your cases don't match.
+Then, check whether it's a minor thing like a spelling mistake, or a missing quotation mark or bracket, or whether your cases don't match. 
 
 Next, check whether you have missed a step. Re-read the instructions again.
 
@@ -218,13 +268,13 @@ Next, check whether you have missed a step. Re-read the instructions again.
 
 Next, try to articulate in words to yourself what you aim to do, what you expect to see if it worked, what you did leading up to this point and what you think is happening to cause the error. (This is called the rubber duck method - like you are explaining your problems to a rubber duck.)
 
-If there's an error message, read it. Error messages are the computer telling you what's wrong. Try googling the entire error message to see what other people have said.
+If there's an error message, read it. Error messages are the computer telling you what's wrong. Try googling the entire error message to see what other people have said. The entire error message is necessary, not just the last bit.
 
-Finally, ask a person/demonstrator as a last step. It's easy to jump ahead to this step but try not to - you may gain a deeper understanding if you try to figure it out independently. The same with reading and digesting the prac material - maybe you haven't read this sentence because tl;dr but you should because the CA will test your reading comprehension. My favourite dinosaur is diplodocus. The goal of learning to code is about the process, not the end result.
+Finally, ask a person/demonstrator as a last step. It's easy to jump ahead to this step but try not to - this isn't because we don't want to help you but because you may gain a deeper understanding if you try to figure it out independently. The same with reading and digesting the prac material - maybe you haven't read this sentence because tl;dr but you should because the CA will test your reading comprehension and attention to detail. My favourite dinosaur is diplodocus. The goal of learning to code is about the process, not the end result.
 
-One of the hard things about troubleshooting programming is that it's not clear what the problem is to an outsider (see step 3). So when describing your problem, be comprehensive & give context. Show the entire error message, not just parts of it. Trace your steps leading up to it. You see this a lot on online forums - questions don't get answered if there isn't provide enough information or a reproducible example.
+One of the hard things about troubleshooting someone else's programming is that it's not clear what the problem. When describing your problem, be comprehensive & give context. Show the entire error message, not just parts of it. Trace your steps leading up to it. You see this a lot on online forums - questions don't get answered if there isn't enough information or a reproducible example.
 
-The more information you provide, the more information people have to help you (we cannot read minds). That's why we might ask you to provide more information or ask further questions to troubleshoot. The first things we would check are the steps above (minor human errors), so if you've done those you can say this is what I've already done and I've ruled out those causes. 
+The more information you provide, the more information and context people have to help you. That's why we might ask you to provide more information or ask further questions to troubleshoot. The first things we would check are the steps above (minor human errors), so if you've done those, then say what you've already checked and what causes you've ruled out. That gives us a starting point to assist further.
 
 Programming is **trial and error**. You wouldn't expect to get it on the first try. And that's OK - it's part of the process.
 
@@ -253,7 +303,7 @@ In the previous practical you looked at a killer T cell digesting a pathogen. Th
 
 You started to compose a Scratch model. Although the Scratch model comprises of pictures and code blocks, under the hood these blocks represent computer code, and more abstractly a mathematical processes. Thus, the Scratch model is an implementation of a statistical model of a biological system - the infection response.
 
-This model was simple - maybe, too simple to be realistic. The killer T cell captured any and all pathogens touching it whereas in reality, a killer T cell may only target a few pathogens at a time or sequentially. This is also true for animal predators who hunt.
+This model was simple - maybe, too simple to be realistic. The killer T cell captured any and all pathogens touching it whereas in reality, a killer T cell may only target a few pathogens at a time or sequentially. This is also true for animal predators who hunt. Most predators need time to catch and process their food before their next meal.
 
 We can conceptualise a more realistic representation of an infection response, or more abstractly a predator-prey interaction. By breaking down what we observe to be important about the infection response into variables and assumptions, we can build our own theoretic model (describing a process) of an infection response from the ground up.
 
@@ -262,7 +312,7 @@ We can conceptualise a more realistic representation of an infection response, o
 
 ### What is an infection response?
 
-In an infection response we have two variables:
+In an infection response we have two *variables*:
 
 1. Killer T cells
 2. Pathogens
@@ -308,29 +358,48 @@ If you thought our model is too simplistic, you are probably right *but* in mode
 
 > Thus, one application of models is to consider them as hypotheses of biological systems - what we think are important components of the system
 
-If our model doesn't match what we observe from empirical data, that's OK! We can refine our model (our hypothesis) to better match what we observe. **That's the Scientific Method.**
-
-We will see in the lectures that there is a trade-off between precision, generality and realism of models - there is no, one "perfect" model.
-
-> To paraphrase a quote: all models are wrong but some can be useful
-
 ***
 
-Infection responses, predator-prey interactions...they can be generally classified as **functional responses**. Luckily for us, there is already a well known mathematical model of functional response that we can use (a theoretic model).
+### Functional responses
 
-There are multiple types of functional responses (labelled with Roman numerals). Each of these models represents a *different hypothesis* about functional responses and describes a *different relationship* between our two variables (the killer T cell and the pathogen). The assumptions we make above are based on a Type II functional response model and is the one most appropriate for an infection response scenario. We won't discuss the other types. 
+Infection responses, predator-prey interactions...they can be generally classified as **functional responses**. Luckily for us, there are already well known analytical (mathematical) models of functional response that we can use.
+
+There are multiple types of functional responses (labelled with Roman numerals: I - IV). Each of these models represents a *different hypothesis* about functional responses and mathematically describes a *different relationship* between our two variables (the killer T cell and the pathogen). The assumptions we make above are based on a **Type II functional response model** and is the one most appropriate for an infection response scenario. You can read about the full maths by running `vignette("TypeIImodels")`. We won't discuss the other types. 
+
+The Type II functional response model is a good example of a general model - it has been used to describe animal predators eating prey (e.g. Holling's disc equations) or enzymes catalysing reactions (e.g. Michaelis-Menten equation). It doesn't matter what the mathematical symbols represent biologically, maths is a universal language that describes the underlying biological process. Here, we are applying it to an immune response scenario.
 
 ***
 
 ```{r models-quiz}
-question(
-  "Which of these is not a rational for using statistical models on biological data?",
+quiz(
+  question(
+  "Which of these is not a rationale for using statistical models on biological data?",
   answer("To disprove a hypothesis", correct = TRUE, message = "Scientists don't 'prove' hypotheses"),
   answer("To make sense of biological patterns"),
   answer("To make new theories"),
   answer("To guide future research"),
   allow_retry = TRUE,
   random_answer_order = TRUE
+),
+question_checkbox(
+  "Which of these words describe our infection response model? Select all that apply.",
+  answer("Complex"),
+  answer("Simple", correct = TRUE),
+  answer("Analytical", correct = TRUE),
+  answer("Theoretic", correct = TRUE),
+  answer("Empirical"),
+  allow_retry = TRUE,
+  random_answer_order = TRUE
+),
+  question(
+  "Which of these are not limitations of statistical models?",
+  answer("We consider alternative scenarios", correct = TRUE),
+  answer("Models need a lot of data we may not have"),
+  answer("Models are too reductionistic"),
+  answer("Models have uncertainties we cannot always control"),
+  allow_retry = TRUE,
+  random_answer_order = TRUE
+)
 )
 ```
 
@@ -355,10 +424,10 @@ Maybe something like:
 "The number of pathogens destroyed rapidly increases at low pathogen densities and gradually plateaus to a maximum number of pathogens destroyed at higher pathogen densities."
 
 The mathematical model of the figure above is:
-
+7
 $$H_a=\ \frac{a\times H\times T_{total}}{1+a\times H\times T_h}$$
 
-We won't go into how this equation is derived but know that it is based on the assumptions of the infection response described earlier. You can see the full derivation in the Appendix if you are interested.
+You should read the full derivation in the documentation file to see how we've turned our assumptions into mathematical expressions - run `vignette("TypeIImodels")` in Console or via the Packages tab (click biostats.tutorials -> User guides).
 
 Let's go through what the letters and numbers mean and how they link to our model assumptions.
 
@@ -370,7 +439,7 @@ Let's go through what the letters and numbers mean and how they link to our mode
 
 You'll see that we know the value of some of these parameters already and some we need to calculate from our data.
 
-> Variables or parameters? Which is which in our model?
+**Variables or parameters? Which is which in our model?**
 
 ### Quiz
 
@@ -394,7 +463,7 @@ Actually, the hyperbolic nature of the Type II makes it challenging to extract t
 
 The linearised Type II equation is: 
 $$\frac{1}{H_a}=\ \frac{1}{a}\times\frac{1}{H\times T_{total}}+\frac{T_h}{T_{total}}$$
-Again, we won't go though how this is derived in detail but you *do* need to know what this equation is telling you:
+The full derivation is accessible in `vignette("TypeIImodels")`, we won't go though how this is derived here, but you *do* need to understand this equation:
 
  * $\frac{1}{H_a}$ is the inverse of our response variable - the number of pathogens destroyed 
  * $\frac{1}{a}$ is the inverse of our unknown search rate parameter
@@ -461,24 +530,26 @@ We can investigate this question with a simulation based experiment in Scratch, 
 
 In the previous practical you looked at building a Scratch model with a predator (a killer T cell) and some prey (invading pathogens). Your response variable was time taken to destroy all the pathogens and the predictor variable was the number of pathogens (pathogen density).
 
-In this practical we have a slightly different experimental design. The predictor variable is the same but the response variable is the number of pathogens destroyed at the end of a fixed amount of time. We also have additional assumptions about functional responses that change how the simulation should behave - searching and handling prey are independent and mutually exclusive.
+In this practical we have a slightly different hypothesis and thus a different experimental design. The predictor variable is the same but the response variable is the number of pathogens destroyed at the end of a fixed amount of time. We also have additional assumptions about functional responses that change how the simulation should behave - searching and handling prey are independent and mutually exclusive.
 
 You don't have to modify the previous practical simulation yourself... I have done this for you.
 
 You have been provided with a Scratch model you need to use to generate data for this practical and the next. This Scratch model is based on the previous practical but because our model of the biological system is more realistic and complex, our Scratch model is also more complex. You can compare the two and see what has changed.
 
-You do not need to change any aspect of the predator sprite. When the predator eats a prey it will stop searching (moving) until it resumes searching. This behaviour is one of our model assumptions and is controlled by a variable called digesting but it's not important to track it.
+You do not need to change any aspect of the predator sprite. When the predator eats a prey it will stop searching (moving) until it has finished digesting its prey and resumes searching. This behaviour is one of our model assumptions and is controlled by a variable called digesting but it's not important to track it.
 
 Under the prey sprite tab you will see three code blocks arranged from top to bottom. They are:
 
-* Top: Set prey density - the default is 20 but **this number needs to be changed because it's our predictor variable**, $H$
+* Top: Set user defined variables for the simulation
+    * prey density - the default is 20 but **this number needs to be changed because it's our predictor variable**, $H$ 
+    * efficiency - the default is 1 but we will ignore it for now
 * Middle: Set up the counters and timer
     * prey_density is the number of pathogens our killer T cell has destroyed, $H_a$
     * digesting is the foraging state of the killer T cell, you can ignore this but it is an implementation of our assumptions that destroying and searching for pathogens are mutually exclusive activities
-    * total_time is the duration of the infection response, $T_h$. When the timer reaches 0 or when all pathogens are destroyed, then the simulation will stop
+    * total_time is the duration of the infection response, $T_h$. This should be 60 seconds (1 minute).
 * Bottom: This describes the behaviour of the pathogen. The pathogen will move around randomly until it touches the killer T cell. If the killer T cell is hungry, the pathogen is destroyed and the killer T cell becomes full (the digesting variable). If the killer T cell is full, then the pathogen lives.
 
-When you click the green flag you will see two counters: a count down timer and the number of prey caught. The predator and prey sprites move around randomly within the fixed arena. The simulation stops when either the timer reaches 0 or when all prey are caught and the original prey density is displayed. Press the stop button to reset the simulation.
+When you click the green flag you will see two counters: a count down timer and the number of prey caught. The predator and prey sprites move around randomly within the fixed arena. The simulation stops when either the timer reaches zero or when all prey are caught and the original prey density is displayed. Press the stop button to reset the simulation.
 
 Now we have our research question and a model, we implicitly have our hypotheses. 
 
@@ -502,6 +573,8 @@ question(
   random_answer_order = TRUE
 )
 ```
+
+You're doing great!
 
 ***
 
@@ -532,25 +605,32 @@ Conducting a simple statistical analysis on a complex hypothesis and experimenta
 
 ### Identifying treatments 
 
-We change the pathogen densities with each run of the simulation because it is the predictor variable. The different values of pathogen density is our treatment.
+Experiments consist of variables that are *controlled* or *manipulated*. The manipulated variables are usually predictor variables. Controlled variables are other influential variables that may affect the response variable in ways that might mask or accentuate the effect of the predictor variable on the response variable.  
+ 
+ > We control as many possible variables as possible to make sure what we observe is the true effect of the predictor variable of interest.   
+
+ * If we cannot control a variable, the least we can do is record it as a co-variate and apply more complex stats to account for the additional variable.   
+ * If we don't keep a comprehensive record, then we risk the co-varying variable **confounding** the true effect of the predictor variable, adding uncontrolled variation (decreasing the chance of getting a significant P value) and increasing the risk of Type I or II error.
+
+We change the pathogen densities with each run of the simulation because it is the predictor variable. The different values of pathogen density is our **treatment**.
 
 How many pathogen densities should you use? You need at least two treatments (two observations) to fit a straight line to data but there is no hard or fast rule for deciding these things. 
 
 > Generally, the more treatments, the better your data may capture some true biological relationship. But more treatments means more work, time and effort!
 
-**For the purpose of this practical, we will decide on 10 treatments of pathogen density. You are free to choose any 10 numbers from a range of 1 to 100.** 
+**For the purpose of this practical, we will decide on 5 treatments of pathogen density. You are free to choose any 5 numbers from a range of 1 to 100.** 
 
-We aim for consistency so your treatments should be equally spaced out. For example, in increments of 10.
+We will collate the entire class' data so you don't have to choose the same numbers. We aim for consistency and balance when designing experiments, so your treatments should be equally spaced out. For example, with equal increments.
 
 ***
 
 ### Replication, replication, replication
 
-Replication is really important to increase the accuracy and precision of our data. It also reduces the chances of making a type 1 or type 2 error. 
+Replication is really important to increase the accuracy and precision of our data and make sure our results are not due to random chance. It also reduces the chances of making a type 1 or type 2 error. 
 
 > Generally, the more replication the better! Again, the trade-off is more work, time, effort or computing power.
 
-**For the purpose of this practical, we will use 3 replicates of pathogen density.** Three is usually a minimum number of replications. In a real-world scientific study, you may have see higher replications.  
+**For the purpose of this practical, we will use 3 replicates of pathogen density.** Three is usually a minimum number of replications. In a real-world scientific study, you may see higher replications.  
 
 A replication of 3 means that we need to repeat our experiment three times for every value of the treatment. 
 
@@ -558,13 +638,17 @@ A replication of 3 means that we need to repeat our experiment three times for e
 
 ### Identifying constant parameters
 
-In our experiment we have 1 killer T cell moving at a constant speed. This is a constant that does not change - doing so would violate the assumptions of our model.
+In our experiment we have 1 killer T cell moving at a constant speed. These are constants that does not change - doing so would violate the assumptions of our model or turn these parameters into variables.
 
 Total immune response time is another constant. For simplicity, we will use a value of **1 minute** only so that we can divide by 1 and it makes our maths easier.
 
-The number of killer T cells, speed and total time are all *parameters* and they are *constant* in a single simulation. Changing these would fundamentally change the experimental design and hypotheses tested. Changing these but keeping our hypotheses the same would be introducing additional variation into our data and increase the chance of making a type 2 error.
+The number of killer T cells, speed and total time are all *parameters* and they are *constant* in a single simulation. Changing these would fundamentally change the experimental design and hypotheses tested. Changing these but keeping our hypotheses the same would be introducing additional variation into our data and increase the chance of making a type 2 error. Thus, sometimes parameters become variables; it all depends on the aim of the study.
 
-> Remember: keep it simple! Scientists try to control as many influential factors as possible in an experiment to make sure what they observe is the true effect of what they are seeking.
+Although these constant parameters are unknown to us, we want to know their values to use the analytical model but we need empirical data to fit to our analytical model. We will estimate these values using statistical models next practical to complete the equation:
+
+$$H_a=\ \frac{a\times H\times T_{total}}{1+a\times H\times T_h}$$
+
+> Remember: keep it simple! A more complex statistical analysis cannot fix a issues arising from a badly designed experiment.
 
 ***
 ##
@@ -573,7 +657,7 @@ The number of killer T cells, speed and total time are all *parameters* and they
 quiz(caption = "Have you been paying attention?",
   question_text(
     paste("How many treatments are we using?"),
-    answer("10", correct = TRUE),
+    answer("5", correct = TRUE),
     allow_retry = TRUE
   ),
   question_text(
@@ -588,7 +672,7 @@ quiz(caption = "Have you been paying attention?",
   ),
   question_text(
     paste("Thus, how many observations should our data set contain?"),
-    answer("30", correct = TRUE),
+    answer("15", correct = TRUE),
     allow_retry = TRUE
   )
 )
@@ -602,24 +686,32 @@ That's not all we want to do today!
 
 > Another use of statistical models is to explore different scenarios that represent different hypotheses.
 
-What happens if our killer T cell was more efficient? For example, vaccines provide a chance for the immune system to "learn" how to destroy pathogens (e.g. viruses). After this experience, immune systems become more efficient at destroying pathogens. *How would this affect our results and the estimates of $a$ and $T_h$?*
+What happens if our killer T cell was more efficient? For example, vaccines provide a chance for the immune system to "learn" how to destroy pathogens (e.g. viruses). After this experience, immune systems become more efficient at destroying pathogens.   
+**How would this aim affect $H_a$ and the estimates of $a$ and $T_h$?**  
 
-The efficiency of the killer T cell is set as a variable in Scratch called `efficiency`. The **default value is 1** that is a constant in our simulation - it doesn't change and applies to all runs of the simulation. Let's call our original killer T cell an **unvaccinated individual**.
+The efficiency of the killer T cell is set as a variable in Scratch called `efficiency`. In the model, the duration of time a killer T cell waits while digesting is a random number between 1 and 5 that is multiplied by the value of `efficiency`. For example, if digesting time was 5 and efficiency was 1, then the effective digesting time is 5 * 1 = 5 seconds. The `efficiency` value is a constant parameter in our simulation - it doesn't change and applies to all runs of the simulation; changing this value changes the intended scenario.
 
-Now let's consider a **vaccinated individual**. Their killer T cells are more efficient, let's say twice as efficient. In this case, the value of `efficiency` is now 0.5. This is still a constant, it doesn't fundamentally change our model assumptions but becomes a new variable. 
-
+_Let's call our original killer T cell an **unvaccinated individual** with an `efficiency` value of 1_. Now, consider a **vaccinated individual** with an `efficiency` value of 0.5. We have changed our constant parameter, it doesn't fundamentally change our model assumptions but becomes a new variable that is used to calculate the effective digesting time. 
 
 If we want to compare the immune response between unvaccinated and vaccinated individuals, we need to run the experiment again *keeping everything the same but changing only the variable of interest*.
 
 ```{r genotype-quiz}
-question(
-  "Which of these variables do we change?",
-  answer("Killer T cell efficiency", correct = TRUE),
-  answer("The number of killer T cells"),
-  answer("Pathogen density"),
-  answer("Pathogens destroyed"),
-  random_answer_order = TRUE,
-  allow_retry = TRUE
+quiz(
+  question(
+    "Which of these variables are we changing to compare vaccinated and unvaccinated individuals?",
+    answer("Killer T cell efficiency", correct = TRUE),
+    answer("The number of killer T cells"),
+    answer("Pathogen density"),
+    answer("Pathogens destroyed"),
+    random_answer_order = TRUE,
+    allow_retry = TRUE
+  ),
+  question_text(
+    paste("How long (in seconds) would a killer T cell of a vaccinated individual pause in the simulation if digesting time was 3? Numbers only."),
+    answer("1.5", correct = TRUE),
+    allow_retry = TRUE,
+    message = "What is the value of efficiency for a vaccinated individual and how is efficiency used in our model?"
+  )
 )
 ```
 
@@ -628,16 +720,20 @@ In addition to the hypotheses before, we have two new hypotheses:
 H0: There is no difference in the number of pathogens destroyed with pathogen density between vaccinated and unvaccinated individuals    
 H1: There is a difference in the number of pathogens destroyed with pathogen density between vaccinated and unvaccinated individuals
 
-We can formulate a more specific alternative hypothesis:
+It's often more interesting to formulate a more specific alternative hypothesis than just the opposite of the null hypothesis if we hypothesise there's a *direction* to the effect of the new predictor variable on the response variable. We will use this one:
 
 H1: Killer T cells of vaccinated individuals will destroy more pathogens than killer T cells of unvaccinated individuals. 
+
+In other words, we generally want to know if the vaccine *improves* the immune response. If we used the original alternative hypothesis then we would accept that hypothesis even if the vaccine makes people *more susceptible* to disease. A) Yikes, B) it's not an informative or helpful conclusion if we were testing a new vaccine.
+
+> Remember, the alternative hypothesis is the outcome we would expect if there was an effect of the predictor on the response variable. The null hypothesis is what we expect when there is no effect (hence, null). Most of the time we want there to be an effect (what we hope is true about a biological system).
 
 So we need to expand our dataset. We can add more observations to our first dataset and a new column denoting whether the individual is vaccinated or unvaccinated.
 
 ```{r nrow}
 quiz(question_text(
     paste("Thus, how many observations should our final data set contain?"),
-    answer("60", correct = TRUE, message = "All other variables and constants stay the same"),
+    answer("30", correct = TRUE, message = "All other variables and constants stay the same"),
     allow_retry = TRUE
   ),
   question_text(
@@ -669,6 +765,18 @@ question_radio(
   )
 ```
 
+Keep it up!
+
+***
+
+## 
+
+
+> Now do the CA - 9 questions, 1 mark for each question. 
+
+Give yourself 30 mins.  
+Good luck!
+
 ***
 
 ## Part C: Collecting data
@@ -681,7 +789,7 @@ Having a standardised data sheet and way of data entry is key to maintain consis
 
 ### Tidy data
 
-Tidy data is set of principles for organising data sheets and filling in data. It is designed in a way to make data analysis easier and reduces the amount of work require to *prepare* your data for analysis.
+Tidy data is set of principles for organising data sheets and filling in data. It is designed in a way to make data analysis easier and reduces the amount of work required to *prepare* your data for analysis.
 
 In short: 
 
@@ -690,7 +798,34 @@ In short:
 
 You can read about tidy data [here](https://cran.r-project.org/web/packages/tidyr/vignettes/tidy-data.html).
 
+### Long vs Wide data
+
+There are two general ways of presenting data in a spreadsheet (or as tabbed data): 
+
+* Long - Variables are presented in one column, the corresponding value is presented in a second column. This format can be hard to interpret
+* Wide - Each variable is a separate column (many columns) and each row is a single observation. This is the way we are collecting data in class (see above criteria)
+
+As a general rule, aim to add rows (observations) not columns and columns should be independent of each other. For example, R analyses data in columns (arrays) so treatments of a predictor variable should be in the same column rather than in separate columns (data in columns are no longer independent). I'll demonstrate this below using the `PlantGrowth` dataset in R describing the weight of plants following one of three treatments:
+
+The dataset is already in a long format:
+```{r long, echo = TRUE}
+PlantGrowth 
+```
+
+An equivalent wide format shows each treatment as separate columns:
+```{r wide, echo = FALSE}
+data.frame(ctrl = PlantGrowth[PlantGrowth$group == "ctrl",]$weight,
+          trt1 = PlantGrowth[PlantGrowth$group == "trt1",]$weight,
+          trt2 = PlantGrowth[PlantGrowth$group == "trt2",]$weight)
+```
+
+In this case, the wide format would be inappropriate for analysis because each row is not an observation, but three independent observations, and each column is not an independent variable but treatment levels of one variable. We would not be able to do stats on the wide format (e.g. a t-test) because the relevant data is split over multiple columns, rather than one column. We would need to use the long format (and a t-test is inappropriate for this dataset [**Why is a t-test inappropriate and which test would be?**]). 
+
+Sometimes we need to convert the data structure from wide to long or vice versa. We won't be needing to do this in this module. That's why we are taking care with designing our data sheet to make it easier to analyse our data with minimal post-collection data manipulation.
+
 ### Filling in a data sheet 
+
+To help you, there is a data sheet template on blackboard you can fill in. 
 
 Here are the rules we want you to apply here (these are not global standards and may vary elsewhere):
 
@@ -705,11 +840,11 @@ Here are the rules we want you to apply here (these are not global standards and
  * Do not mix alphanumeric characters (e.g. l3773r5 & numb3r5)
      * Numeric columns should only contain numbers (0-9), no letters. Character strings should only contain letters (a-z), no numbers
      * Avoid special characters (e.g. (), ~, &, / etc.)
- * No spaces
+ * No spaces (called whitespace in computing)
      * No spaces between words. Use _ instead. E.g. `no_spaces`
      * No spaces before or after words
-     * This rule doesn't apply to generic text fields for taking notes or observations. It applies to treatments of a variable if they are described by strings, e.g. `no_fertiliser`, `yes_fertiliser`
- * Data is stored in rows and columns in a "long" tidy format
+     * This rule doesn't apply to generic text fields for taking notes, comments or observations. It applies to treatments of a variable if they are described by strings, e.g. `no_fertiliser`, `yes_fertiliser`
+ * Data is stored in rows and columns in a "wide" tidy format
  * All data is presented together
      * Not in multiple sheets - use a separate file if you must.
  * Data is raw
@@ -740,39 +875,92 @@ These are the main data classes characterised by `R`. There may be other types i
 
 ### Do your experiment & collect your data
 
-See the table below for an example of column headers with no spaces and all cells with a single value. These are the information you need to provide in your datasheet and the type of data they are:
+See the table below for an example of column headers with no spaces and all cells with a single value. These are the information you need to provide in your data sheet and the type of data they are:
 
 | column_information            	| information_type 	| description 	|
 |-------------------------------	|------------------	|-------------	|
-| student number                	| numeric          	| for marking 	|
-| total time 	                    | numeric          	| in minutes  	|
+| student number                	| NA          	    | for marking 	|
+| total time 	                    | numeric          	| `1` in minutes, not seconds	|
 | pathogen density              	| numeric          	| NA          	|
 | replicate                     	| numeric          	| NA          	|
 | pathogens destroyed           	| numeric          	| NA          	|
-| vaccination status            	| character        	| `no` or `yes`	|
+| vaccination status            	| character        	| `no` for unvaccinated or `yes`	for vaccinated |
 
-Save your datasheet as an csv file (in Excel, click "Save As" and select csv file type). Include your student number at the start of the file name. 
+These headers are pre-filled for you in the correct order on the template.  
 
 > The order of columns has to exactly match the order in the table. Your exact column header names can be different as long as they follow the critera above (lowercase, no spaces, informative). 
 
-Now you can do your experiment and record your data. 
+Now you can do your experiment and record your data. 30 data points should take you about 30-40 minutes because that's how long it takes the simulation to run 30 times. Remember to save your data regularly.
 
 ```{r radio1, echo = FALSE}
 question_radio(
-  "What is the R function to see an array of your column names?",
-  answer("names()", correct = TRUE),
-  answer("header()"),
+  "What efficiency value is used in the simulation for an individual with the vaccination status 'no'?",
+  answer("1", correct = TRUE),
+  answer("0.5"),
   allow_retry = TRUE
 )
 ```
 
 ***
 
+### Data cleaning
+
+In data science, data usually needs to be processed before we can use it. The data needs to be checked and validated. Are all the fields entered correctly? Attention to detail is important in case it introduces mistakes in our data that may bias our analyses! How much do you trust your fellow students to have followed the previous instructions to the letter?
+
+Checking and correcting data is called **cleaning**. We take raw data and clean it up. Sometimes data cannot be fixed (e.g. errors of unknown origin), then the conservative approach is to exclude the observation which is a shame if lots of time and effort went in to collecting it.
+
+In the real world, data is almost never clean and cleaning often takes longer than the actual analysis! Luckily, you won't need to do it for this prac. This is partly why we want to be particular with recording data - it will make automating the processes faster.
+
+Here is the function I will use to check a data sheet and assign it a pass or fail based on whether it meets *all* the data criteria. You have learnt about functions and if statements in `R` in your lectures already so you might be able to follow along (if not, don't worry - this is a more complex function than we would expect you to understand for this module):  
+
+```
+quality_check <- function(x){
+
+  pass <- 1
+  x <- as.data.frame(x)
+
+  # check if numeric
+  if((sum(str_detect(x[,2], "1")) < nrow(x)) == TRUE) {pass <- 0}  # check total time is 1
+  if(is(x[,3], "numeric") == FALSE){pass <- 0} # pathogen density
+  if(is(x[,4], "numeric") == FALSE){pass <- 0} # replication
+  if(is(x[,5], "numeric") == FALSE){pass <- 0} # pathogens caught
+
+  # check if character
+  if(is(x[,6], "character") == FALSE){pass <- 0} # efficiency
+  if((sum(str_detect(x[,6], "[0-9]")) != 0) == TRUE){pass <- 0}
+  if((sum(str_detect(x[,6], " ")) != 0) == TRUE){pass <- 0}
+  
+  # check correct number of observations
+  if(nrow(x) != 30){pass <- 0} # 30 rows
+  if(length(x) != 6){pass <- 0} # 6 columns
+
+  # check treatments and replications
+  if(length(unique(x[,3])) != 5){pass <- 0} # 5 treatments?
+  if(length(unique(x[,4])) != 3){pass <- 0} # 3 replications?
+  if((max(x[,3]) > 100) == TRUE){pass <- 0} # Does not exceed 100 pathogen density
+
+  # check lowercase
+  if((sum(names(x) != tolower(names(x))) != 0) == TRUE){pass <- 0} # are headers correct?
+  if((sum(x[,6] != tolower(x[,6])) != 0) == TRUE){pass <- 0} # vaccine
+  
+  # check complete
+  if(sum(complete.cases(x)) != 30){pass <- 0} # missing values?
+
+  return(message(ifelse(pass==1, "Passed", "Failed")))
+}
+```
+
+You see that the function will take your data, then check whether the information is formatted correctly and whether all 30 observations are filled. Because the function uses square bracket subsetting for identifying columns, the order of the columns is very specific. Finally the data sheets gets assigned a 1 if it passes and a 0 if it fails with a little Pass/Fail message.
+
+Actually, you can check your own data to see if it would pass yourself if you run the above function so that it is saved into your R's memory then running the function itself like `quality_check(<name of your data>)` ;)
+
+***
+
 ### Uploading your dataset to Blackboard
 
-Upload your data sheet **as a csv file** to the assignment link provided on Blackboard.
+Save your data sheet **as a csv file** (in Excel, click "Save As" and select csv file type). Your file name should be your student number and practical session separated by `_`. e.g. `12345678_AM.csv`.
 
-Your submission will be assigned a mark of 1 or 0 depending on whether it meets the criteria for standardised data above. That is, does it pass a quality check? So, make sure your student number is a column.
+Upload your csv file to the assignment link provided on Blackboard.
 
 ```{r radio2, echo = FALSE}
 question_radio(
@@ -782,65 +970,6 @@ question_radio(
   allow_retry = TRUE
 )
 ```
-
-### Data cleaning
-
-In data science, data usually needs to be processed before we can use it. The data needs to be checked and validated. Are all the field entered correctly? Attention to detail is important in case it introduces mistakes in our data that may bias our analyses!
-
-Checking and correcting data is called **cleaning**. We take raw data and clean it up. Sometimes data cannot be fixed (e.g. errors of unknown origin), then the conservative approach is to exclude the observation which is a shame if lots of time and effort went in to collecting it.
-
-In the real world, data is almost never clean and cleaning often takes longer than the actual analysis! Luckily, you won't need to do it for this prac. This is partly why we want to be particular with recording data.
-
-Here is an example of a function that would check the data criteria (no promises that it's the same one used for marking). You have learnt about functions and if statements in `R` in your lectures already so you might be able to follow along (if not, don't worry - this is a more complex function than we would expect you to understand for this module):  
-
-```
-quality_check <- function(x, fail){
-  pass <- 1
-
-  # check for spaces in names
-  if((sum(str_detect(names(x), " ")) != 0) == TRUE){pass <- 0}
-
-  x <- as.data.frame(x)
-
-  # check if numeric
-  if(is(x[,1], "numeric") == FALSE){pass <- 0} # student no
-  if((sum(x[,2] != 1) != 0) == TRUE) {pass <- 0}  # time
-  if(is(x[,3], "numeric") == FALSE){pass <- 0} # pathogen density
-  if(is(x[,4], "numeric") == FALSE){pass <- 0} # replication
-  if(is(x[,5], "numeric") == FALSE){pass <- 0} # pathogens caught
-
-  # check if character
-  if(is(x[,6], "character") == FALSE){pass <- 0} # efficiency
-  
-  # check correct dimensions
-  if(nrow(x) != 60){pass <- 0}
-  if(length(x) != 6){pass <- 0}
-
-  # check treatments and replications
-  if(length(unique(x[,3])) != 10){pass <- 0}
-  if(length(unique(x[,4])) != 3){pass <- 0}
-  if(max(x[,3]) > 101){pass <- 0}
-
-  # check lowercase
-  if((sum(names(x) != tolower(names(x))) != 0) == TRUE){pass <- 0}
-  if((sum(x[,6] != tolower(x[,7])) != 0) == TRUE){pass <- 0} # session
-  
-  # check complete
-  if(sum(complete.cases(x)) != 60){pass <- 0}
-
-  # which subset?
-  if(fail == 0){ # remove if failed
-    if(pass == 0){ x <- NULL}
-  }
-  if(fail == 1){ # remove if passed
-    if(pass == 1){ x <- NULL}
-  }
-  
-  return(x)
-
-}
-```
-
 
 ***
 
@@ -852,12 +981,31 @@ quality_check <- function(x, fail){
 One last recap quiz:
 
 ```{r hypo, echo = FALSE}
+quiz(
 question("How many killer T cells are in our model?",
          answer("0"),
          answer("1", correct = TRUE),
          answer("2"),
          answer("100"),
-         allow_retry = TRUE)
+         allow_retry = TRUE),
+  question_text(
+    paste("How many predictor variables are we using?"),
+    answer("2", correct = TRUE),
+    allow_retry = TRUE
+  ),
+  question_text(
+    paste("How many known constant parameters do we have?"),
+    answer("4", correct = TRUE),
+    allow_retry = TRUE,
+    incorrect = "Constant parameters are values we decide on before running a simulation"
+  ),
+  question_text(
+    paste("How many unknown constant parameters do we have?"),
+    answer("2", correct = TRUE),
+    allow_retry = TRUE
+  )
+)
+
 ```
 
 ***
@@ -872,7 +1020,6 @@ To sum up, we:
 
 All of these steps are part of the scientific method and are relevant to your final assessment.
 
-
 The scratch model is a computer simulation of a biological system - an infection response - that is used to generate data. The functional response is a statistical model of the infection response - a general theoretic model - that is used to formulate hypotheses about our biological system.  
 
 In the next practical we will use another type of statistical models (a linear regression) to statistically describe the data we collect and test the hypotheses of our functional response model.
@@ -880,25 +1027,23 @@ In the next practical we will use another type of statistical models (a linear r
 
 ***
 
+### Want to get ahead?
+
+Now that you have your data, the next step is to explore your data graphically. We've covered how to import data and graph data in R in previous practicals. You can try to import your data and graph your data. We will do this next prac as well.
+
+Graphing data is a great way of checking for quick and easy to spot errors or identifying emerging patterns. 
+
+***
+
 Use the following check list to make sure you have done everything you need for this practical.  
 Have you:
 
 * Uploaded your dataset to Blackboard?
-* Found the link to the CA questions?
+* Done the CA questions?
 
 ***
 
-```{r radio3, echo = FALSE}
-question_radio(
-  "Are you going to do the CA?",
-  answer("yes", correct = TRUE),
-  answer("no", message = "Are you sure?"),
-  allow_retry = TRUE)
-```
-
-If everyone follows the instructions, then all your datasets will be comparable and we can combine everyone's data into one giant (anonymised) dataset. Meaning more data to play with than if you had done it by yourself.
+If everyone follows the instructions, then all your datasets will be comparable and we can combine everyone's data into one giant (anonymised) dataset. Meaning more data to play with than if you had done it by yourself. The idea is that with a large enough sample size (an entire module of students) we can get a good coverage of numbers between 1 and 100 for pathogen density values.
 
 In the next practical we will be analysing the aggregated & anonymised class data set.
 
-> Now do the CA - 9 questions, 1 mark for each question + 1 mark for a tidy data set, for a total of 10 possible marks.  
-> Good luck!

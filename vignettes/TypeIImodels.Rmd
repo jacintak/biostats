@@ -1,0 +1,92 @@
+---
+title: "Type II functional response"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Type II functional response}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+This is the full mathematical derivation of the Type II functional response and the linearisation of the Type II functional response applied to a predator-prey interaction scenario.
+
+
+## Formulating a model of a predator's functional response
+
+The functional response model assumes that a predator spends its time on two activities:
+
+1. The time to search for prey ($T_{search}$)
+2. The time to process prey (handling time, $T_{handling}$), which includes chasing it, subduing it, killing, eating and digesting it. 
+
+If you think about the **Handling Time** aspect, all of these components are important things that need to be done before the predator can move on to find and eat its next victim. Searching for prey and handling prey are **independent** and **mutually exclusive** activities. Under this assumption, the rates of consumption of the predator are limited. Even if the prey are so abundant that they require virtually no time to search and locate them, a predator still needs some time to handle each prey item.  
+
+The total time ($T_{total}$) for all prey items is the sum of the searching and handling times:
+
+$$T_{total}=T_{search}+T_{handling}$$
+
+This equation does not tell us how many prey items were captured by a predator (the functional response). To work this out we can break down searching and handling further depending on the density of prey, i.e. how many prey items are there to be discovered, and how efficient the predator is, i.e. how large of an area can the predator look in.
+
+We have some assumptions about the predator-prey interaction. A predator will need to search for its prey in their foraging arena (assumed to be a fixed size). The density of prey in the entire arena is denoted $H$ (also the total number of prey available). We assume that capturing prey is a random process. A predator examines an area ($a$) per unit time and we assume that they can capture all the prey that are found in that area ($H_a$). Parameter $a$ is the ‘area of discovery’ and can also be considered the search rate. We need to put these assumptions into mathematical notation for the model.  
+
+First, we can derive an expression for the time spent searching ($T_{search}$). The total area searched is dependent on the time spent searching for a unit of prey and the area a predator can search per unit time ($a$). Thus, after spending a unit of time searching ($T_{search}$), a predator will have examined a total area:
+
+$$total\ area\ searched = a \times T_{search}$$
+
+In that time, the predator would have found some prey. Because we assumed that a predator would have found all the prey in an area they searched, we can substitute the total number of prey in an area searched ($H_a$) with the total area searched. Prey density ($H$) also needs to be included because the total number of prey items found in the area of ($H_a$) is also dependent on the density of prey items in that area, for example if $H$ is zero no prey will be found, if $H$ is very high then many prey will be found:
+
+$$H_a=\ a\times H\times T_{search}$$
+
+We can rearrange this equation to tell us the total time spent searching for prey:
+
+$$T_{search}=\frac{H_a}{a\times H}$$
+
+Second, we can derive an expression for proportion of total foraging time spent handling prey ($T_{handling}$). If we assume that a predator is able to capture a total number of prey in a given area ($H_a$) during total time $T_{total}$, then handling time ($T_{handling}$) should be proportional to the number of prey that are captured.
+
+$$T_{handling}=\ H_a\times T_h$$
+
+where $T_h$ is the time spent handling a single prey item.
+
+We now have expanded models for searching time and handling time. If we now go back to the total time budget for the predator we can substitute in our previous equations into our model of predation:
+
+$$T_{total}=\ T_{search}+T_{handling}$$
+
+$$\therefore T_{total}=\frac{H_a}{a\times H}+H_a\times T_h$$  
+
+***
+
+Rearrange for $H_a$:
+1. Multiply by $a \times H$. This cancels $a \times H$ from $\frac{H_a}{a \times H}$
+
+$$T_{total} \times a \times H =H_a + H_a\times T_h\times a \times H$$
+2. Divide by $H_a$. This turns $H_a$ into 1 because $\frac{H_a}{H_a} = 1$ and the two $H_a$ cancel each other out. 
+
+$$\frac{T_{total} \times a \times H}{H_a} = \frac{H_a}{H_a} + \frac{H_a\times T_h\times a \times H}{H_a}$$
+
+$$\Rightarrow \frac{T_{total} \times a \times H}{H_a} = 1 + \times T_h\times a \times H$$
+
+
+3. Divide by $T_{total} \times a \times H$.
+
+$$\frac{1}{H_a} = \frac{1 + \times T_h\times a \times H}{T_{total} \times a \times H}$$
+$$\Rightarrow H_a = \frac{a \times H \times T_{total}}{1 + a \times H \times T_h}$$
+
+## Linearising our functional response
+
+The Type II equation can be written in a linear form representing $y = \beta x + \alpha$.  
+1. The $1+$ of the denominator is troublesome. Invert the fraction to allow us to break up the fraction later
+
+
+$$H_a = \frac{a \times H \times T_{total}}{1 + a \times H \times T_h}$$
+$$\Rightarrow  \frac{1}{H_a} = \frac{1 + a \times H \times T_h}{a \times H \times T_{total}}$$
+
+2. We can now break up the fraction at the `+` into two fractions with the same denominator
+
+$$ \frac{1}{H_a} = \frac{1}{a \times H \times T_{total}} + \frac{a \times H \times T_h}{a \times H \times T_{total}}$$
+3. We can tidy up a bit because $a \times H$ cancels each other out in the right fraction, and we can split the middle fraction into shorter fractions
+
+$$ \frac{1}{H_a} = \frac{1}{a} \times \frac{1}{H \times T_{total}} + \frac{T_h}{T_{total}}$$
+
+Therefore, we have a linear equation in the form $y = \beta_1 x + \beta_0$ where:
+$$ \beta_1 = \frac{1}{a}$$
+and
+
+$$\beta_0 = \frac{T_h}{T_{total}}$$
