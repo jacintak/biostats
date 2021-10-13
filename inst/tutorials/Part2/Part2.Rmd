@@ -305,9 +305,9 @@ question("What is our paramterised model?",
 
 ***
 
-### Practice: Parameterising a linear model of infection response
+### Practice: Parameterising a linear model of predator-prey functional response
 
-Remember we had some unknown parameters in our infection functional response model? The search rate, $a$, and the handling time, $T_h$. We need to find the value of those parameters from the slope and the intercept of our linearised Type II dataset - exactly like we did for the `crabs` example. We can use the `lm` function on our infection model data to parameterise our model.
+Remember we had some unknown parameters in our predator-prey functional response model? The search rate, $a$, and the handling time, $T_h$. We need to find the value of those parameters from the slope and the intercept of our linearised Type II dataset - exactly like we did for the `crabs` example. We can use the `lm` function on our predator-prey model data to parameterise our model.
 
 You can remind yourself of how the Type II functional response model is derived from the documentation file - run `vignette("TypeIImodels")` in Console.
 
@@ -325,24 +325,22 @@ The class dataset is provided as a comma separated values file (`.csv`). The fun
 ```
 class_data <- read.csv("directory/folder/class_data.csv")
 ```
-This imports the spreadsheet into an R object called `class_data`.
+This imports the spreadsheet into an R object called `class_data`. You need to replace the file address within the quotation marks with where ever you saved your file on your computer. File housekeeping is important!
 
-You need to replace the file address within the quotation marks with where ever you saved your file on your computer. File housekeeping is important!
-
-> Refer to the previous drop in sessions and practicals to revise these basic steps
+> Refer to the previous drop in sessions and practicals to revise these basic steps.
 
 The general function to plot a line graph in `R` is `plot(Y ~ X, data, type = "l")` replacing X, Y and data with the respective information from your dataset.
 
-**Plot your graph of pathogen captured against pathogen density.**  
+**Plot your graph of prey captured against prey density.**  
 Does your data match what you'd expect from a Type II functional response? 
 
-```{r funct_resp, echo=FALSE, fig.cap= "Type II functional response of an infection response"}
+```{r funct_resp, echo=FALSE, fig.cap= "Type II functional response of an predator-prey response"}
 prey <- seq(0, 60, 5)
 type2 <- (prey*0.7)/(1+(prey*0.7*0.15))
 plot(type2~ prey,
      type = 'l',
      lwd = 4,
-     xlab = "Pathogen density", ylab = "Number of pathogens destroyed",
+     xlab = "Prey density", ylab = "Number of prey captured",
      xaxt='n', yaxt='n')
 ```
 
@@ -371,10 +369,10 @@ We need to linearise the data to match a linearised type II model:
 
 $$\frac{1}{H_a}=\ \frac{1}{a}\times\frac{1}{H\times T_{total}}+\frac{T_h}{T_{total}}$$
 The graph should look like this:
-```{r tyepe2line, echo = FALSE, fig.cap= "Linearised type II functional response of an infection response"}
+```{r tyepe2line, echo = FALSE, fig.cap= "Linearised type II functional response of an predator-prey response"}
 prey <- seq(0, 0.25, 0.01)
 type2 <- seq(0, 1, length.out = length(prey))
-plot(type2 ~ prey , type = 'l', lwd = 4, ylab = "1/Ha, Pathogens destroyed", xlab = "1/H Total time, Pathogen density",
+plot(type2 ~ prey , type = 'l', lwd = 4, ylab = "1/Ha, Prey captured", xlab = "1/H Total time, Prey density",
      xaxt='n', yaxt='n')
 ```
 
@@ -382,22 +380,22 @@ plot(type2 ~ prey , type = 'l', lwd = 4, ylab = "1/Ha, Pathogens destroyed", xla
 ```{r recap, echo = FALSE}
 quiz(caption = "In case you forgot",
      question("What is does $H_a$ represent?",
-              answer("Pathogen density"),
-              answer("Pathogens destroyed", correct = TRUE),
-              answer("Number of killer T cells"),
-              answer("Duration of the infection"),
+              answer("Prey density"),
+              answer("Prey eaten", correct = TRUE),
+              answer("Number of predators"),
+              answer("Duration of the predator-prey interaction"),
               allow_retry = TRUE),
      question("What is does $H$ represent?",
-              answer("Pathogen density", correct = TRUE),
-              answer("Pathogens destroyed"),
-              answer("Number of killer T cells"),
-              answer("Duration of the infection"),
+              answer("Prey density", correct = TRUE),
+              answer("Prey eaten"),
+              answer("Number of predators"),
+              answer("Duration of the predator-prey interaction"),
               allow_retry = TRUE),
      question("What is does $T_h$ represent?",
-              answer("Pathogen density"),
-              answer("Pathogens destroyed"),
-              answer("Number of killer T cells"),
-              answer("Time spent to destroy one pathogen", correct = TRUE),
+              answer("Prey density"),
+              answer("Prey eaten"),
+              answer("Number of predators"),
+              answer("Time spent to destroy one prey", correct = TRUE),
               allow_retry = TRUE))
 ```
 
@@ -406,31 +404,31 @@ Let's first take the inverse of our response variable $H_a$ to get $\frac{1}{H_a
 ```
 class_data$Ha.1 <- 1/class_data$Ha
 ```
-This line of code calculates the inverse of `Ha`, that is, 1 divided (`/`) by the number of pathogens destroyed (`Ha`), then saves that number to a new column in our dataset called `Ha.1`. Note no spaces.
+This line of code calculates the inverse of `Ha`, that is, 1 divided (`/`) by the number of prey captured (`Ha`), then saves that number to a new column in our dataset called `Ha.1`. Note the use of no spaces.
 
 Now let's linearise the predictor variable (`H`) to get $\frac{1}{H\times T_{total}}$. 
 
 ```
 class_data$HT.1 <- 1/(class_data$H * class_data$T_total)
 ```
-Because we use a value of 1 minute for $T_{total}$, we are essentially dividing 1 by only pathogen density ($H$). Told you a value of 1 would make our maths easier!
+Because we use a value of 1 minute for $T_{total}$, we are essentially dividing 1 by only prey density ($H$). Told you a value of 1 would make our maths easier!
 
-Since we have done some division, it's a good time to check for any undefined values in case we divided by 0. In `R` this is denoted as infinities (`Inf`). You can check how many infinities there are using `table(is.infinite(class_data$Ha.1))`.
+Since we have done some division, it's a good time to check for any undefined values in case we divided by 0. In `R` this is denoted as infinities (`Inf`). You can check how many infinities there are using `table(is.infinite(class_data$Ha.1))` - this will check whether each cell has undefined values (`is.infinite`) and give you logical `TRUE`/`FALSE` output, then tabulate the logic statements to count the number of `TRUE`/`FALSE` occurrences in the column `Ha.1`.
 
-We can replace the infinities with zeroes using `class_data$Ha.1 <- ifelse(class_data$Ha.1 == Inf, 0, class_data$Ha.1)`. You might recognise the if else statement and understand what's happening from previous lectures. We don't discard these observations because a value of 0 has biological meaning.  
+We can replace the infinities with zeroes using `class_data$Ha.1 <- ifelse(class_data$Ha.1 == Inf, 0, class_data$Ha.1)`. You might recognise the if else statement and understand what's happening from previous lectures: **if** there is an undefined value, then replace that value with 0, **else** leave the value as is. We don't discard these observations because a value of 0 has biological meaning.  
 
 We now have all the correct columns to parameterise our functional response.
 
 > Your column names may not be exactly the same but you can apply the same process using your column names. E.g. you don't *have* to call it `HT.1` but recognise that you need to remember to modify your code accordingly.
 
 **Step 3: Doing the linear regression**  
-If `lm` is the function to do a linear regression, `Ha.1` is the name of our response variable, `HT.1` is the name of the predictor variable and the name of our dataset is `class_data`, you should be able to write the code for the linearised type II functional response. **We will ignore vaccination status for now.**
+If `lm` is the function to do a linear regression, `Ha.1` is the name of our response variable, `HT.1` is the name of the predictor variable and the name of our dataset is `class_data`, you should be able to write the code for the linearised type II functional response. **We will ignore foraging strategy for now.**
 
 (Hint: see the theory section above if stuck)
 
 ```{r error, echo = FALSE}
 quiz(caption = "Getting an error message?",
-     question("What gets recorded if the killer T cell did not catch any pathogens?",
+     question("What gets recorded if the predator did not catch any prey?",
               answer("Ha = 0", correct = TRUE),
               answer("Nothing"),
               answer("Ha > 0"),
@@ -457,7 +455,7 @@ quiz(caption = "Getting an error message?",
 **Construct a linear model for our data.**  
 Then, you should be able to identify the values for the slope and intercept and thus parameterise the linearised function in Step 4.
 
-> Linear regressions are always done on the entire data, not on averages. i.e. you wouldn't use the average of your replicates for each treatment for the underlying data. To fit a line to data, ordinary least squares regression depends on quantifying *variation* of observations around the mean (think back to how sampled data from a population is distributed). Averaging data removes that variation and thus there is less information for `R` to use (degrees of freedom).
+> Linear regressions are always done on the entire data, not on averages. i.e. you wouldn't use the average of your replicates for each treatment for the underlying data. To fit a line to data, ordinary least squares regression depends on quantifying *variation* of observations around the mean (think back to how sampled data from a population is distributed). Averaging data removes that variation and thus there is less information for `R` to use (fewer degrees of freedom).
 
 **Step 4: Parameterising $a$ and $T_h$**  
 The final step is to get our unknown values of $a$ and $T_h$ from our linear regression. Since we know our regression takes the form $response  = \beta_0 + \beta_1 predictor$ and we know the linearised type II model is $\frac{1}{H_a}=\ \frac{1}{a}\times\frac{1}{H\times T_{total}}+\frac{T_h}{T_{total}}$, then you should have all the information to parameterise the type II model and deriving values for $a$ and $T_h$ from the linear regression output.
@@ -514,7 +512,7 @@ question_text(
 
 ### Practice: Predicting new values
 
-Let's do the same thing with our infection model and predict how many pathogens are destroyed by our killer T cell for a given pathogen density using our parameterised model. 
+Let's do the same thing with our predator-prey interaction model and predict how many prey are captured by our predator *you) for a given prey density using our parameterised model. 
 
 > Answer the CA
 
@@ -625,12 +623,12 @@ H1: There is a relationship between crab shell length and shell width
 
 ### Practice: Testing hypotheses with linear regressions
 
-Let's remind ourselves what the hypotheses for the infection model are from the previous practical:
+Let's remind ourselves what the hypotheses for the predator-prey interaction model are from the previous practical:
 
-H0: There is no relationship between pathogen density and number of pathogens destroyed  
-H1: There is a positive linear relationship between pathogen density and number of pathogens destroyed
+H0: There is no relationship between prey density and number of prey captured  
+H1: There is a positive linear relationship between prey density and number of prey captured
 
-Now you can look at the summary of your linear regression on the infection response from earlier and evaluate these hypotheses based on the P value of the slope coefficient.
+Now you can look at the summary of your linear regression on the predator-prey interaction response from earlier and evaluate these hypotheses based on the P value of the slope coefficient.
 
 
 > Answer the CA. Save but don't submit your answers yet.
@@ -870,29 +868,35 @@ quiz(
 
 ***
 
-### Practice: Evaluating infection responses with additive models
+### Practice: Evaluating predator-prey interaction responses with additive models
 
-Remember our infection response dataset has a **categorical predictor variable** for the vaccination status of an individual. We ignored this in the analyses above meaning we have **pooled** observations for vaccination status.
+Remember our predator-prey interaction response dataset has a **categorical predictor variable** for the foraging strategy of an individual: whether or not we used a lid with the jar. We ignored this in the analyses above meaning we have **pooled** observations for foraging strategy.
 
-By pooling vaccination status, any variation in the data generated by vaccination status is **unaccounted for**. Unaccounted variation may increase our chance of making a Type I or II error because vaccination status **confounds** the effect of pathogen density. Phrased differently, the effect of pathogen density on numbers of pathogens destroyed is **masked** by the effect of vaccination status. Thus, in this case, using a simple linear regression on a dataset with two or more predictor variables is not the best course of action.
+By pooling foraging strategy, any variation in the data generated by foraging strategy is **unaccounted for**. Unaccounted variation may increase our chance of making a Type I or II error because foraging strategy **confounds** the effect of prey density. Phrased differently, the effect of prey density on numbers of prey captured is **masked** by the effect of foraging strategy. Thus, in this case, using a simple linear regression on a dataset with two or more predictor variables is not the best course of action for explaining as much variation in the data as we can.
 
-If we want to see whether vaccination state has an effect on our infection response, we need to include the variable in our linear model.
+If we want to see whether using a lid has an effect on our predator-prey interaction response, we need to include the variable in our linear model *in addition to our original predictor variable, prey density*.
 
 To refresh your memory:  
-H0: There is no difference in the number of pathogens destroyed with pathogen density between vaccinated and unvaccinated individuals      
-H1: There is a difference in the number of pathogens destroyed with pathogen density between vaccinated and unvaccinated individuals
+H0: There is no difference in the number of prey captured with prey density between jars with and without a lid      
+H1: There is a difference in the number of prey captured with prey density between jars with and without a lid
 
 ***
 
 #### Characters or factors? Ordering categorical data
 
-The unvaccinated treatment is coded as `no` and the vaccinated treatment is coded as `yes`. We can also think of this as the unvaccinated group as our experimental control and the vaccinated group as our experimental treatment. 
+The jar without a lid treatment is coded as `no_lid` and the jar with a lid treatment is coded as `yes_lid`. We can also think of jar with a lid as our experimental control and the jar without a lid as our experimental treatment. 
 
 As R shows you the difference between levels of a treatment (`no` and `yes`) and estimates these parameters based on alphabetical ordering of the levels, it may be helpful to think of the first level of a treatment and the first intercept and slope estimate as the control of your experiment. In other words, like a baseline you are comparing to since this is what R is doing when evaluating the one sample t test on parameter estimates. 
 
-At the moment, vaccination status is classified as a **character** vector (see `str(class_data)`) and, fortunately, our "control" group  (`no`) is alphabetically before `yes`, which makes sense so we don't have to do anything about it. Under the hood, R will convert the `vaccination_status` variable from a character vector to a **factor** when fitting the linear regression. Both characters and factors are ways R stores categorical data. We could define vaccination status as a factor manually to be sure when preparing the data.
+At the moment, foraging strategy is classified as a **character** vector (see `str(class_data)`) and, unfortunately, our "control" group  (`yes_lid`) is alphabetically after `no_lid`, so we have to do something about it. Under the hood, R will convert the `foraging_strategy` variable from a character vector to a **factor** when fitting the linear regression. Both characters and factors are ways R stores categorical data. We need to define foraging strategy as a factor manually to be sure when preparing the data.
 
-If `yes` was first and used to fit the ordinary least squares regression, the estimated coefficients may be different. With three or more levels, especially ordered categories, we may need to make sure R recognises the data are factors , and change to a factor if necessary (using `factor()`), and use `relevel()` to make sure the ordering of the categorical data is what we want for analysis. For example try `factor(c("small", "medium", "large"), levels = c("small", "medium", "large"))` with and without the `levels` argument and see how R orders the levels.
+The function to change a variable to a factor is `factor`. We can tell R to categorise the `foraging_strategy` column as a factor using:
+
+```
+class_data$foraging_strategy <- factor(class_data$foraging_strategy, levels = c("yes_lid", "no_lid")) 
+```
+
+Here, we've told R what the order of the levels should be in `foraging_strategy`. You can check whether this was successful using `levels(class_data$foraging_strategy)`.
 
 ***
 
@@ -1209,13 +1213,16 @@ question_radio(
 
 ***
 
-### Practice: Evaluating infection responses with multiplicative models
+### Practice: Evaluating predator-prey interaction responses with multiplicative models
 
 We'll rephrase our hypotheses slightly to make the effect of the interaction explicit:    
-H0: The relationship between pathogens destroyed and pathogen density is the same between vaccinated and unvaccinated individuals    
-H1: The relationship between pathogens destroyed and pathogen density is different between vaccinated and unvaccinated individuals
+H0: The relationship between prey captured and prey density is the same between jar type  
+H1: The relationship between prey captured and prey density is different between jar type
 
 Time to use what you've learnt about interactive linear models on your dataset!
+
+We should point out that the Type II model technically does not **deal with multiple variables** so using a multiplicative models are instead a statistical representation of the data, rather than a theoretic model.
+
 
 > Answer the CA. Save and submit your answers.
 
@@ -1469,7 +1476,7 @@ Often a single sentence saying "Figure 1. A graph of the response against the pr
 
 ### Practice: Graphing results with a caption
 
-Use your new found knowledge of making graphs in R to make a plot of our results from our infection response including appropriate axes labels with units. The aesthetics are up to you. Write a caption as well.
+Use your new found knowledge of making graphs in R to make a plot of our results from our predator-prey interaction response including appropriate axes labels with units. The aesthetics are up to you. Write a caption as well.
 
 You can show it to your demonstrator for feedback.
 
@@ -1577,7 +1584,7 @@ The degree of freedom is the number of samples minus the number of parameters in
 
 ### Practice: Writing a results paragraph
 
-Practice writing a results paragraph using the results from our infection response. You can pick whatever model results to describe. You can check what you've written is comprehensive with a demonstrator. This is an essential skill for writing scientific reports.
+Practice writing a results paragraph using the results from our predator-prey interaction response. You can pick whatever model results to describe. You can check what you've written is comprehensive with a demonstrator. This is an essential skill for writing scientific reports.
 
 > There are no CA questions for this section
 

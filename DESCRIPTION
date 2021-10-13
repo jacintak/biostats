@@ -1,7 +1,7 @@
 Package: biostats.tutorials
 Type: Package
 Title: Statistics and Computation for Biologists
-Version: 1.1.1
+Version: 2.0.0
 Author: Jacinta Kong
 Maintainer: Jacinta Kong <kongj@tcd.ie>
 Description: learnr materials for BYU22S01 Statistics and Computation,

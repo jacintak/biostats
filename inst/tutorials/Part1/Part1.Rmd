@@ -205,7 +205,7 @@ question_radio("Statistical models aim to accurately and precisely describe real
 
 ***
 
-## Practical information
+### Practical information
 
 In these practicals we will look at a theoretic model of a pathogen response (predator-prey interaction). The aim is to understand how statistical models can be applied to biological data. 
 
@@ -219,81 +219,34 @@ I recommend taking your time with these practical and the concepts because they 
 
 This practical is split into three parts with distinct learning objectives (recommended time to spend):
 
-Part A: Building a theoretic model (40 mins)  
+Part A: Building a theoretic model (20 mins)  
 **Learning objectives:**
 
  * Know how a biological process can be described by a statistical model 
  * Understand how statistical models are applied to answer real world biological questions
 
-Part B: Designing an experiment (40 mins)  
+Part B: Designing an experiment (20 mins)  
 **Learning objectives:**
 
  * Apply your knowledge about experimental design and hypothesis formulation to a biological problem in practice
+ 
+Don't spend too long on Parts A and B = move through them and the CA quickly. Part C is the most important part and will take the most time. 
 
-Part C: Collecting data (**1 hour**) 
-
-This is the main activity of the practical that will take the most time and you can't rush/skip it.
-
+Part C: Collecting data (**2 hours**) 
+This is the main activity of the practical.  
 **Learning objectives:** 
 
- * Know how to run a simulation of a model and extract data 
  * Know how to organise a spreadsheet and fill in a spreadsheet with data following the principles of tidy data
  
-You will be uploading your data to Blackboard that will be checked as part of the CA. In the next practical we will be analysing the aggregated & anonymised class data set and using that to answer CA questions.
+You will be uploading your data to Blackboard. In the next practical we will be analysing the aggregated & anonymised class data set and using that to answer CA questions.
 
 ***
 
 ### Continuous Assessment
 
-I recommend doing the CA *after* Part B. Give yourself 30 mins to do the CA but don't spend too long on it because you need to finish Part C.
-
-The CA is worth 10% and is due at the end of the prac.  
-There are 9 questions to answer for 1 mark each.  
-1 mark is from a quality check of your data.  
-There is a total of 10 marks. 
+I recommend finishing the CA *before* Part C. The CA is worth 10% and is due at the end of the prac. There is a total of 10 marks. 
 
 The CA aims to assess your understanding of the concepts in this practical and your ability to apply the concepts in practice.
-
-***
-
-### A note on problem solving
-
-In programming, it's *really easy* to make mistakes like typos so that code doesn't work. That is no means a reflection on you or your ability to code/learn. If your code is not working take a moment to breathe.  
-
-Then, check whether it's a minor thing like a spelling mistake, or a missing quotation mark or bracket, or whether your cases don't match. 
-
-Next, check whether you have missed a step. Re-read the instructions again.
-
-*These two steps are the majority of encountered errors. They are not a big deal and are easily corrected*
-
-Next, try to articulate in words to yourself what you aim to do, what you expect to see if it worked, what you did leading up to this point and what you think is happening to cause the error. (This is called the rubber duck method - like you are explaining your problems to a rubber duck.)
-
-If there's an error message, read it. Error messages are the computer telling you what's wrong. Try googling the entire error message to see what other people have said. The entire error message is necessary, not just the last bit.
-
-Finally, ask a person/demonstrator as a last step. It's easy to jump ahead to this step but try not to - this isn't because we don't want to help you but because you may gain a deeper understanding if you try to figure it out independently. The same with reading and digesting the prac material - maybe you haven't read this sentence because tl;dr but you should because the CA will test your reading comprehension and attention to detail. My favourite dinosaur is diplodocus. The goal of learning to code is about the process, not the end result.
-
-One of the hard things about troubleshooting someone else's programming is that it's not clear what the problem. When describing your problem, be comprehensive & give context. Show the entire error message, not just parts of it. Trace your steps leading up to it. You see this a lot on online forums - questions don't get answered if there isn't enough information or a reproducible example.
-
-The more information you provide, the more information and context people have to help you. That's why we might ask you to provide more information or ask further questions to troubleshoot. The first things we would check are the steps above (minor human errors), so if you've done those, then say what you've already checked and what causes you've ruled out. That gives us a starting point to assist further.
-
-Programming is **trial and error**. You wouldn't expect to get it on the first try. And that's OK - it's part of the process.
-
-> When in doubt, try turning it on and off again
-
-***
-
-##
-
-```{r dino-quiz}
-question(
-  "What is Jacinta's favourite dinosaur?",
-  answer("Diplodocus", correct = TRUE, message = "Clever student!"),
-  answer("Tyrannosaurus rex"),
-  answer("Velociraptor"),
-  answer("Spinosaurus"),
-  random_answer_order = TRUE
-)
-```
 
 ***
 
@@ -303,31 +256,33 @@ In the previous practical you looked at a killer T cell digesting a pathogen. Th
 
 You started to compose a Scratch model. Although the Scratch model comprises of pictures and code blocks, under the hood these blocks represent computer code, and more abstractly a mathematical processes. Thus, the Scratch model is an implementation of a statistical model of a biological system - the infection response.
 
-This model was simple - maybe, too simple to be realistic. The killer T cell captured any and all pathogens touching it whereas in reality, a killer T cell may only target a few pathogens at a time or sequentially. This is also true for animal predators who hunt. Most predators need time to catch and process their food before their next meal.
+This model was simple - too simple to be realistic. The killer T cell captured any and all pathogens touching it whereas in reality, a killer T cell may only target a few pathogens at a time or sequentially. This is also true for animal predators who hunt. Most predators need time to catch and process their food before their next meal.
 
-We can conceptualise a more realistic representation of an infection response, or more abstractly a predator-prey interaction. By breaking down what we observe to be important about the infection response into variables and assumptions, we can build our own theoretic model (describing a process) of an infection response from the ground up.
+We can conceptualise a more realistic representation of an infection response, or more abstractly a predator-prey interaction. By breaking down what we observe to be important about the infection response into variables and assumptions, we can build our own theoretic model (describing a process) of an predator-prey interaction from the ground up.
 
 
 ***
 
-### What is an infection response?
+### What is a predator-prey interaction?
 
-In an infection response we have two *variables*:
+In a predator-prey interaction we have two **variables**:
 
-1. Killer T cells
-2. Pathogens
+1. Predator
+2. Prey
 
-If we think about what we consider to be important in an infection response, we can make the following statements, or assumptions, about the infection response:
+If we think about what we consider to be important in a predator-prey interaction, searching for and handing prey two mutually exclusive aspects. We can then make the following statements, or assumptions, about the predator-prey interaction:
 
-* A killer T cell randomly searches for pathogens
-* A killer T cell can only "search" a fixed area per unit time (search rate)
-* A killer T cell can only destroy one pathogen at a time - it must "process" (i.e. digest) the pathogen before it can begin searching for the next one (handling time)
+* A predator randomly searches for prey
+* A predator can only "search" a fixed area per unit time (search rate)
+* A predator can only eat one prey at a time - it must "process" (i.e. digest) the prey before it can begin searching for the next one (handling time)
     * Handling time and searching activity are mutually exclusive
-* Pathogens randomly move around independently of the killer T cell (e.g. it does not slow down or speed up when the T cell is near)
-* Both the killer T cell and the pathogen move at the same speed and at a constant speed
-* Both the killer T cell and the pathogen only move within a fixed area (e.g. the body), they cannot leave.
-* The numbers of killer T cells and pathogens are fixed at the start of the simulation (i.e. they do not replicate while the model is running, pathogen numbers can only decrease, killer T cell numbers stay the same)
-* Each infection response lasts a fixed amount of time (total time)
+* Prey randomly move around independently of the predator (e.g. it does not slow down or speed up when the prey is near)
+* Both the predator and the prey move at the same speed and at a constant speed
+* Both the predator and the prey only move within a fixed area (e.g. their habitat), they cannot leave.
+* The numbers of predators and prey are fixed at the start of the experiment (i.e. they do not replicate while the model is running, prey numbers can only decrease, predator numbers stay the same)
+* Each predator-prey interaction lasts a fixed amount of time (total time)
+
+These same statements can be applied to an infection response or to any analogous scenario - merely replace "predator" and "prey" with the relevant terms.
 
 **Would you agree with these statements? Or are they too simplistic of a complex biological system?**  
 
@@ -343,7 +298,7 @@ question(
   random_answer_order = TRUE
 ),
 question(
-  "What does it mean when the killer T cell and the pathogen are described as variables?",
+  "What does it mean when the killer T cell and the pathogen are described as variables in a predator-prey model?",
   answer("They are the components of interest in our infection model that change with each run of the model", correct = TRUE),
   answer("The numbers of pathogens never change in any scenario"),
   answer("The numbers of killer T cells never change in any scenario"),
@@ -356,7 +311,7 @@ question(
 
 If you thought our model is too simplistic, you are probably right *but* in modelling philosophy some degree of simplification or abstraction is perfectly acceptable because *models are only representations of reality*, they are not meant to copy the real world right down to the minutiae.
 
-> Thus, one application of models is to consider them as hypotheses of biological systems - what we think are important components of the system
+> Thus, one application of models is to consider them as hypotheses of biological systems - what we think are important components of the system.
 
 ***
 
@@ -366,7 +321,7 @@ Infection responses, predator-prey interactions...they can be generally classifi
 
 There are multiple types of functional responses (labelled with Roman numerals: I - IV). Each of these models represents a *different hypothesis* about functional responses and mathematically describes a *different relationship* between our two variables (the killer T cell and the pathogen). The assumptions we make above are based on a **Type II functional response model** and is the one most appropriate for an infection response scenario. You can read about the full maths by running `vignette("TypeIImodels")`. We won't discuss the other types. 
 
-The Type II functional response model is a good example of a general model - it has been used to describe animal predators eating prey (e.g. Holling's disc equations) or enzymes catalysing reactions (e.g. Michaelis-Menten equation). It doesn't matter what the mathematical symbols represent biologically, maths is a universal language that describes the underlying biological process. Here, we are applying it to an immune response scenario.
+The Type II functional response model is a good example of a general model - it has been used to describe animal predators eating prey (e.g. Holling's disc equations) or enzymes catalysing reactions (e.g. Michaelis-Menten equation). We can also use it to describe the immune response of the previous practical. It doesn't matter what the mathematical symbols represent biologically, maths is a universal language that describes the underlying biological process. Here, we are applying it to an general predator-prey scenario involving students and plastic counters.
 
 ***
 
@@ -382,7 +337,7 @@ quiz(
   random_answer_order = TRUE
 ),
 question_checkbox(
-  "Which of these words describe our infection response model? Select all that apply.",
+  "Which of these words describe our predator-prey model? Select all that apply.",
   answer("Complex"),
   answer("Simple", correct = TRUE),
   answer("Analytical", correct = TRUE),
@@ -415,27 +370,27 @@ type2 <- (prey*0.7)/(1+(prey*0.7*0.15))
 plot(type2~ prey,
      type = 'l',
      lwd = 4,
-     xlab = "Pathogen density", ylab = "Number of pathogens destroyed",
+     xlab = "prey density", ylab = "Number of prey eaten",
      xaxt='n', yaxt='n')
 ```
 
 
 Maybe something like:   
-"The number of pathogens destroyed rapidly increases at low pathogen densities and gradually plateaus to a maximum number of pathogens destroyed at higher pathogen densities."
+"The number of prey eaten rapidly increases at low prey densities and gradually plateaus to a maximum number of prey eaten at higher prey densities."
 
 The mathematical model of the figure above is:
-7
+
 $$H_a=\ \frac{a\times H\times T_{total}}{1+a\times H\times T_h}$$
 
 You should read the full derivation in the documentation file to see how we've turned our assumptions into mathematical expressions - run `vignette("TypeIImodels")` in Console or via the Packages tab (click biostats.tutorials -> User guides).
 
 Let's go through what the letters and numbers mean and how they link to our model assumptions.
 
- * $H$ is the number of pathogens within a fixed area (pathogen density, number per area). This is our predictor variable that we decide before our simulation.
- * $a$ is the search area per unit time of a T cell. This is a parameter that we do not know and that we calculate from our data.
- * $H_a$ is the number of pathogens captured. We record this at the end of our simulation as our response variable.
- * $T_{total}$ is the total time a killer T cell spent hunting pathogens (time). This is a constant that we decide before we start the simulation based on our assumptions.
- * $T_h$ is the time a killer T cell spends digesting a single pathogen (time per pathogen). This is a parameter that we do not know and that we calculate from our data. In functional response models, this is called handling time.
+ * $H$ is the number of prey within a fixed area (prey density, number per area). This is our predictor variable that we decide before our experiment
+ * $a$ is the search area per unit time of a prey. This is a parameter that we do not know and that we calculate from our data.
+ * $H_a$ is the number of prey captured. We record this at the end of our experiment as our response variable.
+ * $T_{total}$ is the total time a predator spent hunting prey (time). This is a constant that we decide before we start the experiment based on our assumptions.
+ * $T_h$ is the time a predator spends digesting a single prey (time per prey). This is a parameter that we do not know and that we calculate from our data. In functional response models, this is called handling time.
 
 You'll see that we know the value of some of these parameters already and some we need to calculate from our data.
 
@@ -465,10 +420,10 @@ The linearised Type II equation is:
 $$\frac{1}{H_a}=\ \frac{1}{a}\times\frac{1}{H\times T_{total}}+\frac{T_h}{T_{total}}$$
 The full derivation is accessible in `vignette("TypeIImodels")`, we won't go though how this is derived here, but you *do* need to understand this equation:
 
- * $\frac{1}{H_a}$ is the inverse of our response variable - the number of pathogens destroyed 
+ * $\frac{1}{H_a}$ is the inverse of our response variable - the number of prey eaten 
  * $\frac{1}{a}$ is the inverse of our unknown search rate parameter
- * $\frac{1}{H \times T_{total}}$ is the inverse of our predictor variable (pathogen density) and the total infection response time
- * $\frac{T_h}{T_{total}}$ is our unknown handling time divided by the total infection response time
+ * $\frac{1}{H \times T_{total}}$ is the inverse of our predictor variable (prey density) and the total predator-prey interaction time
+ * $\frac{T_h}{T_{total}}$ is our unknown handling time divided by the total predator-prey interaction time
 
 **Does the overall structure of the equation look familiar to you? (maybe from high school maths)**
 
@@ -476,7 +431,7 @@ The graph looks like this:
 ```{r tyepe2line, echo = FALSE, fig.cap= "Linearised type II functional response of an infection response"}
 prey <- seq(0, 0.25, 0.01)
 type2 <- seq(0, 1, length.out = length(prey))
-plot(type2 ~ prey , type = 'l', lwd = 4, ylab = "1/Ha, Pathogens destroyed", xlab = "1/H Total time, Pathogen density",
+plot(type2 ~ prey , type = 'l', lwd = 4, ylab = "1/Ha, Prey eaten", xlab = "1/H Total time, Prey density",
      xaxt='n', yaxt='n')
 ```
 
@@ -520,41 +475,13 @@ $$T_h = T_{total} \times intercept$$
 Now we have our model, we can then ask "what if...?". What happens if we change things in the model? 
 
 >For the rest of the practical we will look at the question:  
->**What happens to the number of pathogens a killer T cell can destroy when the number of pathogens in an area (the density) increases?**  
+>**What happens to the number of prey a predator can eat when the number of prey in an area (the density) increases?**  
 
-We can investigate this question with a simulation based experiment in Scratch, like in the previous practical. 
-
-***
-
-## The predator-prey Scratch simulation
-
-In the previous practical you looked at building a Scratch model with a predator (a killer T cell) and some prey (invading pathogens). Your response variable was time taken to destroy all the pathogens and the predictor variable was the number of pathogens (pathogen density).
-
-In this practical we have a slightly different hypothesis and thus a different experimental design. The predictor variable is the same but the response variable is the number of pathogens destroyed at the end of a fixed amount of time. We also have additional assumptions about functional responses that change how the simulation should behave - searching and handling prey are independent and mutually exclusive.
-
-You don't have to modify the previous practical simulation yourself... I have done this for you.
-
-You have been provided with a Scratch model you need to use to generate data for this practical and the next. This Scratch model is based on the previous practical but because our model of the biological system is more realistic and complex, our Scratch model is also more complex. You can compare the two and see what has changed.
-
-You do not need to change any aspect of the predator sprite. When the predator eats a prey it will stop searching (moving) until it has finished digesting its prey and resumes searching. This behaviour is one of our model assumptions and is controlled by a variable called digesting but it's not important to track it.
-
-Under the prey sprite tab you will see three code blocks arranged from top to bottom. They are:
-
-* Top: Set user defined variables for the simulation
-    * prey density - the default is 20 but **this number needs to be changed because it's our predictor variable**, $H$ 
-    * efficiency - the default is 1 but we will ignore it for now
-* Middle: Set up the counters and timer
-    * prey_density is the number of pathogens our killer T cell has destroyed, $H_a$
-    * digesting is the foraging state of the killer T cell, you can ignore this but it is an implementation of our assumptions that destroying and searching for pathogens are mutually exclusive activities
-    * total_time is the duration of the infection response, $T_h$. This should be 60 seconds (1 minute).
-* Bottom: This describes the behaviour of the pathogen. The pathogen will move around randomly until it touches the killer T cell. If the killer T cell is hungry, the pathogen is destroyed and the killer T cell becomes full (the digesting variable). If the killer T cell is full, then the pathogen lives.
-
-When you click the green flag you will see two counters: a count down timer and the number of prey caught. The predator and prey sprites move around randomly within the fixed arena. The simulation stops when either the timer reaches zero or when all prey are caught and the original prey density is displayed. Press the stop button to reset the simulation.
+Unlike the previous practical, we are going to investigate this question by conducting a real experiment and make the most of in-person teaching by working in groups! But it is possible to build an equivalent simulation in Scratch.
 
 Now we have our research question and a model, we implicitly have our hypotheses. 
 
-**Write down a null (H0) and alternative (H1) hypothesis before moving on to the next section.**
-
+**Write down a null (H0) and alternative (H1) hypothesis before moving on to the next section.**  
 If you are not sure how to formulate a hypothesis, look back at previous material, then ask a demonstrator.
 
 ***
@@ -584,14 +511,14 @@ You're doing great!
 
 How do your hypotheses compare to these?
 
-H0: There is no relationship between pathogen density and number of pathogens destroyed  
-H1: There is a positive linear relationship between pathogen density and number of pathogens destroyed
+H0: There is no relationship between prey density and number of prey eaten  
+H1: There is a positive linear relationship between prey density and number of prey eaten
 
-Notice how the hypotheses is worded and the language used. The alternative hypothesis describes the direction but not the strength of the relationship. If you are less certain about your predicted outcomes you could be less specific if you wanted to (e.g. not describing the direction of the relationship if the expected relationship could also be negative). There are no limits to how many hypotheses you have. You could have three hypotheses, a null and two alternatives - one for a positive relationship and one for a negative relationship.
+Notice how the hypotheses is worded and the language used. **The wording of your hypothesis will dictate the best experimental design and statistical analysis to test your hypothesis!** Choose wisely. 
 
-**The wording of your hypothesis will dictate the best experimental design and statistical analysis to test your hypothesis! Choose wisely.**
+The alternative hypothesis describes the direction but not the strength of the relationship. If you are less certain about your predicted outcomes you could be less specific if you wanted to (e.g. not describing the direction of the relationship if the expected relationship could also be negative). 
 
-> Remember, as scientists we never try to "prove" hypotheses. We aim to gather evidence and see whether the evidence supports our hypothesis.
+There are no limits to how many hypotheses you have. You could have three hypotheses, a null and two alternatives - one for a positive relationship and one for a negative relationship. **Remember, as scientists we never try to "prove" hypotheses. We aim to gather evidence and see whether the evidence supports our hypothesis.**
 
 It's good to be specific in your hypothesis if it is plausible in your biological system. For example, if we are testing whether a vaccine induces an immune response, the resulting immune response can only be positive - a negative immune response (i.e. becoming more susceptible to disease) is implausible (and unfortunate).
 
@@ -599,26 +526,41 @@ Keep your hypothesis as simple as possible to investigate what you are intereste
 
 Conducting a simple statistical analysis on a complex hypothesis and experimental design means that there is variation in your data that is not accounted for and could be affecting your response variable - it increases the chances of making a type II error (the meaningful biological relationship is hidden under statistical noise).
 
-> When in doubt, keep it simple. 
+> **When in doubt, keep it simple.** 
+
+***
+
+### The experiment
+
+So, what is the actual experiment? You have been provided some plastic counters, a stopwatch, a piece of paper and a jar with a lid. You are the predator and the counters are your prey. The piece of paper is your arena and the jar is for collecting prey that you have captured. 
+
+You will be working in pairs - one of you will be the predator, the other will be the observer (keeping track of the time, recording the data). You will need a computer between you for entering and uploading data.
+
+The protocol is simple:
+
+ 1. Spread out the desired number of counters on the A4 sheet randomly. Do not move counters around once landed - Why not?.
+ 2. The predator will close their eyes and use their index finger to randomly tap around the arena at a constant search rate called out by the observer. The observer has a stop-watch and tells the predator when to tap.
+ 3. If the predator touches a counter, they need pick it up and “processes” it. The prey caught must be placed in the provided jar.
+     * __The predator cannot hold the jar while searching for your prey because prey handling and prey search are mutually exclusive processes.__
+     * The predator must pick up the jar, unscrew the lid, drop in the counter, close the lid fully and place the jar back down on the table - all with their eyes closed
+ 4. You can replicate using a different “predator” (student) to take turns but you should use the same predator across all prey densities. 
+
+**The goal is to pick up as many counters as possible within a fixed time period.**
 
 ***
 
 ### Identifying treatments 
 
-Experiments consist of variables that are *controlled* or *manipulated*. The manipulated variables are usually predictor variables. Controlled variables are other influential variables that may affect the response variable in ways that might mask or accentuate the effect of the predictor variable on the response variable.  
- 
- > We control as many possible variables as possible to make sure what we observe is the true effect of the predictor variable of interest.   
+Experiments consist of variables that are *controlled* or *manipulated*. The manipulated variables are usually predictor variables. Controlled variables are other influential variables that may affect the response variable in ways that might mask or accentuate the effect of the predictor variable on the response variable. We control as many possible variables as possible to make sure what we observe is the true effect of the predictor variable of interest.   
 
  * If we cannot control a variable, the least we can do is record it as a co-variate and apply more complex stats to account for the additional variable.   
  * If we don't keep a comprehensive record, then we risk the co-varying variable **confounding** the true effect of the predictor variable, adding uncontrolled variation (decreasing the chance of getting a significant P value) and increasing the risk of Type I or II error.
 
-We change the pathogen densities with each run of the simulation because it is the predictor variable. The different values of pathogen density is our **treatment**.
+We change the prey densities with each run of the experiment because it is the predictor variable. The different values of prey density is our **treatment**.
 
-How many pathogen densities should you use? You need at least two treatments (two observations) to fit a straight line to data but there is no hard or fast rule for deciding these things. 
+How many prey densities should you use? **Generally, the more treatments, the better your data may capture some true biological relationship.** But more treatments means more work, time and effort! You need at least two treatments (two observations) to fit a straight line to data but there is no hard or fast rule for deciding these things. 
 
-> Generally, the more treatments, the better your data may capture some true biological relationship. But more treatments means more work, time and effort!
-
-**For the purpose of this practical, we will decide on 5 treatments of pathogen density. You are free to choose any 5 numbers from a range of 1 to 100.** 
+**For the purpose of this practical, we will decide on 10 treatments of prey density (do a minimum of 5 if you are running out of time). You are free to choose any 10 numbers from a range of 1 to 100.** 
 
 We will collate the entire class' data so you don't have to choose the same numbers. We aim for consistency and balance when designing experiments, so your treatments should be equally spaced out. For example, with equal increments.
 
@@ -626,23 +568,21 @@ We will collate the entire class' data so you don't have to choose the same numb
 
 ### Replication, replication, replication
 
-Replication is really important to increase the accuracy and precision of our data and make sure our results are not due to random chance. It also reduces the chances of making a type 1 or type 2 error. 
+Replication is really important to increase the accuracy and precision of our data and make sure our results are not due to random chance. **Generally, the more replication the better! Again, the trade-off is more work, time, effort or computing power.**. It also reduces the chances of making a type 1 or type 2 error. 
 
-> Generally, the more replication the better! Again, the trade-off is more work, time, effort or computing power.
+**For the purpose of this practical, we will use 3 replicates of prey density.** Three is usually a minimum number of replications. In a real-world scientific study, you may see higher replications.  
 
-**For the purpose of this practical, we will use 3 replicates of pathogen density.** Three is usually a minimum number of replications. In a real-world scientific study, you may see higher replications.  
-
-A replication of 3 means that we need to repeat our experiment three times for every value of the treatment. 
+A replication of 3 means that we need to repeat our experiment three times for every value of the treatment. Each replication should be independent of the others. Otherwise you risk *pseudoreplication* - not replicating when you think you are.
 
 ***
 
 ### Identifying constant parameters
 
-In our experiment we have 1 killer T cell moving at a constant speed. These are constants that does not change - doing so would violate the assumptions of our model or turn these parameters into variables.
+In our experiment we have 1 predator moving at a constant speed. These are constants that does not change - doing so would violate the assumptions of our model or turn these parameters into variables.
 
-Total immune response time is another constant. For simplicity, we will use a value of **1 minute** only so that we can divide by 1 and it makes our maths easier.
+Total foraging time is another constant. For simplicity, we will use a value of **1 minute** only so that we can divide by 1 and it makes our maths easier.
 
-The number of killer T cells, speed and total time are all *parameters* and they are *constant* in a single simulation. Changing these would fundamentally change the experimental design and hypotheses tested. Changing these but keeping our hypotheses the same would be introducing additional variation into our data and increase the chance of making a type 2 error. Thus, sometimes parameters become variables; it all depends on the aim of the study.
+The number of predators, speed and total time are all *parameters* and they are *constant* in a single experiment. Changing these would fundamentally change the experimental design and hypotheses tested. Changing these but keeping our hypotheses the same would be introducing additional variation into our data and increase the chance of making a type 2 error. Thus, sometimes parameters become variables; it all depends on the aim of the study.
 
 Although these constant parameters are unknown to us, we want to know their values to use the analytical model but we need empirical data to fit to our analytical model. We will estimate these values using statistical models next practical to complete the equation:
 
@@ -657,7 +597,7 @@ $$H_a=\ \frac{a\times H\times T_{total}}{1+a\times H\times T_h}$$
 quiz(caption = "Have you been paying attention?",
   question_text(
     paste("How many treatments are we using?"),
-    answer("5", correct = TRUE),
+    answer("10", correct = TRUE),
     allow_retry = TRUE
   ),
   question_text(
@@ -672,7 +612,7 @@ quiz(caption = "Have you been paying attention?",
   ),
   question_text(
     paste("Thus, how many observations should our data set contain?"),
-    answer("15", correct = TRUE),
+    answer("30", correct = TRUE),
     allow_retry = TRUE
   )
 )
@@ -680,60 +620,51 @@ quiz(caption = "Have you been paying attention?",
 
 ***
 
-### What if...?
-
 That's not all we want to do today!
 
 > Another use of statistical models is to explore different scenarios that represent different hypotheses.
 
-What happens if our killer T cell was more efficient? For example, vaccines provide a chance for the immune system to "learn" how to destroy pathogens (e.g. viruses). After this experience, immune systems become more efficient at destroying pathogens.   
-**How would this aim affect $H_a$ and the estimates of $a$ and $T_h$?**  
+What happens if our predator was more efficient? What would you change about the experiment to achieve this? How would this aim affect $H_a$ and the estimates of $a$ and $T_h$? For example, vaccines provide a chance for the immune system to "learn" how to eat prey (e.g. viruses). After this experience, immune systems become more efficient at destroying prey.   
 
-The efficiency of the killer T cell is set as a variable in Scratch called `efficiency`. In the model, the duration of time a killer T cell waits while digesting is a random number between 1 and 5 that is multiplied by the value of `efficiency`. For example, if digesting time was 5 and efficiency was 1, then the effective digesting time is 5 * 1 = 5 seconds. The `efficiency` value is a constant parameter in our simulation - it doesn't change and applies to all runs of the simulation; changing this value changes the intended scenario.
+We will simulate a different predator behaviour by repeating our counter and jar experiment but this time, the jar does not have a lid so the predator does not need to open and close the lid when they are handing the counters. Here, we will call this variable *foraging strategy*.
 
-_Let's call our original killer T cell an **unvaccinated individual** with an `efficiency` value of 1_. Now, consider a **vaccinated individual** with an `efficiency` value of 0.5. We have changed our constant parameter, it doesn't fundamentally change our model assumptions but becomes a new variable that is used to calculate the effective digesting time. 
+These two experiments are *independent*. If we want to compare the foraging properties between the two predators, we need to run the experiment again *keeping everything the same but changing only the variable of interest*.
 
-If we want to compare the immune response between unvaccinated and vaccinated individuals, we need to run the experiment again *keeping everything the same but changing only the variable of interest*.
+In addition to the hypotheses before, we have two new hypotheses:
+
+H0: There is no difference in the number of prey eaten with prey density between foraging strategies  
+H1: There is a difference in the number of prey eaten with prey density between foraging strategies 
+
+It's often more interesting to formulate a more specific alternative hypothesis than just the opposite of the null hypothesis if we hypothesise there's a *direction* to the effect of the new predictor variable on the response variable
+
+**Formulate a more specific hypothesis we can use as an alternative hypothesis.**
+
+In other words, we generally want to know if the change in foraging strategy *improves* the number of prey captured. If we used the original alternative hypothesis then we would accept that hypothesis even if the number of prey captured decreased.
+
+As a another example, a simplistic hypothesis is not an informative or helpful conclusion if we were testing a new vaccine and the vaccine made people *more susceptible* to disease yet we would need to accept our alternative hypothesis.
+
+> Remember, the alternative hypothesis is the outcome we would expect if there was an effect of the predictor on the response variable. The null hypothesis is what we expect when there is no effect (hence, null). Most of the time we want there to be an effect (what we hope is true about a biological system).
 
 ```{r genotype-quiz}
 quiz(
   question(
-    "Which of these variables are we changing to compare vaccinated and unvaccinated individuals?",
-    answer("Killer T cell efficiency", correct = TRUE),
+    "Which of these variables are we changing to compare different foraging strategies?",
+    answer("How the jar is used", correct = TRUE),
     answer("The number of killer T cells"),
     answer("Pathogen density"),
     answer("Pathogens destroyed"),
     random_answer_order = TRUE,
     allow_retry = TRUE
-  ),
-  question_text(
-    paste("How long (in seconds) would a killer T cell of a vaccinated individual pause in the simulation if digesting time was 3? Numbers only."),
-    answer("1.5", correct = TRUE),
-    allow_retry = TRUE,
-    message = "What is the value of efficiency for a vaccinated individual and how is efficiency used in our model?"
   )
 )
 ```
 
-In addition to the hypotheses before, we have two new hypotheses:
-
-H0: There is no difference in the number of pathogens destroyed with pathogen density between vaccinated and unvaccinated individuals    
-H1: There is a difference in the number of pathogens destroyed with pathogen density between vaccinated and unvaccinated individuals
-
-It's often more interesting to formulate a more specific alternative hypothesis than just the opposite of the null hypothesis if we hypothesise there's a *direction* to the effect of the new predictor variable on the response variable. We will use this one:
-
-H1: Killer T cells of vaccinated individuals will destroy more pathogens than killer T cells of unvaccinated individuals. 
-
-In other words, we generally want to know if the vaccine *improves* the immune response. If we used the original alternative hypothesis then we would accept that hypothesis even if the vaccine makes people *more susceptible* to disease. A) Yikes, B) it's not an informative or helpful conclusion if we were testing a new vaccine.
-
-> Remember, the alternative hypothesis is the outcome we would expect if there was an effect of the predictor on the response variable. The null hypothesis is what we expect when there is no effect (hence, null). Most of the time we want there to be an effect (what we hope is true about a biological system).
-
-So we need to expand our dataset. We can add more observations to our first dataset and a new column denoting whether the individual is vaccinated or unvaccinated.
+So we need to expand our dataset. We can add more observations to our first dataset and a new column denoting whether the jar used had a lid or not.
 
 ```{r nrow}
 quiz(question_text(
     paste("Thus, how many observations should our final data set contain?"),
-    answer("30", correct = TRUE, message = "All other variables and constants stay the same"),
+    answer("60", correct = TRUE, message = "All other variables and constants stay the same"),
     allow_retry = TRUE
   ),
   question_text(
@@ -743,7 +674,7 @@ quiz(question_text(
   ),
   question_text(
     paste("How many predictor variables do we have?"),
-    answer("2", correct = TRUE, message = "Pathogen density and vaccination status"),
+    answer("2", correct = TRUE, message = "Prey density and foraging strategy"),
     allow_retry = TRUE
   )
 )
@@ -772,10 +703,9 @@ Keep it up!
 ## 
 
 
-> Now do the CA - 9 questions, 1 mark for each question. 
+> Now do the CA and hand it in to a demonstrator for marking
 
-Give yourself 30 mins.  
-Good luck!
+Don't forget to include your name and student number. Good luck!
 
 ***
 
@@ -879,24 +809,24 @@ See the table below for an example of column headers with no spaces and all cell
 
 | column_information            	| information_type 	| description 	|
 |-------------------------------	|------------------	|-------------	|
-| student number                	| NA          	    | for marking 	|
+| student numbers                	| NA          	    |   	|
 | total time 	                    | numeric          	| `1` in minutes, not seconds	|
-| pathogen density              	| numeric          	| NA          	|
+| prey density              	| numeric          	| NA          	|
 | replicate                     	| numeric          	| NA          	|
-| pathogens destroyed           	| numeric          	| NA          	|
-| vaccination status            	| character        	| `no` for unvaccinated or `yes`	for vaccinated |
+| prey eaten           	| numeric          	| NA          	|
+| foraging strategy            	| character        	| `no_lid` for no lid or `yes_lid`	for a jar with a lid |
 
 These headers are pre-filled for you in the correct order on the template.  
 
-> The order of columns has to exactly match the order in the table. Your exact column header names can be different as long as they follow the critera above (lowercase, no spaces, informative). 
+The order of columns has to exactly match the order in the table. Your exact column header names can be different as long as they follow the critera above (lowercase, no spaces, informative). 
 
-Now you can do your experiment and record your data. 30 data points should take you about 30-40 minutes because that's how long it takes the simulation to run 30 times. Remember to save your data regularly.
+> Remember to save your data regularly.
 
 ```{r radio1, echo = FALSE}
 question_radio(
-  "What efficiency value is used in the simulation for an individual with the vaccination status 'no'?",
-  answer("1", correct = TRUE),
-  answer("0.5"),
+  "What should be entered in the cell under the column foraging_strategy when using a jar without a lid",
+  answer("no_lid", correct = TRUE),
+  answer("yes_lid"),
   allow_retry = TRUE
 )
 ```
@@ -931,11 +861,11 @@ quality_check <- function(x){
   if((sum(str_detect(x[,6], " ")) != 0) == TRUE){pass <- 0}
   
   # check correct number of observations
-  if(nrow(x) != 30){pass <- 0} # 30 rows
+  if(nrow(x) < 30){pass <- 0} # 30 rows
   if(length(x) != 6){pass <- 0} # 6 columns
 
   # check treatments and replications
-  if(length(unique(x[,3])) != 5){pass <- 0} # 5 treatments?
+  if(length(unique(x[,3])) < 5){pass <- 0} # 5 treatments?
   if(length(unique(x[,4])) != 3){pass <- 0} # 3 replications?
   if((max(x[,3]) > 100) == TRUE){pass <- 0} # Does not exceed 100 pathogen density
 
@@ -944,23 +874,23 @@ quality_check <- function(x){
   if((sum(x[,6] != tolower(x[,6])) != 0) == TRUE){pass <- 0} # vaccine
   
   # check complete
-  if(sum(complete.cases(x)) != 30){pass <- 0} # missing values?
+  if(sum(complete.cases(x)) != nrow(x)){pass <- 0} # missing values?
 
   return(message(ifelse(pass==1, "Passed", "Failed")))
 }
 ```
 
-You see that the function will take your data, then check whether the information is formatted correctly and whether all 30 observations are filled. Because the function uses square bracket subsetting for identifying columns, the order of the columns is very specific. Finally the data sheets gets assigned a 1 if it passes and a 0 if it fails with a little Pass/Fail message.
+You see that the function will take your data, then check whether all cells are filled and formatted correctly. Because the function uses square bracket subsetting for identifying columns, the order of the columns is very specific. Finally the data sheets gets assigned a 1 if it passes and a 0 if it fails with a little Pass/Fail message.
 
-Actually, you can check your own data to see if it would pass yourself if you run the above function so that it is saved into your R's memory then running the function itself like `quality_check(<name of your data>)` ;)
+Actually, you can check your own data to see if it would pass yourself if you run the above function so that it is saved into your R's memory then running the function itself like `quality_check(<name of your data>)`.
 
 ***
 
 ### Uploading your dataset to Blackboard
 
-Save your data sheet **as a csv file** (in Excel, click "Save As" and select csv file type). Your file name should be your student number and practical session separated by `_`. e.g. `12345678_AM.csv`.
+Save your data sheet **as a csv file** (in Excel, click "Save As" and select csv file type). Your file name should be your bench number and seats (no spaces) and practical session separated by `_`. e.g. `Bench134_AM.csv` for Bench 1 seats 3 & 4 in the morning session.
 
-Upload your csv file to the assignment link provided on Blackboard.
+Upload your csv file to the assignment link provided on Blackboard. **Only one person in the group needs to upload a file**.
 
 ```{r radio2, echo = FALSE}
 question_radio(
@@ -975,6 +905,12 @@ question_radio(
 
 ## Final checklist
 
+Use the following check list to make sure you have done everything you need for this practical.  
+Have you:
+
+* Uploaded your dataset to Blackboard?
+* Done the CA questions?
+
 > That's a wrap! Well done for making it to the end. Check in with your demonstrator.  
 > Take a break. Stand up. Dance. Breathe.
 
@@ -982,7 +918,7 @@ One last recap quiz:
 
 ```{r hypo, echo = FALSE}
 quiz(
-question("How many killer T cells are in our model?",
+question("How many predators are in our experiment?",
          answer("0"),
          answer("1", correct = TRUE),
          answer("2"),
@@ -1012,38 +948,17 @@ question("How many killer T cells are in our model?",
 
 To sum up, we:
 
-* Composed a theoretic model of an infection response with known and unknown parameters. The model describes a set of hypotheses based on assumptions we have made about the infection response 
+* Composed a theoretic model of a predator-prey interaction with known and unknown parameters. The model describes a set of hypotheses based on assumptions we have made about the predator-prey interaction 
 * Identified a biological question and hypothesis
 * Designed an experiment with adequate treatments and replication
-* Ran a simulation of a model and extracted data 
+* Conducted an experiment and recorded data 
 * Filled in a spreadsheet with data following the principles of tidy data
 
 All of these steps are part of the scientific method and are relevant to your final assessment.
 
-The scratch model is a computer simulation of a biological system - an infection response - that is used to generate data. The functional response is a statistical model of the infection response - a general theoretic model - that is used to formulate hypotheses about our biological system.  
+If everyone follows the instructions, then all your datasets will be comparable and we can combine everyone's data into one giant (anonymised) dataset. Meaning more data to play with than if you had done it by yourself. The idea is that with a large enough sample size (an entire module of students) we can get a good coverage of numbers between 1 and 100 for prey density values.
 
-In the next practical we will use another type of statistical models (a linear regression) to statistically describe the data we collect and test the hypotheses of our functional response model.
-
-
-***
-
-### Want to get ahead?
-
-Now that you have your data, the next step is to explore your data graphically. We've covered how to import data and graph data in R in previous practicals. You can try to import your data and graph your data. We will do this next prac as well.
-
-Graphing data is a great way of checking for quick and easy to spot errors or identifying emerging patterns. 
+In the next practical we will be analysing the aggregated & anonymised class data set. We will use another type of statistical models (a linear regression) to statistically describe the data we collect and test the hypotheses of our functional response model.
 
 ***
-
-Use the following check list to make sure you have done everything you need for this practical.  
-Have you:
-
-* Uploaded your dataset to Blackboard?
-* Done the CA questions?
-
-***
-
-If everyone follows the instructions, then all your datasets will be comparable and we can combine everyone's data into one giant (anonymised) dataset. Meaning more data to play with than if you had done it by yourself. The idea is that with a large enough sample size (an entire module of students) we can get a good coverage of numbers between 1 and 100 for pathogen density values.
-
-In the next practical we will be analysing the aggregated & anonymised class data set.
 
