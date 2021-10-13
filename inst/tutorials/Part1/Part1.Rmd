@@ -648,7 +648,7 @@ Although these constant parameters are unknown to us, we want to know their valu
 
 $$H_a=\ \frac{a\times H\times T_{total}}{1+a\times H\times T_h}$$
 
-> Remember: keep it simple! A more complex statistical analysis cannot fix a issues arising from a badly designed experiment.
+> Remember: keep it simple! A more complex statistical analysis cannot fix issues arising from a badly designed experiment.
 
 ***
 ##
