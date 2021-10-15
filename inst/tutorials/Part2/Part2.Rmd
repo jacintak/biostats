@@ -422,7 +422,7 @@ We now have all the correct columns to parameterise our functional response.
 > Your column names may not be exactly the same but you can apply the same process using your column names. E.g. you don't *have* to call it `HT.1` but recognise that you need to remember to modify your code accordingly.
 
 **Step 3: Doing the linear regression**  
-If `lm` is the function to do a linear regression, `Ha.1` is the name of our response variable, `HT.1` is the name of the predictor variable and the name of our dataset is `class_data`, you should be able to write the code for the linearised type II functional response. **We will ignore efficiency for now.**
+If `lm` is the function to do a linear regression, `Ha.1` is the name of our response variable, `HT.1` is the name of the predictor variable and the name of our dataset is `class_data`, you should be able to write the code for the linearised type II functional response. **We will ignore foraging strategy for now.**
 
 (Hint: see the theory section above if stuck)
 
