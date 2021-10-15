@@ -319,7 +319,7 @@ If you thought our model is too simplistic, you are probably right *but* in mode
 
 Infection responses, predator-prey interactions...they can be generally classified as **functional responses**. Luckily for us, there are already well known analytical (mathematical) models of functional response that we can use.
 
-There are multiple types of functional responses (labelled with Roman numerals: I - IV). Each of these models represents a *different hypothesis* about functional responses and mathematically describes a *different relationship* between our two variables (e.g. the killer T cell and the pathogen, or a predator and its prey). The assumptions we make above are based on a **Type II functional response model** and is the one most appropriate for an infection response scenario. You can read about the full maths by running `vignette("TypeIImodels")`. We won't discuss the other types. 
+There are multiple types of functional responses (labelled with Roman numerals: I - IV). Each of these models represents a *different hypothesis* about functional responses and mathematically describes a *different relationship* between our two variables (e.g. the killer T cell and the pathogen, or a predator and its prey). The assumptions we make above are based on a **Type II functional response model** and is the one most appropriate for an infection response scenario. You can read about the full maths by running `vignette("TypeII_models")`. We won't discuss the other types but you can read about them by running `vignette("functional_responses")`. 
 
 The Type II functional response model is a good example of a general model - it has been used to describe animal predators eating prey (e.g. Holling's disc equations) or enzymes catalysing reactions (e.g. Michaelis-Menten equation). We can also use it to describe the immune response of the previous practical. It doesn't matter what the mathematical symbols represent biologically, maths is a universal language that describes the underlying biological process. Here, we are applying it to an general predator-prey scenario.
 
@@ -659,7 +659,7 @@ H1: There is a difference in the number of prey captured with prey density betwe
 We can formulate a more specific alternative hypothesis:
 H1: Experienced predators will capture more prey
 
-These two experiments are *independent*. If we want to compare the foraging properties between the two predators, we need to run the experiment again *keeping everything the same but changing only the variable of interest*.
+These two experiments are *independent*. If we want to compare the foraging properties between the two predators, we need to run the experiment again **keeping everything the same but changing only the variable of interest**.
 
 In addition to the hypotheses before, we have two new hypotheses:
 
@@ -817,7 +817,6 @@ Here are the rules we want you to apply here (these are not global standards and
  * Are all the necessary columns/information included and in the right order?
      * The order doesn't always matter but in this case it does for the automatic checking script
      
-Your datasheet will be marked pass/fail against these rules. It has to meet all of these criteria to pass.
 
 ***
 
@@ -874,7 +873,7 @@ Checking and correcting data is called **cleaning**. We take raw data and clean 
 
 In the real world, data is almost never clean and cleaning often takes longer than the actual analysis! Luckily, you won't need to do it for this prac. This is partly why we want to be particular with recording data - it will make automating the processes faster.
 
-Here is the function I will use to check a data sheet and assign it a pass or fail based on whether it meets *all* the data criteria. You have learnt about functions and if statements in `R` in your lectures already so you might be able to follow along (if not, don't worry - this is a more complex function than we would expect you to understand for this module):  
+Here is the function I will use to check a data sheet and decide to keep or discard it based on whether it meets *all* the data criteria. You have learnt about functions and if statements in `R` in your lectures already so you might be able to follow along (if not, don't worry - this is a more complex function than we would expect you to understand for this module):  
 
 ```
 quality_check <- function(x){

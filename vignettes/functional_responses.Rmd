@@ -1,0 +1,84 @@
+---
+title: "Functional response models"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Functional response models}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>", fig.width = 6
+)
+```
+
+
+# Predator-prey interactions & functional responses
+
+Predation (and herbivory) is a widespread pressure that directly impacts the abundance and distribution of populations, in addition to the organisation and function of communities and ecosystems. As an important biological interaction, predation may also interact with physical processes and other biotic interactions such as competition and recruitment, creating complex responses and changes in the dynamics of ecological systems.
+
+
+Predator-prey interactions depend on a number of variables:
+  
+* Number/density of predators
+* Number/density of prey
+* How frequently a predator hunts per unit time
+* How successful predators are at prey capture
+* How much area can a predator search at once
+
+
+In his classical paper^[Holling, CS (1959). The components of predation as revealed by a study of small mammal predation of the European pine sawfly.  Canad. Entomol. 91: 293-320], Holling examined the effects of small mammal predation on pine sawflies and found that rates of predation increased with increasing density of the prey. This resulted from two effects: (1) each predator increased its rate of consumption when exposed to greater densities of prey and (2) the density of the predators increased with increasing density of prey. These two responses are known as (1) the **functional response** (response of the individual predator) and (2) the **numerical response** (response of the population of predators).
+
+Using something called the ‘disc equation’, Holling modelled these functional responses to *predict the rate of prey consumption by an average predator*. He called it the disc equation as he used simple paper discs to simulate the area over which the predator could search for prey. There are four types of functional responses but we will only consider three types here.
+
+
+Each of the functional responses (Type I, II or III) can be described by a mathematical expression comprising of **variables** and **parameters**. The response variable is the number of preys attacked by a predator per unit time (the rate of prey consumption) and the predictor variable is the density of prey (the total number of prey in an arena).
+
+
+## Type I
+Prey density alone determines the response of the predator (prey dependent). Found in passive predators, such as spiders. The number of flies caught in a web is proportional to the density of the flies (more of them bump into the web, if more are flying around). In this case, prey mortality due to predation is constant (Figure 1).
+
+```{r funct_resp1, echo=FALSE, fig.margin=TRUE, fig.height=5, fig.cap="Type I"}
+prey <- seq(0, 60, 5)
+type1 <- 0.15 * prey
+
+plot(type1~ prey, type = 'l', lwd = 4, xlab = "Prey density", ylab = "Number of prey eaten")
+```
+
+Type I functional responses assume that the number of prey caught is only determined by the number of prey, i.e. it is independent of the predator. Thus, the mathematical model of a Type I functional response is a linear line where (Figure 1):
+
+$$Number\ of\ prey\ caught = probability\ of\ being\ caught \times prey\ density$$
+
+Notice this is in the form $y = \beta x + \alpha$. We can easily find out the unknown parameters using simple regression which will tell us the intercept and slope. 
+
+## Type II
+Both predator and prey populations affect the functional response (predator dependent). This is the most typical form and corresponds to the calculations shown below from Holling’s original experiment. Search rate and area of discovery is constant. The plateau represents the point where the predator is saturated. Prey mortality declines with prey density. Predators of this type cause maximal mortality at low prey density (Figure 2). For example, small mammals destroy most of the gypsy moth pupae in small populations of gypsy moths. In high-density defoliating populations, however, small mammals only kill a negligible proportion of the total number of pupae.
+
+```{r funct_resp2, echo=FALSE, fig.margin=TRUE, fig.height=5, fig.cap="Type II"}
+prey <- seq(0, 60, 5)
+type2 <- (prey*0.7)/(1+(prey*0.7*0.15))
+
+plot(type2~ prey, type = 'l', lwd = 4, xlab = "Prey density", ylab = "Number of prey eaten", col = "red")
+```
+
+See [companion vignette for deriving Type II models](TypeII_models.html) for more information.
+
+
+## Type III
+This occurs in predators which increase their search activity with increasing prey density, i.e. they get better over time (Figure 3, blue line). For example, many predators respond to the chemical scents and odours emitted by their prey and they then increase their activity in response to these increasing signals from more and more prey. Polyphagous vertebrate predators (predators that consume many different types of prey) such as birds are able to switch to the most abundant prey species by learning to recognise it visually. Mortality initially increases with increasing density of the prey, but then declines.  
+
+```{r funct_resp, echo=FALSE, fig.margin=TRUE, fig.height=5, fig.cap="All types"}
+prey <- seq(0, 60, 5)
+type1 <- 0.15 * prey
+type2 <- (prey*0.7)/(1+(prey*0.7*0.15))
+type3 <-  (0.02* prey^2)/(1+(prey*0.02) + (0.02*0.09*prey^2))
+
+plot(type1~ prey, type = 'l', lwd = 4, xlab = "Prey density", ylab = "Number of prey eaten")
+lines(type2~ prey, col="red",lwd=4)
+lines(type3~ prey, col="blue",lwd=4)
+legend("bottomright",legend = c("Type I", "Type II", "Type III"), lwd = c(4,4,4), col = c("black", "red", "blue"), bty = "n")
+
+```
+

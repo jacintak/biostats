@@ -309,7 +309,7 @@ question("What is our paramterised model?",
 
 Remember we had some unknown parameters in our predator-prey functional response model? The search rate, $a$, and the handling time, $T_h$. We need to find the value of those parameters from the slope and the intercept of our linearised Type II dataset - exactly like we did for the `crabs` example. We can use the `lm` function on our predator-prey model data to parameterise our model.
 
-You can remind yourself of how the Type II functional response model is derived from the documentation file - run `vignette("TypeIImodels")` in Console.
+You can remind yourself of how the Type II functional response model is derived from the documentation file - run `vignette("TypeII_models")` in Console.
 
 Before we can do our `lm` in `R` we need to import the data and linearise the data.
 
@@ -512,7 +512,7 @@ question_text(
 
 ### Practice: Predicting new values
 
-Let's do the same thing with our predator-prey interaction model and predict how many prey are captured by our predator *you) for a given prey density using our parameterised model. 
+Let's do the same thing with our predator-prey interaction model and predict how many prey are captured by our predator (you) for a given prey density using our parameterised model. 
 
 > Answer the CA
 
