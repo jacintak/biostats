@@ -7,7 +7,7 @@ output:
       allow_skip: false
 runtime: shiny_prerendered
 subtitle: "2021"
-description: "2021 Practical"
+description: "2021 Practical 4 in-person"
 ---
 
 ```{r setup, include=FALSE}
