@@ -908,7 +908,7 @@ Time to use what you've learnt about additive models on your dataset! There's no
 
 ### Theory: Interactive models
 
-The random slopes model has in interaction term so it's sometimes called an **interactive model**.
+The random slopes model has in interaction term so it's sometimes called an **interactive or multiplicative model**.
 
 > In random slopes models, both the slope and the intercept are estimated for each level of the factor
 
