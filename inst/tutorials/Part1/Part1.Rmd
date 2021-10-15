@@ -650,9 +650,9 @@ quiz(
   question(
     "Which of these variables are we changing to compare different foraging strategies?",
     answer("How the jar is used", correct = TRUE),
-    answer("The number of killer T cells"),
-    answer("Pathogen density"),
-    answer("Pathogens destroyed"),
+    answer("The number of predators"),
+    answer("Prey density"),
+    answer("Prey eaten"),
     random_answer_order = TRUE,
     allow_retry = TRUE
   )
@@ -871,7 +871,7 @@ quality_check <- function(x){
 
   # check lowercase
   if((sum(names(x) != tolower(names(x))) != 0) == TRUE){pass <- 0} # are headers correct?
-  if((sum(x[,6] != tolower(x[,6])) != 0) == TRUE){pass <- 0} # vaccine
+  if((sum(x[,6] != tolower(x[,6])) != 0) == TRUE){pass <- 0}
   
   # check complete
   if(sum(complete.cases(x)) != nrow(x)){pass <- 0} # missing values?
