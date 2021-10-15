@@ -640,7 +640,7 @@ That's not all we want to do today!
 
 > Another use of statistical models is to explore different scenarios that represent different hypotheses.
 
-What happens if our predator was more efficient? What would you change about the experiment to achieve this? How would this aim affect $H_a$ and the estimates of $a$ and $T_h$? For example, vaccines provide a chance for the immune system to "learn" how to eat prey (e.g. viruses). After this experience, immune systems become more efficient at destroying prey. As another example, animal predators get better with experience - practice makes perfect! We can call this variable **predator experience**.   
+What happens if our predator was more efficient? What would you change about the experiment to achieve this? How would this aim affect $H_a$ and the estimates of $a$ and $T_h$? For example, vaccines provide a chance for the immune system to "learn" how to eat prey (e.g. viruses). After this experience, immune systems become more efficient at destroying prey. As another example, animal predators get better with experience - practice makes perfect! We can call this variable **predator efficiency**.   
 
 The efficiency of the predator is set as a variable in Scratch called `efficiency` . In the model, the
 duration of time a predator waits while digesting is a random number between 1 and 5 that is multiplied by the value of `efficiency.` For example, if digesting time was 5 and `efficiency` was 1, then the effective digesting time is $5 \times 1 = 5$ seconds. The efficiency value is a constant parameter in our simulation - it doesn’t change and applies to all runs of the simulation; changing this value changes the intended scenario.
@@ -662,14 +662,14 @@ These two experiments are *independent*. If we want to compare the foraging prop
 
 In addition to the hypotheses before, we have two new hypotheses:
 
-H0: There is no difference in the number of prey eaten with prey density between predator experience  
-H1: There is a difference in the number of prey eaten with prey density between predator experience 
+H0: There is no difference in the number of prey eaten with prey density between predator efficiency  
+H1: There is a difference in the number of prey eaten with prey density between predator efficiency 
 
 It's often more interesting to formulate a more specific alternative hypothesis than just the opposite of the null hypothesis if we hypothesise there's a *direction* to the effect of the new predictor variable on the response variable
 
 **Formulate a more specific hypothesis we can use as an alternative hypothesis.**
 
-In other words, we generally want to know if the change in predator experience *improves* the number of prey captured. If we used the original alternative hypothesis then we would accept that hypothesis even if the number of prey captured decreased.
+In other words, we generally want to know if the change in predator experience *improves* their efficiency, which is demonstrated by the number of prey captured. If we used the original alternative hypothesis then we would accept that hypothesis even if the number of prey captured decreased.
 
 As a another example, a simplistic hypothesis is not an informative or helpful conclusion if we were testing a new vaccine and the vaccine made people *more susceptible* to disease yet we would need to accept our alternative hypothesis.
 
@@ -678,7 +678,7 @@ As a another example, a simplistic hypothesis is not an informative or helpful c
 ```{r genotype-quiz}
 quiz(
   question(
-    "Which of these variables are we changing to compare different predator experience?",
+    "Which of these variables are we changing to compare different predator efficiency?",
     answer("How the predator handles prey", correct = TRUE),
     answer("The number of prey"),
     answer("Prey density"),
@@ -704,7 +704,7 @@ quiz(question_text(
   ),
   question_text(
     paste("How many predictor variables do we have?"),
-    answer("2", correct = TRUE, message = "Prey density and predator experience"),
+    answer("2", correct = TRUE, message = "Prey density and predator efficiency"),
     allow_retry = TRUE
   )
 )
@@ -844,7 +844,7 @@ See the table below for an example of column headers with no spaces and all cell
 | prey_density              	| numeric          	| NA          	|
 | replicate                     	| numeric          	| NA          	|
 | prey_eaten           	| numeric          	| NA          	|
-| predator_experience            	| character        	| `naive` for no experience or `experienced`	for a experienced predator |
+| predator_efficiency            	| character        	| `naive` for no experience or `experienced` for a experienced predator |
 
 These headers are pre-filled for you in the correct order on the template.  
 
@@ -854,7 +854,7 @@ The order of columns has to exactly match the order in the table. Your exact col
 
 ```{r radio1, echo = FALSE}
 question_radio(
-  "What should be entered in the cell under the column predator_experience when using a predator without experience",
+  "What should be entered in the cell under the column predator_efficiency when using a predator without experience",
   answer("naive", correct = TRUE),
   answer("experienced"),
   allow_retry = TRUE
