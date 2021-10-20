@@ -13,12 +13,13 @@ description: "2021 Practical 5"
 
 ```{r setup, include=FALSE}
 library(learnr)
-knitr::opts_chunk$set(echo = FALSE)
+knitr::opts_chunk$set(echo = FALSE, comment = NA)
 crabs <- MASS::crabs
 crabs_lm <- lm(CL ~ CW, crabs)
 crabs_add <- lm(CL ~ CW + sp, crabs)
 crabs_int <- lm(CL ~ CW * sp, crabs)
 palette(c("#0072B2", "#D55E00"))
+tutorial_options(exercise.completion = FALSE)
 ```
 
 ## How to use this worksheet
@@ -56,7 +57,7 @@ You can use RStudio and R scripts at the same time for trying things out or taki
 
 *Here's a quiz. Try it out to see how it works. Click __submit__ and it will tell you what you got correct. What happens when you put an incorrect answer in?*
 ```{r test-quiz}
-quiz(
+quiz(caption = "Answer the following questions:",
 question(
   "What colour is a grey squirrel?",
   answer("Red"),
@@ -211,7 +212,7 @@ $$CL = \beta_0 + \beta_1 CW$$
 You should be familiar with what the symbols mean from the lectures.  
 
 ```{r slope}
-quiz(
+quiz(caption = "Answer the following questions:",
   question(
   "What does $\\beta_1$ represent?",
   answer("response variable"),
@@ -248,7 +249,7 @@ In `crabs`, `CL` is our response variable and `CW` is our predictor variable.
 
 *Replace the general linear regression function with the correct code for the `crabs` dataset. You must press Run Code to see the output*
 
-```{r lm, exercise=TRUE, exercise.lines = 2}
+```{r lm, exercise=TRUE, exercise.lines = 5}
 lm(response ~ predictor, data)
 ```
 ```{r lm-hint}
@@ -265,7 +266,7 @@ It should tell us two things:
 2. Coefficients are the estimated coefficients of the model - the intercept (`Intercept`) and the slope (`CW` because shell width is our predictor variable)
 
 ```{r coef-cals}
-quiz(caption = "Coefficients",
+quiz(caption = "Answer the following questions:",
      question("How are these coefficients calculated?",
               answer("Ordinary least squares regression", correct = TRUE),
               answer("Ordinary most squares regression"),
@@ -292,7 +293,7 @@ Now we have all the information to parameterise our linear model
 $CL = \beta_0 + \beta_1 CW$. Using the `crabs` linear model R output:
 
 ```{r param-simple, echo=FALSE}
-coef <- round(crabs_lm$coefficients, 2)
+coef <- round(crabs_lm$coefficients, 1)
 question("What is our paramterised model?",
          answer(paste0("CL = ", coef[1], " + ", coef[2], "CW"), correct = TRUE),
          answer(paste0("CL = ", coef[1], " - ", coef[2], "CW")),
@@ -470,7 +471,7 @@ The final step is to get our unknown values of $a$ and $T_h$ from our linear reg
 
 We can calculate the value of the response variable from any given value of the predictor variable. You need a fully parameterised model to do this - which we have! 
 
-Using the `crabs` example, we can use the parametrised equation, $CL =$ `r round(coef(crabs_lm)[1],3)`  + `r round(coef(crabs_lm)[2],3)` $\times CW$, to work out the length of a crab for any value of shell width. 
+Using the `crabs` example, we can use the parametrised equation, $CL =$ `r round(coef(crabs_lm)[1],1)`  + `r round(coef(crabs_lm)[2],1)` $\times CW$, to work out the length of a crab for any value of shell width. 
 
 For example:  
 If a crab is 10 mm wide, what is its predicted shell length?
@@ -478,20 +479,20 @@ If a crab is 10 mm wide, what is its predicted shell length?
 * We are told the value of shell width (10 mm)
 * We know the parameterised linear model:
 
-$CL =$ `r round(coef(crabs_lm)[1],3)`  + `r round(coef(crabs_lm)[2],3)` $\times CW$
+$CL =$ `r round(coef(crabs_lm)[1],1)`  + `r round(coef(crabs_lm)[2],1)` $\times CW$
 
 * We can substitute the value of 10 for CW into our parameterised model:
 
-$CL =$ `r round(coef(crabs_lm)[1],3)`  + `r round(coef(crabs_lm)[2],3)` $\times 10$  
+$CL =$ `r round(coef(crabs_lm)[1],1)`  + `r round(coef(crabs_lm)[2],1)` $\times 10$  
 
 * and solve for length:  
-$CL =$ `r round(coef(crabs_lm)[1],3) + 10 * round(coef(crabs_lm)[2],3)` mm
+$CL =$ `r round(coef(crabs_lm)[1],1) + 10 * round(coef(crabs_lm)[2],1)` mm
 
-Let's try one:
+Let's try an example using the coefficients above (to 1 decimal place):
 ```{r predict}
-ans <- round(crabs_lm$coefficients[1],2) + round(crabs_lm$coefficients[2]*30, 2)
+ans <- round(crabs_lm$coefficients[1],1) + round(crabs_lm$coefficients[2]*30, 1)
 question_text(
-  "What is the length of a crab with a width of 30 mm? To 2 decimal places",
+  "What is the length of a crab with a width of 30 mm? To 1 decimal place",
   answer(paste(ans), correct = TRUE),
   allow_retry = TRUE
 )
@@ -499,10 +500,10 @@ question_text(
 
 Try another one:
 ```{r predict2}
-shell_width <- sample(c(1:50)[-30],1)
-ans <- round(crabs_lm$coefficients[1],2) + round(crabs_lm$coefficients[2]*shell_width, 2)
+shell_width <- sample(seq(1:50), 1)
+ans <- round(crabs_lm$coefficients[1], 1) + round(crabs_lm$coefficients[2]*shell_width, 1)
 question_text(
-  paste("What is the length of a crab with a shell width of ", shell_width, " mm? To 2 decimal places"),
+  paste("What is the length of a crab with a shell width of ", shell_width, " mm? To 1 decimal place"),
   answer(paste(ans), correct = TRUE),
   allow_retry = TRUE
 )
@@ -520,7 +521,7 @@ Let's do the same thing with our predator-prey interaction model and predict how
 
 ### Theory: Testing hypotheses with linear regressions
 
-> Remember that statistical models represent hypotheses
+> Remember that statistical models may represent hypotheses
 
 With the crabs dataset we have two hypotheses:
 
@@ -550,6 +551,8 @@ quiz(caption = "Hypotheses",
 )
 ```
 
+###
+
 We see from our predicted lines (below) that if the slope of the line is 0 (red), then we accept the null hypothesis and reject the alternative hypothesis. If the slope is different to 0 (blue), then we reject the null hypothesis and accept the alternative.
 
 ```{r treehypo, fig.cap="Our predicted linear regressions for the null (red) and alternative (blue) hypotheses"}
@@ -564,11 +567,11 @@ Note that in our alternative hypothesis we *did not* specify the direction of th
 
 We've already done it with our `lm(CL ~ CW, crabs)` code.  
 *Run the linear model again to get the slope estimate*
-```{r hypotheses-lm, exercise=TRUE, exercise.lines = 2}
+```{r hypotheses-lm, exercise=TRUE, exercise.lines = 5}
 
 ```
 
-We get a slope of `r round(coef(crabs_lm)[2],3)`. **But is this enough evidence for us to accept/reject hypotheses?** No. What if the slope is not 0 because of random chance? We need to be confident that our estimated slope is *significantly different* to 0. How do we do that?
+We get a slope of `r round(coef(crabs_lm)[2],1)`. **But is this enough evidence for us to accept/reject hypotheses?** No. What if the slope is not 0 because of random chance? We need to be confident that our estimated slope is *significantly different* to 0. How do we do that?
 
 > Side note: Statistical significance is not the same thing as biological significance. A relationship between two purely randomly generated numbers can be statstically significant but have no biological meaning! Language matters when presenting results.
 
@@ -592,7 +595,7 @@ question("Which of these statistical tests you've already learnt in this module 
 
 To see more information about our linear regression we need to ask to see the `summary` using `summary(lm())`.  
 *Modify our `lm` code to show the full summary of the linear regression*
-```{r summary, exercise=TRUE, exercise.lines = 2, exercise.eval = TRUE}
+```{r summary, exercise=TRUE, exercise.lines = 5, exercise.eval = TRUE}
 lm(CL ~ CW, crabs)
 ```
 ```{r summary-hint-1}
@@ -631,7 +634,7 @@ H1: There is a positive linear relationship between prey density and number of p
 Now you can look at the summary of your linear regression on the predator-prey interaction response from earlier and evaluate these hypotheses based on the P value of the slope coefficient.
 
 
-> Answer the CA. Save but don't submit your answers yet.
+> Answer the CA.
 
 ***
 
@@ -704,9 +707,9 @@ The linear model is:
 
 $$ shell \space length  = \beta_{0_{colour}} + \beta_{1} shell \space width + \varepsilon_i$$
 
-Now the intercept parameter ($\beta_{0_{colour}}$) specifies that it is dependent on the colour of the crab. $\varepsilon_i$ is the random error not accounted for by the model - officially it's always part of the equation but it's often ignored, much like $c$ in intergration.
+Now the intercept parameter ($\beta_{0_{colour}}$) specifies that it is dependent on the colour of the crab. $\varepsilon_i$ is the random error (residual error) not accounted for by the model - it's always part of the equation but it's often ignored, much like $c$ in integration.
 
-In effect, we are fitting *two* lines to this data - one for each level of colour - each of these lines is technically called a **partial regression line**.  
+In effect, we are fitting *two* lines to this data - one for each level of colour - the technical term for each of these lines is a **partial regression line**.  
 
 > In fixed slopes models the effect of one predictor on the response variable is **additive** of the other (hence they are also called additive models).
 
@@ -714,8 +717,8 @@ There is no interaction between the predictor variables colour or shell width. T
 
 Our hypotheses are:
 
-* H0: There is no effect of shell width or colour on the response variable
-* H1: There is an effect of shell width or colour on the response variable
+* H0: There is no effect of shell width or colour on shell length
+* H1: There is an effect of shell width or colour on shell length
 
 ***
 
@@ -751,11 +754,11 @@ question_radio(
 
 
 Parametrised equation for blue crabs:  
-*blue crab shell length* = `r round(coef(crabs_add)[1],3)` + `r round(coef(crabs_add)[2],3)` *shell width*
+*blue crab shell length* = `r round(coef(crabs_add)[1],1)` + `r round(coef(crabs_add)[2],1)` *shell width*
 
 Halfway there! Now for the orange crabs!
 
-Since the slope of the regression for orange crabs is the same as blue crabs, we already know the value of $\beta_{1}$ is `r round(coef(crabs_add)[2],3)`. But we need to manually calculate the intercept for orange crabs.
+Since the slope of the regression for orange crabs is the same as blue crabs, we already know the value of $\beta_{1}$ is `r round(coef(crabs_add)[2],1)`. But we need to manually calculate the intercept for orange crabs.
 
 Like in an ANOVA, the estimate for `spO` is the **difference in the intercept between orange crabs and blue crabs**. To calculate the intercept for orange crabs we need to add the estimated coefficient of the intercept for blue crabs with the difference. 
 
@@ -765,8 +768,8 @@ coef(crabs_add)
 ```
 
 ```{r param, echo=FALSE}
-coef <- round(crabs_add$coefficients, 2)
-question("What is the paramterised model for orange crabs?",
+coef <- round(crabs_add$coefficients, 1)
+question("What is the paramterised model for orange crabs? To 1 decimal place",
          answer(paste0("CL = ", (coef[1]+coef[3]), " + ", coef[2], "CW"), correct = TRUE),
          answer(paste0("CL = ", coef[1], " - ", coef[2], "CW"), message = "Incorrect. This is the regression for blue crabs"),
          answer(paste0("CL = ", coef[3], " + ", coef[2], "CW"), message = "Incorrect. This is the difference in the intercept"),
@@ -776,7 +779,11 @@ question("What is the paramterised model for orange crabs?",
 )
 ```
 
-> R shows the difference between parameter estimates so you need to extract the correct values. They are the partial regression coefficients that show the change in the response variable with one predictor variable *while holding all other predictor variables constant.*
+> R shows the difference between parameter estimates so you need to extract the correct values. They are the partial regression coefficients that show the change in the response variable with one predictor variable **while holding all other predictor variables constant.**
+
+For example, using the mean value of orange crabs to estimate coefficients of blue crabs and vice versa, because the mean value of each of these groups represents the null hypothesis. 
+
+In other words, if we were to accept the null hypothesis that there is no relationship between shell width and colour on shell length, then the slope of the line should be 0 and the intercept of the line should be the sample mean of shell length (ignoring shell width and colours).
 
 ***
 
@@ -784,36 +791,36 @@ question("What is the paramterised model for orange crabs?",
 
 Good! Now we can use our two partial regression models to predict the shell length of blue or orange crabs.  
 
-*Blue crab shell length* = `r round(coef(crabs_add)[1],3)` + `r round(coef(crabs_add)[2],3)` *shell width*  
-*Orange crab shell length* = `r round(coef(crabs_add)[1] + coef(crabs_add)[3],3)` + `r round(coef(crabs_add)[2],3)` *shell width*
+*Blue crab shell length* = `r round(coef(crabs_add)[1],1)` + `r round(coef(crabs_add)[2],1)` *shell width*  
+*Orange crab shell length* = `r round(coef(crabs_add)[1] + coef(crabs_add)[3],1)` + `r round(coef(crabs_add)[2],1)` *shell width*
 
 ```{r predict-fixed}
-ccoef <- round(coef(crabs_add),3) 
+ccoef <- round(coef(crabs_add),1) 
 ccoef_orange <- ccoef[1] + ccoef[3]
 
 blue <- sample(10:70,1)
-ans_blue <- round(ccoef[1] + (ccoef[2] * blue), 2)
+ans_blue <- round(ccoef[1] + (ccoef[2] * blue), 1)
 
 orange <- sample(10:70,1)
-ans_orange <- round(ccoef_orange + (ccoef[2] * orange), 2)
+ans_orange <- round(ccoef_orange + (ccoef[2] * orange), 1)
 
 size <- sample(10:70,1)
 ###
 
-quiz(
+quiz(caption = "Use the equation above to answer the following questions:",
   question_text(
-    paste("What is the carapace length of an orange crab with a carapace width of", orange, " mm? To 2 decimal places"),
+    paste("What is the carapace length of an orange crab with a carapace width of", orange, " mm? To 1 decimal place"),
     answer(paste(ans_orange), correct = TRUE),
     allow_retry = TRUE
   ),
   question_text(
-    paste("What is the carapace length of a blue crab with a carapace width of", blue, " mm? To 2 decimal places"),
+    paste("What is the carapace length of a blue crab with a carapace width of", blue, " mm? To 1 decimal place"),
     answer(paste(ans_blue), correct = TRUE),
     allow_retry = TRUE
   ),
   question_text(
-    paste("How much longer is an orange crab than a blue crab with a shell width of ", size, " mm? To 2 decimal places"),
-    answer(paste(round(ccoef[3],2)), correct = TRUE,
+    paste("How much longer is an orange crab than a blue crab with a shell width of ", size, " mm? To 1 decimal place"),
+    answer(paste(round(ccoef[3],1)), correct = TRUE,
            message = "Did you do the whole calculation or notice the answer is the spO coefficient? The slopes are parallel so the answer is the difference in intercepts! The answer is the same regardless of size."),
     allow_retry = TRUE
   )
@@ -850,7 +857,7 @@ In `summary()` we see `R` has done a series of t-tests on the estimated coeffici
 We expect only one slope coefficient, `CW`, because our lines should have the same slope.
 
 ```{r fixed-test}
-quiz(
+quiz(caption = "Answer the following questions:",
   question_radio(
     "Based on the t-test on the slope coefficient above, would you accept or reject the null hypothesis?",
     answer("Accept"),
@@ -968,7 +975,7 @@ Interactions imply that the effect of colour and shell width have **multiplicati
 It's time to do the linear model. You should now be comfortable with this process.
 
 *Fix this linear model function to do a multiplicative linear regression in R. Press run.*
-```{r random, exercise = TRUE, exercise.lines = 3}
+```{r random, exercise = TRUE, exercise.lines = 5}
 lm(lm(CL ~ CW * colour, carbs
 ```
 ```{r random-hint}
@@ -1020,14 +1027,14 @@ Parameterising the intercept is exactly the same as the fixed slopes model - `(I
 ```{r quiz-slopes}
 coef <- round(coef(crabs_int),2)
 print(coef)
-quiz(
+quiz(caption = "Use the coefficients above to answer the following questions:",
      question_text(
-       paste("What is the intercept for blue crabs from the coefficients above?"),
+       paste("What is the intercept for blue crabs?"),
        answer(paste(coef[1]), correct = TRUE, message = "(Intercept) refers to the intercept for blue crabs. Notice that it is a different value to the additive model."),
        allow_retry = TRUE
      ),
       question_text(
-       paste("What is the intercept for orange crabs from the coefficients above?"),
+       paste("What is the intercept for orange crabs?"),
        answer(paste(coef[1] + coef[3]), correct = TRUE, message = "Notice that it is a different value to the additive model."),
        allow_retry = TRUE,
        incorrect = "Remember what we did for parameterising the fixed slopes model"
@@ -1051,13 +1058,13 @@ What we need:
 Parametrised slope for orange crabs = Slope for blue crabs + difference in slope for orange crabs compared to blue crabs  
 
 Information provided from the `R` output:  
-Slope for blue crabs = `r round(coef(crabs_int)[2],3)`  
-Difference in slope for orange crabs compared to blue crabs = `r round(coef(crabs_int)[4],3)`
+Slope for blue crabs = `r round(coef(crabs_int)[2],2)`  
+Difference in slope for orange crabs compared to blue crabs = `r round(coef(crabs_int)[4],2)`
 
 ```{r orange-slope}
 question_text(
   paste("Use the above information to calculate the slope for orange crabs"),
-  answer(paste(round(coef(crabs_int)[2],3) + round(coef(crabs_int)[4],3)), correct = TRUE),
+  answer(paste(round(coef(crabs_int)[2],2) + round(coef(crabs_int)[4],2)), correct = TRUE),
   allow_retry = TRUE,
   incorrect = "Keep trying - you have all the information already"
 )
@@ -1069,8 +1076,8 @@ question_text(
 
 Did you get the parameterised partial regression equations below?  
 
-*blue crab shell length* = `r round(coef(crabs_int)[1],3)` + `r round(coef(crabs_int)[2],3)` *shell width*  
-*orange crab shell length* = `r round(coef(crabs_int)[1] + coef(crabs_int)[3],3)` + `r round(coef(crabs_int)[2] + coef(crabs_int)[4],3)` *shell width*
+*blue crab shell length* = `r round(coef(crabs_int)[1],2)` + `r round(coef(crabs_int)[2],2)` *shell width*  
+*orange crab shell length* = `r round(coef(crabs_int)[1] + coef(crabs_int)[3],2)` + `r round(coef(crabs_int)[2] + coef(crabs_int)[4],2)` *shell width*
 
 The good news is that was as hard as it gets in this module.  
 
@@ -1081,35 +1088,35 @@ The good news is that was as hard as it gets in this module.
 Now to use the linear regression to predict the length of crab shells. This is exactly the same process as we've done already and is straightforward once you have your fully parameterised equations.
 
 ```{r predict-random}
-ccoef <- round(coef(crabs_int),3) 
-ccoef_spO <- ccoef[1] + ccoef[3]
-ccoef_CWspO <- ccoef[2] + ccoef[4]
+ccoef <- round(coef(crabs_int),2) 
+ccoef_spO <- round(coef(crabs_int)[1] + coef(crabs_int)[3],2)
+ccoef_CWspO <- round(coef(crabs_int)[2] + coef(crabs_int)[4],2)
 
 blue <- sample(10:70,1)
-ans_blue <- round(ccoef[1] + (ccoef[2] * blue), 2)
+ans_blue <- round(ccoef[1] + (ccoef[2] * blue), 1)
 
 orange <- sample(10:70,1)
-ans_orange <- round(ccoef_spO + (ccoef_CWspO * orange), 2)
+ans_orange <- round(ccoef_spO + (ccoef_CWspO * orange), 1)
 
 ###
 size <- sample(10:70,1)
 size_blue <- ccoef[1] + (ccoef[2] * size)
 size_orange <- ccoef_spO + (ccoef_CWspO * size)
-ans_size <- round(size_orange - size_blue, 2)
+ans_size <- round(size_orange - size_blue, 1)
 ###
-quiz(caption = "Test yourself using the equations above",
+quiz(caption = "Test yourself using the equations above with coefficients to two decimal places",
       question_text(
-        paste("What is the carapace length of a blue crab with a carapace width of ", blue, " mm? To 2 decimal places"),
+        paste("What is the carapace length of a blue crab with a carapace width of ", blue, " mm? To 1 decimal place"),
         answer(paste(ans_blue), correct = TRUE),
         allow_retry = TRUE
       ),
       question_text(
-        paste("What is the carapace length of a orange crab with a carapace width of ", orange, " mm? To 2 decimal places"),
+        paste("What is the carapace length of a orange crab with a carapace width of ", orange, " mm? To 1 decimal place"),
         answer(paste(ans_orange), correct = TRUE),
         allow_retry = TRUE
       ),
       question_text(
-        paste("How much longer is an orange crab than a blue crab with a shell width of ", size, " mm? To 2 decimal places"),
+        paste("How much longer is an orange crab than a blue crab with a shell width of ", size, " mm? To 1 decimal place"),
         answer(paste(ans_size), correct = TRUE),
         allow_retry = TRUE
       )
@@ -1138,7 +1145,7 @@ Like with the fixed slopes model, the hypothesis tests on the coefficient estima
 
 
 ```{r random-test}
-quiz(
+quiz(caption = "Answer the following questions:",
   question_radio(
     "Based on the test on the slope coefficient above, would you accept or reject the null hypothesis?",
     answer("Accept"),
@@ -1151,12 +1158,6 @@ quiz(
     answer("There is an interaction between shell width or colour on shell length", correct = TRUE),
     answer("The relationship between shell length and shell width is different between blue and orange crabs", correct = TRUE),
     answer("The effect of shell width on shell length is dependent on the colour of the crab", correct = TRUE),
-    allow_retry = TRUE
-  ),
-  question_radio(
-    "Based on our analysis above, would a fixed slopes model or random slopes model be more parsimonious to describe the effect of colour and shell width on shell length?",
-    answer("Fixed slopes model"),
-    answer("Random slopes model", correct = TRUE, message = "The interaction is significant"),
     allow_retry = TRUE
   )
 )
@@ -1250,7 +1251,7 @@ If our data is categorised (e.g. `sp` in `crabs` has `B` or `O`), then we need t
 We need to subset our data (like we did in previous pracs) so that `R` only plots the sub-categories of data.
 
 *Using the crabs dataset, modify the code below to plot crab shell length (response) against crab shell width (predictor) for __only blue crabs__.*
-```{r graph, exercise=TRUE, exercise.lines = 4}
+```{r graph, exercise=TRUE, exercise.lines = 5}
 plot(response ~ predictor, data, type = "n")
 points(response ~ predictor, data[data$group == "subsetA",])
 ```
@@ -1275,7 +1276,7 @@ points(CL ~ CW, crabs[crabs$sp == "B",])
 ```
 
 *Now add the orange crabs to plot all the data - You have to start the code from the beginning.*
-```{r orangec, exercise=TRUE, exercise.lines = 4}
+```{r orangec, exercise=TRUE, exercise.lines = 5}
 plot(response ~ predictor, data, type = "n")
 points(response ~ predictor, data[data$group == "subsetA",])
 ```
@@ -1333,7 +1334,7 @@ Shapes are important because it makes the points stand out. It can also be used 
 The shape of the points are coded `pch = <number>` as an argument within `plot()` or `points()`. There are lots of options designated a number from 1 to 25. (Google "R pch" for the full list). 1 is the default open circle. A filled circle is 16.
 
 *Change the shape of the points from open to filled circles.*
-```{r pch, exercise=TRUE, exercise.lines = 2, exercise.eval = TRUE}
+```{r pch, exercise=TRUE, exercise.lines = 5, exercise.eval = TRUE}
 plot(CL ~ CW, crabs, pch = 1)
 ```
 ```{r pch-hint-1}
@@ -1360,7 +1361,7 @@ plot(response ~ predictor, data, xlab = "label", ylab = "label")
 ```
 
 *Change the x axis label of our `crabs` plot to "Width" instead.*
-```{r axes, exercise=TRUE, exercise.lines = 2, exercise.eval = TRUE}
+```{r axes, exercise=TRUE, exercise.lines = 5, exercise.eval = TRUE}
 plot(CL ~ CW, crabs)
 ```
 ```{r axes-hint-1}
@@ -1376,7 +1377,7 @@ plot(CL ~ CW, crabs, xlab = "Width")
 In practice, we want our figures to be informative and be understandable independently of the main text. This means having informative labels and including units.
 
 *There are __two mistakes__ in the following code to change the axis labels to "Width" or "Length" AND include units (mm) in both the x and y axis. Fix it and run the code*
-```{r units, exercise=TRUE, exercise.lines = 2}
+```{r units, exercise=TRUE, exercise.lines = 5}
 plot(CL ~ CW, crabs, ylab = "Width (mm)", ylab = "Length (cm)")
 ```
 ```{r units-hint-1}
@@ -1399,7 +1400,7 @@ The formula to plot a straight line is `abline(intercept, slope)` because it plo
 
 Here are the coefficients again our simple linear model for the crabs showing the intercept and slope respectively:
 ```{r coef-reminder}
-round(crabs_lm$coefficients, 3)
+round(crabs_lm$coefficients, 1)
 ```
 
 *Complete the `abline()` formula to plot our regression line then press run.*  
@@ -1436,7 +1437,7 @@ abline(0.077, 0.894, col = "orange")
 
 Here are the coefficients for the interactive linear model:  
 ```{r int-coef}
-round(crabs_int$coefficients, 3) 
+round(crabs_int$coefficients, 1) 
 ```
 
 *Change the basic crabs graph to match the graph above - this graph is suitable for a scientific report*

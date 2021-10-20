@@ -12,8 +12,9 @@ description: "2021 Practical remote version"
 
 ```{r setup, include=FALSE}
 library(learnr)
-knitr::opts_chunk$set(echo = FALSE)
+knitr::opts_chunk$set(echo = FALSE, comment = NA)
 tutorial_options(exercise.lines = 5)
+tutorial_options(exercise.completion = FALSE)
 ```
 
 ## How to use this worksheet
