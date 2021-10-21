@@ -208,7 +208,7 @@ question_radio("Statistical models aim to accurately and precisely describe real
 
 ### Practical information
 
-In these practicals we will look at a theoretic model of a pathogen response (predator-prey interaction). The aim is to understand how statistical models can be applied to biological data. 
+In these practicals we will look at a theoretic model of a predator-prey interaction. The aim is to understand how statistical models can be applied to biological data. 
 
 The majority of this practical will focus on the practicalities of designing experiments and collecting data, which we covered earlier in the module. The data collected in this practical must be submitted to Blackboard and will be used in the next practical.
 
@@ -320,7 +320,7 @@ If you thought our model is too simplistic, you are probably right *but* in mode
 
 Infection responses, predator-prey interactions...they can be generally classified as **functional responses**. Luckily for us, there are already well known analytical (mathematical) models of functional response that we can use.
 
-There are multiple types of functional responses (labelled with Roman numerals: I - IV). Each of these models represents a *different hypothesis* about functional responses and mathematically describes a *different relationship* between our two variables (e.g. the killer T cell and the pathogen, or a predator and its prey). The assumptions we make above are based on a **Type II functional response model** and is the one most appropriate for an infection response scenario. You can read about the full maths by running `vignette("TypeII_models")`. We won't discuss the other types but you can read about them by running `vignette("functional_responses")`. 
+There are multiple types of functional responses (labelled with Roman numerals: I - IV). Each of these models represents a *different hypothesis* about functional responses and mathematically describes a *different relationship* between our two variables (e.g. the killer T cell and the pathogen, or a predator and its prey). The assumptions we make above are based on a **Type II functional response model** and is the one most appropriate for a predator-prey interaction scenario. You can read about the full maths by running `vignette("TypeII_models")`. We won't discuss the other types but you can read about them by running `vignette("functional_responses")`. 
 
 The Type II functional response model is a good example of a general model - it has been used to describe animal predators eating prey (e.g. Holling's disc equations) or enzymes catalysing reactions (e.g. Michaelis-Menten equation). We can also use it to describe the immune response of the previous practical. It doesn't matter what the mathematical symbols represent biologically, maths is a universal language that describes the underlying biological process. Here, we are applying it to an general predator-prey scenario.
 
@@ -365,7 +365,7 @@ question_checkbox(
 
 **How would you describe the below Type II relationship in words in a results section of a lab report?**  
 
-```{r funct_resp, echo=FALSE, fig.cap= "Type II functional response of an infection response"}
+```{r funct_resp, echo=FALSE, fig.cap= "Type II functional response of a predator-prey interaction"}
 prey <- seq(0, 60, 5)
 type2 <- (prey*0.7)/(1+(prey*0.7*0.15))
 plot(type2~ prey,
@@ -429,7 +429,7 @@ The full derivation is accessible in `vignette("TypeIImodels")`, we won't go tho
 **Does the overall structure of the equation look familiar to you? (maybe from high school maths)**
 
 The graph looks like this:
-```{r tyepe2line, echo = FALSE, fig.cap= "Linearised type II functional response of an infection response"}
+```{r tyepe2line, echo = FALSE, fig.cap= "Linearised type II functional response of a predator-prey interaction"}
 prey <- seq(0, 0.25, 0.01)
 type2 <- seq(0, 1, length.out = length(prey))
 plot(type2 ~ prey , type = 'l', lwd = 4, ylab = "1/Ha, Prey eaten", xlab = "1/H Total time, Prey density",
@@ -535,7 +535,7 @@ Conducting a simple statistical analysis on a complex hypothesis and experimenta
 
 In the previous practical you looked at building a Scratch model with a predator (a killer T cell) and some prey (invading pathogens). Your response variable was time taken to destroy all the pathogens and the predictor variable was the number of pathogens (pathogen density).
 
-In this practical we have a slightly different hypothesis and thus a different experimental design. The predictor variable is the same but the response variable is the number of pathogens destroyed at the end of a fixed amount of time. We also have additional assumptions about functional responses that change how the simulation should behave - searching and handling prey are independent and mutually exclusive.
+In this practical we are considering predators and prey more abstractly. We have a slightly different hypothesis and thus a different experimental design. The predictor variable is the same but the response variable is the number of prey captured at the end of a fixed amount of time. We also have additional assumptions about functional responses that change how the simulation should behave - searching and handling prey are independent and mutually exclusive.
 
 You don't have to modify the previous practical simulation yourself... I have done this for you.
 
@@ -551,7 +551,7 @@ Under the prey sprite tab you will see three code blocks arranged from top to bo
 * Middle: Set up the counters and timer
     * prey_density is the number of prey our predator has destroyed, $H_a$
     * digesting is the foraging state of the predator, you can ignore this but it is an implementation of our assumptions that destroying and searching for prey are mutually exclusive activities
-    * total_time is the duration of the infection response, $T_h$. This should be 60 seconds (1 minute).
+    * total_time is the duration of the predator-prey interaction, $T_h$. This should be 60 seconds (1 minute).
 * Bottom: This describes the behaviour of the prey The prey will move around randomly until it touches the predator. If the predator is hungry, the prey is destroyed and the predator becomes full (the digesting variable). If the predator is full, then the prey lives.
 
 When you click the green flag you will see two counters: a count down timer and the number of prey caught. The predator and prey sprites move around randomly within the fixed arena. The simulation stops when either the timer reaches zero or when all prey are caught and the original prey density is displayed. Press the stop button to reset the simulation.
@@ -884,9 +884,9 @@ quality_check <- function(x){
 
   # check if numeric
   if((sum(str_detect(x[,2], "1")) < nrow(x)) == TRUE) {pass <- 0}  # check total time is 1
-  if(is(x[,3], "numeric") == FALSE){pass <- 0} # pathogen density
+  if(is(x[,3], "numeric") == FALSE){pass <- 0} # prey density
   if(is(x[,4], "numeric") == FALSE){pass <- 0} # replication
-  if(is(x[,5], "numeric") == FALSE){pass <- 0} # pathogens caught
+  if(is(x[,5], "numeric") == FALSE){pass <- 0} # prey caught
 
   # check if character
   if(is(x[,6], "character") == FALSE){pass <- 0} # efficiency
@@ -900,7 +900,7 @@ quality_check <- function(x){
   # check treatments and replications
   if(length(unique(x[,3])) < 5){pass <- 0} # 5 treatments?
   if(length(unique(x[,4])) != 3){pass <- 0} # 3 replications?
-  if((max(x[,3]) > 100) == TRUE){pass <- 0} # Does not exceed 100 pathogen density
+  if((max(x[,3]) > 100) == TRUE){pass <- 0} # Does not exceed 100 prey density
 
   # check lowercase
   if((sum(names(x) != tolower(names(x))) != 0) == TRUE){pass <- 0} # are headers correct?
