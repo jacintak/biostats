@@ -716,7 +716,7 @@ Now the intercept parameter ($\beta_{0_{colour}}$) specifies that it is dependen
 
 In effect, we are fitting *two* lines to this data - one for each level of colour - the technical term for each of these lines is a **partial regression line**.  
 
-> In fixed slopes models the effect of one predictor on the response variable is **additive** of the other (hence they are also called additive models).
+> In additive models the effect of one predictor on the response variable is **additive** of the other (hence they are also called additive models).
 
 There is no interaction between the predictor variables colour or shell width. Thus the two fitted lines have the same slope ($\beta_{1}$)
 
@@ -843,7 +843,7 @@ Remember our hypotheses are:
 * H0: There is no effect of shell width or colour on the response variable
 * H1: There is an effect of shell width or colour on the response variable
 
-Enter the code to check the `summary()` of the fixed slopes linear regression for the `crabs` dataset:
+Enter the code to check the `summary()` of the additive linear regression for the `crabs` dataset:
 ```{r fixed-summary, exercise = TRUE}
 
 ```
@@ -1013,7 +1013,7 @@ question("What do the estimated coefficients for spO and CW:spO represent?",
 )
 ```
 
-In the fixed slopes model we only needed to manually calculate the intercept. Now we need to manually calculate the slope **and** intercept.  
+In the additive model we only needed to manually calculate the intercept. Now we need to manually calculate the slope **and** intercept.  
 
 Let's start with the intercept.
 
@@ -1036,7 +1036,7 @@ quiz(caption = "Use the coefficients above to answer the following questions:",
        paste("What is the intercept for orange crabs?"),
        answer(paste(coef[1] + coef[3]), correct = TRUE, message = "Notice that it is a different value to the additive model."),
        allow_retry = TRUE,
-       incorrect = "Remember what we did for parameterising the fixed slopes model"
+       incorrect = "Remember what we did for parameterising the additive model"
      )
 )
 ```
@@ -1134,13 +1134,13 @@ summary(lm(CL ~ CW * sp, crabs))
 > H0: There is no effect of shell width or colour or their interaction on shell length  
 > H1: There is an effect of shell width or colour or their interaction on shell length
 
-Like with the fixed slopes model, the hypothesis tests on the coefficient estimates for the slope are the important ones:
+Like with the additive model, the hypothesis tests on the coefficient estimates for the slope are the important ones:
 
 * `CW` - This tests whether the slope of blue crabs is different to 0
     * This gives an indication of whether shell width can predict shell length
 * `CW:spO` - This tests whether the slope for orange crabs is different to blue crabs
     * This tests whether there is an interaction between colour and shell width
-    * If this is non-significant, then a multiplicative model is overly complex to describe our biological pattern (because it uses too many parameters) and perhaps a fixed slopes model is a better descriptor. Aiming to minimise the number of parameters used in a linear model is the statistical concept of **model parsimony**. 
+    * If this is non-significant, then a multiplicative model is overly complex to describe our biological pattern (because it uses too many parameters) and perhaps an additive model is a better descriptor. Aiming to minimise the number of parameters used in a linear model is the statistical concept of **model parsimony**. 
 
 
 ```{r random-test}
