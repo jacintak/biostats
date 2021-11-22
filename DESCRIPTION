@@ -1,7 +1,7 @@
 Package: biostats.tutorials
 Type: Package
 Title: Statistics and Computation for Biologists
-Version: 2.2.1
+Version: 2.2.2
 Author: Jacinta Kong
 Maintainer: Jacinta Kong <kongj@tcd.ie>
 Description: learnr materials for BYU22S01 Statistics and Computation,
@@ -9,7 +9,7 @@ Description: learnr materials for BYU22S01 Statistics and Computation,
 License: CC0
 Encoding: UTF-8
 LazyData: true
-Depends: R (> 4.0), learnr, rmarkdown
+Depends: R (> 4.0), learnr
 Year: 2021
 URL: https://jacintak.github.io/project/biostats-tutorials/
 VignetteBuilder: knitr

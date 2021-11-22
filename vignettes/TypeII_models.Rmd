@@ -25,9 +25,9 @@ $$T_{total}=T_{search}+T_{handling}$$
 
 This equation does not tell us how many prey items were captured by a predator (the functional response). To work this out we can break down searching and handling further depending on the density of prey, i.e. how many prey items are there to be discovered, and how efficient the predator is, i.e. how large of an area can the predator look in.
 
-We have some assumptions about the predator-prey interaction. A predator will need to search for its prey in their foraging arena (assumed to be a fixed size). The density of prey in the entire arena is denoted $H$ (also the total number of prey available). We assume that capturing prey is a random process. A predator examines an area ($a$) per unit time and we assume that they can capture all the prey that are found in that area ($H_a$). Parameter $a$ is the ‘area of discovery’ and can also be considered the search rate. We need to put these assumptions into mathematical notation for the model.  
+We have some assumptions about the predator-prey interaction. A predator will need to search for its prey in their foraging arena (assumed to be a fixed size). The density of prey in the entire arena is denoted $H$ (also the total number of prey available). We assume that capturing prey is a random process. A predator examines an area ($a$) per unit time and we assume that they can capture all the prey that are found in that area ($H_a$). Parameter $a$ is the ‘area of discovery’ and can also be considered the search rate or attack rate. We need to put these assumptions into mathematical notation for the model.  
 
-First, we can derive an expression for the time spent searching ($T_{search}$). The total area searched is dependent on the time spent searching for a unit of prey and the area a predator can search per unit time ($a$). Thus, after spending a unit of time searching ($T_{search}$), a predator will have examined a total area:
+First, we can derive an expression for the time spent searching ($T_{search}$). The total area searched is dependent on the time spent searching for a unit of prey and the area a predator can search per unit time ($a$, also called attack rate). Thus, after spending a unit of time searching ($T_{search}$), a predator will have examined a total area:
 
 $$total\ area\ searched = a \times T_{search}$$
 
@@ -66,12 +66,12 @@ $$\Rightarrow \frac{T_{total} \times a \times H}{H_a} = 1 + \times T_h\times a \
 
 3. Divide by $T_{total} \times a \times H$.
 
-$$\frac{1}{H_a} = \frac{1 + \times T_h\times a \times H}{T_{total} \times a \times H}$$
+$$\frac{1}{H_a} = \frac{1 +  T_h\times a \times H}{T_{total} \times a \times H}$$
 $$\Rightarrow H_a = \frac{a \times H \times T_{total}}{1 + a \times H \times T_h}$$
 
 ## Linearising our functional response
 
-The Type II equation can be written in a linear form representing $y = \beta x + \alpha$.  
+The Type II equation can be written in a linear form representing $y = \beta_1 x + \beta_0$.  
 1. The $1+$ of the denominator is troublesome. Invert the fraction to allow us to break up the fraction later
 
 

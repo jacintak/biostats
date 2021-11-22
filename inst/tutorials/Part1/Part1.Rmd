@@ -197,8 +197,8 @@ question(
   random_answer_order = TRUE
 ),
 question_radio("Statistical models aim to accurately and precisely describe reality as it is",
-  answer("False", correct = TRUE),
-  answer("True"),
+  answer("False", correct = TRUE, message = "Statistical models are descriptions or representations of what we *think* is important"),
+  answer("True",  message = "Statistical models are descriptions or representations of what we *think* is important"),
   allow_retry = TRUE
 )
 )
@@ -583,7 +583,7 @@ We will collate the entire class' data so you don't have to choose the same numb
 
 ### Replication, replication, replication
 
-Replication is really important to increase the accuracy and precision of our data and make sure our results are not due to random chance. **Generally, the more replication the better! Again, the trade-off is more work, time, effort or computing power.**. It also reduces the chances of making a type 1 or type 2 error. 
+Replication is really important to increase the accuracy and precision of our data and make sure our results are not due to random chance. **Generally, the more replication the better! Again, the trade-off is more work, time, effort or computing power.** It also reduces the chances of making a type 1 or type 2 error. 
 
 **For the purpose of this practical, we will use 3 replicates of prey density.** Three is usually a minimum number of replications. In a real-world scientific study, you may see higher replications.  
 
@@ -607,7 +607,7 @@ $$H_a=\ \frac{a\times H\times T_{total}}{1+a\times H\times T_h}$$
 > Remember: keep it simple! A more complex statistical analysis cannot fix issues arising from a badly designed experiment.
 
 ***
-##
+###
 
 ```{r quiz3}
 quiz(caption = "Have you been paying attention?",
@@ -735,7 +735,7 @@ Keep it up!
 ## 
 
 
-> Now do the CA and hand it in to a demonstrator for marking
+> Now do the CA and hand it in for marking
 
 Don't forget to include your name and student number. Good luck!
 
@@ -757,8 +757,12 @@ In short:
 
  * Every column is a variable
  * Every row is an observation
+ * No empty cells
 
 You can read about tidy data [here](https://cran.r-project.org/web/packages/tidyr/vignettes/tidy-data.html).
+
+> To paraphrase another quote:   
+> All data has a place and all data is in its place
 
 ### Long vs Wide data
 
@@ -840,9 +844,8 @@ See the table below for an example of column headers with no spaces and all cell
 
 | column_information            	| information_type 	| description 	|
 |-------------------------------	|------------------	|-------------	|
-
-| student_numbers                	| NA          	    |   	|
-| total_time 	                    | numeric          	| `1` in minutes, not seconds	|
+| student_number                	| numeric          	    | your student number 	|
+| total_time 	                    | numeric          	| in minutes, not seconds	|
 | prey_density              	| numeric          	| NA          	|
 | replicate                     	| numeric          	| NA          	|
 | prey_eaten           	| numeric          	| NA          	|
@@ -851,18 +854,50 @@ See the table below for an example of column headers with no spaces and all cell
 
 These headers are pre-filled for you in the correct order on the template.  
 
-The order of columns has to exactly match the order in the table. Your exact column header names can be different as long as they follow the critera above (lowercase, no spaces, informative). 
+The order of columns has to exactly match the order in the table. Your exact column header names can be different as long as they follow the criteria above (lowercase, no spaces, informative). 
 
 > Remember to save your data regularly.
 
 ```{r radio1, echo = FALSE}
+quiz(
 question_radio(
   "What should be entered in the cell under the column foraging_strategy when using a predator without experience",
   answer("naive", correct = TRUE),
   answer("experienced"),
   allow_retry = TRUE
+),
+ question(
+  "Which of these is the correct entry for the total_time column for it to be a numeric field in the correct units?",
+  answer("1 minute"),
+  answer("1", correct = TRUE),
+  answer("60"),
+  answer("1min"),
+  allow_retry = TRUE,
+  random_answer_order = TRUE
+),
+question_checkbox(
+  "Which of these are classified as character fields?",
+  answer("25"),
+  answer("Apple", correct = TRUE),
+  answer("Or4nge", correct = TRUE),
+  answer("ten_10", correct = TRUE),
+  answer("0.009"),
+  allow_retry = TRUE,
+  random_answer_order = TRUE
+),
+ question(
+  "What gets coded in R when you have empty cells in your csv?",
+  answer("NaN"),
+  answer("NA", correct = TRUE),
+  answer(" "),
+  answer("Empty"),
+  allow_retry = TRUE,
+  random_answer_order = TRUE
+)
 )
 ```
+
+> Information that isn't structured properly will have errors when imported into R. This is why we must always check that data imported properly every time we load data. This data will need to be **cleaned** before it can be analysed. See next section.
 
 ***
 
@@ -939,8 +974,8 @@ question_radio(
 ## Final checklist
 
 Use the following check list to make sure you have done everything you need for this practical.  
-Have you:
 
+* Does your data sheet fully conform to the guidelines above?
 * Uploaded your dataset to Blackboard?
 * Done the CA questions?
 
