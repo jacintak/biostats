@@ -230,7 +230,7 @@ We need to fit a linear model to this data. Remember linear models with two pred
 
 $$Y = \beta_0 + \beta_1 X_1 + \beta_2 X_2 + \beta_3 X_1 X_2 + \varepsilon$$
 
-Where $X_1$ is our first predictor variable and $X_2$ is our second predictor variable.
+Where $X_1$ is our first predictor variable and $X_2$ is our second predictor variable. $\varepsilon$ is the random error (residual error) not accounted for by the model - it's always part of the equation but it's often ignored, much like $c$ in integration.
 
 ```{r slope}
 quiz(caption = "Answer the following questions:",
@@ -262,7 +262,7 @@ The linear model is:
 
 $$ shell \space length  = \beta_{0_{colour}} + \beta_{1} shell \space width + \varepsilon$$
 
-Now the intercept parameter ($\beta_{0_{colour}}$) specifies that it is dependent on the colour of the crab. $\varepsilon$ is the random error (residual error) not accounted for by the model - it's always part of the equation but it's often ignored, much like $c$ in integration.
+Now the intercept parameter ($\beta_{0_{colour}}$) specifies that it is dependent on the colour of the crab.
 
 In effect, we are fitting *two* lines to this data - one for each level of colour - the technical term for each of these lines is a **partial regression line**. Together they make up the full model above.
 
@@ -281,9 +281,9 @@ Our hypotheses are:
 
 A linear regression in R with two predictor variables follows the general formula 
 ```
-lm(Y ~ A + B, data)
+lm(Y ~ X1 + X2, data)
 ```
-where `A` & `B` are the two predictor variables and `+` indicates the relationship between the two predictors - in an additive model this is *additive* - `lm` stands for linear model, `Y` is our response variable and `data` is the name of our dataset. `~` indicates a relationship between our response and predictor variables.
+where `X1` & `X2` are the two predictor variables and `+` indicates the relationship between the two predictors - in an additive model this is *additive* - `lm` stands for linear model, `Y` is our response variable and `data` is the name of our dataset. `~` indicates a relationship between our response and predictor variables.
 
 In `crabs`, our response variable is `CL` and our predictor variables are `CW` and `sp`. 
 
@@ -825,7 +825,7 @@ lm(CL ~ CW * colour, crabs)
 
 The process of parameterising the model is *exactly* the same as we've done before but now we have *four* coefficients representing the slopes and intercepts for our two regression lines. So you should be expecting what's coming up. 
 
-> Another way of denoting interactions in R is `:` so `A:B` means this is the interaction between `A` and `B`
+> Another way of denoting interactions in R is `:` so `X1:X2` means this is the interaction between `X1` and `X2`
 
 ```{r param-quiz, echo=FALSE}
 crabs_int
@@ -1017,11 +1017,11 @@ This is what the above ANOVA table is showing:
 
 |  Source of variation  | SS | df | MS | F | P |
 |:---------------------:|:--:|:--:|:--:|:-:|---|
-| Factor A | SSR of A | number of levels of A - 1 | |  |   |
-| Factor B | SSR of B | number of levels of B - 1 ||   |   |
-| Factor A x B | SSR of A & B | df of A x df of B ||   |   |
-| Within error | SSE | levels of A x levels of B X (number of observations - 1) | |   |   |
-|  Total error   | SSY | (levels of A x levels of B X number of observations) - 1 |    |   |   |
+| Factor X1 | SSR of X1 | number of levels of X1 - 1 | |  |   |
+| Factor X2 | SSR of X2 | number of levels of X2 - 1 ||   |   |
+| Factor X1 x X2 | SSR of X1 & X2 | df of X1 x df of X2 ||   |   |
+| Within error | SSE | levels of X1 x levels of X2 X (number of observations - 1) | |   |   |
+|  Total error   | SSY | (levels of X1 x levels of X2 X number of observations) - 1 |    |   |   |
 
 > Variance of predictors (SS) is partitioned out from total SS in the order it is entered in to R
 
