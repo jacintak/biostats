@@ -744,7 +744,7 @@ coef(crabs_add)
 ```
 
 Let's start with the first two coefficients. The interpretation for these coefficients is the same as simple linear regression. There's the intercept `(Intercept)` and there's the slope `CW`.  
-**But** remember we are expecting *two* lines in our model. **Which line are these coefficients are referring to?**
+**But** remember we are expecting *two* lines in our model. **Which line are these coefficients referring to?**
 
 ```{r quiz2}
 question_radio(
@@ -1398,7 +1398,7 @@ Once we've done the hard work to do a linear regression, it's nice to add it to 
 
 The formula to plot a straight line is `abline(intercept, slope)` because it plots a line from a to b. The intercept is the first value, the slope is the second value. You need to plot the data first before adding additional lines.
 
-Here are the coefficients again our simple linear model for the crabs showing the intercept and slope respectively:
+Here are the coefficients again for our simple linear model for the crabs showing the intercept and slope respectively:
 ```{r coef-reminder}
 round(crabs_lm$coefficients, 1)
 ```
