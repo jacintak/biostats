@@ -6,8 +6,8 @@ output:
       progressive: true
       allow_skip: false
 runtime: shiny_prerendered
-subtitle: "2021"
-description: "2021 Practical 5 (remote and in-person)"
+subtitle: "2022"
+description: "2022 Practical 5 (remote and in-person)"
 ---
 
 
@@ -110,8 +110,10 @@ Part A: Using multiple linear regressions (models) in R (80 mins)
  * Know how to parametrise a linear regression from R output 
  * Know how to use linear models to predict new values
  * Know how to interpret linear regression output to test hypotheses
- 
+
 > We have covered all of these concepts in the lectures. This prac will reinforce and revise these concepts and allow you to practise them under supervision from the demonstrators.
+
+We will skip simple linear regressions because the same concepts and process apply to simple regressions as multiple regressions.
 
 Part B: Visualising data (30 mins)  
 **Learning objectives:**
@@ -185,7 +187,7 @@ question(
 
 ## Part A: Multiple linear regressions
 
-We saw the statistical theory of linear regressions in the lectures. We will use the dataset `crabs` - see `help(crabs)` for more information. This dataset is provided in `R` in the package `MASS`. I have already loaded the data for you within the tutorial so you don't need to do it but you will need to load it via `library(MASS)` if you want to try code in the Console or in a script. What happens in the interactive tutorial is independent of R's Environment.
+We saw the statistical theory of linear regressions in the lectures. We will use the dataset `crabs` - see `help(crabs)` for more information. This dataset is provided in `R` in the package `MASS`. I have already loaded the data for you within the tutorial so you don't need to do it but you will need to load it via `library(MASS)` if you want to try code in a script. What happens in the interactive tutorial is independent of R's Environment.
 
 There are three variables we will look at (carapace is the zoological term for shell):
 
@@ -224,9 +226,10 @@ question("What is the difference between a simple linear regression and a multip
 )
 ```
 
-We need to fit a linear model to this data. Remember linear models with two predictor variables take the general form:
+We need to fit a linear model to this data. Remember linear models with two predictor variables *and* an interaction (a **full** interactive model) take the general form:
 
 $$Y = \beta_0 + \beta_1 X_1 + \beta_2 X_2 + \beta_3 X_1 X_2 + \varepsilon$$
+
 Where $X_1$ is our first predictor variable and $X_2$ is our second predictor variable.
 
 ```{r slope}
@@ -261,9 +264,9 @@ $$ shell \space length  = \beta_{0_{colour}} + \beta_{1} shell \space width + \v
 
 Now the intercept parameter ($\beta_{0_{colour}}$) specifies that it is dependent on the colour of the crab. $\varepsilon$ is the random error (residual error) not accounted for by the model - it's always part of the equation but it's often ignored, much like $c$ in integration.
 
-In effect, we are fitting *two* lines to this data - one for each level of colour - the technical term for each of these lines is a **partial regression line**.  
+In effect, we are fitting *two* lines to this data - one for each level of colour - the technical term for each of these lines is a **partial regression line**. Together they make up the full model above.
 
-> In fixed slopes models the effect of one predictor on the response variable is **additive** of the other (hence they are also called additive models).
+> In additive models the effect of one predictor on the response variable is **additive** of the other (hence they are also called additive models).
 
 There is no interaction between the predictor variables colour or shell width. Thus the two fitted lines have the same slope ($\beta_{1}$)
 
@@ -280,7 +283,7 @@ A linear regression in R with two predictor variables follows the general formul
 ```
 lm(Y ~ A + B, data)
 ```
-where `A` & `B` are the two predictor variables and `+` indicates the relationship between the two predictors - in a fixed slopes model this is *additive* - `lm` stands for linear model, `Y` is our response variable and `data` is the name of our dataset. `~` indicates a relationship between our response and predictor variables.
+where `A` & `B` are the two predictor variables and `+` indicates the relationship between the two predictors - in an additive model this is *additive* - `lm` stands for linear model, `Y` is our response variable and `data` is the name of our dataset. `~` indicates a relationship between our response and predictor variables.
 
 In `crabs`, our response variable is `CL` and our predictor variables are `CW` and `sp`. 
 
@@ -322,7 +325,7 @@ quiz(
     allow_retry = TRUE
   ),
   question(
-    "The value for both slopes are positive. What does that mean?",
+    "The value for the slope is positive. What does that mean?",
     answer("As crab shell width increases, crab shell length decreases"),
     answer(
       "As crab shell width increases, crab shell length increases",
@@ -659,7 +662,7 @@ question("Which of these statistical tests you've already learnt in this module 
 
 To see more information about our linear regression we need to ask to see the `summary` using `summary(lm())`.
 
-Enter the code to check the `summary()` of the fixed slopes linear regression for the `crabs` dataset:
+Enter the code to check the `summary()` of the additive linear regression for the `crabs` dataset:
 ```{r fixed-summary, exercise = TRUE}
 
 ```
@@ -836,7 +839,7 @@ question("What do the estimated coefficients for spO and CW:spO represent?",
 )
 ```
 
-In the fixed slopes model we only needed to manually calculate the intercept. Now we need to manually calculate the slope **and** intercept.  
+In the additive model we only needed to manually calculate the intercept. Now we need to manually calculate the slope **and** intercept.  
 
 Let's start with the intercept.
 
@@ -859,7 +862,7 @@ quiz(caption = "Use the coefficients above to answer the following questions:",
        paste("What is the intercept for orange crabs?"),
        answer(paste(coef[1] + coef[3]), correct = TRUE, message = "Notice that it is a different value to the additive model."),
        allow_retry = TRUE,
-       incorrect = "Remember what we did for parameterising the fixed slopes model"
+       incorrect = "Remember what we did for parameterising the additive model"
      )
 )
 ```
@@ -957,13 +960,13 @@ summary(lm(CL ~ CW * sp, crabs))
 > H0: There is no effect of shell width or colour or their interaction on shell length  
 > H1: There is an effect of shell width or colour or their interaction on shell length
 
-Like with the fixed slopes model, the hypothesis tests on the coefficient estimates for the slope are the important ones:
+Like with the additive model, the hypothesis tests on the coefficient estimates for the slope are the important ones:
 
 * `CW` - This tests whether the slope of blue crabs is different to 0
     * This gives an indication of whether shell width can predict shell length
 * `CW:spO` - This tests whether the slope for orange crabs is different to blue crabs
     * This tests whether there is an interaction between colour and shell width
-    * If this is non-significant, then a multiplicative model is overly complex to describe our biological pattern (because it uses too many parameters) and perhaps a fixed slopes model is a better descriptor. Aiming to minimise the number of parameters used in a linear model is the statistical concept of **model parsimony**. 
+    * If this is non-significant, then a multiplicative model is overly complex to describe our biological pattern (because it uses too many parameters) and perhaps an additive model is a better descriptor. Aiming to minimise the number of parameters used in a linear model is the statistical concept of **model parsimony**. 
 
 
 ```{r random-test}
@@ -1238,6 +1241,8 @@ The slope and the intercept of our model was calculated by lm(CL ~ CW, crabs)
 plot(CL ~ CW, crabs)
 abline(-0.662, 0.9)
 ```
+
+The same code is used to plot either regression line for a multiplicative regression - you just need to use the slope and intercept values you want!
 
 You can also change the colour, type and width of the line as arguments within `abline()`.
 
