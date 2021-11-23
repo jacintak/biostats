@@ -973,24 +973,15 @@ Interactions imply that the effect of colour and shell width have **multiplicati
 
 It's time to do the linear model. You should now be comfortable with this process because it is the same as the simple regression and the additive model.
 
-*Fix this linear model function to do a multiplicative linear regression in R. There is more than one mistake. Press run.*
+*Change this additive linear model function into a multiplicative linear regression. Press run.*
 ```{r random, exercise = TRUE, exercise.lines = 5}
-lm(lm(CL ~ CW * colour, carbs
+lm(CL ~ CW + sp, crabs)
 ```
 ```{r random-hint}
-Remember linear models require the lm() function
-```
-```{r random-hint-2}
 What's the difference in the R formula between an additive model and a multiplicative model?
 ```
-```{r random-hint-3}
-Are all the variables correct?
-```
-```{r random-hint-4}
-Are you missing brackets or duplicates?
-```
 ```{r random-solution}
-lm(CL ~ CW * colour, crabs)
+lm(CL ~ CW * sp, crabs)
 ```
 
 ***
