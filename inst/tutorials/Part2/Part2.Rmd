@@ -534,7 +534,7 @@ Then, you should be able to identify the values for the slope and intercept and 
 
 > Linear regressions are always done on the entire data, not on averages. i.e. you wouldn't use the average of your replicates for each treatment for the underlying data. To fit a line to data, ordinary least squares regression depends on quantifying *variation* of observations around the mean (think back to how sampled data from a population is distributed). Averaging data removes that variation and thus there is less information for `R` to use (fewer degrees of freedom).
 
-We won't plot our regression lines just yet but you should be able to interpret the R output as a graph by looking at the coefficient values. We will construct a graph in Part C of the practical!
+We won't plot our regression lines just yet but you should be able to interpret the R output as a graph by looking at the coefficient values. We will construct a graph in Part B of the practical!
 
 **Step 4: Parameterising $a$ and $T_h$**  
 The final step is to get our unknown values of $a$ and $T_h$ from our linear regression. Since we know our regression takes the form $response  = \beta_0 + \beta_1 predictor$ and we know the linearised type II model is $\frac{1}{H_a}=\ \frac{1}{a}\times\frac{1}{H\times T_{total}}+\frac{T_h}{T_{total}}$, then you should have all the information to parameterise the type II model and deriving values for $a$ and $T_h$ from the linear regression output for both foraging strategies.
@@ -816,7 +816,7 @@ Are all the variables correct?
 Are you missing brackets or duplicates?
 ```
 ```{r random-solution}
-lm(CL ~ CW * colour, crabs)
+lm(CL ~ CW * sp, crabs)
 ```
 
 ***
@@ -952,9 +952,9 @@ quiz(caption = "Test yourself using the equations above with coefficients to two
 
 ### Evaluating hypotheses
 
-Here's the `summary()` of our multiplicative model
-```{r summary-random, echo = TRUE}
-summary(lm(CL ~ CW * sp, crabs))
+*Complete the code to get the `summary()` of our multiplicative model*
+```{r summary-random, exercise = TRUE, exercise.lines = 5}
+lm(CL ~ CW * sp, crabs)
 ```
 
 > H0: There is no effect of shell width or colour or their interaction on shell length  
