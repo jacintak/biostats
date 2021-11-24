@@ -115,7 +115,7 @@ Part B: Using multiple linear regressions (models) in R (80 mins)
 
 The learning objectives are the same as Part A.
 
-We have covered all of these concepts in the lectures. This prac will reinforce and revise these concepts and allow you to practise them under supervision from the demonstrators.
+> We have covered all of these concepts in the lectures. This prac will reinforce and revise these concepts and allow you to practise them under supervision from the demonstrators.
 
 Part C: Visualising data (30 mins)  
 **Learning objectives:**
@@ -137,7 +137,7 @@ Each part has two sections:
 1. A theory section where we will recap the lecture content and go over the practicalities of linear regression in R step by step using an example dataset. There are code chunks and revision questions. You can retry questions you get wrong - learning is about the process not the marks!
 2. A practice section where you will apply your new skills to the data you collected last practical. This is required to answer the CA for Parts A & B. You will need access to the class dataset from the previous practical so save it somewhere you know.  
 
-I do not recommend skipping the theory before attempting the CA. The demonstrators aren't allowed to help you answer the CA directly but they can help you understand the theory parts so that you can answer the CA. There are no CA questions associated with Parts C & D but that doesn't mean you should skip it because they allow you practise scientific writing and get feedback from the demonstrators.
+**I do not recommend skipping the theory before attempting the CA - these sections will show you all the steps required for the CA**. The demonstrators aren't allowed to help you answer the CA directly but they can help you understand the theory parts so that you can answer the CA. There are no CA questions associated with Parts C & D but that doesn't mean you should skip it because they allow you practise scientific writing and get feedback from the demonstrators.
 
 > Don't forget to answer the CA questions in a separate link. I recommend answering the CA as you progress along the prac when prompted but don't submit until the end. You could also wait and do the CA in one go at the end.
 
@@ -149,7 +149,7 @@ The CA aims to assess your understanding of the concepts in this practical and y
 
 In programming, it's *really easy* to make mistakes like typos so that code doesn't work. That is no means a reflection on you or your ability to code/learn. If your code is not working take a moment to breathe.  
 
-Then, check whether it's a minor thing like a spelling mistake, or a missing quotation mark or bracket, or whether your cases don't match. 
+Then, check whether it's a minor thing like a spelling mistake, or a missing quotation mark or bracket, whether your cases don't match, or whether your dataset name and column names exactly match the code. 
 
 Next, check whether you have missed a step. Re-read the instructions again.
 
@@ -159,11 +159,11 @@ Next, try to articulate in words to yourself what you aim to do, what you expect
 
 If there's an error message, read it. Error messages are the computer telling you what's wrong. Try googling the entire error message to see what other people have said. The entire error message is necessary, not just the last bit.
 
-Finally, ask a person/demonstrator as a last step. It's easy to jump ahead to this step but try not to - this isn't because we don't want to help you but because you may gain a deeper understanding if you try to figure it out independently. The same with reading and digesting the prac material - maybe you haven't read this sentence because tl;dr but you should because the CA will test your reading comprehension and attention to detail. My favourite dinosaur is diplodocus. The goal of learning to code is about the process, not the end result.
+Finally, ask a person/demonstrator as a last step. It's easy to jump ahead to this step but try not to - this isn't because we don't want to help you but because we want you to properly understand what the code is doing and not treat R like a black box. The same with reading and digesting the prac material - maybe you haven't read this sentence because tl;dr but you should because the CA will test your reading comprehension and attention to detail. My favourite dinosaur is diplodocus. The goal of learning to code is about the process, not the end result.
 
 One of the hard things about troubleshooting someone else's programming is that it's not clear what the problem. When describing your problem, be comprehensive & give context. Show the entire error message, not just parts of it. Trace your steps leading up to it. You see this a lot on online forums - questions don't get answered if there isn't enough information or a reproducible example.
 
-The more information you provide, the more information and context people have to help you. That's why we might ask you to provide more information or ask further questions to troubleshoot. The first things we would check are the steps above (minor human errors), so if you've done those, then say what you've already checked and what causes you've ruled out. That gives us a starting point to assist further.
+The more information you provide, the more information and context people have to help you. That's why we might ask you to provide more information or ask further questions to troubleshoot. The first things we would check are the steps above (minor human errors), so if you've done those, then say what you've already checked and what causes you've ruled out. That gives us a starting point to assist you further.
 
 Programming is **trial and error**. You wouldn't expect to get it on the first try. And that's OK - it's part of the process.
 
@@ -181,7 +181,7 @@ question(
   answer("Velociraptor"),
   answer("Spinosaurus"),
   random_answer_order = TRUE,
-  incorrect = "Incorrect. Have you read the worksheet carefully?"
+  incorrect = "Incorrect. Have you read the previous section text carefully?"
 )
 ```
 
@@ -319,7 +319,7 @@ Before we can do our `lm` in `R` we need to import the data and linearise the da
 First, we need to import the data in to R. This should be familiar to you from before. 
 
 > * Don't use the code chunks in this tutorial to import data, it won't work. Make your own script (File -> New Script, or Ctrl(Cmd) + Shift + N). 
-> * Don't write your code directly in the console either - you won't have a good record of what you've done (in case you wanted to use the code here to help you with your final report). 
+> * Don't write your code directly in the console either - you won't have a good record of what you've done (in case you wanted to use the code here to help you with your final report or if you make a mistake and have to start again). 
 > * You can copy the code in this tutorial and modify as appropriate. There is no certainty that the code here will work right out of the box. The examples here use mathematical notation as the variable names here but the class dataset uses the names from Part 1. You should know which notation matches with what variable description.
 
 The class dataset is provided as a comma separated values file (`.csv`). The function to import a csv file is `read.csv`:
@@ -386,19 +386,29 @@ quiz(caption = "In case you forgot",
               answer("Prey eaten", correct = TRUE),
               answer("Number of predators"),
               answer("Duration of the predator-prey interaction"),
-              allow_retry = TRUE),
+              allow_retry = TRUE,
+              random_answer_order = TRUE),
      question("What is does $H$ represent?",
               answer("Prey density", correct = TRUE),
               answer("Prey eaten"),
               answer("Number of predators"),
               answer("Duration of the predator-prey interaction"),
-              allow_retry = TRUE),
+              allow_retry = TRUE,
+              random_answer_order = TRUE),
      question("What is does $T_h$ represent?",
               answer("Prey density"),
               answer("Prey eaten"),
               answer("Number of predators"),
               answer("Time spent to capture one prey", correct = TRUE),
-              allow_retry = TRUE))
+              allow_retry = TRUE,
+              random_answer_order = TRUE),
+          question("What is does $T_{total}$ represent?",
+              answer("Prey density"),
+              answer("Time spent searching between prey items"),
+              answer("Time spent handling prey"),
+              answer("Total time spent foraging", correct = TRUE),
+              allow_retry = TRUE,
+              random_answer_order = TRUE))
 ```
 
 Let's first take the inverse of our response variable $H_a$ to get $\frac{1}{H_a}$
