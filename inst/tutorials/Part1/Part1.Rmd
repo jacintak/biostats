@@ -549,9 +549,9 @@ Under the prey sprite tab you will see three code blocks arranged from top to bo
     * prey density - the default is 20 but **this number needs to be changed because it's our predictor variable**, $H$ 
     * efficiency - the default is 1 but we will ignore it for now
 * Middle: Set up the counters and timer
-    * prey_density is the number of prey our predator has destroyed, $H_a$
-    * digesting is the foraging state of the predator, you can ignore this but it is an implementation of our assumptions that destroying and searching for prey are mutually exclusive activities
-    * total_time is the duration of the predator-prey interaction, $T_h$. This should be 60 seconds (1 minute).
+    * prey_density is the number of prey our predator has captured, $H_a$
+    * digesting is the foraging state of the predator, you can ignore this but it is an implementation of our assumptions that handling and searching for prey are mutually exclusive activities
+    * total_time is the duration of the predator-prey interaction, $T_{total}$. This should be 60 seconds (1 minute).
 * Bottom: This describes the behaviour of the prey The prey will move around randomly until it touches the predator. If the predator is hungry, the prey is destroyed and the predator becomes full (the digesting variable). If the predator is full, then the prey lives.
 
 When you click the green flag you will see two counters: a count down timer and the number of prey caught. The predator and prey sprites move around randomly within the fixed arena. The simulation stops when either the timer reaches zero or when all prey are caught and the original prey density is displayed. Press the stop button to reset the simulation.
