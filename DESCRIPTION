@@ -1,17 +1,17 @@
-Package: biostats.tutorials
+Package: StatsModels
 Type: Package
-Title: Statistics and Computation for Biologists
+Title: BYU22S01 Statistical Modelling Practical
 Version: 3.0.0
 Author: Jacinta Kong
 Maintainer: Jacinta Kong <kongj@tcd.ie>
-Description: learnr materials for BYU22S01 Statistics and Computation,
+Description: learnr practical on statistical modelling using functional responses for BYU22S01 Statistics and Computation,
     Trinity College Dublin, the Univeristy of Dublin, Ireland.
 License: CC0
 Encoding: UTF-8
 LazyData: true
 Depends: R (> 4.0), learnr
 Year: 2022
-URL: https://jacintak.github.io/project/biostats-tutorials/
+URL: https://jacintak.github.io/project/statistical-modelling/
 VignetteBuilder: knitr
 Suggests: 
     knitr

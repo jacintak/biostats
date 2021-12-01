@@ -7,7 +7,7 @@ output:
       allow_skip: false
 runtime: shiny_prerendered
 subtitle: "2022"
-description: "2022 Practical 5 (remote and in-person)"
+description: "2022 BYU22S01 Practical"
 ---
 
 
@@ -103,9 +103,15 @@ Welcome to Part 2! We will continue to look at statistical modelling using the d
 
 In this practical we aim to take a practical and hands-on approach to learning statistical modelling by using R and a real dataset you collected. We focus on the practicalities of *applying* statistics (implementation & interpretation) - not on the theory or mathematics (which was covered earlier in semester).
 
-This practical is split into four parts (recommended time to spend on each section):
+This practical is split into three parts (recommended time to spend on each section):
 
-Part A: Using multiple linear regressions (models) in R (80 mins)  
+Part A: Using additive multiple linear regressions (models) in R (60 mins)  
+
+We will skip simple linear regressions because the same concepts and process apply to simple regressions as with multiple regressions.
+
+Part B: Using multiplicative multiple linear regressions (models) in R (60 mins)  
+
+Parts A and B have the same learning objectives.  
 **Learning objectives:**
 
  * Know how to run a linear regression in R with biological data
@@ -115,22 +121,13 @@ Part A: Using multiple linear regressions (models) in R (80 mins)
 
 > We have covered all of these concepts in the lectures. This prac will reinforce and revise these concepts and allow you to practise them under supervision from the demonstrators.
 
-We will skip simple linear regressions because the same concepts and process apply to simple regressions as with multiple regressions.
-
-Part B: Visualising data (30 mins)  
+Part C: Visualising data (30 mins)  
 **Learning objectives:**
 
  * Know how to make a graph in R with appropriate labels
  * Know what to include in a figure caption
 
 This was also covered earlier in semester in the practicals and in lectures.
-
-Part C: Summarising results in text (20 mins)  
-**Learning objectives:** 
-
- * Know how to present your results and statistical analysis in words in a results section
- 
-We have seen some examples of how to present results in the lectures. This is your chance to practice and get feedback from a demonstrator. *Demonstrators cannot assist you with your final report, however.* 
 
 Each part has two sections:
 
@@ -1083,7 +1080,7 @@ That's multiple regression. It's very similar to simple regression but the addit
 
 ***
 
-## Part B: Visualising data
+## Part C: Visualising data
 
 Visualising data is very important for understanding our data and for communicating our data to others. For example, in a written report.
 
@@ -1345,94 +1342,6 @@ question(
   random_answer_order = TRUE
 )
 ```
-
-> There are no CA questions for this section
-
-***
-
-## Part C: Summarising results in text  
-
-### Theory
-
-Every scientific report needs a results section because that's where we tell the reader what we found. A results section needs a paragraph of text summarising the key findings from the analysis in words. Presenting tables and figures without any accompanying text isn't informative because it means the reader has to guess what you mean/found.
-
-Things you might consider putting in the results section:
-
-* Summary statistics. What is the mean and variation in your data? What is the minimum or maximum? If you are presenting the mean you should *also* present the variation around the mean to give meaning to the mean - e.g. standard deviation or standard error.
-* Descriptive sentences of general trends in the data
-* Results from statistical analyses in R
-
-```{r summarystats, echo=FALSE}
-quiz(caption = "You've done summary stats in R in the earlier practicals",
-     question("What is the R function to calculate the mean of a sequence of numbers?",
-              answer("sd()"),
-              answer("Mean()"),
-              answer("median()"),
-              answer("mean()", correct = TRUE),
-              allow_retry = TRUE,
-              random_answer_order = TRUE
-     ),
-     question("What is the R function to calculate the standard error of a sequence of numbers?",
-              answer("There isn't one, you need to manually calculate it", correct = TRUE),
-              answer("se()"),
-              answer("standard_error()"),
-              answer("var()"),
-              allow_retry = TRUE,
-              random_answer_order = TRUE
-     )
-)
-```
-
-***
-
-Sentences need to be comprehensive. They need to include sufficient information to support your statements. Information presented in tables and figures shouldn't be repeated in text.  
-
-Look at the following sentence:
-
-```
-The mean response variable was higher in group A (10 units ± 0.4 units, mean ± SE) than group B (5 units ± 2 units, mean ± SE)
-```
-
-* We have a descriptive sentence of an important pattern in our data. There could be a reference to a figure but we wouldn't have a table saying the exact same thing.
-* We have some stats to support our sentence - mean and standard error
-* It includes units - detail is important
-
-***
-
-Statistical analyses are always presented in text, never as a figure (i.e. you'll never see a screenshot from R in a professional scientific report or paper and it doesn't demonstrate you know how to interpret the output). There are standard conventions for presenting test statistics and P values. There may be variation across disciplines but generally look at this sentence:
-
-```
-The predictor variable had a positive effect on the response variable (Figure 1, Two-way t-test, t(16) = 3.33, P = 0.56).
-```
-
-* We have a sentence that describes the results we analysed. Note that I didn't use the words "statistically significance" because it is redundant - we can see that it is statistically significant from the P value and biological significance is more informative.
-* In brackets we have the results from the statistical test and a reference to the relevant figure
-    * We have the name of the statistical test used -  a two-way t-test
-    * We have the t value to an appropriate number of decimal places. The test statistic is what's used to give context to the P value
-    * The number in the bracket is the degree of freedom associated with the test statistic. This is also presented as a subscript in some text
-    * Finally, we have the P value. For really small P values, we can use P < 0.001 or P < 0.01 rather than presenting a really small number
-    
-Don't present the P value on it's own - P values don't have a lot of meaning on their own. The absolute value of the P value is not that informative. In fact, P values are considered to be flawed means of determining statistical significance and some scientific journals advise against using them (partially because of the prevalence of unethical research practices because people only care about getting significant P values and not about the validity of the science). 
-
-***
-
-### `crabs`
-
-Here's an example of a sentence describing the results of the interaction in the interactive model on the `crabs` dataset:  
-
-"There was an interaction between colour and carapace width on carapace length (ANOVA, $F_{1,196}$ = -1.04, $P$ = 0.3)"
-
-This can also be written using the t-test on the difference between slopes:
-
-"The slopes of the linear model differed between blue and orange crabs (linear regression, $t_196$ = 2.07, $P$ = 0.04)."
-
-The degree of freedom is the number of samples minus the number of parameters in the model (not including the intercept) minus 1 (200 - 3 - 1) - see the Residual standard error in `summary`.
-
-***
-
-### Practice: Writing a results paragraph
-
-Practice writing a results paragraph using the results from our predator-prey interaction response. You can pick whatever model results to describe. You can check what you've written is comprehensive with a demonstrator. This is an essential skill for writing scientific reports.
 
 > There are no CA questions for this section
 

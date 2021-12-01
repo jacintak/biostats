@@ -6,8 +6,8 @@ output:
       progressive: true
       allow_skip: false
 runtime: shiny_prerendered
-subtitle: "2021"
-description: "2021 Practical 4 remote version"
+subtitle: "2022"
+description: "2022 BYU22S01 Practical"
 ---
 
 ```{r setup, include=FALSE}
@@ -322,7 +322,7 @@ Infection responses, predator-prey interactions...they can be generally classifi
 
 There are multiple types of functional responses (labelled with Roman numerals: I - IV). Each of these models represents a *different hypothesis* about functional responses and mathematically describes a *different relationship* between our two variables (e.g. the killer T cell and the pathogen, or a predator and its prey). The assumptions we make above are based on a **Type II functional response model** and is the one most appropriate for a predator-prey interaction scenario. You can read about the full maths by running `vignette("TypeII_models")`. We won't discuss the other types but you can read about them by running `vignette("functional_responses")`. 
 
-The Type II functional response model is a good example of a general model - it has been used to describe animal predators eating prey (e.g. Holling's disc equations) or enzymes catalysing reactions (e.g. Michaelis-Menten equation). We can also use it to describe the immune response of the previous practical. It doesn't matter what the mathematical symbols represent biologically, maths is a universal language that describes the underlying biological process. Here, we are applying it to an general predator-prey scenario.
+The Type II functional response model is a good example of a general model - it has been used to describe animal predators eating prey (e.g. Holling's disc equations) or enzymes catalysing reactions (e.g. Michaelis-Menten equation). We can also use it to describe the immune response of the previous practical. It doesn't matter what the mathematical symbols represent biologically, maths is a universal language that describes the underlying biological process. Here, we are applying it to an general predator-prey scenario involving students and plastic counters.
 
 ***
 
@@ -531,36 +531,22 @@ Conducting a simple statistical analysis on a complex hypothesis and experimenta
 
 ***
 
-### The predator-prey Scratch simulation
+### The experiment
 
-In the previous practical you looked at building a Scratch model with a predator (a killer T cell) and some prey (invading pathogens). Your response variable was time taken to destroy all the pathogens and the predictor variable was the number of pathogens (pathogen density).
+So, what is the actual experiment? You have been provided some plastic counters, a stopwatch, a piece of paper and a jar with a lid. You are the predator and the counters are your prey. The piece of paper is your arena and the jar is for collecting prey that you have captured. 
 
-In this practical we are considering predators and prey more abstractly. We have a slightly different hypothesis and thus a different experimental design. The predictor variable is the same but the response variable is the number of prey captured at the end of a fixed amount of time. We also have additional assumptions about functional responses that change how the simulation should behave - searching and handling prey are independent and mutually exclusive.
+You will be working in pairs - one of you will be the predator, the other will be the observer (keeping track of the time, recording the data). You will need a computer between you for entering and uploading data.
 
-You don't have to modify the previous practical simulation yourself... I have done this for you.
+The protocol is simple:
 
-You have been provided with a Scratch model you need to use to generate data for this practical and the next. This Scratch model is based on the previous practical but because our model of the biological system is more realistic and complex, our Scratch model is also more complex. You can compare the two and see what has changed.
+ 1. Spread out the desired number of counters on the A4 sheet randomly. Do not move counters around once landed - Why not?
+ 2. The predator will close their eyes and use their index finger to randomly tap around the arena at a constant search rate called out by the observer. The observer has a stop-watch and tells the predator when to tap.
+ 3. If the predator touches a counter, they need pick it up and “processes” it. The prey caught must be placed in the provided jar.
+     * __The predator cannot hold the jar while searching for your prey because prey handling and prey search are mutually exclusive processes.__
+     * The predator must pick up the jar, unscrew the lid, drop in the counter, close the lid fully and place the jar back down on the table - all with their eyes closed
+ 4. You can replicate using a different “predator” (student) to take turns but you should use the same predator across all prey densities. 
 
-You do not need to change any aspect of the predator sprite. When the predator eats a prey it will stop searching (moving) until it has finished digesting its prey and resumes searching. This behaviour is one of our model assumptions and is controlled by a variable called digesting but it's not important to track it.
-
-Under the prey sprite tab you will see three code blocks arranged from top to bottom. They are:
-
-* Top: Set user defined variables for the simulation
-    * prey density - the default is 20 but **this number needs to be changed because it's our predictor variable**, $H$ 
-    * efficiency - the default is 1 but we will ignore it for now
-* Middle: Set up the counters and timer
-    * prey_density is the number of prey our predator has captured, $H_a$
-    * digesting is the foraging state of the predator, you can ignore this but it is an implementation of our assumptions that handling and searching for prey are mutually exclusive activities
-    * total_time is the duration of the predator-prey interaction, $T_{total}$. This should be 60 seconds (1 minute).
-* Bottom: This describes the behaviour of the prey The prey will move around randomly until it touches the predator. If the predator is hungry, the prey is destroyed and the predator becomes full (the digesting variable). If the predator is full, then the prey lives.
-
-When you click the green flag you will see two counters: a count down timer and the number of prey caught. The predator and prey sprites move around randomly within the fixed arena. The simulation stops when either the timer reaches zero or when all prey are caught and the original prey density is displayed. Press the stop button to reset the simulation.
-
-Now we have our research question and a model, we implicitly have our hypotheses. 
-
-**Write down a null (H0) and alternative (H1) hypothesis before moving on to the next section.**
-
-If you are not sure how to formulate a hypothesis, look back at previous material, then ask a demonstrator.
+**The goal is to pick up as many counters as possible within a fixed time period.**
 
 ***
 
@@ -592,7 +578,6 @@ A replication of 3 means that we need to repeat our experiment three times for e
 ***
 
 ### Identifying constant parameters
-
 
 In our experiment we have 1 predator moving at a constant speed (or tapping at a constant rate). These are constants that does not change - doing so would violate the assumptions of our model or turn these parameters into variables.
 
@@ -636,29 +621,14 @@ quiz(caption = "Have you been paying attention?",
 
 ***
 
-### What if...? 
-
+### What if...?
 That's not all we want to do today!
 
 > Another use of statistical models is to explore different scenarios that represent different hypotheses.
 
-What happens if our predator was more efficient? What would you change about the experiment to achieve this? How would this aim affect $H_a$ and the estimates of $a$ and $T_h$? For example, vaccines provide a chance for the immune system to "learn" how to eat prey (e.g. viruses). After this experience, immune systems become more efficient at destroying prey. As another example, animal predators often get better with experience, maybe they learn a more efficient foraging strategy - practice makes perfect! We can call this variable **foraging strategy**.   
+What happens if our predator was more efficient? What would you change about the experiment to achieve this? How would this aim affect $H_a$ and the estimates of $a$ and $T_h$? For example, vaccines provide a chance for the immune system to "learn" how to eat prey (e.g. viruses). After this experience, immune systems become more efficient at destroying prey.   
 
-The efficiency of the predator is set as a variable in Scratch called `efficiency` . In the model, the
-duration of time a predator waits while digesting is a random number between 1 and 5 that is multiplied by the value of `efficiency.` For example, if digesting time was 5 and `efficiency` was 1, then the effective digesting time is $5 \times 1 = 5$ seconds. The efficiency value is a constant parameter in our simulation - it doesn’t change and applies to all runs of the simulation; changing this value changes the intended scenario.
-
-Let’s call our original predator a naive individual with an `efficiency` value of 1. Now,
-consider an experienced individual with an efficiency value of 0.5. We have changed our constant
-parameter, it doesn’t fundamentally change our model assumptions but becomes a new variable that is
-used to calculate the effective digesting time.
-
-If we want to compare the number of prey captured between naive and experienced predators, we need to run the experiment again keeping everything the same but changing only the variable of interest. In addition to the hypotheses before, we have two new hypotheses:
-
-H0: There is no difference in the number of prey captured with prey density between naive and experienced predators
-H1: There is a difference in the number of prey captured with prey density between naive and experienced predators
-
-We can formulate a more specific alternative hypothesis:
-H1: Experienced predators will capture more prey
+We will simulate a different predator behaviour by repeating our counter and jar experiment but this time, the jar does not have a lid so the predator does not need to open and close the lid when they are handing the counters. Here, we will call this variable **foraging strategy**.
 
 These two experiments are *independent*. If we want to compare the foraging properties between the two predators, we need to run the experiment again **keeping everything the same but changing only the variable of interest**.
 
@@ -671,7 +641,7 @@ It's often more interesting to formulate a more specific alternative hypothesis 
 
 **Formulate a more specific hypothesis we can use as an alternative hypothesis.**
 
-In other words, we generally want to know if the change in predator experience *improves* their efficiency, which is demonstrated by the number of prey captured. If we used the original alternative hypothesis then we would accept that hypothesis even if the number of prey captured decreased.
+In other words, we generally want to know if the change in foraging strategy *improves* the number of prey captured. If we used the original alternative hypothesis then we would accept that hypothesis even if the number of prey captured decreased.
 
 As a another example, a simplistic hypothesis is not an informative or helpful conclusion if we were testing a new vaccine and the vaccine made people *more susceptible* to disease yet we would need to accept our alternative hypothesis.
 
@@ -681,17 +651,17 @@ As a another example, a simplistic hypothesis is not an informative or helpful c
 quiz(
   question(
     "Which of these variables are we changing to compare different foraging strategies?",
-    answer("How the predator handles prey", correct = TRUE),
-    answer("The number of prey"),
+    answer("How the jar is used", correct = TRUE),
+    answer("The number of predators"),
     answer("Prey density"),
-    answer("Prey captured"),
+    answer("Prey eaten"),
     random_answer_order = TRUE,
     allow_retry = TRUE
   )
 )
 ```
 
-So we need to expand our dataset. We can add more observations to our first dataset and a new column denoting whether the predator was experienced or naive.
+So we need to expand our dataset. We can add more observations to our first dataset and a new column denoting whether the jar used had a lid or not.
 
 ```{r nrow}
 quiz(question_text(
@@ -761,7 +731,7 @@ In short:
 
 You can read about tidy data [here](https://cran.r-project.org/web/packages/tidyr/vignettes/tidy-data.html).
 
-> To paraphrase another quote:   
+> To paraphrase another quote:  
 > All data has a place and all data is in its place
 
 ### Long vs Wide data
@@ -822,7 +792,6 @@ Here are the rules we want you to apply here (these are not global standards and
  * Are all the necessary columns/information included and in the right order?
      * The order doesn't always matter but in this case it does for the automatic checking script
      
-
 ***
 
 #### Database lingo
@@ -844,19 +813,19 @@ See the table below for an example of column headers with no spaces and all cell
 
 | column_information            	| information_type 	| description 	|
 |-------------------------------	|------------------	|-------------	|
-| student_number                	| numeric          	    | your student number 	|
+| student_number                	| numeric          	    | your student number	|
 | total_time 	                    | numeric          	| in minutes, not seconds	|
 | prey_density              	| numeric          	| NA          	|
 | replicate                     	| numeric          	| NA          	|
 | prey_eaten           	| numeric          	| NA          	|
-| foraging_strategy            	| character        	| `naive` for no experience or `experienced` for a experienced predator |
-
+| foraging_strategy            	| character        	| `no_lid` for no lid or `yes_lid`	for a jar with a lid |
 
 These headers are pre-filled for you in the correct order on the template.  
 
 The order of columns has to exactly match the order in the table. Your exact column header names can be different as long as they follow the criteria above (lowercase, no spaces, informative). 
 
 > Remember to save your data regularly.
+
 
 ```{r radio1, echo = FALSE}
 quiz(
