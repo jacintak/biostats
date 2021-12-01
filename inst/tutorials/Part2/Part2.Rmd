@@ -186,7 +186,7 @@ question(
 
 ***
 
-## Part A: Multiple linear regressions
+## Multiple linear regressions
 
 We saw the statistical theory of linear regressions in the lectures. We will use the dataset `crabs` - see `help(crabs)` for more information. This dataset is provided in `R` in the package `MASS`. I have already loaded the data for you within the tutorial so you don't need to do it but you will need to load it via `library(MASS)` if you want to try code in a script. What happens in the interactive tutorial is independent of R's Environment.
 
@@ -255,9 +255,9 @@ quiz(caption = "Answer the following questions:",
 ))
 ```
 
-We need to calculate the values of $\beta_0$, $\beta_1$, $\beta_2$ and $\beta_3$ to parameterise the model. We could do it by hand for each observation, but that becomes an impossible task for large datasets. That's where R comes in.
+We need to calculate the values of $\beta_0$, $\beta_1$, $\beta_2$ and $\beta_3$ to **parameterise** the model. We could do it by hand for each observation, but that becomes an impossible task for large datasets. That's where R comes in.
 
-### Theory: Additive models
+## Part A: Additive models
 
 The additive linear regression takes the general form:
 
@@ -408,7 +408,9 @@ First, we need to import the data in to R. This should be familiar to you from b
 
 > * Don't use the code chunks in this tutorial to import data, it won't work. Make your own script (File -> New Script, or Ctrl(Cmd) + Shift + N). 
 > * Don't write your code directly in the console either - you won't have a good record of what you've done (in case you wanted to use the code here to help you with your final report). 
-> * You can copy the code in this tutorial and modify as appropriate. There is no certainty that the code here will work right out of the box. The examples here use mathematical notation as the variable names here but the class dataset uses the names from Part 1. You should know which notation matches with what variable description.
+> * You can copy the code in this tutorial and **modify as appropriate for your data**. 
+
+The examples here use mathematical notation as the variable names here but the class dataset uses the names from Part 1. You should know which notation matches with what variable description.
 
 The class dataset is provided as a comma separated values file (`.csv`). The function to import a csv file is `read.csv`:
 
@@ -751,11 +753,13 @@ H1: There is a difference in the number of prey captured with prey density betwe
 
 The jar without a lid treatment is coded as `no_lid` and the jar with a lid treatment is coded as `yes_lid`. We can also think of jar with a lid as our experimental control and the jar without a lid as our experimental treatment. 
 
-As R shows you the difference between levels of a treatment and estimates these parameters based on alphabetical ordering of the levels, it may be helpful to think of the first level of a treatment and the first intercept and slope estimate as the control of your experiment. In other words, like a baseline you are comparing to since this is what R is doing when evaluating the one sample t test on parameter estimates.
+As R shows you the difference between levels of a treatment and estimates these parameters based on **alphabetical ordering** of the levels, it may be helpful to think of the first level of a treatment and the first intercept and slope estimate as the control of your experiment. In other words, like a baseline you are comparing to since this is what R is doing when evaluating the one sample t test on parameter estimates.
 
-At the moment, foraging strategy is classified as a **character** vector (see `str(class_data)`) and, our "control" group (`yes_lid`) is alphabetically after `no_lid`, so we have the reverse scenario. Under the hood, R will convert the `foraging_strategy` variable from a character vector to a **factor** when fitting the linear regression. Both characters and factors are ways R stores categorical data.
+At the moment, foraging strategy is classified as a **character** vector (see `str(class_data)`) and, our "control" group (`yes_lid`) is alphabetically after `no_lid`, so we have the reverse scenario. Under the hood, R will convert the `foraging_strategy` variable from a character vector to a **factor** when fitting the linear regression. Both characters and factors are ways R stores categorical data, the difference being that factors have a specific order.
 
-We will not do anything about this for now. R will use `no_lid` as the baseline contrast for $\beta_0$ and $\beta_1$. If you needed to change the order of the sub-groups you will need to change the variable to a factor (`as.factor`) and define the order of levels using `levels = c("level1", "level2")`.
+We will not do anything about this for now. R will use `no_lid` as the baseline contrast for $\beta_0$ and $\beta_1$. We just need to keep the order in mind when parameterising.
+
+If you needed to change the order of the sub-groups you will need to change the variable to a factor (`as.factor`) and define the order of levels using `levels = c("level1", "level2")`. If we did this, then the slope coefficient refers to `yes_lid` and the final estimated coefficient are exactly the same, just reversed.
 
 ***
 
@@ -765,7 +769,7 @@ Time to use what you've learnt about additive models on your dataset! There's no
 
 ***
 
-### Theory: Interactive models
+## Part B: Interactive models
 
 > In multiplicative models, both the slope and the intercept are estimated for each level of the factor
 
