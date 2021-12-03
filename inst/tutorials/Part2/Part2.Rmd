@@ -500,7 +500,7 @@ quiz(caption = "In case you forgot",
               answer("Time spent to handle one prey"),
               answer("Time spent between each prey item"),
               answer("Total time spent foraging", correct = TRUE),
-              allow_retry = TRUE)))
+              allow_retry = TRUE))
 ```
 
 Let's first take the inverse of our response variable $H_a$ to get $\frac{1}{H_a}$
