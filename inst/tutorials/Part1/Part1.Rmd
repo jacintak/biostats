@@ -31,7 +31,7 @@ Code chunks are independent of the main RStudio Environment. Anything you type h
 
 Write the R code required to add two plus two (the answer should be 4):
 
-```{r test, exercise=TRUE, exercise.eval=TRUE, exercise.lines = 5}
+```{r test, exercise=TRUE, exercise.lines = 5}
 
 ```
 

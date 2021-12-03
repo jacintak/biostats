@@ -36,7 +36,7 @@ Code chunks are independent of the main RStudio Environment. Anything you type h
 
 Write the R code required to divide 10 by 5 (the answer should be 2):
 
-```{r test, exercise=TRUE, exercise.eval=TRUE, exercise.lines = 5}
+```{r test, exercise=TRUE, exercise.lines = 5}
 
 ```
 
@@ -93,7 +93,8 @@ Your answers are saved if you open the tutorial again. You can reset your answer
 Click **Next Topic** to progress to the practical instructions.  
 You can navigate between topics using the buttons or the menu.  
 
-> You need to complete all the exercises to move ahead.
+> You must complete all the exercises to move ahead.  
+> Do not skip exercises - This is the reason you are here
 
 ***
 
@@ -142,48 +143,63 @@ The CA aims to assess your understanding of the concepts in this practical and y
 
 ***
 
-### A note on problem solving
+## How to problem solve
+### Some general advice for programming and learning
 
-In programming, it's *really easy* to make mistakes like typos so that code doesn't work. That is no means a reflection on you or your ability to code/learn. If your code is not working take a moment to breathe.  
-  
-Then, check whether it's a minor thing like a spelling mistake, or a missing quotation mark or bracket, or whether your cases don't match. 
-  
-Then, check whether your column names and the name of your data *exactly* match the code you've written.  
-  
-Next, check whether you have missed a step. Re-read the instructions again.
+In programming, it's *really easy* to make mistakes like typos so that code doesn't work.  
+That is no means a reflection on you or your ability to code/learn.  
 
-*These two steps are the majority of encountered errors. They are not a big deal and are easily corrected*
+If your code is not working take a moment to *breathe*. Then check for common, minor errors such as:
 
-Next, try to articulate in words to yourself what you aim to do, what you expect to see if it worked, what you did leading up to this point and what you think is happening to cause the error. (This is called the rubber duck method - like you are explaining your problems to a rubber duck.)
+ * Spelling mistakes
+ * Wrong dataset name
+ * Wrong variable (column) name
+ * Missing or wrong quotation mark
+ * Missing bracket
+ * Inconsistent cases (e.g. Uppercase)
+ * Missed a step
+ * Duplicates of the same function with multiple errors - keep your scripts tidy!
 
-If there's an error message, read it. Error messages are the computer telling you what's wrong. Try googling the entire error message to see what other people have said. The entire error message is necessary, not just the last bit.
+ These minor mistakes are the majority of encountered errors. They are not a big deal and are easily corrected.
+ 
+ > You can **and should** easily fix the above mistakes yourself!
 
-Finally, ask a person/demonstrator as a last step. It's easy to jump ahead to this step but try not to - this isn't because we don't want to help you but because we want you to properly understand what is going on in your code - not to treat R like a black box. The same with reading and digesting the prac material - maybe you haven't read this sentence because tl;dr but you should because the CA will test your reading comprehension and attention to detail. My favourite dinosaur is diplodocus. The goal of learning to code is about the process, not the end result.
+The point of learning to code is to not treat statistical software like a black box where you cannot see inside and you don't know where the numbers came from.
+
+**Do not take the code here for granted. One does not simply copy code from somewhere and blindly expect it to work out of the box.**
+ 
+We want you to *understand* the material so that you can use these skills elsewhere. Do you understand *why* we are doing what we are doing in class? For example, in the Type II model, why are we taking the inverse of the variable? 
+
+Treat programming like learning the grammar and syntax of another language.
+
+*** 
+
+### Talk to a rubber duck
+
+In programming, you need a clear idea of what you want to achieve. Try to articulate in words to yourself what you aim to do, what you expect to see if it worked, what you did leading up to this point and what you think is happening to cause the error. This is called the rubber duck method - like you are explaining your problems to a rubber duck.
+
+If there's an error message, read it. Error messages are the computer telling you what's wrong. Try googling the entire error message to see what other people have said. The entire error message is necessary, not just the last bit. 
+
+> There's no shame in googling everying - that's what we do too
+
+Take the time to *synthesise* and *integrate* information so that you can apply it to *new scenarios* - that is the learning objective of your entire university degree. And what we will be doing here.
+
+Properly read and digest the teaching material you are given because almost all your assessments will test your reading comprehension and attention to detail. 
+
+ > Learning is about the process and about you, not the end result or your grade
 
 One of the hard things about troubleshooting someone else's programming is that it's not clear what the problem is. When describing your problem, be comprehensive & give context. Show the entire error message, not just parts of it. Trace your steps leading up to it. You see this a lot on online forums - questions don't get answered if there isn't enough information or a reproducible example.
 
 The more information you provide, the more information and context people have to help you. That's why we might ask you to provide more information or ask further questions to troubleshoot. The first things we would check are the steps above (minor human errors), so if you've done those, then say what you've already checked and what causes you've ruled out. That gives us a starting point to assist you further.
 
-Programming is **trial and error**. You wouldn't expect to get it on the first try. And that's OK - it's part of the process.
-
-> When in doubt, try turning it on and off again
+Programming is **trial and error**. You shouldn't expect to get it on the first try. And that's OK - it's part of the process.
 
 ***
 
-##
+###
 
-```{r dino-quiz}
-question(
-  "What is Jacinta's favourite dinosaur?",
-  answer("Diplodocus", correct = TRUE, message = "Clever student!"),
-  answer("Tyrannosaurus rex"),
-  answer("Velociraptor"),
-  answer("Spinosaurus"),
-  random_answer_order = TRUE,
-  incorrect = "Incorrect. Have you read the previous section text carefully?"
-)
-```
-
+ > We **really** advise you to take your time, understand the material and practice before you even look at the assessment. Unless you are 100% confident with data handling and doing multiple regressions in R, do not skip ahead to answer your assessment on the fly. There is nothing here that you don't need to know. You have been warned!
+ 
 ***
 
 ## Multiple linear regressions
@@ -211,7 +227,7 @@ legend("bottomright", bty = "n", c("Blue", "Orange"), pch = c(20, 20), col = c(1
 There are two general types of multiple regression model:
 
 1. Additive model (**Fixed slopes model**)
-2. Interactive model (**Random slopes or multiplicative model**)
+2. Interactive model (**Random slopes, full or multiplicative model**)
 
 The difference is in how they calculate the slope and the intercept of the linear regression. **This changes the interpretation of the model and the associated hypotheses.**
 
@@ -315,11 +331,13 @@ Did you get some output ?
 It should tell us two things:
 
 1. Call is the formula used. It should be the same as the linear model code
-2. Coefficients are the estimated coefficients of the model. Let's start with the first two coefficients. The interpretation for these coefficients is the same as simple linear regression. There's the intercept `(Intercept)` ($\beta_0$) and there's the slope `CW` ($\beta_1$).
+2. Coefficients are the estimated coefficients of the model. From left to right they are: $\beta_0$, $\beta_1$ and $\beta_2$.
+
+Let's start with the first two coefficients. The interpretation for these coefficients is the same as simple linear regression. There's the intercept `(Intercept)` ($\beta_0$) and there's the slope `CW` ($\beta_1$).
 
 **But** remember we are expecting *two* lines in our model - one for blue crabs and one for orange crabs. **Which line are these first two coefficients referring to?**
 
-Here are the coefficients:
+Here are the coefficients $\beta_0$, $\beta_1$ and $\beta_2$:
 ```{r coef-fixed}
 coef(crabs_add)
 ```
@@ -461,7 +479,7 @@ question("Why is the Type II model not linear?",
 )
 ```
 
-Non-linear methods of parametrising these equations are beyond the scope of this module. But we can make this equation linear and use linear regression to get an estimate for the unknown parameters.
+Non-linear methods of parametrising these equations are beyond the scope of this module. But we can make this equation linear and use linear regression to get an estimate for the unknown parameters (see `vignette("TypeII_models")` to refresh your memory).
 
 We need to linearise the data to match a linearised type II model: 
 
@@ -568,7 +586,7 @@ Then, you should be able to identify the values for the slope and intercept and 
 We won't plot our regression lines just yet but you should be able to interpret the R output as a graph by looking at the coefficient values. We will construct a graph in Part B of the practical!
 
 **Step 4: Parameterising $a$ and $T_h$**  
-The final step is to get our unknown values of $a$ and $T_h$ from our linear regression. Since we know our regression takes the form $response  = \beta_0 + \beta_1 predictor1$ and we know the linearised type II model is $\frac{1}{H_a}=\ \frac{1}{a}\times\frac{1}{H\times T_{total}}+\frac{T_h}{T_{total}}$, then you should have all the information to parameterise the type II model and deriving values for $a$ and $T_h$ from the linear regression output for both foraging strategies.
+The final step is to get our unknown values of $a$ and $T_h$ from our linear regression. Since we know our regression takes the form $Y  = \beta_0 + \beta_1 X_1$ and we know the linearised type II model is $\frac{1}{H_a}=\ \frac{1}{a}\times\frac{1}{H\times T_{total}}+\frac{T_h}{T_{total}}$, then you should have all the information to parameterise the type II model and derive values for $a$ and $T_h$ from the linear regression output for both foraging strategies.
 
 > Answer the CA
 
@@ -839,6 +857,20 @@ What's the difference in the R formula between an additive model and a multiplic
 ```
 ```{r random-solution}
 lm(CL ~ CW * sp, crabs)
+```
+
+As expected, we see that there are **four** coefficients. From left to right they are $\beta_0$, $\beta_1$, $\beta_2$ and $\beta_3$ in the full model $Y = \beta_0 + \beta_1 X_1 + \beta_2 X_2 + \beta_3 X_1 X_2 + \varepsilon$.
+
+
+```{r coef-quiz, echo=FALSE}
+question("Which coefficient is present in a full model that is not present in an additive model?",
+         answer("$\\beta_0$"),
+         answer("$\\beta_1$"), 
+         answer("$\\beta_2$"), 
+         answer("$\\beta_3$", correct = TRUE),
+         allow_retry = TRUE,
+         random_answer_order = TRUE
+)
 ```
 
 ***
