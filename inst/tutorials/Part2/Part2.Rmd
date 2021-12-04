@@ -809,6 +809,43 @@ quiz(caption = "Answer the following questions:",
 
 ***
 
+### Putting results into sentences
+
+ > We must always place our statsitical analysis into the wider context of our hypotheses and aims. 
+ 
+Communicating our results is important. 
+
+Statistical analyses need to be written into sentences, within a results section. Screenshots of R output are not appropriate because the output has no meaning to someone else. ANOVA tables should be nicely formatted in a proper table with the correct column names.
+
+A results sentence needs at a minimum:
+
+ * The main result
+ * The name of the statistical test
+ * The test statistic and degrees of freedom
+     * Df can be written as a subscript to the test statistic (e.g. $t_{14}$) or reported as df = 14.
+     * F statistic need the degrees of freedom for the within & among error. E.g. $F_{1,25}$
+ * The P value
+     * Really small or large P values can be summarised. E.g. P < 0.001
+ 
+P values should never be reported on their own - they are also meaningless without the test statistic and context.
+
+All the above information is given to you in `summary` or the ANOVA table. The degrees of freedom of a linear regression are found at the bottom of `summary` (`Residual standard error`).
+
+```{r conclusion}
+question("Based on the summary of the linear regression you just did, which is the most appropriate sentence reporting the results?",
+         answer("There is an effect of shell width or colour on shell length (linear regression, $t_{197}$ = 16, P < 0.01)", correct = TRUE, message = random_praise()),
+                  answer("There is an effect of shell width or colour on shell length (linear regression, $t$ = 16, P < 0.01)"),
+         answer("There is an effect of shell width or colour on shell length ($t_{197}$ = 16, P < 0.01)"),
+         answer("There is an effect of shell width or colour on shell length (P < 0.01)"),
+         allow_retry = TRUE,
+         random_answer_order = TRUE,
+         incorrect = random_encouragement()
+         )
+```
+
+
+***
+
 ### Practice: Evaluating predator-prey interaction responses with additive models
 
 Remember our predator-prey interaction response dataset has a **categorical predictor variable** for the foraging strategy of an individual: whether or not we used a lid with the jar. If we did a simple linear regression with one predictor variable, we would have ignored foraging strategy meaning we have **pooled** observations for foraging strategy.
