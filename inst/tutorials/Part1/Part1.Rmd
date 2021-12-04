@@ -65,7 +65,8 @@ question(
 question_text(
   paste("What is the answer to the above coding exercise?"),
   answer("4", correct = TRUE),
-  allow_retry = TRUE
+  allow_retry = TRUE,
+  incorrect = random_encouragement()
 ),
 question_checkbox(
   "Which of these are not fish? Select all that apply.",
@@ -75,7 +76,8 @@ question_checkbox(
   answer("Cuttlefish", correct = TRUE),
   answer("Alligator gar"),
   allow_retry = TRUE,
-  random_answer_order = TRUE
+  random_answer_order = TRUE,
+  incorrect = random_encouragement()
 )
 )
 ```
@@ -88,7 +90,7 @@ Your answers are saved if you open the tutorial again. You can reset your answer
 Although you can come back to this tutorial at any time, I recommend taking your own notes for your reference. There are also discussion questions in bold that you should think about or write down an answer.  
 
 Click **Next Topic** to progress to the practical instructions.  
-You can navigate between topics using the buttons or the menu. You may not be able to skip ahead if you haven't completed all the exercises.
+You can navigate between topics using the buttons or the menu. You need to complete all the exercises to move ahead.
 
 ***
 
@@ -191,12 +193,13 @@ We will see these concepts again in the lectures and in practice here.
 quiz(
 question(
   "Which of these questions would not need a statistical model to answer?",
-  answer("All of these involve statistical models", correct = TRUE),
+  answer("All of these involve statistical models", correct = TRUE, message = random_praise()),
   answer("Deciding where to invest finances"),
   answer("Estimating when students can return to face-to-face learning"),
   answer("Forecasting tomorrow's weather"),
   allow_retry = TRUE,
-  random_answer_order = TRUE
+  random_answer_order = TRUE,
+  incorrect = random_encouragement()
 ),
 question_radio("Statistical models aim to accurately and precisely describe reality as it is",
   answer("False", correct = TRUE, message = "Statistical models are descriptions or representations of what we *think* is important"),
@@ -293,21 +296,23 @@ These same statements can be applied to an infection response or to any analogou
 quiz(caption = "First, a quick quiz on variables",
 question(
   "What are the variables for a statistical model for a hawk predating on a pidgeon?",
-  answer("The hawk and the pidgeon", correct = TRUE),
+  answer("The hawk and the pidgeon", correct = TRUE, message = random_praise()),
   answer("The hawk only"),
   answer("The pidgeon only"),
   answer("Neither the hawk or the pidgeon"),
   allow_retry = TRUE,
-  random_answer_order = TRUE
+  random_answer_order = TRUE,
+  incorrect = random_encouragement()
 ),
 question(
   "What does it mean when the killer T cell and the pathogen are described as variables in a predator-prey model?",
-  answer("They are the components of interest in our infection model that change with each run of the model", correct = TRUE),
+  answer("They are the components of interest in our infection model that change with each run of the model", correct = TRUE), message = random_praise(),
   answer("The numbers of pathogens never change in any scenario"),
   answer("The numbers of killer T cells never change in any scenario"),
   answer("They are unknown to us"),
   allow_retry = TRUE,
-  random_answer_order = TRUE
+  random_answer_order = TRUE,
+  incorrect = random_encouragement()
 )
 )
 ```
@@ -337,7 +342,8 @@ quiz(
   answer("To make new theories"),
   answer("To guide future research"),
   allow_retry = TRUE,
-  random_answer_order = TRUE
+  random_answer_order = TRUE,
+  incorrect = random_encouragement()
 ),
 question_checkbox(
   "Which of these words describe our predator-prey model? Select all that apply.",
@@ -347,16 +353,18 @@ question_checkbox(
   answer("Theoretic", correct = TRUE),
   answer("Empirical"),
   allow_retry = TRUE,
-  random_answer_order = TRUE
+  random_answer_order = TRUE,
+  incorrect = random_encouragement()
 ),
   question(
   "Which of these are not limitations of statistical models?",
-  answer("We consider alternative scenarios", correct = TRUE),
+  answer("We consider alternative scenarios", correct = TRUE, message = random_praise()),
   answer("Models need a lot of data we may not have"),
   answer("Models are too reductionistic"),
   answer("Models have uncertainties we cannot always control"),
   allow_retry = TRUE,
-  random_answer_order = TRUE
+  random_answer_order = TRUE,
+  incorrect = random_encouragement()
 )
 )
 ```
@@ -410,7 +418,8 @@ question_checkbox(
   answer("a", correct = TRUE),
   answer("H"),
   allow_retry = TRUE,
-  random_answer_order = TRUE
+  random_answer_order = TRUE,
+  incorrect = random_encouragement()
 )
 ```
 
@@ -447,20 +456,22 @@ quiz(
   question(
   "Which of these represents the slope of a general straight line?",
   answer("y"),
-  answer("$\\beta_1$", correct = TRUE),
+  answer("$\\beta_1$", correct = TRUE, message = random_praise()),
   answer("x"),
   answer("$\\beta_0$"),
   allow_retry = TRUE,
-  random_answer_order = TRUE
+  random_answer_order = TRUE,
+  incorrect = random_encouragement()
 ),
   question(
   "Which of these represents is the response variable of a general straight line?",
   answer("$\\beta_0$"),
-  answer("y", correct = TRUE),
+  answer("y", correct = TRUE, message = random_praise()),
   answer("x"),
   answer("$\\beta_1$"),
   allow_retry = TRUE,
-  random_answer_order = TRUE
+  random_answer_order = TRUE,
+  incorrect = random_encouragement()
 ))
 ```
 
@@ -600,23 +611,27 @@ $$H_a=\ \frac{a\times H\times T_{total}}{1+a\times H\times T_h}$$
 quiz(caption = "Have you been paying attention?",
   question_text(
     paste("How many treatments are we using?"),
-    answer("10", correct = TRUE),
-    allow_retry = TRUE
+    answer("10", correct = TRUE, message = random_praise()),
+    allow_retry = TRUE,
+    incorrect = random_encouragement()
   ),
   question_text(
     paste("How many replications are we using?"),
-    answer("3", correct = TRUE),
-    allow_retry = TRUE
+    answer("3", correct = TRUE, message = random_praise()),
+    allow_retry = TRUE,
+    incorrect = random_encouragement()
   ),
   question_text(
     paste("How many hypotheses are we testing?"),
-    answer("2", correct = TRUE),
-    allow_retry = TRUE
+    answer("2", correct = TRUE, message = random_praise()),
+    allow_retry = TRUE,
+    incorrect = random_encouragement()
   ),
   question_text(
     paste("Thus, how many observations should our data set contain?"),
-    answer("30", correct = TRUE),
-    allow_retry = TRUE
+    answer("30", correct = TRUE, message = random_praise()),
+    allow_retry = TRUE,
+    incorrect = random_encouragement()
   )
 )
 ```
@@ -653,12 +668,13 @@ As a another example, a simplistic hypothesis is not an informative or helpful c
 quiz(
   question(
     "Which of these variables are we changing to compare different foraging strategies?",
-    answer("How the jar is used", correct = TRUE),
+    answer("How the jar is used", correct = TRUE, message = random_praise()),
     answer("The number of predators"),
     answer("Prey density"),
     answer("Prey eaten"),
     random_answer_order = TRUE,
-    allow_retry = TRUE
+    allow_retry = TRUE,
+    incorrect = random_encouragement()
   )
 )
 ```
@@ -669,17 +685,20 @@ So we need to expand our dataset. We can add more observations to our first data
 quiz(question_text(
     paste("Thus, how many observations should our final data set contain?"),
     answer("60", correct = TRUE, message = "All other variables and constants stay the same"),
-    allow_retry = TRUE
+    allow_retry = TRUE,
+    incorrect = random_encouragement()
   ),
   question_text(
     paste("How many response variables do we have?"),
-    answer("1", correct = TRUE),
-    allow_retry = TRUE
+    answer("1", correct = TRUE, message = random_praise()),
+    allow_retry = TRUE,
+    incorrect = random_encouragement()
   ),
   question_text(
     paste("How many predictor variables do we have?"),
     answer("2", correct = TRUE, message = "Prey density and foraging strategy"),
-    allow_retry = TRUE
+    allow_retry = TRUE,
+    incorrect = random_encouragement()
   )
 )
 ```
@@ -833,37 +852,41 @@ The order of columns has to exactly match the order in the table. Your exact col
 quiz(
 question_radio(
   "What should be entered in the cell under the column foraging_strategy when using a predator without experience",
-  answer("naive", correct = TRUE),
+  answer("naive", correct = TRUE, message = random_praise()),
   answer("experienced"),
-  allow_retry = TRUE
+  allow_retry = TRUE,
+  incorrect = random_encouragement()
 ),
  question(
   "Which of these is the correct entry for the total_time column for it to be a numeric field in the correct units?",
   answer("1 minute"),
-  answer("1", correct = TRUE),
+  answer("1", correct = TRUE, message = random_praise()),
   answer("60"),
   answer("1min"),
   allow_retry = TRUE,
-  random_answer_order = TRUE
+  random_answer_order = TRUE,
+  incorrect = random_encouragement()
 ),
 question_checkbox(
-  "Which of these are classified as character fields?",
+  "Which of these are classified as character fields? Select all that apply.",
   answer("25"),
   answer("Apple", correct = TRUE),
   answer("Or4nge", correct = TRUE),
   answer("ten_10", correct = TRUE),
   answer("0.009"),
   allow_retry = TRUE,
-  random_answer_order = TRUE
+  random_answer_order = TRUE,
+  incorrect = random_encouragement()
 ),
  question(
   "What gets coded in R when you have empty cells in your csv?",
   answer("NaN"),
-  answer("NA", correct = TRUE),
+  answer("NA", correct = TRUE, message = random_praise()),
   answer(" "),
   answer("Empty"),
   allow_retry = TRUE,
-  random_answer_order = TRUE
+  random_answer_order = TRUE,
+  incorrect = random_encouragement()
 )
 )
 ```
@@ -934,9 +957,10 @@ Upload your csv file to the assignment link provided on Blackboard. **Only one p
 ```{r radio2, echo = FALSE}
 question_radio(
   "Why do we prefer to use comma separated values files?",
-  answer("They save data in a easy to read format with less data loss and smaller file sizes", correct = TRUE),
+  answer("They save data in a easy to read format with less data loss and smaller file sizes", correct = TRUE, message = random_praise()),
   answer("They save lots of metadata like colour or font formatting"),
-  allow_retry = TRUE
+  allow_retry = TRUE,
+  incorrect = random_encouragement()
 )
 ```
 
@@ -959,25 +983,28 @@ One last recap quiz:
 quiz(
 question("How many predators are in our experiment?",
          answer("0"),
-         answer("1", correct = TRUE),
+         answer("1", correct = TRUE), message = random_praise(),
          answer("2"),
          answer("100"),
-         allow_retry = TRUE),
+         allow_retry = TRUE,
+         incorrect = random_encouragement()),
   question_text(
     paste("How many predictor variables are we using?"),
-    answer("2", correct = TRUE),
-    allow_retry = TRUE
+    answer("2", correct = TRUE, message = random_praise()),
+    allow_retry = TRUE,
+    incorrect = random_encouragement()
   ),
   question_text(
     paste("How many known constant parameters do we have?"),
-    answer("4", correct = TRUE),
+    answer("4", correct = TRUE, message = random_praise()),
     allow_retry = TRUE,
     incorrect = "Constant parameters are values we decide on before running a simulation"
   ),
   question_text(
     paste("How many unknown constant parameters do we have?"),
-    answer("2", correct = TRUE),
-    allow_retry = TRUE
+    answer("2", correct = TRUE, message = random_praise()),
+    allow_retry = TRUE,
+    incorrect = random_encouragement()
   )
 )
 

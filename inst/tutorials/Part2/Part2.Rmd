@@ -20,6 +20,7 @@ crabs_add <- lm(CL ~ CW + sp, crabs)
 crabs_int <- lm(CL ~ CW * sp, crabs)
 palette(c("#0072B2", "#D55E00"))
 tutorial_options(exercise.completion = FALSE)
+test_data <- data.frame(concentration = sample(size = 10, 1:20))
 ```
 
 ## How to use this worksheet
@@ -80,7 +81,8 @@ question_checkbox(
   answer("Cuttlefish"),
   answer("Alligator gar", correct = TRUE),
   allow_retry = TRUE,
-  random_answer_order = TRUE
+  random_answer_order = TRUE,
+  incorrect = random_encouragement()
 )
 )
 ```
@@ -137,7 +139,7 @@ Each part has two sections:
 1. A theory section where we will recap the lecture content and go over the practicalities of linear regression in R step by step using an example dataset. There are code chunks and revision questions. You can retry questions you get wrong - learning is about the process not the marks!
 2. A practice section where you will apply your new skills to the data you collected last practical. This is required to answer the CA for Parts A & B. You will need access to the class dataset from the previous practical so save it somewhere you know.  
 
-**I do not recommend skipping the theory before attempting the CA - the theory section will go through all the steps you need for analysing your data**. The demonstrators aren't allowed to help you answer the CA directly but they can help you understand the theory parts so that you can answer the CA. There are no CA questions associated with Part C but that doesn't mean you should skip it because they allow you to practise.
+**I do not recommend skipping the theory before attempting the CA - the theory section will go through all the steps you need for analysing your data**. The demonstrators aren't allowed to help you answer the CA directly but they can help you understand the theory parts so that you can answer the CA. There are no CA questions associated with Part C but that doesn't mean you should skip it because it allows you to practise.
 
 > Don't forget to answer the CA questions in a separate link. I recommend answering the CA as you progress along the prac when prompted but don't submit until the end. You could also wait and do the CA in one go at the end.
 
@@ -148,8 +150,9 @@ The CA aims to assess your understanding of the concepts in this practical and y
 ## How to problem solve
 ### Some general advice for programming and learning
 
-In programming, it's *really easy* to make mistakes like typos so that code doesn't work.  
-That is no means a reflection on you or your ability to code/learn.  
+We don't expect you to be expert programmers but we *do* expect you to be able and willing to figure things out yourself (problem solving).
+
+In programming, it's *really easy* to make mistakes that breaks code. That is no means a reflection on you or your ability to code/learn.  
 
 If your code is not working take a moment to *breathe*. Then check for common, minor errors such as:
 
@@ -160,9 +163,10 @@ If your code is not working take a moment to *breathe*. Then check for common, m
  * Missing bracket
  * Inconsistent cases (e.g. Uppercase)
  * Missed a step
+ * Invalid syntax (e.g. spaces)
  * Duplicates of the same function with multiple errors - keep your scripts tidy!
 
- These minor mistakes are the majority of encountered errors. They are not a big deal and are easily corrected.
+These reading/typing mistakes are the majority of encountered errors. They are not a big deal and are easily corrected.
  
  > You can **and should** easily fix the above mistakes yourself!
 
@@ -170,27 +174,27 @@ The point of learning to code is to not treat statistical software like a black 
 
 **Do not take the code here for granted. One does not simply copy code from somewhere and blindly expect it to work out of the box.**
  
-We want you to *understand* the material so that you can use these skills elsewhere. Do you understand *why* we are doing what we are doing in class? For example, in the Type II model, why are we taking the inverse of the variable? 
-
-Treat programming like learning the grammar and syntax of another language.
+Programming is like learning the grammar and syntax of another language and writing a script is like writing a recipe for a computer. Each line of code has a purpose and meaning. Computers only do what they are told, the rest is up to you.
 
 *** 
 
 ### Talk to a rubber duck
 
-In programming, you need a clear idea of what you want to achieve. Try to articulate in words to yourself what you aim to do, what you expect to see if it worked, what you did leading up to this point and what you think is happening to cause the error. This is called the rubber duck method - like you are explaining your problems to a rubber duck.
+You need a clear idea of what you want to achieve in programming. Articulate in words to yourself what you aim to do, what you expect to see if it worked, what you did leading up to this point and what you think is happening to cause the error. This is called the rubber duck method - like you are explaining your problems to a rubber duck.
 
 If there's an error message, read it. Error messages are the computer telling you what's wrong. Try googling the entire error message to see what other people have said. The entire error message is necessary, not just the last bit. 
 
-> There's no shame in googling everying - that's what we do too
+> There's no shame in googling everying - that's what we do too and part of learning to work independently
 
 Take the time to *synthesise* and *integrate* information so that you can apply it to *new scenarios* - that is the learning objective of your entire university degree. And what we will be doing here.
 
-Properly read and digest the teaching material you are given because almost all your assessments will test your reading comprehension and attention to detail. 
+Properly read and digest the material you are given because almost all your assessments will test your reading comprehension and attention to detail. And there's nothing in this practical that wasn't covered earlier in semester and in the lectures.
 
- > Learning is about the process and about you, not the end result or your grade
+Don't skim read. Take notes. Follow the written instructions.
 
-One of the hard things about troubleshooting someone else's programming is that it's not clear what the problem is. When describing your problem, be comprehensive & give context. Show the entire error message, not just parts of it. Trace your steps leading up to it. You see this a lot on online forums - questions don't get answered if there isn't enough information or a reproducible example.
+ > Learning is about the process and about your growth, not the end result or your grade
+
+One of the hard things about troubleshooting someone else's programming is that it's not clear what the problem is. When describing your problem, be comprehensive & give context. Show the entire error message, not just parts of it. Trace your steps leading up to it. 
 
 The more information you provide, the more information and context people have to help you. That's why we might ask you to provide more information or ask further questions to troubleshoot. The first things we would check are the steps above (minor human errors), so if you've done those, then say what you've already checked and what causes you've ruled out. That gives us a starting point to assist you further.
 
@@ -200,8 +204,46 @@ Programming is **trial and error**. You shouldn't expect to get it on the first 
 
 ###
 
- > We **really** advise you to take your time, understand the material and practice before you even look at the assessment. Unless you are 100% confident with data handling and doing multiple regressions in R, do not skip ahead to answer your assessment on the fly. There is nothing here that you don't need to know. You have been warned!
+ > We **really** advise you to take your time, work through the material in order and practice before you even look at the assessment. Refer to your lecture notes or previous practicals.   
  
+ > Unless you are 100% confident with data handling and doing multiple regressions in R, do not skip ahead to answer your assessment on the fly.
+ 
+ > There is nothing here that you don't need to know. 
+ You have been warned!
+ 
+ 
+Test your problem solving.  
+
+*The following code should calculate the median of a column called `concentration` in a dataset called `test_data` but it doesn't work.*  
+`median(concentration$test_data)`
+```{r reading}
+question(
+  "Why doesn't the above code work?",
+  answer("Spelling mistake"),
+  answer("Wrong function structure", correct = TRUE, message = random_praise()),
+  answer("Wrong function to calculate medians"),
+  answer("Missing bracket"),
+  answer("Missing quotation marks"),
+  allow_retry = TRUE,
+  random_answer_order = TRUE,
+  incorrect = random_encouragement()
+)
+```
+
+*Enter in the correct code to calculate the median of `concentration`. Press Run Code.*
+```{r reading-exercise, exercise = TRUE}
+
+```
+
+```{r reading-ans}
+ans_conc <- median(test_data$concentration)
+question_text("What is the median of concentration?",
+  answer(paste(ans_conc), correct = TRUE, message = random_praise()),
+  allow_retry = TRUE,
+  incorrect = random_encouragement()
+)
+```
+
 ***
 
 ## Multiple linear regressions
@@ -237,11 +279,12 @@ The difference is in how they calculate the slope and the intercept of the linea
 question("What is the difference between a simple linear regression and a multiple linear regression?",
          answer("There is no difference"),
          answer("Simple linear regressions have two predictor variables, multiple linear regressions have one"),
-         answer("Simple linear regressions have one predictor variable, multiple linear regressions have two or more", correct = TRUE),
+         answer("Simple linear regressions have one predictor variable, multiple linear regressions have two or more", correct = TRUE, message = random_praise()),
          answer("Simple linear regressions have two response variables, multiple linear regressions have one"),
          answer("Simple linear regressions have one response variable, multiple linear regressions have two or more"),
          allow_retry = TRUE,
-         random_answer_order = TRUE
+         random_answer_order = TRUE,
+         incorrect = random_encouragement()
 )
 ```
 
@@ -256,20 +299,22 @@ quiz(caption = "Answer the following questions:",
   question(
   "What does $\\beta_1$ represent?",
   answer("response variable"),
-  answer("slope", correct = TRUE),
+  answer("slope", correct = TRUE, message = random_praise()),
   answer("predictor variable"),
   answer("intercept"),
   allow_retry = TRUE,
-  random_answer_order = TRUE
+  random_answer_order = TRUE,
+  incorrect = random_encouragement()
 ),
   question(
   "What does $\\beta_0$ represent?",
   answer("response variable"),
-  answer("intercept", correct = TRUE),
+  answer("intercept", correct = TRUE, message = random_praise()),
   answer("predictor variable"),
   answer("slope"),
   allow_retry = TRUE,
-  random_answer_order = TRUE
+  random_answer_order = TRUE,
+  incorrect = random_encouragement()
 ))
 ```
 
@@ -350,7 +395,7 @@ quiz(
   caption = "Answer the following questions:",
   question(
     "How are these coefficients calculated?",
-    answer("Ordinary least squares regression", correct = TRUE),
+    answer("Ordinary least squares regression", correct = TRUE, message = random_praise()),
     answer("Ordinary most squares regression"),
     answer("Random regression"),
     answer("Random squared regression"),
@@ -362,17 +407,19 @@ quiz(
     "Given what you know about how R orders levels in a factor in alphabetical order, for which level do you think the first two coefficients are modelling?",
     answer("Blue crabs", correct = TRUE, message = "B comes before O so the first two coefficients are the intercept and slope of the linear regression for blue crabs. It also says spO in the next coefficient which tells you that is for orange crabs"),
     answer("Orange crabs"),
-    allow_retry = TRUE
+    allow_retry = TRUE,
+    incorrect = random_encouragement()
   ),
   question(
     "The value for the slope is positive. What does that mean?",
     answer("As crab shell width increases, crab shell length decreases"),
     answer(
       "As crab shell width increases, crab shell length increases",
-      correct = TRUE
+      correct = TRUE, message = random_praise()
     ),
     answer("As crab shell width increases, crab shell length stays the same"),
-    allow_retry = TRUE
+    allow_retry = TRUE,
+    incorrect = random_encouragement()
   )
 )
 ```
@@ -398,7 +445,7 @@ coef(crabs_add)
 ```{r param, echo=FALSE}
 coef <- round(crabs_add$coefficients, 1)
 question("What is the paramterised model for orange crabs? To 1 decimal place",
-         answer(paste0("CL = ", (coef[1]+coef[3]), " + ", coef[2], "CW"), correct = TRUE),
+         answer(paste0("CL = ", (coef[1]+coef[3]), " + ", coef[2], "CW"), correct = TRUE, message = random_praise()),
          answer(paste0("CL = ", coef[1], " - ", coef[2], "CW"), message = "Incorrect. This is the regression for blue crabs"),
          answer(paste0("CL = ", coef[3], " + ", coef[2], "CW"), message = "Incorrect. This is the difference in the intercept"),
          answer(paste0("CL = ", coef[1], " + ", coef[3], "CW"), message = "Incorrect. This is the difference in the intercept"),
@@ -472,12 +519,13 @@ The model is not linear.
 
 ```{r linear, echo=FALSE}
 question("Why is the Type II model not linear?",
-         answer("It has parameters that are divided by another parameter", correct = TRUE),
+         answer("It has parameters that are divided by another parameter", correct = TRUE, message = random_praise()),
          answer("It has parameters that aren't exponents"),
          answer("It does not have a slope parameter"),
          answer("It does not have an intercept parameter"),
          allow_retry = TRUE,
-         random_answer_order = TRUE
+         random_answer_order = TRUE,
+         incorrect = random_encouragement()
 )
 ```
 
@@ -585,7 +633,7 @@ Then, you should be able to identify the values for the slope and intercept and 
 
 > Linear regressions are always done on the entire data, not on averages. i.e. you wouldn't use the average of your replicates for each treatment for the underlying data. To fit a line to data, ordinary least squares regression depends on quantifying *variation* of observations around the mean (think back to how sampled data from a population is distributed). Averaging data removes that variation and thus there is less information for `R` to use (fewer degrees of freedom).
 
-We won't plot our regression lines just yet but you should be able to interpret the R output as a graph by looking at the coefficient values. We will construct a graph in Part B of the practical!
+We won't plot our regression lines just yet but you should be able to interpret the R output as a graph by looking at the coefficient values. We will construct a graph in Part C of the practical!
 
 **Step 4: Parameterising $a$ and $T_h$**  
 The final step is to get our unknown values of $a$ and $T_h$ from our linear regression. Since we know our regression takes the form $Y  = \beta_0 + \beta_1 X_1$ and we know the linearised type II model is $\frac{1}{H_a}=\ \frac{1}{a}\times\frac{1}{H\times T_{total}}+\frac{T_h}{T_{total}}$, then you should have all the information to parameterise the type II model and derive values for $a$ and $T_h$ from the linear regression output for both foraging strategies.
@@ -641,19 +689,22 @@ size <- sample(10:70,1)
 quiz(caption = "Use the equation above to answer the following questions:",
   question_text(
     paste("What is the carapace length of an orange crab with a carapace width of", orange, " mm? To 1 decimal place"),
-    answer(paste(ans_orange), correct = TRUE),
-    allow_retry = TRUE
+    answer(paste(ans_orange), correct = TRUE, message = random_praise()),
+    allow_retry = TRUE,
+    incorrect = random_encouragement()
   ),
   question_text(
     paste("What is the carapace length of a blue crab with a carapace width of", blue, " mm? To 1 decimal place"),
-    answer(paste(ans_blue), correct = TRUE),
-    allow_retry = TRUE
+    answer(paste(ans_blue), correct = TRUE, message = random_praise()),
+    allow_retry = TRUE,
+    incorrect = random_encouragement()
   ),
   question_text(
     paste("How much longer is an orange crab than a blue crab with a shell width of ", size, " mm? To 1 decimal place"),
     answer(paste(round(ccoef[3],1)), correct = TRUE,
            message = "Did you do the whole calculation or notice the answer is the spO coefficient? The slopes are parallel so the answer is the difference in intercepts! The answer is the same regardless of size."),
-    allow_retry = TRUE
+    allow_retry = TRUE,
+    incorrect = random_encouragement()
   )
 )
 ```
@@ -698,12 +749,13 @@ We need a statistical test of comparing an observed population value to the know
 
 ```{r tests}
 question("Which of these statistical tests you've already learnt in this module would test whether our observed slope is significantly different to 0?",
-                  answer("One sample t test", correct = TRUE),
+                  answer("One sample t test", correct = TRUE, message = random_praise()),
                   answer("Analysis of Variance"),
                   answer("Two sample t test"),
                   answer("Paired t test"),
                   allow_retry = TRUE,
-                  random_answer_order = TRUE
+                  random_answer_order = TRUE,
+         incorrect = random_encouragement()
 )
 ```
 
@@ -742,13 +794,15 @@ quiz(caption = "Answer the following questions:",
     "Based on the t-test on the slope coefficient above, would you accept or reject the null hypothesis?",
     answer("Accept"),
     answer("Reject", correct = TRUE, message = "The P value is less than 0.05"),
-    allow_retry = TRUE
+    allow_retry = TRUE,
+    incorrect = random_encouragement()
   ),
   question_radio(
     "Which statement matches your conclusion?",
     answer("There is no effect of shell width or colour on shell length"),
-    answer("There is an effect of shell width or colour on shell length", correct = TRUE),
-    allow_retry = TRUE
+    answer("There is an effect of shell width or colour on shell length", correct = TRUE, message = random_praise()),
+    allow_retry = TRUE,
+    incorrect = random_encouragement()
   )
 )
 ```
@@ -818,7 +872,7 @@ Because both the slopes and intercepts vary, the way we write our hypothesis cha
 ```{r hypotheses, echo=FALSE}
 quiz(caption = "Can you work out the hypotheses?",
      question("What is our null hypothesis?",
-              answer("The effect of shell width on shell length is not dependent on the colour of the crab", correct = TRUE),
+              answer("The effect of shell width on shell length is not dependent on the colour of the crab", correct = TRUE, message = random_praise()),
               answer("The effect of shell width on shell length is dependent on the colour of the crab"),
               answer("There is a relationship between shell length and shell width"),
               answer("There is no relationship between shell length and shell width"),
@@ -828,7 +882,7 @@ quiz(caption = "Can you work out the hypotheses?",
      ),
      question("What is our alternative hypothesis?",
               answer("The effect of shell width on shell length is not dependent on the colour of the crab"),
-              answer("The effect of shell width on shell length is dependent on the colour of the crab", correct = TRUE),
+              answer("The effect of shell width on shell length is dependent on the colour of the crab", correct = TRUE, message = random_praise()),
               answer("There is relationship between shell length and shell width"),
               answer("There is no relationship between shell length and shell width"),
               incorrect = "Incorrect. Think about what the wording implies",
@@ -869,9 +923,10 @@ question("Which coefficient is present in a full model that is not present in an
          answer("$\\beta_0$"),
          answer("$\\beta_1$"), 
          answer("$\\beta_2$"), 
-         answer("$\\beta_3$", correct = TRUE),
+         answer("$\\beta_3$", correct = TRUE, message = random_praise()),
          allow_retry = TRUE,
-         random_answer_order = TRUE
+         random_answer_order = TRUE,
+         incorrect = random_encouragement()
 )
 ```
 
@@ -886,12 +941,13 @@ The process of parameterising the model is *exactly* the same as we've done befo
 ```{r param-quiz, echo=FALSE}
 crabs_int
 question("What do the estimated coefficients for spO and CW:spO represent?",
-         answer("The difference in the slope or intercept for orange crabs compared to blue crabs", correct = TRUE),
+         answer("The difference in the slope or intercept for orange crabs compared to blue crabs", correct = TRUE, message = random_praise()),
          answer("The difference in the slope or intercept for blue crabs compared to orange crabs", message = "Incorrect. Remember R is calculating blue crabs first before orange crabs because they are in alphabetical order"), 
          answer("The estimated slope or intercept for orange crabs"), 
          answer("The estimated slope or intercept for blue crabs"),
          allow_retry = TRUE,
-         random_answer_order = TRUE
+         random_answer_order = TRUE,
+         incorrect = random_encouragement()
 )
 ```
 
@@ -912,7 +968,8 @@ quiz(caption = "Use the coefficients above to answer the following questions:",
      question_text(
        paste("What is the intercept for blue crabs?"),
        answer(paste(coef[1]), correct = TRUE, message = "(Intercept) refers to the intercept for blue crabs. Notice that it is a different value to the additive model."),
-       allow_retry = TRUE
+       allow_retry = TRUE,
+       incorrect = random_encouragement()
      ),
       question_text(
        paste("What is the intercept for orange crabs?"),
@@ -945,7 +1002,7 @@ Difference in slope for orange crabs compared to blue crabs = `r round(coef(crab
 ```{r orange-slope}
 question_text(
   paste("Use the above information to calculate the slope for orange crabs"),
-  answer(paste(round(coef(crabs_int)[2],2) + round(coef(crabs_int)[4],2)), correct = TRUE),
+  answer(paste(round(coef(crabs_int)[2],2) + round(coef(crabs_int)[4],2)), correct = TRUE, message = random_praise()),
   allow_retry = TRUE,
   incorrect = "Keep trying - you have all the information already"
 )
@@ -988,18 +1045,21 @@ ans_size <- round(size_orange - size_blue, 1)
 quiz(caption = "Test yourself using the equations above with coefficients to two decimal places",
       question_text(
         paste("What is the carapace length of a blue crab with a carapace width of ", blue, " mm? To 1 decimal place"),
-        answer(paste(ans_blue), correct = TRUE),
-        allow_retry = TRUE
+        answer(paste(ans_blue), correct = TRUE, message = random_praise()),
+        allow_retry = TRUE,
+        incorrect = random_encouragement()
       ),
       question_text(
         paste("What is the carapace length of a orange crab with a carapace width of ", orange, " mm? To 1 decimal place"),
-        answer(paste(ans_orange), correct = TRUE),
-        allow_retry = TRUE
+        answer(paste(ans_orange), correct = TRUE, message = random_praise()),
+        allow_retry = TRUE,
+        incorrect = random_encouragement()
       ),
       question_text(
         paste("How much longer is an orange crab than a blue crab with a shell width of ", size, " mm? To 1 decimal place"),
-        answer(paste(ans_size), correct = TRUE),
-        allow_retry = TRUE
+        answer(paste(ans_size), correct = TRUE, message = random_praise()),
+        allow_retry = TRUE,
+        incorrect = random_encouragement()
       )
 )
 ```
@@ -1031,7 +1091,8 @@ quiz(caption = "Answer the following questions:",
     "Based on the test on the slope coefficient above, would you accept or reject the null hypothesis?",
     answer("Accept"),
     answer("Reject", correct = TRUE, message = "The P value is less than 0.05"),
-    allow_retry = TRUE
+    allow_retry = TRUE,
+    incorrect = random_encouragement()
   ),
   question_checkbox(
     "What does the multiplicative linear regression tell you about the relationship between our variables? Select all that apply",
@@ -1039,7 +1100,8 @@ quiz(caption = "Answer the following questions:",
     answer("There is an interaction between shell width or colour on shell length", correct = TRUE),
     answer("The relationship between shell length and shell width is different between blue and orange crabs", correct = TRUE),
     answer("The effect of shell width on shell length is dependent on the colour of the crab", correct = TRUE),
-    allow_retry = TRUE
+    allow_retry = TRUE,
+    incorrect = random_encouragement()
   )
 )
 ```
@@ -1088,7 +1150,8 @@ question_radio(
   "Based on the F test on the interaction in the above ANOVA table, would you accept or reject the null hypothesis?",
   answer("Reject", correct = TRUE, message = "The P value is less than 0.05. There is an interaction between colour and shell width"),
   answer("Accept"),
-  allow_retry = TRUE
+  allow_retry = TRUE,
+  incorrect = random_encouragement()
 )
 ```
 
