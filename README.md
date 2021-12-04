@@ -17,5 +17,5 @@ remotes::install_github("jacintak/biostats", build_vignettes = TRUE)
 
 # Developer notes
 
-Current version is 3.0. Initial commit for 2022 improving from 2.0 run in 2021. Remote version is not used.
+2022 version is 3.0. 2021 version is 2.0 (last tag v2.2.4).
 

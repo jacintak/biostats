@@ -83,7 +83,9 @@ question_checkbox(
 ***
 
 Well done!  
-Your answers are saved if you open the tutorial again. You can reset your answers by clicking **Start Over** at the end of the menu. You can run these tutorials any time you like if you want to practice again. Although you can come back to this tutorial at any time, I recommend taking your own notes for your reference. There are also discussion questions in bold that you should think about or write down an answer.  
+Your answers are saved if you open the tutorial again. You can reset your answers by clicking **Start Over** at the end of the menu. You can run these tutorials any time you like if you want to practice again. 
+
+Although you can come back to this tutorial at any time, I recommend taking your own notes for your reference. There are also discussion questions in bold that you should think about or write down an answer.  
 
 Click **Next Topic** to progress to the practical instructions.  
 You can navigate between topics using the buttons or the menu. You may not be able to skip ahead if you haven't completed all the exercises.
