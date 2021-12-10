@@ -4,7 +4,7 @@ output:
     learnr::tutorial:
       theme: readable
       progressive: true
-      allow_skip: false
+      allow_skip: true
 runtime: shiny_prerendered
 subtitle: "2022"
 description: "2022 BYU22S01 Practical"
@@ -102,48 +102,30 @@ You can navigate between topics using the buttons or the menu.
 
 ***
 
-## Introduction
+## Practical outline
 
 Welcome to Part 2! We will continue to look at statistical modelling using the data we collected in the previous practical. 
 
 In this practical we aim to take a practical and hands-on approach to learning statistical modelling by using R and a real dataset you collected. We focus on the practicalities of *applying* statistics (implementation & interpretation) - not on the theory or mathematics (which was covered earlier in semester).
 
-This practical is split into three parts (recommended time to spend on each section):
-
-Part A: Using additive multiple linear regressions (models) in R (60 mins)  
-
-We will skip simple linear regressions because the same concepts and process apply to simple regressions as with multiple regressions.
-
-Part B: Using multiplicative multiple linear regressions (models) in R (60 mins)  
-
-Parts A and B have the same learning objectives.  
 **Learning objectives:**
 
- * Know how to run a linear regression in R with biological data
- * Know how to parametrise a linear regression from R output 
+ * Know how to parametrise a linear regression in R with biological data
  * Know how to use linear models to predict new values
  * Know how to interpret linear regression output to test hypotheses
+ * Know what to include in a results paragraph
+ * Know how to make a graph in R with appropriate labels and caption
 
-> We have covered all of these concepts in the lectures. This prac will reinforce and revise these concepts and allow you to practise them under supervision from the demonstrators.
+> We have covered all of these concepts in the lectures or previous practicals. This prac will reinforce and revise these concepts and allow you to practise them under supervision from the demonstrators.
 
-Part C: Visualising data (30 mins)  
-**Learning objectives:**
-
- * Know how to make a graph in R with appropriate labels
- * Know what to include in a figure caption
-
-This was also covered earlier in semester in the practicals and in lectures.
-
-Each part has two sections:
+There are two goals here:
 
 1. A theory section where we will recap the lecture content and go over the practicalities of linear regression in R step by step using an example dataset. There are code chunks and revision questions. You can retry questions you get wrong - learning is about the process not the marks!
-2. A practice section where you will apply your new skills to the data you collected last practical. This is required to answer the CA for Parts A & B. You will need access to the class dataset from the previous practical so save it somewhere you know.  
+2. A practice section where you will apply your new skills to the data you collected last practical. This is required to answer the CA. You will need access to the class dataset from the previous practical so save it somewhere you know.  
 
-**I do not recommend skipping the theory before attempting the CA - the theory section will go through all the steps you need for analysing your data**. The demonstrators aren't allowed to help you answer the CA directly but they can help you understand the theory parts so that you can answer the CA. There are no CA questions associated with Part C but that doesn't mean you should skip it because it allows you to practise.
+> Don't forget to answer the CA questions in a separate link. There are prompts that will tell you when to answer the questions. **I do not recommend skipping the theory before attempting the CA - the theory section will go through all the steps you need for analysing your data**.
 
-> Don't forget to answer the CA questions in a separate link. I recommend answering the relevant questions as you progress along the prac when prompted but don't submit until the end. 
-
-The CA aims to assess your understanding of the concepts in this practical and your ability to apply the concepts in practice to new scenarios.
+The CA aims to assess your understanding of the concepts in this practical and your ability to apply the concepts in practice to new scenarios. The demonstrators aren't allowed to help you answer the CA directly but they can help you understand the theory parts so that you can answer the CA. 
 
 ***
 
@@ -204,16 +186,14 @@ Programming is **trial and error**. You shouldn't expect to get it on the first 
 
 ###
 
- > We **really** advise you to take your time, work through the material in order and practice before you even look at the assessment. Refer to your lecture notes or previous practicals.   
+ > Take your time, work through the material in order and practice the basics before you progress to harder stuff. Refer to your lecture notes or previous practicals and integrate the information.   
  
  > Unless you are 100% confident with data handling and doing multiple regressions in R, do not skip ahead to answer your assessment on the fly.
  
- > There is nothing here that you don't need to know. 
- You have been warned!
+ > Everything we do here is building on and applying what we've previously covered. There's nothing new here.
  
  
-Test your problem solving.  
-
+Let's try a problem solving exercise:  
 *The following code should calculate the median of a column called `concentration` in a dataset called `test_data` but it doesn't work.*  
 `median(concentration$test_data)`
 ```{r reading}
@@ -230,7 +210,7 @@ question(
 )
 ```
 
-*Enter in the correct code to calculate the median of `concentration`. Press Run Code.*
+*Enter in the correct code to calculate the median of `concentration`. `test_data` is already stored as an R object. Press Run Code.*
 ```{r reading-exercise, exercise = TRUE}
 
 ```
@@ -246,55 +226,86 @@ question_text("What is the median of concentration?",
 
 ***
 
-## Multiple linear regressions
+## Functional responses recap
 
-We saw the statistical theory of linear regressions in the lectures. We will use the dataset `crabs` - see `help(crabs)` for more information. You can also check the data using `str(crabs)`. This dataset is provided in `R` in the package `MASS`. I have already loaded the data for you within the tutorial so you don't need to do it but you will need to load it via `library(MASS)` if you want to try code in a script. What happens in the interactive tutorial is independent of R's Environment.
+Remember, in the previous practical we asked the question "How does prey density and foraging strategy affect the number of prey captured in a predator-prey scenario?". 
 
-There are three variables we will look at (carapace is the zoological term for shell):
+We have three variables of interest in our experimental design:
 
- * `CL`: Carapace length (mm) - our response variable
- * `CW`: Carapace width (mm) - our predictor variable
- * `sp`: Colour morph (`B` or `O` for blue or orange crabs)
+ * `prey_captured`: The response variable, continuous numeric variable
+ * `prey_density`: The first predictor variable, continuous numeric variable
+ * `foraging_strategy`: The second predictor variable, categorical variable with two sub-groups: `no_lid` and `yes_lid` for whether the jar had a lid or not.
 
-The code we use here can be applied to any dataset. You can try it with any biological system of your choice in your own time. For example, `airquality` has environmental data or the Penguins [dataset](https://towardsdatascience.com/penguins-dataset-overview-iris-alternative-9453bb8c8d95) about penguins can be downloaded as a package.
- 
-We can ask the question "Does the relationship between shell length and width differ between colour morphs?". We can also phrase this as "Does the relationship between shell length and width depend on the colour of the crab?". Compared to a simple linear regression with one predictor variable (e.g. `CW`), this is a more complex question needing a more complex experimental design (two predictor variables) and thus a more complex statistical analysis.
+We derived a mathematical expression of a predator-prey interaction (Type II model) called a functional response by turning our assumptions about a predator prey interaction into mathematical equations. You can refresh your memory from `vignette("functional_responses")`.
 
-> Multiple regression allows us to ask "Does including information about our predictor variables improve our ability to detect/understand trends in our response variable?"
-
-It will help to plot the graph.
-```{r crab-graph, fig.cap= "Do you think the relationship between shell length and width differs with the colour of the crab?"}
-plot(CL ~ CW, crabs, pch = 20, col = sp, bty = "l")
-legend("bottomright", bty = "n", c("Blue", "Orange"), pch = c(20, 20), col = c(1,2))
+```{r recap, echo = FALSE}
+quiz(caption = "In case you forgot",
+     question("What is does $H_a$ represent?",
+              answer("Prey density"),
+              answer("Prey eaten", correct = TRUE),
+              answer("Number of predators"),
+              answer("Duration of the predator-prey interaction"),
+              allow_retry = TRUE),
+     question("What is does $H$ represent?",
+              answer("Prey density", correct = TRUE),
+              answer("Prey eaten"),
+              answer("Number of predators"),
+              answer("Duration of the predator-prey interaction"),
+              allow_retry = TRUE),
+     question("What is does $T_h$ represent?",
+              answer("Prey density"),
+              answer("Prey eaten"),
+              answer("Number of predators"),
+              answer("Time spent to capture one prey", correct = TRUE),
+              allow_retry = TRUE),
+          question("What is does $T_{total}$ represent?",
+              answer("Prey density"),
+              answer("Time spent to handle one prey"),
+              answer("Time spent between each prey item"),
+              answer("Total time spent foraging", correct = TRUE),
+              allow_retry = TRUE))
 ```
 
-There are two general types of multiple regression model:
+The Type II model looks like this:
 
-1. Additive model 
-2. Interactive model (**Multiplicative model**)
+```{r funct_resp, echo=FALSE, fig.cap= "Type II functional response of an predator-prey response"}
+prey <- seq(0, 60, 5)
+type2 <- (prey*0.7)/(1+(prey*0.7*0.15))
+plot(type2~ prey,
+     type = 'l',
+     lwd = 4,
+     xlab = "Prey density", ylab = "Number of prey captured",
+     xaxt='n', yaxt='n')
+```
 
-The difference is in how they describe the slope and the intercept of the linear regression. **This changes the interpretation of the model and the associated hypotheses.**
+The equation of the model is:
 
-```{r quiz1}
-question("What is the difference between a simple linear regression and a multiple linear regression?",
-         answer("There is no difference"),
-         answer("Simple linear regressions have two predictor variables, multiple linear regressions have one"),
-         answer("Simple linear regressions have one predictor variable, multiple linear regressions have two or more", correct = TRUE, message = random_praise()),
-         answer("Simple linear regressions have two response variables, multiple linear regressions have one"),
-         answer("Simple linear regressions have one response variable, multiple linear regressions have two or more"),
+$$H_a=\ \frac{a\times H\times T_{total}}{1+a\times H\times T_h}$$
+
+The model is not linear.
+
+```{r linear, echo=FALSE}
+question("Why is the Type II model not linear?",
+         answer("It has parameters that are divided by another parameter", correct = TRUE, message = random_praise()),
+         answer("It has parameters that aren't exponents"),
+         answer("It does not have a slope parameter"),
+         answer("It does not have an intercept parameter"),
          allow_retry = TRUE,
          random_answer_order = TRUE,
          incorrect = random_encouragement()
 )
 ```
 
-We need to fit a linear model to this data. Remember linear models with two predictor variables *and* an interaction (a **full** interactive model) take the general form:
+The aim of the practical was to **find the unknown values of search rate, $a$ and handling time, $T_h$** and we hypothesised that these values will change depending on the type of jar used. 
 
-$$Y = \beta_0 + \beta_1 X_1 + \beta_2 X_2 + \beta_3 X_1 X_2 + \varepsilon$$
+ > The process of estimating the value of unknown parameters in a statistical model is called **parameterising**.
 
-Where $X_1$ is our first predictor variable and $X_2$ is our second predictor variable. $\beta$ are the regression coefficients (also called terms) describing the variation in $Y$ attributed to each coefficient. $\varepsilon$ is the random error (residual error) not accounted for by the model - it's always part of the equation but it's often ignored, much like $c$ in integration.
+Non-linear methods of parametrising these equations are beyond the scope of this module. But we can use algebra to make this equation linear and therefore we can use linear regression to get an estimate for the unknown parameters (see `vignette("TypeII_models")` to refresh your memory).
 
- > The model is called a "**full**" model because it contains all possible terms  - all predictor variables and all possible combinations of their interactions.
+We then get a model:
+
+$$\frac{1}{H_a}=\ \frac{1}{a}\times\frac{1}{H\times T_{total}}+\frac{T_h}{T_{total}}$$
+This model has the form $Y = \beta_0 + \beta_1 X$ of a general linear model. 
 
 ```{r slope}
 quiz(caption = "Answer the following questions:",
@@ -320,19 +331,164 @@ quiz(caption = "Answer the following questions:",
 ))
 ```
 
-To use the model, we need to **parameterise** the model, meaning we need to estimate the values of the four model terms (regression coefficients): $\beta_0$, $\beta_1$, $\beta_2$ and $\beta_3$. This is R's job.
+The graph looks like this:
+```{r tyepe2line, echo = FALSE, fig.cap= "Linearised type II functional response of an predator-prey response"}
+prey <- seq(0, 0.25, 0.01)
+type2 <- seq(0, 1, length.out = length(prey))
+plot(type2 ~ prey , type = 'l', lwd = 4, ylab = "1/Ha, Prey captured", xlab = "1/H Total time, Prey density",
+     xaxt='n', yaxt='n')
+```
 
-## Part A: Additive models
+Now we can fit a linear model and find the values of search rate and handling time from the slope and intercept of the linear regression.
 
-The additive linear regression takes the general form:
+$$ \beta_1 = \frac{1}{a}$$
+and
+$$ \beta_0 = \frac{T_h}{T_{total}}$$
+
+***
+
+### Which linear model?
+
+In the lectures, we saw that the structure of the appropriate linear model to fit depends on the characteristics of the data, the experimental design and the hypothesis. We looked at cases with one predictor variable (simple regression) and with two predictor variables (multiple regression). There are also two types of multiple regression: additive and interactive/multiplicative.
+
+```{r quiz1}
+quiz(
+  question("What is the difference between a simple linear regression and a multiple linear regression?",
+           answer("There is no difference"),
+           answer("Simple linear regressions have two predictor variables, multiple linear regressions have one"),
+           answer("Simple linear regressions have one predictor variable, multiple linear regressions have two or more", correct = TRUE, message = random_praise()),
+           answer("Simple linear regressions have two response variables, multiple linear regressions have one"),
+           answer("Simple linear regressions have one response variable, multiple linear regressions have two or more"),
+           allow_retry = TRUE,
+           random_answer_order = TRUE,
+           incorrect = random_encouragement()
+  ),
+  question("What is the difference between an additive regression and a multipcative regression?",
+           answer("There is no difference"),
+           answer("Additive linear regressions have one predictor variables, multiplicative regressions have two"),
+           answer("Additive linear regressions describe an independent effect of the predictors, multiplicative regression describe a dependency of the predictors on each other", correct = TRUE, message = random_praise()),
+           answer("Additive linear regressions describe a dependency of the predictors on each other, multiplicative regression describe an independent effect of the predictors"),
+           allow_retry = TRUE,
+           random_answer_order = TRUE,
+           incorrect = random_encouragement()
+  ),
+  question("Which type of regression so you think we can fit to this data?",
+           answer("Any type of regression will do"),
+           answer("Either type of multiple regression", correct = TRUE, message = "Technically, we could fit any of these to the data, but the interpretation and appropriateness varies"),
+           answer("Additive multiple regression"),
+           answer("Interactive multiple regression"),
+           allow_retry = TRUE,
+           random_answer_order = TRUE,
+           incorrect = random_encouragement()
+  )
+)
+```
+
+If we did a simple linear regression with one predictor variable, we would have ignored foraging strategy meaning we have **pooled** observations for foraging strategy.
+
+By pooling foraging strategy, any variation in the data generated by foraging strategy is **unaccounted for**. Unaccounted variation may increase our chance of making a Type I or II error because foraging strategy **confounds** the effect of prey density. Phrased differently, the effect of prey density on numbers of prey captured is **masked** by the effect of foraging strategy. Thus, in this case, using a simple linear regression on a dataset with two or more predictor variables is not the best course of action for explaining as much variation in the data as we can.
+
+If we want to see whether using a lid has an effect on our predator-prey interaction response, we need to include the variable in our linear model *as well as our original predictor variable, prey density*.
+
+***
+
+#### Additive or interactive?
+
+ > The wording of the hypothesis will dictate the appropriate linear model and our expectations about the graph.
+
+Recall, we expect an initial *positive* relationship between prey density and the number of prey captured - the number of prey captured will increase with prey density until there are too many prey for a predator to handle and the number of prey captured will plateau. We can see this relationship in the previous graphs. So this needs to be in our hypothesis but we need to decide the nature of the relationship between the predictors.
+
+```{r interac}
+quiz(
+  question_radio(
+    "Following the theory underlying the Type II functional response, do you think the effect of prey density and foraging strategy on the number of prey captured are dependent on each other?",
+    answer("Yes, they are dependent on each other"),
+    answer("No, foraging strategy does not influence prey density", correct = TRUE, message = random_praise()),
+    allow_retry = TRUE,
+    incorrect = random_encouragement()
+  ),
+  question_radio(
+    "Thus do you think the above answer represents an additive or interactive linear model?",
+    answer("Additive model", correct = TRUE, message = random_praise()),
+    answer("Interactive model"),
+    allow_retry = TRUE,
+    incorrect = random_encouragement()
+  )
+)
+```
+
+We could fit an interactive model to our data if we were more interested in finding a mathematical description of our data that **explains the most variation in prey captured using the simplest model possible** (model parsimony). So using a multiplicative models are instead a statistical representation of the data, rather than a theoretic model. 
+
+Both are types of statistical models and valid in their own right but in this case an interaction doesn't quite match the goals of constructing a theoretic model of predator-prey interactions from fundamental observations.
+
+***
+
+### Hypotheses
+
+Foraging strategy determines the amount of prey captured but does not affect the number of prey present. And prey density determines the number of prey captured but does not influence the foraging strategy. This is based on our assumptions about the predator-prey interaction - the predator does not change foraging behaviour.
+
+If the predator changed their foraging behaviour then there would be an interaction between the two predictor variables. This could be realistic. For example, animal predators might use different foraging strategies under different prey densities or they may switch to another strategy when prey density reaches a certain threshold. In fact, this is a Type III model, a sigmoidal function.
+
+An appropriate set of hypotheses are:  
+
+H0: The inverse of the number of prey captured increases with the inverse of prey density but does not differ between foraging strategies  
+H1: The inverse of the number of prey captured increases with the inverse of prey density and is higher with the more efficient foraging strategies but the rate of prey captured does not vary
+
+ > Think carefully how these sentences are worded and what you would expect to see in a graph.
+
+***
+
+## Additive linear models
+
+As we saw in the lectures, the theory behind all linear regressions is the same no matter how many predictor variables or interactions you have.  
+
+ > Variance in $Y$ is partitioned in the order it is presented and in alphabetical order (unless otherwise asked to) in R 
+ 
+To practice fitting linear regression in `R`, we will use the dataset `crabs` - see `help(crabs)` for more information. You can also check the data using `str(crabs)`. This dataset is provided in `R` in the package `MASS`. I have already loaded the data for you within the tutorial so you don't need to do it but you will need to load it via `library(MASS)` if you want to try code in a script. What happens in the interactive tutorial is independent of R's Environment.
+
+There are three variables we will look at (carapace is the zoological term for shell):
+
+ * `CL`: Carapace length (mm) - our response variable
+ * `CW`: Carapace width (mm) - our predictor variable
+ * `sp`: Colour morph (`B` or `O` for blue or orange crabs)
+
+The code we use here can be applied to any dataset. You can try it with any biological system of your choice in your own time. For example, `airquality` has environmental data or the Penguins [dataset](https://towardsdatascience.com/penguins-dataset-overview-iris-alternative-9453bb8c8d95) about penguins can be downloaded as a package.
+ 
+We can ask the question "Does the relationship between shell length and width differ between colour morphs?". We can also phrase this as "Does the relationship between shell length and width depend on the colour of the crab?". Compared to a simple linear regression with one predictor variable (e.g. `CW`), this is a more complex question needing a more complex experimental design (two predictor variables) and thus a more complex statistical analysis.
+
+> Multiple regression allows us to ask "Does including information about our predictor variables improve our ability to detect/understand trends in our response variable?"
+
+"Bigger" crabs are expected to be larger in width and length so we expect a positive relationship between these variables. Whether this relationship is *also* dependent on the colour of the crab is what we can find out! We don't expect colour morphs to influence carapace width, i.e. crabs don't change colour as they get bigger, so an additive model fits with our understanding of the biological system.
+
+You'll notice that the structure of this data is intentionally the same as our functional response experiment. For the CA you will need to apply what you've learnt here to your own data.
+
+It always helps to see a graph of the data:
+```{r crab-graph, fig.cap= "Do you think the relationship between shell length and width differs with the colour of the crab?"}
+plot(CL ~ CW, crabs, pch = 20, col = sp, bty = "l")
+legend("bottomright", bty = "n", c("Blue", "Orange"), pch = c(20, 20), col = c(1,2))
+```
+
+***
+
+### The model
+
+Mathematically, an additive model is:
 
 $$Y = \beta_0 + \beta_1 X_1 + \beta_2 X_2 + \varepsilon$$
 
-> In additive models the effect of one predictor on the response variable is **additive** or **independent** of the other.
+Where $X_1$ is our first predictor variable and $X_2$ is our second predictor variable. 
 
-There is **no interaction** between the predictor variables colour or shell width (i.e. $\beta_3 = 0$). Thus the two fitted lines have the same slope ($\beta_1$) - hence they are sometimes called *fixed slopes* models.
+$\beta$ are the regression coefficients (also called terms) describing the variation in $Y$ attributed to each coefficient. The additive model has three terms that are unknown to us: $\beta_0$, $\beta_1$ and $\beta_2$. R's job is to find the values of these coefficients from empirical data.
 
-To find these coefficients, the ordinary least squares regression splits the dataset into its predictor variables and fit a model to each component - this is called **partial regression**. The goal is to assign as much variation in the data as possible to each predictor variable. This process requires a baseline variable that sets the contrast for assigning variation (i.e. what $\beta_0$ represents).
+$\varepsilon$ is the random error (residual error) not accounted for by the model - it's always part of the equation but it's often ignored, much like $c$ in integration.
+
+ > In additive models, the effect of one predictor on the response variable is **additive** or **independent** of the other.
+
+There is **no interaction** between the predictor variables colour or shell width (i.e. $\beta_3 = 0$). Thus the two fitted lines have the same slope ($\beta_1$) - hence they are sometimes called *fixed slopes* models. The model is described as a "**reduced**" model because it does not contains all possible terms - all predictor variables and all possible combinations of their interactions. 
+
+ > Interactive models are considered "**full**" models if they contain all interactions in a fully crossed design.
+
+To estimate the $\beta$ coefficients, the ordinary least squares regression splits the dataset into its predictor variables and fit a model to each component - this is called **partial regression**. The goal is to assign as much variation in the data as possible to each predictor variable. This process requires a baseline variable that sets the contrast for assigning variation (i.e. what $\beta_0$ represents).
 
 **Dummy variables** are used with a **categorical predictor** to set the baseline for the ordinary least squares regression. Since Blue is alphabetically before Orange, Blue is the baseline contrast used in the partial regression process and assigned the dummy variable 0 in `crabs`. 
 
@@ -347,16 +503,31 @@ becomes $CL = (\beta_0 + \beta_2) + \beta_1 CW$
 In effect, we are fitting *two* lines to this data - one for each sub-category of colour. The technical term for each of these lines is a **partial regression line**. We can write these regression lines as:
 
 $$ shell \space length  = \beta_{0_{colour}} + \beta_{1} shell \space width + \varepsilon$$
-Now the intercept parameter ($\beta_{0_{colour}}$) specifies that it is dependent on the colour of the crab: $\beta_{0_{colour}} = \beta_0 + \beta_2$.
-
-Our hypotheses are:
-
-* H0: There is no effect of shell width or colour on shell length
-* H1: There is an effect of shell width or colour on shell length
+Now the intercept parameter ($\beta_{0_{colour}}$) specifies that it is dependent on the colour of the crab as we showed above: $\beta_{0_{colour}} = \beta_0 + \beta_2$.
 
 ***
 
-### Additive models in R
+### Characters or factors?
+ 
+ > Remember in R, categorical data is are called **factors** and the sub-groups are called **levels**
+
+In R, both the order of the predictor variables and the order of the sub-groups of a categorical variable are relevant because this is how R partitions variation in the response variable to the predictor variables.
+
+The jar without a lid treatment is coded as `no_lid` and the jar with a lid treatment is coded as `yes_lid`. We can also think of jar with a lid as our experimental control and the jar without a lid as our experimental treatment. 
+
+As R shows you the **difference** between levels of a treatment and estimates these parameters based on **alphabetical ordering** of the levels, it may be helpful to think of the first level of a treatment and the first intercept and slope estimate as the control of your experiment. In other words, like a baseline you are comparing to since this is what R is doing when evaluating the one sample t test on parameter estimates.
+
+By default, foraging strategy is classified as a **character** vector because it is a field with strings (letters). Characters do not identify sub-groups thus there is no structure to this variable - they are simply a vector of strings. Both characters and factors are ways R stores categorical data, the difference being that factors have a specific order.
+
+Our "control" group (`yes_lid`) is alphabetically after `no_lid`, so we have the reverse scenario. Under the hood, R converts the `foraging_strategy` variable from a character vector to a **factor** when fitting the linear regression and the order of levels is assigned alphabetically.
+
+We will not do anything about this for now - in this case, it doesn't change our conclusions. R will use `no_lid` as the baseline contrast for $\beta_0$ and $\beta_1$. We just need to keep the order in mind when parameterising.
+
+If you needed to change the order of the sub-groups you will need to change the variable to a factor (`as.factor`) and define the order of levels using `levels = c("level1", "level2")`. If we did this, then the slope coefficient uses `yes_lid` as the baseline and the final estimated coefficients are exactly the same, just reversed.
+
+***
+
+### Fitting the model in `R`
 
 A linear regression in R with two predictor variables follows the general formula: 
 ```
@@ -387,15 +558,13 @@ It should tell us two things:
 1. Call is the formula used. It should be the same as the linear model code
 2. Coefficients are the estimated coefficients of the model. From left to right they are: $\beta_0$, $\beta_1$ and $\beta_2$.
 
-Let's start with the first two coefficients. The interpretation for these coefficients is the same as simple linear regression. There's the intercept `(Intercept)` ($\beta_0$) and there's the slope `CW` ($\beta_1$).
+We can already substitute the estimated $\beta$ coefficients into the full expression of the linear model $Y = \beta_0 + \beta_1 X_1 + \beta_2 X_2 + \varepsilon$ for the crabs dataset as:
 
-**But** remember we are expecting *two* lines in our model - one for blue crabs and one for orange crabs. **Which line are these first two coefficients referring to?**
+$$CL = -0.67 + 0.88 CW + 1.09 sp + \varepsilon$$
 
-Here are the coefficients $\beta_0$, $\beta_1$ and $\beta_2$:
-```{r coef-fixed}
-coef(crabs_add)
-```
+But let's look at the coefficients in more detail starting with the first two coefficients. The interpretation for these coefficients is the same as simple linear regression. There's the intercept `(Intercept)` ($\beta_0$) and there's the slope `CW` ($\beta_1$).
 
+Remember we are expecting *two* lines in our model - one for blue crabs and one for orange crabs. **Which line are these first two coefficients referring to?**
 
 ```{r coef-cals}
 quiz(
@@ -431,8 +600,9 @@ quiz(
 )
 ```
 
+***
 
-### Parameterising our model
+### Parameterising our partial regression model
 
 Because the first two coefficients are for blue crabs, we already have our equation for blue crabs with $\beta_0$ and $\beta_1$.  
 Parametrised equation for blue crabs:  
@@ -446,7 +616,7 @@ The estimate for `spO` is $\beta_2$, which is the **difference in the intercept 
 
 Now that you know how to parameterise the linear regression for orange crabs:  
 ```{r showaddcoef}
-coef(crabs_add)  
+round(coef(crabs_add),1)  
 ```
 
 ```{r param, echo=FALSE}
@@ -469,213 +639,38 @@ In other words, if we were to accept the null hypothesis that there is no relati
 
 ***
 
-### Practice: Parameterising a linear model of predator-prey functional response
-
-Remember we had some unknown parameters in our predator-prey functional response model? The search rate, $a$, and the handling time, $T_h$. We need to find the value of those parameters from the slope and the intercept of our linearised Type II dataset - exactly like we did for the `crabs` example. We can use the `lm` function on our predator-prey model data to parameterise our model.
-
-You can remind yourself of how the Type II functional response model is derived from the documentation file - run `vignette("TypeII_models")` in Console.
-
-Before we can do our `lm` in `R` we need to import the data and linearise the data.
-
-**Step 1: Importing data**  
-First, we need to import the data in to R. This should be familiar to you from before. 
-
-> * Don't use the code chunks in this tutorial to import data, it won't work. Make your own script (File -> New Script, or Ctrl(Cmd) + Shift + N). 
-> * Don't write your code directly in the console either - you won't have a good record of what you've done (in case you wanted to use the code here to help you with your final report). 
-> * You can copy the code in this tutorial and **modify as appropriate for your data**. 
-
-The examples here use mathematical notation as the variable names here but the class dataset uses the names from Part 1. You should know which notation matches with what variable description.
-
-The class dataset is provided as a comma separated values file (`.csv`). The function to import a csv file is `read.csv`:
-
-```
-class_data <- read.csv("directory/folder/class_data.csv")
-```
-This imports the spreadsheet into an R object called `class_data` but you can use whatever name you want. You need to replace the file address within the quotation marks with where ever you saved your file on your computer. File housekeeping is important!
-
-> Refer to the previous drop in sessions and practicals to revise these basic steps. Make sure your address is correct and don't forget .csv at the end.
-
-Remember we have three variables of interest in our data:
-
- * `prey_captured`: The response variable
- * `prey_density`: The first predictor variable
- * `foraging_strategy`: The second predictor variable
-
-The general function to plot a graph in `R` is `plot(Y ~ X, data)` replacing `X`, `Y` and `data` with the respective information from your dataset. By default, the graph will plot individual points. We will plot a more detailed figure later in the practical.
-
-**Plot your graph of prey captured against prey density.**  
-Does your data match what you'd expect from a Type II functional response? 
-
-```{r funct_resp, echo=FALSE, fig.cap= "Type II functional response of an predator-prey response"}
-prey <- seq(0, 60, 5)
-type2 <- (prey*0.7)/(1+(prey*0.7*0.15))
-plot(type2~ prey,
-     type = 'l',
-     lwd = 4,
-     xlab = "Prey density", ylab = "Number of prey captured",
-     xaxt='n', yaxt='n')
-```
-
-**Step 2: Linearising the data**  
-
-Remember our type II model takes the equation:
-
-$$H_a=\ \frac{a\times H\times T_{total}}{1+a\times H\times T_h}$$
-
-The model is not linear.
-
-```{r linear, echo=FALSE}
-question("Why is the Type II model not linear?",
-         answer("It has parameters that are divided by another parameter", correct = TRUE, message = random_praise()),
-         answer("It has parameters that aren't exponents"),
-         answer("It does not have a slope parameter"),
-         answer("It does not have an intercept parameter"),
-         allow_retry = TRUE,
-         random_answer_order = TRUE,
-         incorrect = random_encouragement()
-)
-```
-
-Non-linear methods of parametrising these equations are beyond the scope of this module. But we can use algebra to make this equation linear and therefore we can use linear regression to get an estimate for the unknown parameters (see `vignette("TypeII_models")` to refresh your memory).
-
-We need to linearise the data to match a linearised type II model: 
-
-$$\frac{1}{H_a}=\ \frac{1}{a}\times\frac{1}{H\times T_{total}}+\frac{T_h}{T_{total}}$$
-The graph should look like this:
-```{r tyepe2line, echo = FALSE, fig.cap= "Linearised type II functional response of an predator-prey response"}
-prey <- seq(0, 0.25, 0.01)
-type2 <- seq(0, 1, length.out = length(prey))
-plot(type2 ~ prey , type = 'l', lwd = 4, ylab = "1/Ha, Prey captured", xlab = "1/H Total time, Prey density",
-     xaxt='n', yaxt='n')
-```
-
-
-```{r recap, echo = FALSE}
-quiz(caption = "In case you forgot",
-     question("What is does $H_a$ represent?",
-              answer("Prey density"),
-              answer("Prey eaten", correct = TRUE),
-              answer("Number of predators"),
-              answer("Duration of the predator-prey interaction"),
-              allow_retry = TRUE),
-     question("What is does $H$ represent?",
-              answer("Prey density", correct = TRUE),
-              answer("Prey eaten"),
-              answer("Number of predators"),
-              answer("Duration of the predator-prey interaction"),
-              allow_retry = TRUE),
-     question("What is does $T_h$ represent?",
-              answer("Prey density"),
-              answer("Prey eaten"),
-              answer("Number of predators"),
-              answer("Time spent to capture one prey", correct = TRUE),
-              allow_retry = TRUE),
-          question("What is does $T_{total}$ represent?",
-              answer("Prey density"),
-              answer("Time spent to handle one prey"),
-              answer("Time spent between each prey item"),
-              answer("Total time spent foraging", correct = TRUE),
-              allow_retry = TRUE))
-```
-
-Let's first take the inverse of our response variable $H_a$ to get $\frac{1}{H_a}$
-
-```
-class_data$Ha.1 <- 1/class_data$Ha
-```
-This line of code calculates the inverse of `Ha`, that is, 1 divided (`/`) by the number of prey captured (`Ha`), then saves that number to a new column in our dataset called `Ha.1`. Note the use of no spaces.
-
-When manipulating data like this, it's best practice to add new columns to the data, rather than overwrite the original column. That way, if you make a mistake it's easier to see what went wrong and you won't have to start from the beginning!
-
-> `data$column` is the general structure to select a column in R. Make sure that your dataset name and your column names in your code matches your data name and columns, **It may not exactly match what is written here**.
-
-Now let's linearise the predictor variable (`H`) to get $\frac{1}{H\times T_{total}}$. 
-
-```
-class_data$HT.1 <- 1/(class_data$H * class_data$T_total)
-```
-Because we use a value of 1 minute for $T_{total}$, we are essentially dividing 1 by only prey density ($H$). Told you a value of 1 would make our maths easier!
-
-Since we have done some division, it's a good time to check for any undefined values in case we divided by 0. In `R` this is denoted as infinities (`Inf`). You can check how many infinities there are using `table(is.infinite(class_data$Ha.1))` - this will check whether each cell has undefined values (`is.infinite`) and give you logical `TRUE`/`FALSE` output, then tabulate the logic statements to count the number of `TRUE`/`FALSE` occurrences in the column `Ha.1`.
-
-We can replace the infinities with zeroes using `class_data$Ha.1 <- ifelse(class_data$Ha.1 == Inf, 0, class_data$Ha.1)`. You might recognise the if else statement and understand what's happening from previous lectures: **if** there is an undefined value, **then** replace that value with 0, **else** leave the value as is. We don't discard these observations because a value of 0 has biological meaning.  
-
-We now have all the correct columns to parameterise our functional response.
-
-> Make sure that your column names and the name of your dataset in your code matches the names you are using. They may not be exactly the same but the structure of the function is the same (`data$column`). Your column names can be whatever is meaningful to you. E.g. you don't *have* to call your new column `HT.1` but recognise that you need to remember to modify your code accordingly.
-
-**Step 3: Doing the additive linear regression**  
-If `lm` is the function to do a linear regression, `Ha.1` is the name of our response variable, `HT.1` is the name of the first predictor variable, `foraging_strategy` is the name of the second predictor variable, and the name of our dataset is `class_data`, you should be able to write the code for the linearised type II functional response (or replacing the respective components with the column name and dataset names you are using). 
-
-(Hint: It's exactly as we did for `crabs` - so you've done it already. Remember the order of the parameters - it matters to R)
-
-```{r error, echo = FALSE}
-quiz(caption = "Getting an error message?",
-     question("What gets recorded if the predator did not catch any prey?",
-              answer("Ha = 0", correct = TRUE),
-              answer("Nothing"),
-              answer("Ha > 0"),
-              answer("Ha < 0"),
-              allow_retry = TRUE,
-              random_answer_order = TRUE),
-     question("What happens in R when you divide by 0?",
-              answer("The value is undefined (Inf)", correct = TRUE),
-              answer("It works"),
-              answer("R crashes"),
-              answer("It is the wrong function"),
-              allow_retry = TRUE,
-              random_answer_order = TRUE),
-     question("What is the solution?",
-              answer("Change the values to 0", correct = TRUE),
-              answer("Delete the data"),
-              answer("Collect new data"),
-              answer("Use a different program"),
-              allow_retry = TRUE,
-              random_answer_order = TRUE,
-              incorrect = "We don't throw out valid data"))
-```
-
-**Construct an additive linear model for our data.**  
-Then, you should be able to identify the values for the slope and intercept and thus parameterise the linearised function in Step 4 - exactly as you did with the `crabs` dataset.
-
-> Linear regressions are always done on the entire data, not on averages. i.e. you wouldn't use the average of your replicates for each treatment for the underlying data. To fit a line to data, ordinary least squares regression depends on quantifying *variation* of observations around the mean (think back to how sampled data from a population is distributed). Averaging data removes that variation and thus there is less information for `R` to use (fewer degrees of freedom).
-
-We won't plot our regression lines just yet but you should be able to interpret the R output as a graph by looking at the coefficient values. We will construct a graph in Part C of the practical!
-
-**Step 4: Parameterising $a$ and $T_h$**  
-The final step is to get our unknown values of $a$ and $T_h$ for each type of foraging strategy from our linear regression. Since we know our partial regression takes the form $Y  = \beta_{0_{foraging \space strategy}} + \beta_1 X_1$ with separate intercepts for each sub-group of `foraging_strategy` and the same slope for both groups, and we know the linearised type II model is $\frac{1}{H_a}=\ \frac{1}{a}\times\frac{1}{H\times T_{total}}+\frac{T_h}{T_{total}}$, then you should have all the information to parameterise the type II model and derive values for $a$ and $T_h$ from the linear regression output for both foraging strategies.
-
-> Answer the CA
-
-***
-
 ### Predicting new values
 
 > One application of statistical models is to make predictions about outcomes under new conditions
 
-We can calculate the value of the response variable from any given value of the predictor variable. You need a fully parameterised model to do this - which we have! 
+We can calculate the value of the response variable from any given value of the predictor variable. 
 
-***
+For example, we can use the parametrised equation of our model $CL = `r round(coef(crabs_add)[1],1)` + `r round(coef(crabs_add)[2],1)` CW + `r round(coef(crabs_add)[3],1)` sp$ and the dummy variables 0 for Blue crabs or 1 for Orange crabs to work out the length of a crab for any value of shell width. 
 
-For example, we can use the parametrised equation of a simple linear regression (ignoring colour), $CL =$ `r round(coef(crabs_lm)[1],1)`  + `r round(coef(crabs_lm)[2],1)` $\times CW$, to work out the length of a crab for any value of shell width. 
-
-If a crab is 10 mm wide, what is its predicted shell length?
+If a blue crab is 10 mm wide, what is its predicted shell length?
 
 * We are told the value of shell width (10 mm)
 * We know the parameterised linear model:
 
-$CL =$ `r round(coef(crabs_lm)[1],1)`  + `r round(coef(crabs_lm)[2],1)` $\times CW$
+$$CL = `r round(coef(crabs_add)[1],1)` + `r round(coef(crabs_add)[2],1)` CW + `r round(coef(crabs_add)[3],1)` sp$$
 
-* We can substitute the value of 10 for CW into our parameterised model:
+* We can substitute the value of 10 for CW:
 
-$CL =$ `r round(coef(crabs_lm)[1],1)`  + `r round(coef(crabs_lm)[2],1)` $\times 10$  
+$$CL = `r round(coef(crabs_add)[1],1)` + `r round(coef(crabs_add)[2],1)` 10 + `r round(coef(crabs_add)[3],1)` sp$$
+
+* We know the dummy variable for blue crabs is 0 because it is the baseline level (assigned alphabetically) so we can substitute that into sp:
+
+$$CL = `r round(coef(crabs_add)[1],1)` + `r round(coef(crabs_add)[2],1)*10` + `r round(coef(crabs_add)[3],1)` \times 0$$ 
 
 * and solve for length:  
-$CL =$ `r round(coef(crabs_lm)[1],1) + 10 * round(coef(crabs_lm)[2],1)` mm
+
+$$CL = `r round(coef(crabs_add)[1],1)` + `r round(coef(crabs_add)[2],1)*10`$$  
+
+$$CL = `r round(coef(crabs_add)[1],1) + round(coef(crabs_add)[2],1)*10` mm$$ 
 
 ***
 
-Now, we can use our two partial regression models to predict the shell length of blue or orange crabs.  
+Or we can use our two partial regression models to predict the shell length of blue or orange crabs.  
 
 *Blue crab shell length* = `r round(coef(crabs_add)[1],1)` + `r round(coef(crabs_add)[2],1)` *shell width*  
 *Orange crab shell length* = `r round(coef(crabs_add)[1] + coef(crabs_add)[3],1)` + `r round(coef(crabs_add)[2],1)` *shell width*
@@ -722,40 +717,52 @@ quiz(caption = "Use the equation above to answer the following questions:",
 
 > Remember that statistical models may represent hypotheses
 
-Remember our hypotheses are:
+Here are the hypotheses:
 
-* H0: There is no effect of shell width or colour on the response variable
-* H1: There is an effect of shell width or colour on the response variable
+H0: Carapace length increases with carapace width but does not differ between colour morphs  
+H1: Carapace length increases with carapace width and differs between colour morphs but the rate of size increases does not vary between colours
 
-We see from our predicted lines (below) that if the slope ($\beta_1$) of the line is 0 (red), then we accept the null hypothesis and reject the alternative hypothesis. If the slope is different to 0 (blue), then we reject the null hypothesis and accept the alternative.
+We can test these hypotheses using the linear regression. It's important to understand these hypotheses graphically. Here are the two outcomes:
+```{r hypo, fig.cap = "Two possible graphs showing linear regression lines."}
+prey <- seq(0, 0.25, 0.01)
+type2 <- seq(0, 1, length.out = length(prey))
+par(mfrow = c(1,2))
+plot(type2 ~ prey, type = 'l', lwd = 4, ylab = "Response variable", xlab = "Predictor variable",
+     xaxt='n', yaxt='n', bty = "l", ylim = c(0, 1.2), col = 3, main = "Figure A")
+lines(type2 + 0.2 ~ prey, lwd = 4, col = 2)
+legend("topleft", bty = "n", c("Group 1", "Group 2"), lwd = c(4, 4), col = c(3,2))
 
-```{r treehypo, fig.cap="Our predicted linear regressions for the null (red) and alternative (blue) hypotheses"}
-plot(CL ~ CW, crabs, pch = 16)
-abline(crabs_lm, lwd = 4, col = "blue")
-abline(mean(crabs$CL), 0, lwd = 4, col = "red")
+plot(type2 ~ prey, type = 'l', lwd = 4, ylab = "Response variable", xlab = "Predictor variable",
+     xaxt='n', yaxt='n', bty = "l", ylim = c(0, 1.2), main = "Figure B")
 ```
 
-Note that in our alternative hypothesis we *did not* specify the direction of the relationship (positive or negative), thus we would accept either a positive or negative slope as support for H1. We could be more specific when formulating hypotheses or formulate more than one alternative hypothesis (e.g. H2, H3 etc). 
-
-**So we need to calculate the slope of the line. How do we do that?**  
-
-We've already done it with our `lm` code.  
-*Run the additive linear model again to get the slope estimate*
-```{r hypotheses-lm, exercise=TRUE, exercise.lines = 5}
-
+```{r lines}
+question_radio(
+  "Which of the graph above represents the null hypothesis?",
+  answer("Figure A"),
+  answer("Figure B", correct = TRUE, message = "There is no effect of the second predictor variable so the regression lines for each sub-group are the same - this is effectively a simple linear regression!"),
+  allow_retry = TRUE,
+  incorrect = "This describes that there is a difference between groups of the second predictor variable (colours)."
+)
 ```
 
-We get a slope of `r round(coef(crabs_add)[2],1)`. **But is this enough evidence for us to accept/reject hypotheses?** No. What if the slope is not 0 because of random chance? We need to be confident that our estimated slope is *significantly different* to 0. How do we do that?
+Notice how the slopes of all the lines are the same. The difference between the coloured lines in Figure A is that the lines have different intercepts. We expected this based on the additive model.
 
-> Statistical significance is not the same thing as biological significance. A relationship between two purely randomly generated numbers can be statstically significant but have no biological meaning!  
-Language matters when presenting results.
+Unlike a simple regression, our hypotheses are not concerned about whether the slope is different to 0. We want to know if the lines have different *intercepts to each other*. Phrased differently, we need to test whether **the difference in the intercept is different to 0**.
 
-The predicted slope of the line for the null hypothesis can be considered a *known* population level value.  
-Our observed slope of the line from empirical data can be considered an estimated/observed population value.  
-We need a statistical test of comparing an observed population value to the known population value.   
-**Do you know of one such test from previous lectures?**
+We don't just need to know the difference, we need to statistically test this; whether an estimated/observed value of a sample is significantly different to a known population value. You've done this kind of test already.
 
 ```{r tests}
+quiz(
+  question("Can you remember which coefficient in the additive model will test this hypothesis?",
+         answer("$\\beta_0$"),
+         answer("$\\beta_1$"), 
+         answer("$\\beta_2$", correct = TRUE, message = "spO is the difference in the intercepts"), 
+         answer("$\\beta_3$"),
+         allow_retry = TRUE,
+         random_answer_order = TRUE,
+         incorrect = "We want to know whether difference in the intercepts between the groups is not equal to 0"
+),
 question("Which of these statistical tests you've already learnt in this module would test whether our observed slope is significantly different to 0?",
                   answer("One sample t test", correct = TRUE, message = random_praise()),
                   answer("Analysis of Variance"),
@@ -764,10 +771,16 @@ question("Which of these statistical tests you've already learnt in this module 
                   allow_retry = TRUE,
                   random_answer_order = TRUE,
          incorrect = random_encouragement()
-)
+))
 ```
 
-`R` has already done this automatically as part of `lm` but this additional information is hidden from us.  
+> Statistical significance is not the same thing as biological significance. A relationship between two purely randomly generated numbers can be statstically significant but have no biological meaning!  
+Language matters when presenting results.
+
+`R` automatically tests the following hypotheses as part of `lm`:
+
+H0: The difference is equal to 0  
+H1: The difference is not equal to 0
 
 To see more information about our linear regression we need to ask to see the `summary` of our linear regression by placing our `lm` function within `summary(lm())`.
 
@@ -792,26 +805,103 @@ When you run `summary` you get a lot of information. Let's break it down from to
 * Coefficients are the estimated coefficients we saw earlier *plus* the standard error of these estimates, a t-value from a **one sample t-test** testing whether the estimated coefficient is significantly different to 0 and the P value of this t-test
 * Some additional information about the regression at the bottom which we can ignore for now
 
-In `summary()` we see `R` has done a series of t-tests on the estimated coefficients. As in a simple linear regression the null hypothesis tested on the intercept and slope for blue crabs is whether these estimates are different to 0. This null hypothesis is not very informative for the intercept - it is more informative about the slope because it tests our overall H0.
-
-We expect only one slope coefficient, `CW`, because our lines should have the same slope. Look at the P-value column of the slope (`CW`) in the `summary` above.
+Look at the information for $\beta_2$: the difference in the intercepts. 
 
 ```{r fixed-test}
-quiz(caption = "Answer the following questions:",
-  question_radio(
-    "Based on the t-test on the slope coefficient above, would you accept or reject the null hypothesis?",
-    answer("Accept"),
-    answer("Reject", correct = TRUE, message = "The P value is less than 0.05"),
-    allow_retry = TRUE,
-    incorrect = random_encouragement()
-  ),
-  question_radio(
-    "Which statement matches your conclusion?",
-    answer("There is no effect of shell width or colour on shell length"),
-    answer("There is an effect of shell width or colour on shell length", correct = TRUE, message = random_praise()),
-    allow_retry = TRUE,
-    incorrect = random_encouragement()
-  )
+quiz(caption = "Answer the following questions based on the R output:",
+     question_text("What is the t statistic on $\\beta_2$?",
+                   answer(paste(16.045), correct = TRUE),
+                   allow_retry = TRUE,
+                   incorrect = "Don't round your answer."),
+     question_radio(
+       "Would you accept or reject the null hypothesis of the one sample t-test on $\\beta_2$?",
+       answer("Accept"),
+       answer("Reject", correct = TRUE, message = "The P value is less than 0.05"),
+       allow_retry = TRUE,
+       incorrect = random_encouragement()
+     ),
+     question_radio(
+       "Which statement matches your conclusion about the one sample t-test?",
+       answer("The intercepts for both colour morph are the same"),
+       answer("The regression lines for each colour morphs have different intercepts", correct = TRUE, message = random_praise()),
+       allow_retry = TRUE,
+       incorrect = random_encouragement()
+     ),
+     question_radio(
+       "Thus, would you accept or reject our null hypothesis of the `crabs` dataset?",
+       answer("Accept"),
+       answer("Reject", correct = TRUE, message = "Since the regression lines are differrent, we have a graph that looks like Figure A above and there is an effect of colour on shell length that is independent of shell width.")
+     )
+)
+```
+
+***
+
+### The ANOVA table
+
+ANOVA tables show the Sum of Squares of the linear model. This is the variation partitioned to each model coefficient.
+
+> Variance of predictors (SS) is partitioned out from total SS in the order it is entered in to R
+
+We can look at the ANOVA table for an linear model with `anova(lm())`. We expect to see a row for each term in the model, plus the residual variation, $\varepsilon$. From all the Sum of Squares, we can calculate the total variation in the data (SSY) and calculate metrics like the coefficient of determination $R^2$.
+
+*Complete the code to get the ANOVA table of the `crabs` additive model*:
+```{r add-anova, exercise = TRUE}
+lm(CL ~ CW + sp, crabs)
+```
+```{r add-anova-hint}
+What is the function to get the ANOVA table and where does it go?
+```
+
+Let's go through each column in the R output:
+
+ 1. The first column are all the sources of variation in shell length: shell width and colour morph
+ 2. `Df` stands for Degrees of Freedom (df) - this is a measure of how much information R had to fit the model. For example, the degrees of freedom of $\varepsilon$ is the total number of observations - the number of terms - 1. Thus 1 + 1 + 197 + 1 = 200 observations in the dataset.
+ 3. `Sum Sq` are the Sum of Squares (SS), $\sum \varepsilon ^2$, from the ordinary least squares regression - the goal is to make these as small as possible
+ 4. `Mean Sq` are the Mean Sum of Squares (MS). Since SS depend on the complexity of the model as described by the degrees of freedom, it's useful to standardise SS by df. This is effectively the average variation (like the sum of the error divided by the number of observations).
+ 5. `F value` is the F statistic. Also called the F ratio because it is the ratio between the MS of each term and the MS of the residuals
+ 6. `Pr(>F)` is the P value of the F statistic. The asterisks help you categorise the P values. This is another way to test whether a predictor variable or term explains a significant amount of variation in the response variable.
+     * If significant, the model term explains a significant amount of variation
+     * If not significant, the model term does not explain a significant amount of variation
+
+There are three rows describing the variation in shell length: 
+
+ 1. Variation attributed to shell width
+ 2. Variation attributed to colour morph
+ 3. Variation not attributed to either shell width or colour morph - the left over variation
+ 
+The total amount of variation in the data (SSY) is the sum of all these rows in the column `Sum Sq`.
+
+```{r anova-quiz}
+quiz(caption = "Based on the ANOVA table for the additive model on the crabs data:",
+     question_text(
+       paste("What is the total amount of varation in the data?"),
+       answer(paste(9985.2+56.7+43.4), correct = TRUE, message = random_praise()),
+       allow_retry = TRUE,
+       incorrect = "SSY is the sum of all SS."
+     ),
+     question_text(
+       paste("What is the F statistic of shell length?"),
+       answer(paste(45308.97), correct = TRUE, message = random_praise()),
+       allow_retry = TRUE,
+       incorrect = random_encouragement()
+     ),
+     question("How are Mean Sum of Squares calculated?",
+              answer("MS = SS/df", correct = TRUE, message = random_praise()),
+              answer("MS = SS * df"),
+              answer("MS = df * SS"),
+              answer("MS = df/SS"),
+              allow_retry = TRUE,
+              random_answer_order = TRUE,
+              incorrect = random_encouragement()
+     ),
+     question_radio(
+       "Based on the F-tests in the ANOVA table, would you accept or reject our null hypothesis about crabs?",
+       answer("Accept"),
+       answer("Reject", correct = TRUE, message = "If H0 was supported, then the P value of sp would not be significant."),
+       allow_retry = TRUE,
+       incorrect = random_encouragement()
+     )
 )
 ```
 
@@ -861,379 +951,104 @@ People's obsession over getting significant P values has driven a rise of unethi
 
 ***
 
-### Practice: Evaluating predator-prey interaction responses with additive models
+Remember we had some unknown parameters in our predator-prey functional response model? The search rate, $a$, and the handling time, $T_h$. We need to find the value of those parameters from the slope and the intercept of our linearised Type II dataset - exactly like we did for the `crabs` example. We can use the `lm` function on our predator-prey model data to parameterise our model.
 
-Remember our predator-prey interaction response dataset has a **categorical predictor variable** for the foraging strategy of an individual: whether or not we used a lid with the jar. If we did a simple linear regression with one predictor variable, we would have ignored foraging strategy meaning we have **pooled** observations for foraging strategy.
+Before we can do our `lm` in `R` we need to import the data and linearise the data.
 
-By pooling foraging strategy, any variation in the data generated by foraging strategy is **unaccounted for**. Unaccounted variation may increase our chance of making a Type I or II error because foraging strategy **confounds** the effect of prey density. Phrased differently, the effect of prey density on numbers of prey captured is **masked** by the effect of foraging strategy. Thus, in this case, using a simple linear regression on a dataset with two or more predictor variables is not the best course of action for explaining as much variation in the data as we can.
+**Step 1: Importing data**  
+First, we need to import the data in to R. This should be familiar to you from before. 
 
-If we want to see whether using a lid has an effect on our predator-prey interaction response, we need to include the variable in our linear model *in addition to our original predictor variable, prey density*.
+> * Don't use the code chunks in this tutorial to import data, it won't work. Make your own script (File -> New Script, or Ctrl(Cmd) + Shift + N). 
+> * Don't write your code directly in the console either - you won't have a good record of what you've done (in case you wanted to use the code here to help you with your final report). 
+> * You can copy the code in this tutorial and **modify as appropriate for your data**. 
 
-To refresh your memory:  
-H0: There is no difference in the number of prey captured with prey density between jars with and without a lid      
-H1: There is a difference in the number of prey captured with prey density between jars with and without a lid
+The examples here use mathematical notation as the variable names here but the class dataset uses the names from Part 1. You should know which notation matches with what variable description.
 
-***
+The class dataset is provided as a comma separated values file (`.csv`). The function to import a csv file is `read.csv`:
 
-#### Characters or factors? Ordering categorical data
-
-The jar without a lid treatment is coded as `no_lid` and the jar with a lid treatment is coded as `yes_lid`. We can also think of jar with a lid as our experimental control and the jar without a lid as our experimental treatment. 
-
-As R shows you the **difference** between levels of a treatment and estimates these parameters based on **alphabetical ordering** of the levels, it may be helpful to think of the first level of a treatment and the first intercept and slope estimate as the control of your experiment. In other words, like a baseline you are comparing to since this is what R is doing when evaluating the one sample t test on parameter estimates.
-
-At the moment, foraging strategy is classified as a **character** vector (see `str(class_data)`) and, our "control" group (`yes_lid`) is alphabetically after `no_lid`, so we have the reverse scenario. Under the hood, R will convert the `foraging_strategy` variable from a character vector to a **factor** when fitting the linear regression. Both characters and factors are ways R stores categorical data, the difference being that factors have a specific order.
-
-We will not do anything about this for now - in this case, it doesn't change our conclusions. R will use `no_lid` as the baseline contrast for $\beta_0$ and $\beta_1$. We just need to keep the order in mind when parameterising.
-
-If you needed to change the order of the sub-groups you will need to change the variable to a factor (`as.factor`) and define the order of levels using `levels = c("level1", "level2")`. If we did this, then the slope coefficient refers to `yes_lid` and the final estimated coefficient are exactly the same, just reversed.
-
-***
-
-Time to use what you've learnt about additive models on your dataset! There's no need to reload and prepare your data again - you've already done it so it should be in `R`'s memory.
-
-> Answer the CA
-
-***
-
-## Part B: Interactive models
-
-> In multiplicative models, both the slope and the intercept are estimated for each level of the factor
-
-We can write the full model $Y = \beta_0 + \beta_1 X_1 + \beta_2 X_2 + \beta_3 X_1 X_2 + \varepsilon$ in the partial equation form as:
-
-$$ shell \space length = \beta_{0_{colour}} + \beta_{1_{colour}} shell \space width + \varepsilon$$
-Now, both $\beta_0$ and $\beta_1$ vary according to colour - We expect two lines with *different* intercepts and *different* slopes.
-
-```{r quiz3}
-question_text(
-  paste("How many partial regression lines are fitted to our crab dataset when we do a multiplicative model?"),
-  answer("2", correct = TRUE, message = "Two lines. One for orange crabs and one for blue crabs. Each with different slopes and intercepts"),
-  allow_retry = TRUE,
-  incorrect = "Incorrect. Think about what the mathematical linear model is saying and try again"
-)
 ```
+class_data <- read.csv("directory/folder/class_data.csv")
+```
+This imports the spreadsheet into an R object called `class_data` but you can use whatever name you want. You need to replace the file address within the quotation marks with where ever you saved your file on your computer. File housekeeping is important!
 
-***
+> Refer to the previous drop in sessions and practicals to revise these basic steps. Make sure your address is correct and don't forget .csv at the end.
 
-### Hypotheses of a multiplicative model
+**Step 2: Linearising data**
 
-Because both the slopes and intercepts vary, the way we write our hypothesis changes compared to the fixed model. Now we need to *describe the relationship between the two predictors on the outcome of the response variable*. In other words, the interaction between the predictors is the main relationship of interest.
+We need to make our data linear to fit a linear model to it! Let's first take the inverse of our response variable $H_a$ to get $\frac{1}{H_a}$
 
-```{r hypotheses, echo=FALSE}
-quiz(caption = "Can you work out the hypotheses?",
-     question("What is our null hypothesis?",
-              answer("The effect of shell width on shell length is not dependent on the colour of the crab", correct = TRUE, message = random_praise()),
-              answer("The effect of shell width on shell length is dependent on the colour of the crab"),
-              answer("There is a relationship between shell length and shell width"),
-              answer("There is no relationship between shell length and shell width"),
-              incorrect = "Incorrect. Think about what the wording implies",
+```
+class_data$Ha.1 <- 1/class_data$Ha
+```
+This line of code calculates the inverse of `Ha`, that is, 1 divided (`/`) by the number of prey captured (`Ha`), then saves that number to a new column in our dataset called `Ha.1`. Note the use of no spaces.
+
+Your column names can be whatever is meaningful to you. E.g. you don't *have* to call your new column `Ha.1` but recognise that you need to remember to modify your code accordingly.
+
+When manipulating data like this, it's best practice to add new columns to the data, rather than overwrite the original column. That way, if you make a mistake it's easier to see what went wrong and you won't have to start from the beginning!
+
+> `data$column` is the general structure to select a column in R. Make sure that your dataset name and your column names in your code matches your data name and columns.
+
+Now let's linearise the predictor variable (`H`) to get $\frac{1}{H\times T_{total}}$. 
+
+```
+class_data$HT.1 <- 1/(class_data$H * class_data$T_total)
+```
+Because we use a value of 1 minute for $T_{total}$, we are essentially dividing 1 by only prey density ($H$). Told you a value of 1 would make our maths easier!
+
+Since we have done some division, it's a good time to check for any undefined values in case we divided by 0. In `R` this is denoted as infinities (`Inf`). You can check how many infinities there are using `table(is.infinite(class_data$Ha.1))` - this will check whether each cell has undefined values (`is.infinite`) and give you logical `TRUE`/`FALSE` output, then tabulate the logic statements to count the number of `TRUE`/`FALSE` occurrences in the column `Ha.1`.
+
+We can replace the infinities with zeroes using `class_data$Ha.1 <- ifelse(class_data$Ha.1 == Inf, 0, class_data$Ha.1)`. You might recognise the if else statement and understand what's happening from previous lectures: **if** there is an undefined value, **then** replace that value with 0, **else** leave the value as is. We don't discard these observations because a value of 0 has biological meaning.  
+
+We now have all the correct columns to parameterise our functional response.
+
+ > **Remember how to problem solve and fix common coding problems from earlier**.
+
+**Step 3: Doing the additive linear regression**  
+If `lm` is the function to do a linear regression, `Ha.1` is the name of our response variable, `HT.1` is the name of the first predictor variable, `foraging_strategy` is the name of the second predictor variable, and the name of our dataset is `class_data`, you should be able to write the code for the linearised type II functional response (or replacing the respective components with the column name and dataset names you are using). 
+
+(Hint: It's exactly as we did for `crabs` - so you've done it already. Remember the order of the parameters - it matters to R)
+
+```{r error, echo = FALSE}
+quiz(caption = "Getting an error message?",
+     question("What gets recorded if the predator did not catch any prey?",
+              answer("Ha = 0", correct = TRUE),
+              answer("Nothing"),
+              answer("Ha > 0"),
+              answer("Ha < 0"),
               allow_retry = TRUE,
-              random_answer_order = TRUE
-     ),
-     question("What is our alternative hypothesis?",
-              answer("The effect of shell width on shell length is not dependent on the colour of the crab"),
-              answer("The effect of shell width on shell length is dependent on the colour of the crab", correct = TRUE, message = random_praise()),
-              answer("There is relationship between shell length and shell width"),
-              answer("There is no relationship between shell length and shell width"),
-              incorrect = "Incorrect. Think about what the wording implies",
+              random_answer_order = TRUE),
+     question("What happens in R when you divide by 0?",
+              answer("The value is undefined (Inf)", correct = TRUE),
+              answer("It works"),
+              answer("R crashes"),
+              answer("It is the wrong function"),
               allow_retry = TRUE,
-              random_answer_order = TRUE
-     )
-)
+              random_answer_order = TRUE),
+     question("What is the solution?",
+              answer("Change the values to 0", correct = TRUE),
+              answer("Delete the data"),
+              answer("Collect new data"),
+              answer("Use a different program"),
+              allow_retry = TRUE,
+              random_answer_order = TRUE,
+              incorrect = "We don't throw out valid data"))
 ```
 
-Another way of phrasing the interaction is "there is an interaction between shell width and colour on shell length" or "there is no effect of shell width or colour or their interaction on the length of crab shells".  
+**Construct an additive linear model for our data.**  
+Then, you should be able to identify the values for the slope and intercept and thus parameterise the linearised function in Step 4 - exactly as you did with the `crabs` dataset.
 
-Interactions imply that the effect of colour and shell width have **multiplicative** effects on shell length when considered together. This effect could be *antagonistic* or *synergistic.*
+> Linear regressions are always done on the entire data, not on averages. i.e. you wouldn't use the average of your replicates for each treatment for the underlying data. To fit a line to data, ordinary least squares regression depends on quantifying *variation* of observations around the mean (think back to how sampled data from a population is distributed). Averaging data removes that variation and thus there is less information for `R` to use (fewer degrees of freedom).
+
+We won't plot our regression lines just yet but you should be able to interpret the R output as a graph by looking at the coefficient values. We will construct a graph later!
+
+**Step 4: Parameterising $a$ and $T_h$**  
+The final step is to get our unknown values of $a$ and $T_h$ for each type of foraging strategy from our linear regression. Since we know our partial regression takes the form $Y  = \beta_{0_{foraging \space strategy}} + \beta_1 X_1$ with separate intercepts for each sub-group of `foraging_strategy` and the same slope for both groups, and we know the linearised type II model is $\frac{1}{H_a}=\ \frac{1}{a}\times\frac{1}{H\times T_{total}}+\frac{T_h}{T_{total}}$, then you should have all the information to parameterise the type II model and derive values for $a$ and $T_h$ from the linear regression output for both foraging strategies.
+
+> Answer the CA and submit your answers. That's the end of the assessment but not the end of the practical. Keep going.
 
 ***
 
-### Linear models with interactions in R
-
-> The structure of the `lm()` function for an interactive model is the same as the additive model but now the relationship between the predictor variables is denoted by `*` to indicate the interaction instead of `+`. 
-
-It's time to do the linear model.
-
-*Change this additive linear model function into a multiplicative linear regression. Press run.*
-```{r random, exercise = TRUE, exercise.lines = 5}
-lm(CL ~ CW + sp, crabs)
-```
-```{r random-hint}
-What's the difference in the R formula between an additive model and a multiplicative model?
-```
-```{r random-solution}
-lm(CL ~ CW * sp, crabs)
-```
-
-As expected, we see that there are **four** coefficients. From left to right they are $\beta_0$, $\beta_1$, $\beta_2$ and $\beta_3$ in the full model $Y = \beta_0 + \beta_1 X_1 + \beta_2 X_2 + \beta_3 X_1 X_2 + \varepsilon$. These represent the baseline intercept and slope, and the difference in the intercept and slope, respectively.
-
-```{r coef-quiz, echo=FALSE}
-question("Which coefficient is present in a full model that is not present in an additive model?",
-         answer("$\\beta_0$"),
-         answer("$\\beta_1$"), 
-         answer("$\\beta_2$"), 
-         answer("$\\beta_3$", correct = TRUE, message = random_praise()),
-         allow_retry = TRUE,
-         random_answer_order = TRUE,
-         incorrect = random_encouragement()
-)
-```
-
-***
-
-### Parameterising the model
-
-The process of parameterising the model is *exactly* the same as the additive model so you should be expecting what's coming up. 
-
-> In R `:` means "interaction" so `X1:X2` means this is the interaction between `X1` and `X2`
-
-```{r param-quiz, echo=FALSE}
-crabs_int
-question("What do the estimated coefficients for spO and CW:spO represent?",
-         answer("The difference in the slope or intercept for orange crabs compared to blue crabs", correct = TRUE, message = random_praise()),
-         answer("The difference in the slope or intercept for blue crabs compared to orange crabs", message = "Incorrect. Remember R is calculating blue crabs first before orange crabs because they are in alphabetical order"), 
-         answer("The estimated slope or intercept for orange crabs"), 
-         answer("The estimated slope or intercept for blue crabs"),
-         allow_retry = TRUE,
-         random_answer_order = TRUE,
-         incorrect = random_encouragement()
-)
-```
-
-In the additive model we only needed to manually calculate the intercept by adding $\beta_0$ and $\beta_2$. Now, we **also** need to manually calculate the slope by adding $\beta_1$ and $\beta_3$.  
-
-Let's start with the intercept.
-
-***
-
-#### The intercept
-
-Parameterising the intercept is exactly the same as the additive model - `(Intercept)` and `spO` mean the same thing as before - the estimated intercept for the baseline group ($\beta_0$) and the difference in the estimated intercept between blue and orange crabs ($\beta_2$). You've done this!
-
-```{r quiz-slopes}
-coef <- round(coef(crabs_int),2)
-print(coef)
-quiz(caption = "Use the coefficients above to answer the following questions:",
-     question_text(
-       paste("What is the intercept for blue crabs?"),
-       answer(paste(coef[1]), correct = TRUE, message = "(Intercept) refers to the intercept for blue crabs. Notice that it is a different value to the additive model."),
-       allow_retry = TRUE,
-       incorrect = random_encouragement()
-     ),
-      question_text(
-       paste("What is the intercept for orange crabs?"),
-       answer(paste(coef[1] + coef[3]), correct = TRUE, message = "Notice that it is a different value to the additive model."),
-       allow_retry = TRUE,
-       incorrect = "Remember what we did for parameterising the additive model"
-     )
-)
-```
-
-***
-
-#### The slope
-
-Parameterising the slope is the same process as the intercept.
-
-> The coefficient estimate `CW:spO` is the **difference in the value of the slope for orange crabs relative to the slope for blue crabs** `CW`. This is $\beta_3$.
-
-Remember: blue is alphabetically before orange so R calculates the variances for blue crabs first, then orange crabs.  
-
-We are given the slope for blue crabs already. We need to work out the slope for orange crabs by adding the coefficient estimates together.
-
-What we need:  
-Parametrised slope for orange crabs = Slope for blue crabs $\beta_1$ + difference in slope for orange crabs compared to blue crabs $\beta_3$  
-
-Information provided from the `R` output:  
-Slope for blue crabs = `r round(coef(crabs_int)[2],2)`  
-Difference in slope for orange crabs compared to blue crabs = `r round(coef(crabs_int)[4],2)`
-
-```{r orange-slope}
-question_text(
-  paste("Use the above information to calculate the slope for orange crabs"),
-  answer(paste(round(coef(crabs_int)[2],2) + round(coef(crabs_int)[4],2)), correct = TRUE, message = random_praise()),
-  allow_retry = TRUE,
-  incorrect = "Keep trying - you have all the information already"
-)
-```
-
-***
-
-### The final parameterised models
-
-Did you get the parameterised partial regression equations below?  
-
-*blue crab shell length* = `r round(coef(crabs_int)[1],2)` + `r round(coef(crabs_int)[2],2)` *shell width*  
-*orange crab shell length* = `r round(coef(crabs_int)[1] + coef(crabs_int)[3],2)` + `r round(coef(crabs_int)[2] + coef(crabs_int)[4],2)` *shell width*
-
-The good news is that was as hard as it gets in this module.  
-
- > Parameterising the equation is simply knowing what the coefficients represent and knowing which ones to add together
-
-***
-
-### Predicting new values
-
-Now to use the linear regression to predict the length of crab shells. This is exactly the same process as we've done already and is straightforward once you have your fully parameterised equations.
-
-```{r predict-random}
-ccoef <- round(coef(crabs_int),2) 
-ccoef_spO <- round(coef(crabs_int)[1] + coef(crabs_int)[3],2)
-ccoef_CWspO <- round(coef(crabs_int)[2] + coef(crabs_int)[4],2)
-
-blue <- sample(10:70,1)
-ans_blue <- round(ccoef[1] + (ccoef[2] * blue), 1)
-
-orange <- sample(10:70,1)
-ans_orange <- round(ccoef_spO + (ccoef_CWspO * orange), 1)
-
-###
-size <- sample(10:70,1)
-size_blue <- ccoef[1] + (ccoef[2] * size)
-size_orange <- ccoef_spO + (ccoef_CWspO * size)
-ans_size <- round(size_orange - size_blue, 1)
-###
-quiz(caption = "Test yourself using the equations above with coefficients to two decimal places",
-      question_text(
-        paste("What is the carapace length of a blue crab with a carapace width of ", blue, " mm? To 1 decimal place"),
-        answer(paste(ans_blue), correct = TRUE, message = random_praise()),
-        allow_retry = TRUE,
-        incorrect = random_encouragement()
-      ),
-      question_text(
-        paste("What is the carapace length of a orange crab with a carapace width of ", orange, " mm? To 1 decimal place"),
-        answer(paste(ans_orange), correct = TRUE, message = random_praise()),
-        allow_retry = TRUE,
-        incorrect = random_encouragement()
-      ),
-      question_text(
-        paste("How much longer is an orange crab than a blue crab with a shell width of ", size, " mm? To 1 decimal place"),
-        answer(paste(ans_size), correct = TRUE, message = random_praise()),
-        allow_retry = TRUE,
-        incorrect = random_encouragement()
-      )
-)
-```
-
-***
-
-### Evaluating hypotheses
-
-*Complete the code to get the `summary()` of our multiplicative model*
-```{r summary-random, exercise = TRUE, exercise.lines = 5}
-lm(CL ~ CW * sp, crabs)
-```
-
-> H0: There is no effect of shell width or colour or their interaction on shell length  
-> H1: There is an effect of shell width or colour or their interaction on shell length
-
-Like with the additive model, the hypothesis tests on the coefficient estimates for the slope are the important ones:
-
-* `CW` - This tests whether the slope of blue crabs is different to 0
-    * This gives an indication of whether shell width can predict shell length
-* `CW:spO` - This tests whether the slope for orange crabs is different to blue crabs
-    * This tests whether there is an interaction between colour and shell width
-    * If this is non-significant, then a multiplicative model is overly complex to describe our biological pattern (because it uses too many parameters) and perhaps an additive model is a better descriptor. Aiming to minimise the number of parameters used in a linear model is the statistical concept of **model parsimony**. 
-
-
-```{r random-test}
-quiz(caption = "Answer the following questions:",
-  question_radio(
-    "Based on the test on the slope coefficient above, would you accept or reject the null hypothesis?",
-    answer("Accept"),
-    answer("Reject", correct = TRUE, message = "The P value is less than 0.05"),
-    allow_retry = TRUE,
-    incorrect = random_encouragement()
-  ),
-  question_checkbox(
-    "What does the multiplicative linear regression tell you about the relationship between our variables? Select all that apply",
-    answer("There is no interaction between shell width or colour on shell length"),
-    answer("There is an interaction between shell width or colour on shell length", correct = TRUE),
-    answer("The relationship between shell length and shell width is different between blue and orange crabs", correct = TRUE),
-    answer("The effect of shell width on shell length is dependent on the colour of the crab", correct = TRUE),
-    allow_retry = TRUE,
-    incorrect = random_encouragement()
-  )
-)
-```
-
-***
-
-### The multiple regression ANOVA table
-
-We can look at the ANOVA table for an additive or interactive linear model with `anova(lm())`. If it's an interactive model the amount of variation in shell length attributed to the interaction between colour and shell width will also be displayed (sum of squares).
-
-Here is the ANOVA table for the interactive linear model:
-
-```{r anova-table-random}
-fixp <- function(x, dig=3){
-  x <- as.data.frame(x)
-  
-  if(substr(names(x)[ncol(x)],1,2) != "Pr")
-    warning("The name of the last column didn't start with Pr. This may indicate that p-values weren't in the last row, and thus, that this function is inappropriate.")
-  x[,ncol(x)] <- round(x[,ncol(x)], dig)
-  for(i in 1:nrow(x)){
-    x[i,ncol(x)] <- ifelse(x[i,ncol(x)] == 0,
-                           paste0("< 0.", paste0(rep(0,dig-1), collapse=""), "1"),
-                           x[i,ncol(x)])
-  }
-  x
-}
-knitr::kable(fixp(anova(crabs_int)), digits = 3)
-```
-
-This is what the above ANOVA table is showing:  
-
-|  Source of variation  | SS | df | MS | F | P |
-|:---------------------:|:--:|:--:|:--:|:-:|---|
-| Factor X1 | SSR of X1 | number of levels of X1 - 1 | |  |   |
-| Factor X2 | SSR of X2 | number of levels of X2 - 1 ||   |   |
-| Factor X1 x X2 | SSR of X1 & X2 | df of X1 x df of X2 ||   |   |
-| Within error | SSE | levels of X1 x levels of X2 X (number of observations - 1) | |   |   |
-|  Total error   | SSY | (levels of X1 x levels of X2 X number of observations) - 1 |    |   |   |
-
-> Variance of predictors (SS) is partitioned out from total SS in the order it is entered in to R
-
-We can also use the F test on the interaction in the ANOVA table to test the null hypothesis that the effect of shell width on shell length is not dependent of the colour of the crab.
-
-```{r quiz4}
-question_radio(
-  "Based on the F test on the interaction in the above ANOVA table, would you accept or reject the null hypothesis?",
-  answer("Reject", correct = TRUE, message = "The P value is less than 0.05. There is an interaction between colour and shell width, or the effect of shell width on shell length is dependent of the colour of the crab"),
-  answer("Accept"),
-  allow_retry = TRUE,
-  incorrect = random_encouragement()
-)
-```
-
-
-***
-
-### Practice: Evaluating predator-prey interaction responses with multiplicative models
-
-We'll rephrase our hypotheses slightly to make the effect of the interaction explicit:   
-
-H0: The relationship between prey captured and prey density is the same between jar type  
-H1: The relationship between prey captured and prey density is different between jar type
-
-Time to use what you've learnt about interactive linear models on your dataset and parameterise $Y = \beta_{0_{foraging \space strategy}} + \beta_{1_{foraging \space strategy}} X_1$!
-
-We should point out that the Type II model technically does not **deal with multiple variables** so using a multiplicative models are instead a statistical representation of the data, rather than a theoretic model.
-
-> Answer the CA. Save and submit your answers. That is the end of the CA.
-
-***
-
-### End of Part B
-
-That's multiple regression. You should now know how to find the values of $\beta$ in $Y = \beta_0 + \beta_1 X_1 + \beta_2 X_2 + \beta_3 X_1 X_2 + \varepsilon$.
-The parameterising process is similar to simple regression but the additional predictor variable means we need to put a bit more work in. Once you have your parameters, the rest is straightforward algebra. Well done!
-
-> Congratulations for making it here! Pat yourself on the back.
-
-***
-
-## Part C: Visualising data
+## Visualising data
 
 Visualising data is very important for understanding our data and for communicating our data to others. For example, in a written report.
 
@@ -1424,19 +1239,19 @@ You can also change the colour, type and width of the line as arguments within `
 
 #### A final graphing test
 
-Let's integrate everything we've leant today and plot the graph of our interactive linear model with the correct regression lines.
+Let's integrate everything we've leant today and plot the graph of our additive linear model with the correct regression lines.
 
 ```{r final-graph, fig.cap= "A complete graph for a scientific report"}
 plot(CL ~ CW, crabs, type = "n", xlab = "Width (mm)", ylab = "Length (mm)")
 points(CL ~ CW, crabs[crabs$sp == "B",], col = "blue", pch = 16)
 points(CL ~ CW, crabs[crabs$sp == "O",], col = "orange", pch = 16)
-abline(-0.364, 0.876, col = "blue")
-abline(0.077, 0.894, col = "orange")
+abline(-0.6606, 0.8848, col = "blue")
+abline((-0.6606 + 1.0910), 0.8848, col = "orange")
 ```
 
 Here are the coefficients for the interactive linear model:  
 ```{r int-coef}
-round(crabs_int$coefficients, 1) 
+round(crabs_add$coefficients, 1) 
 ```
 
 *Change the basic crabs graph to match the graph above - this graph is suitable for a scientific report*
@@ -1506,7 +1321,7 @@ You can show it to your demonstrator for feedback.
 
 ##
 
-That's the end of Part C. Take a break. Stand up. Shake your limbs. Breathe.
+That's the end. Take a break. Stand up. Shake your limbs. Breathe.
 
 ```{r break-quiz}
 question(
@@ -1519,7 +1334,213 @@ question(
 )
 ```
 
-> There are no more CA questions. Make sure you have submitted your answers
+> Make sure you have submitted your answers
+
+***
+## The $\beta_3$ coefficient
+
+The difference between an additive and interactive model is the inclusion of the coefficient $\beta_3$ to derive the full model:
+
+$$Y = \beta_0 + \beta_1 X_1 + \beta_2 X_2 + \beta_3 X_1 X_2 + \varepsilon$$
+
+The interpretation is **exactly** the same as the additive model. The coefficients $\beta_0$, $\beta_1$ and $\beta_2$ mean the same thing as before. 
+
+> $\beta_3$ is how $X_2$ affects the relationship between $Y$ and $X_1$
+
+Graphically, this is how $X_2$ affects the *slopes* of the lines.
+
+In an additive model we had two lines with the same slope. In multiplicative models, both the slope and the intercept are estimated for each level of the factor. The two lines have different slopes *and* intercepts.
+
+We won't fit an interactive model to our data but we will explore fitting interactive models with the `crabs` dataset because it's something we need to know how to do.
+
+We can write the full model in the partial equation form as:
+
+$$ shell \space length = \beta_{0_{colour}} + \beta_{1_{colour}} shell \space width + \varepsilon$$
+Now, both $\beta_0$ and $\beta_1$ vary according to colour, where $\beta_{1_{colour}} = \beta_1 + \beta_3$: the slope of the line and how the slope of the line changes with sub-groups of colour.
+
+```{r quiz3}
+question_text(
+  paste("How many partial regression lines are fitted to our crab dataset when we do a multiplicative model?"),
+  answer("2", correct = TRUE, message = "Two lines. One for orange crabs and one for blue crabs. Each with different slopes and intercepts"),
+  allow_retry = TRUE,
+  incorrect = "Incorrect. Think about what the mathematical linear model is saying and try again"
+)
+```
+
+***
+
+### Linear models with interactions in R
+
+> The structure of the `lm()` function for an interactive model is the same as the additive model but now the relationship between the predictor variables is denoted by `*` to indicate the interaction instead of `+`. 
+
+It's time to do the linear model.
+
+*Change this additive linear model function into a multiplicative linear regression. Press run.*
+```{r random, exercise = TRUE, exercise.lines = 5}
+lm(CL ~ CW + sp, crabs)
+```
+```{r random-hint}
+What's the difference in the R formula between an additive model and a multiplicative model?
+```
+```{r random-solution}
+lm(CL ~ CW * sp, crabs)
+```
+
+As expected, we see that there are **four** coefficients. From left to right they are $\beta_0$, $\beta_1$, $\beta_2$ and $\beta_3$ in the full model $Y = \beta_0 + \beta_1 X_1 + \beta_2 X_2 + \beta_3 X_1 X_2 + \varepsilon$. These represent the baseline intercept and slope, and the difference in the intercept and slope, respectively.
+
+***
+
+### Parameterising the model
+
+The process of parameterising the model is *exactly* the same as the additive model so you should be expecting what's coming up. 
+
+> In R `:` means "interaction" so `X1:X2` means this is the interaction between `X1` and `X2`
+
+```{r param-quiz, echo=FALSE}
+crabs_int
+question("What do the estimated coefficients for spO and CW:spO represent?",
+         answer("The difference in the slope or intercept for orange crabs compared to blue crabs", correct = TRUE, message = random_praise()),
+         answer("The difference in the slope or intercept for blue crabs compared to orange crabs", message = "Incorrect. Remember R is calculating blue crabs first before orange crabs because they are in alphabetical order"), 
+         answer("The estimated slope or intercept for orange crabs"), 
+         answer("The estimated slope or intercept for blue crabs"),
+         allow_retry = TRUE,
+         random_answer_order = TRUE,
+         incorrect = random_encouragement()
+)
+```
+
+In the additive model we only needed to manually calculate the intercept by adding $\beta_0$ and $\beta_2$. Now, we **also** need to manually calculate the slope by adding $\beta_1$ and $\beta_3$.  
+
+> The coefficient estimate `CW:spO` is the **difference in the value of the slope for orange crabs relative to the slope for blue crabs** `CW`. This is $\beta_3$.
+
+Remember: blue is alphabetically before orange so R calculates the variances for blue crabs first, then orange crabs.  
+
+We are given the slope for blue crabs already. We need to work out the slope for orange crabs by adding the coefficient estimates together.
+
+What we need:  
+Parametrised slope for orange crabs = Slope for blue crabs $\beta_1$ + difference in slope for orange crabs compared to blue crabs $\beta_3$  
+
+Information provided from the `R` output:  
+Slope for blue crabs = `r round(coef(crabs_int)[2],2)`  
+Difference in slope for orange crabs compared to blue crabs = `r round(coef(crabs_int)[4],2)`
+
+
+### Time to apply what you've learnt
+
+$$ shell \space length = \beta_{0_{colour}} + \beta_{1_{colour}} shell \space width + \varepsilon$$
+
+**Write down the parameterised equation of the interactive regression lines for blue and orange crabs before progressing.**
+
+***
+
+### The final parameterised models
+
+Did you get the parameterised partial regression equations below?  
+
+*blue crab shell length* = `r round(coef(crabs_int)[1],2)` + `r round(coef(crabs_int)[2],2)` *shell width*  
+*orange crab shell length* = `r round(coef(crabs_int)[1] + coef(crabs_int)[3],2)` + `r round(coef(crabs_int)[2] + coef(crabs_int)[4],2)` *shell width*
+
+The good news is that was as hard as it gets in this module.  
+
+ > Parameterising the equation is simply knowing what the coefficients represent and knowing which ones to add together
+
+***
+
+### Evaluating hypotheses
+
+The `summary` of the linear model is the same as the additive model.
+
+*Complete the code to get the `summary()` of our multiplicative model*
+```{r summary-random, exercise = TRUE, exercise.lines = 5}
+lm(CL ~ CW * sp, crabs)
+```
+
+> H0: There is no effect of shell width or colour or their interaction on shell length  
+> H1: There is an effect of shell width or colour or their interaction on shell length
+
+Like with the additive model, the hypothesis tests on the coefficient estimates for the slope are the important ones:
+
+* `CW` - This tests whether the slope of blue crabs is different to 0
+    * This gives an indication of whether shell width can predict shell length
+* `CW:spO` - This tests whether the slope for orange crabs is different to blue crabs
+    * This tests whether there is an interaction between colour and shell width
+    * If this is non-significant, then a multiplicative model is overly complex to describe our biological pattern (because it uses too many parameters) and perhaps an additive model is a better descriptor. Aiming to minimise the number of parameters used in a linear model is the statistical concept of **model parsimony**. 
+
+
+```{r random-test}
+quiz(caption = "Answer the following questions:",
+  question_radio(
+    "Based on the test on the $\\beta_3$ coefficient above, would you accept or reject the null hypothesis?",
+    answer("Accept"),
+    answer("Reject", correct = TRUE, message = "The P value is less than 0.05"),
+    allow_retry = TRUE,
+    incorrect = random_encouragement()
+  ),
+  question_checkbox(
+    "What does the multiplicative linear regression tell you about the relationship between our variables? Select all that apply",
+    answer("There is no interaction between shell width or colour on shell length"),
+    answer("There is an interaction between shell width or colour on shell length", correct = TRUE),
+    answer("The relationship between shell length and shell width is different between blue and orange crabs", correct = TRUE),
+    answer("The effect of shell width on shell length is dependent on the colour of the crab", correct = TRUE),
+    allow_retry = TRUE,
+    incorrect = random_encouragement()
+  )
+)
+```
+
+***
+
+### The multiple regression ANOVA table
+
+Here is the ANOVA table for the interactive linear model:
+
+```{r anova-table-random}
+fixp <- function(x, dig=3){
+  x <- as.data.frame(x)
+  
+  if(substr(names(x)[ncol(x)],1,2) != "Pr")
+    warning("The name of the last column didn't start with Pr. This may indicate that p-values weren't in the last row, and thus, that this function is inappropriate.")
+  x[,ncol(x)] <- round(x[,ncol(x)], dig)
+  for(i in 1:nrow(x)){
+    x[i,ncol(x)] <- ifelse(x[i,ncol(x)] == 0,
+                           paste0("< 0.", paste0(rep(0,dig-1), collapse=""), "1"),
+                           x[i,ncol(x)])
+  }
+  x
+}
+knitr::kable(fixp(anova(crabs_int)), digits = 3)
+```
+
+This is what the above ANOVA table is showing:  
+
+|  Source of variation  | SS | df | MS | F | P |
+|:---------------------:|:--:|:--:|:--:|:-:|---|
+| Factor X1 | SSR of X1 | number of levels of X1 - 1 | |  |   |
+| Factor X2 | SSR of X2 | number of levels of X2 - 1 ||   |   |
+| Factor X1 x X2 | SSR of X1 & X2 | df of X1 x df of X2 ||   |   |
+| Within error | SSE | levels of X1 x levels of X2 X (number of observations - 1) | |   |   |
+|  Total error   | SSY | (levels of X1 x levels of X2 X number of observations) - 1 |    |   |   |
+
+We can also use the F test on the interaction in the ANOVA table to test the null hypothesis that the effect of shell width on shell length is not dependent of the colour of the crab.
+
+```{r quiz4}
+question_radio(
+  "Based on the F test on the interaction in the above ANOVA table, would you accept or reject the null hypothesis?",
+  answer("Reject", correct = TRUE, message = "The P value is less than 0.05. There is an interaction between colour and shell width, or the effect of shell width on shell length is dependent of the colour of the crab"),
+  answer("Accept"),
+  allow_retry = TRUE,
+  incorrect = random_encouragement()
+)
+```
+
+***
+
+### Graphing
+
+**Use your knowledge to make a graph for the `crabs` dataset showing the regression lines of the interactive linear regression**
+```{r multi-graph, exercise = TRUE, exercise.lines = 10}
+
+```
 
 ***
 
@@ -1529,11 +1550,23 @@ That's the end of the prac. We've covered a lot of practical skills that you can
 
 Here's a summary of what we've done:
 
- * Run a linear regression in R with biological data - simple regression, additive regression & interactive regression
- * Parameterise a linear regression from R output 
- * Use linear models to predict new values
+ * Parametrise a linear regression in R with biological data
+ * Made predictions with linear models
  * Interpret linear regression output to test hypotheses
- * Make a graph in R with appropriate labels
- * Write a figure caption
+ * Write a results paragraph
+ * Make a graph in R with appropriate labels and caption
  
 Over the course of the last practical and this one, we have done a crash course in the Scientific Method from formulating a hypothesis from a biological system (infection or predator/prey response) to evaluating hypotheses and every thing in between.
+
+One last summary quiz:
+```{r coef-quiz, echo=FALSE}
+question("Which coefficient is present in a full model that is not present in an additive model?",
+         answer("$\\beta_0$"),
+         answer("$\\beta_1$"), 
+         answer("$\\beta_2$"), 
+         answer("$\\beta_3$", correct = TRUE, message = random_praise()),
+         allow_retry = TRUE,
+         random_answer_order = TRUE,
+         incorrect = random_encouragement()
+)
+```
