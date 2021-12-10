@@ -147,7 +147,7 @@ The CA aims to assess your understanding of the concepts in this practical and y
 
 ***
 
-## How to problem solv
+## How to problem solve
 ### Some general advice for programming and learning
 
 We don't expect you to be expert programmers but we *do* expect you to be able and willing to figure things out yourself (problem solving).
@@ -950,7 +950,7 @@ Interactions imply that the effect of colour and shell width have **multiplicati
 
 ### Linear models with interactions in R
 
-> The sturcture of the `lm()` function for an interactive model is the same as the additive model but now the relationship between the predictor variables is denoted by `*` to indicate the interaction instead of `+`. 
+> The structure of the `lm()` function for an interactive model is the same as the additive model but now the relationship between the predictor variables is denoted by `*` to indicate the interaction instead of `+`. 
 
 It's time to do the linear model.
 
