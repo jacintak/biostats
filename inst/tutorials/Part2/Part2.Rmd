@@ -811,8 +811,8 @@ Look at the information for $\beta_2$: the difference in the intercepts.
 quiz(caption = "Answer the following questions based on the R output:",
      question_text("What is the t statistic on $\\beta_2$?",
                    answer(paste(16.045), correct = TRUE),
-     allow_retry = TRUE,
-     incorrect = "Don't round your answer."),
+                   allow_retry = TRUE,
+                   incorrect = "Don't round your answer."),
      question_radio(
        "Would you accept or reject the null hypothesis of the one sample t-test on $\\beta_2$?",
        answer("Accept"),
@@ -831,6 +831,7 @@ quiz(caption = "Answer the following questions based on the R output:",
        "Thus, would you accept or reject our null hypothesis of the `crabs` dataset?",
        answer("Accept"),
        answer("Reject", correct = TRUE, message = "Since the regression lines are differrent, we have a graph that looks like Figure A above and there is an effect of colour on shell length that is independent of shell width.")
+     )
 )
 ```
 
@@ -1412,7 +1413,6 @@ question("What do the estimated coefficients for spO and CW:spO represent?",
 
 In the additive model we only needed to manually calculate the intercept by adding $\beta_0$ and $\beta_2$. Now, we **also** need to manually calculate the slope by adding $\beta_1$ and $\beta_3$.  
 
-
 > The coefficient estimate `CW:spO` is the **difference in the value of the slope for orange crabs relative to the slope for blue crabs** `CW`. This is $\beta_3$.
 
 Remember: blue is alphabetically before orange so R calculates the variances for blue crabs first, then orange crabs.  
@@ -1426,14 +1426,12 @@ Information provided from the `R` output:
 Slope for blue crabs = `r round(coef(crabs_int)[2],2)`  
 Difference in slope for orange crabs compared to blue crabs = `r round(coef(crabs_int)[4],2)`
 
-```{r orange-slope}
-question_text(
-  paste("Use the above information to calculate the slope for orange crabs"),
-  answer(paste(round(coef(crabs_int)[2],2) + round(coef(crabs_int)[4],2)), correct = TRUE, message = random_praise()),
-  allow_retry = TRUE,
-  incorrect = "Keep trying - you have all the information already"
-)
-```
+
+### Time to apply what you've learnt
+
+$$ shell \space length = \beta_{0_{colour}} + \beta_{1_{colour}} shell \space width + \varepsilon$$
+
+**Write down the parameterised equation of the interactive regression lines for blue and orange crabs before progressing.**
 
 ***
 
@@ -1474,7 +1472,7 @@ Like with the additive model, the hypothesis tests on the coefficient estimates 
 ```{r random-test}
 quiz(caption = "Answer the following questions:",
   question_radio(
-    "Based on the test on the slope coefficient above, would you accept or reject the null hypothesis?",
+    "Based on the test on the $\\beta_3$ coefficient above, would you accept or reject the null hypothesis?",
     answer("Accept"),
     answer("Reject", correct = TRUE, message = "The P value is less than 0.05"),
     allow_retry = TRUE,
@@ -1535,6 +1533,15 @@ question_radio(
   allow_retry = TRUE,
   incorrect = random_encouragement()
 )
+```
+
+***
+
+### Graphing
+
+**Use your knowledge to make a graph for the `crabs` dataset showing the regression lines of the interactive linear regression**
+```{r multi-graph, exercise = TRUE, exercise.lines = 10}
+
 ```
 
 ***
