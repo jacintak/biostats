@@ -1,7 +1,7 @@
 Package: StatsModels
 Type: Package
 Title: BYU22S01 Statistical Modelling Practical
-Version: 3.1.1
+Version: 3.2.0
 Author: Jacinta Kong
 Maintainer: Jacinta Kong <kongj@tcd.ie>
 Description: learnr practical on statistical modelling using functional responses for BYU22S01 Statistics and Computation,

@@ -132,13 +132,17 @@ We use models to:
  
 If our model doesn't match what we observe from empirical data, that's OK! We can refine our model (our hypothesis) to better match what we observe. **That's the Scientific Method.** 
 
-<div class="alert alert-info">
-**Remember**, doing science isn't about "proving" a hypothesis or being "right" - it's when we "fail" or are wrong that progress happens.
-</div> 
+<div class="panel panel-primary">
+  <div class="panel-heading">
+<h3 class="panel-title">Remember!</h3>
+  </div>
+  <div class="panel-body">
+Science isn't about "proving" a hypothesis or being "right" - it's when we "fail" or are wrong that progress happens. </div>
+</div>
 
 We will see in the lectures that there is a trade-off between precision, generality and realism of models - there is no, one "perfect" model.
 
-> To paraphrase a quote: all models are wrong but some can be useful
+> To paraphrase: all models are wrong but some can be useful
 
 ***
 
@@ -323,9 +327,12 @@ question(
 
 If you thought our model is too simplistic, you are probably right *but* in modelling philosophy some degree of simplification or abstraction is perfectly acceptable because *models are only representations of reality*, they are not meant to copy the real world right down to the minutiae.
 
-<div class="alert alert-success">
-Thus, one application of models is to consider them as hypotheses of biological systems - what we think are important components of the system.
-</div>  
+<div class="panel panel-primary">
+<div class="panel-heading">
+<div class="panel-title">
+Thus, one application of models is to consider them as hypotheses of biological systems - what we think are important components of the system. </div>
+</div>
+</div>
  
 ***
 
@@ -536,16 +543,24 @@ H1: There is a positive linear relationship between prey density and number of p
 
 Notice how the hypotheses is worded and the language used.
 
-<div class="alert alert-success">
-**The wording of your hypothesis will dictate the best experimental design and statistical analysis to test your hypothesis!** Choose wisely.
-</div> 
+<div class="panel panel-warning">
+  <div class="panel-heading">
+<h3 class="panel-title">Choose wisely!</h3>
+  </div>
+  <div class="panel-body">
+The wording of your hypothesis will dictate the best experimental design and statistical analysis to test your hypothesis! </div>
+</div>
 
 The alternative hypothesis describes the direction but not the strength of the relationship. If you are less certain about your predicted outcomes you could be less specific if you wanted to (e.g. not describing the direction of the relationship if the expected relationship could also be negative). 
 
 There are no limits to how many hypotheses you have. You could have three hypotheses, a null and two alternatives - one for a positive relationship and one for a negative relationship. 
 
-<div class="alert alert-danger">
-**Remember, as scientists we never try to "prove" hypotheses. We aim to gather evidence and see whether the evidence supports our hypothesis.**
+<div class="panel panel-primary">
+  <div class="panel-heading">
+<h3 class="panel-title">Remember!</h3>
+  </div>
+  <div class="panel-body">
+As scientists we never try to "prove" hypotheses. We aim to gather evidence and see whether the evidence supports our hypothesis. </div>
 </div>
 
 It's good to be specific in your hypothesis if it is plausible in your biological system. For example, if we are testing whether a vaccine induces an immune response, the resulting immune response can only be positive - a negative immune response (i.e. becoming more susceptible to disease) is implausible (and unfortunate).
@@ -616,9 +631,13 @@ Although these constant parameters are unknown to us, we want to know their valu
 
 $$H_a=\ \frac{a\times H\times T_{total}}{1+a\times H\times T_h}$$
 
-<div class="alert alert-danger">
-**Remember**, keep it simple! A more complex statistical analysis cannot fix issues arising from a badly designed experiment.
-</div> 
+<div class="panel panel-danger">
+  <div class="panel-heading">
+<h3 class="panel-title">Remember!</h3>
+  </div>
+  <div class="panel-body">
+Keep it simple! A more complex statistical analysis cannot fix issues arising from a badly designed experiment. </div>
+</div>
 
 ***
 
@@ -679,10 +698,13 @@ In other words, we generally want to know if the change in foraging strategy *im
 
 As a another example, a simplistic hypothesis is not an informative or helpful conclusion if we were testing a new vaccine and the vaccine made people *more susceptible* to disease yet we would need to accept our alternative hypothesis.
 
-<div class="alert alert-info">
-**Remember**, the alternative hypothesis is the outcome we would expect if there was an effect of the predictor on the response variable. The null hypothesis is what we expect when there is no effect (hence, null). Most of the time we want there to be an effect (what we hope is true about a biological system).
-</div> 
-
+<div class="panel panel-primary">
+  <div class="panel-heading">
+<h3 class="panel-title">Remember!</h3>
+  </div>
+  <div class="panel-body">
+The alternative hypothesis is the outcome we would expect if there was an effect of the predictor on the response variable. The null hypothesis is what we expect when there is no effect (hence, null). Most of the time we want there to be an effect (what we hope is true about a biological system). </div>
+</div>
 
 ```{r genotype-quiz}
 quiz(
@@ -728,9 +750,12 @@ quiz(question_text(
 
 That's the end of Part B. We have designed an experiment and identified our hypotheses.  
 
-<div class="alert alert-success">
-Take a break. Check in with your demonstrator. Stand up. Shake your limbs. Breathe.
-</div> 
+<div class="panel panel-success">
+<div class="panel-heading">
+<div class="panel-title">
+Take a break. Check in with your demonstrator. Stand up. Shake your limbs. Breathe. </div>
+</div>
+</div>
 
 ```{r break-quiz2}
 question_radio(
@@ -867,7 +892,13 @@ These headers are pre-filled for you in the correct order on the template.
 
 The order of columns has to exactly match the order in the table. Your exact column header names can be different as long as they follow the criteria above (lowercase, no spaces, informative). 
 
-> Remember to save your data regularly.
+<div class="panel panel-primary">
+  <div class="panel-heading">
+<h3 class="panel-title">Remember!</h3>
+  </div>
+  <div class="panel-body">
+Save your data regularly! </div>
+</div>
 
 ```{r radio1, echo = FALSE}
 quiz(
@@ -912,10 +943,15 @@ question_checkbox(
 )
 ```
 
-<div class="alert alert-danger">
-**Danger!** Information that isn't structured properly will have errors when imported into R. This is why we must always check that data imported properly every time we load data. This data will need to be **cleaned** before it can be analysed. See next section.
-</div> 
+<div class="panel panel-danger">
+  <div class="panel-heading">
+<h3 class="panel-title">Danger!</h3>
+  </div>
+  <div class="panel-body">
+Information that isn't structured properly will have errors when imported into R. This is why we must always check that data imported properly every time we load data. 
 
+This data will need to be **cleaned** before it can be analysed. See next section. So putting in the effort and attention to detail now will save future you a lot of avoidable stress! </div>
+</div>
 
 ***
 
@@ -998,11 +1034,14 @@ Use the following check list to make sure you have done everything you need for 
 * Uploaded your dataset to Blackboard?
 * Done the CA questions?
 
-<div class="alert alert-success">
+<div class="panel panel-success">
+<div class="panel-heading">
+<div class="panel-title">
 That's a wrap! Well done for making it to the end. Check in with your demonstrator.  
 
-Take a break. Stand up. Dance. Breathe
-</div> 
+Take a break. Stand up. Dance. Breathe. </div>
+</div>
+</div>
 
 One last recap quiz:
 

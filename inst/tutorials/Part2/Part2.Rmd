@@ -21,6 +21,7 @@ crabs_int <- lm(CL ~ CW * sp, crabs)
 palette(c("#0072B2", "#D55E00"))
 tutorial_options(exercise.completion = FALSE)
 test_data <- data.frame(concentration = sample(size = 10, 1:20))
+ans_conc <- median(test_data$concentration)
 ```
 
 ## How to use this worksheet
@@ -97,10 +98,13 @@ Although you can come back to this tutorial at any time, I recommend taking your
 Click **Next Topic** to progress to the practical instructions.  
 You can navigate between topics using the buttons or the menu.  
 
-<div class="alert alert-danger">
-  <strong>Warning!</strong> You must complete all the exercises to move ahead. Do not skip exercises - This is the "practice" of the practical.
+<div class="panel panel-danger">
+<div class="panel-heading">
+<div class="panel-title">
+You must complete all the exercises to move ahead.  
+Do not skip exercises - This is the "practice" of the practical. </div>
 </div>
-
+</div>
 
 ***
 
@@ -118,19 +122,32 @@ In this practical we aim to take a practical and hands-on approach to learning s
  * Know what to include in a results paragraph
  * Know how to make a graph in R with appropriate labels and caption
 
-> We have covered all of these concepts in the lectures or previous practicals. This prac will reinforce and revise these concepts and allow you to practise them under supervision from the demonstrators.
+<div class="panel panel-primary">
+<div class="panel-heading">
+<div class="panel-title">
+We have covered all of these concepts in the lectures or previous practicals. This prac will reinforce and revise these concepts and allow you to practise them under supervision from the demonstrators. </div>
+</div>
+</div> 
 
 There are two goals here:
 
 1. A theory section where we will recap the lecture content and go over the practicalities of linear regression in R step by step using an example dataset. There are code chunks and revision questions. You can retry questions you get wrong - learning is about the process not the marks!
 2. A practice section where you will apply your new skills to the data you collected last practical. This is required to answer the CA. You will need access to the class dataset from the previous practical so save it somewhere you know.  
 
-> Don't forget to answer the CA questions in a separate link. There are prompts that will tell you when to answer the questions.
+<div class="panel panel-primary">
+<div class="panel-heading">
+<div class="panel-title">
+Don't forget to answer the CA questions in a separate link. There are prompts that will tell you when to answer the questions. </div>
+</div>
+</div> 
 
 The CA aims to assess your understanding of the concepts in this practical and your ability to apply the concepts in practice to new scenarios. The demonstrators aren't allowed to help you answer the CA directly but they can help you understand the theory parts so that you can answer the CA. 
 
-<div class="alert alert-danger">
-  <strong>Warning!</strong> I do not recommend skipping the theory before attempting the CA - the theory section will go through all the steps you need for analysing your data.
+<div class="panel panel-danger">
+<div class="panel-heading">
+<div class="panel-title">
+I do not recommend skipping the theory before attempting the CA - the theory section will go through all the steps you need for analysing your data. </div>
+</div>
 </div>
 
 ***
@@ -156,15 +173,24 @@ If your code is not working take a moment to *breathe*. Then check for common, m
 
 These reading/typing mistakes are the majority of encountered errors. They are not a big deal and are easily corrected.
  
- > You can **and should** easily fix the above mistakes yourself!
+<div class="panel panel-primary">
+<div class="panel-heading">
+<div class="panel-title">
+You can **and should** easily fix the above mistakes yourself! </div>
+</div>
+</div> 
+
+<div class="panel panel-danger">
+  <div class="panel-heading">
+<h3 class="panel-title">Danger!</h3>
+  </div>
+  <div class="panel-body">
+Do not take the code here for granted. One does not simply copy code from somewhere and blindly expect it to work.
 
 The point of learning to code is to not treat statistical software like a black box where you cannot see inside and you don't know where the numbers came from.
 
-<div class="alert alert-danger">
-  <strong>Danger!</strong> Do not take the code here for granted. One does not simply copy code from somewhere and blindly expect it to work out of the box.
+You should aim to understand all the code here and describe what it's doing. </div>
 </div>
-
-Programming is like learning the grammar and syntax of another language and writing a script is like writing a recipe for a computer. Each line of code has a purpose and meaning. Computers only do what they are told, the rest is up to you.
 
 *** 
 
@@ -174,33 +200,48 @@ You need a clear idea of what you want to achieve in programming. Articulate in 
 
 If there's an error message, read it. Error messages are the computer telling you what's wrong. Try googling the entire error message to see what other people have said. The entire error message is necessary, not just the last bit. 
 
-> There's no shame in googling everying - that's what we do too and part of learning to work independently. aka "Let me google that for you"
-
-Take the time to *synthesise* and *integrate* information so that you can apply it to *new scenarios* - that is the learning objective of your entire university degree. And what we will be doing here.
-
-Properly read and digest the material you are given because almost all your assessments will test your reading comprehension and attention to detail. And there's nothing in this practical that wasn't covered earlier in semester and in the lectures.
-
-Don't skim read. Take notes. Follow the written instructions.
-
-<div class="alert alert-success">
-Learning is about the process and about your growth, not the end result or your grade.
+<div class="panel panel-primary">
+  <div class="panel-heading">
+<h3 class="panel-title">Let me google that for you</h3>
+  </div>
+  <div class="panel-body">
+There's no shame in googling everything - we do too and finding things out yourself part of learning to work independently or troubleshooting. </div>
 </div>
 
 One of the hard things about troubleshooting someone else's programming is that it's not clear what the problem is. When describing your problem, be comprehensive & give context. Show the entire error message, not just parts of it. Trace your steps leading up to it. 
 
 The more information you provide, the more information and context people have to help you. That's why we might ask you to provide more information or ask further questions to troubleshoot. The first things we would check are the steps above (minor human errors), so if you've done those, then say what you've already checked and what causes you've ruled out. That gives us a starting point to assist you further.
 
-Programming is **trial and error**. You shouldn't expect to get it on the first try. And that's OK - it's part of the process.
+<div class="panel panel-success">
+  <div class="panel-heading">
+<h3 class="panel-title">Read carefully!</h3>
+  </div>
+  <div class="panel-body">
+Take the time to *synthesise* and *integrate* information so that you can apply it to *new scenarios* - that is the learning objective of your entire university degree. For example, what we do here builds upon everything you've done in this module!
+
+Properly read and digest the material you are given because almost all your modules will test your reading comprehension and attention to detail. And there's nothing in this practical that wasn't covered earlier in semester and in the lectures.
+
+Don't skim read. Take notes. Follow the written instructions. 
+
+Learning is about the process and about your growth, not the end result or your grade. 
+
+Try to enjoy the moment. Don't overthink it. </div>
+</div>
+
+Programming is **trial and error**. You shouldn't expect to get it on the first try. And that's OK - it's part of the process. 
 
 ###
 
-<div class="alert alert-info">
-<strong>Info!</strong>  
+<div class="panel panel-primary">
+  <div class="panel-heading">
+<h3 class="panel-title">Tips!</h3>
+  </div>
+  <div class="panel-body">
 Take your time, work through the material in order and practice the basics before you progress to harder stuff. Refer to your lecture notes or previous practicals and integrate the information.  
 
-Unless you are 100% confident with data handling and doing multiple regressions in R, do not skip ahead to answer your assessment on the fly.
+Unless you are 100% confident with data handling and doing multiple regressions in R, do not skip ahead to answer your assessment on the fly. 
 
-Everything we do here is building on and applying what we've previously covered. There's nothing new here.
+Everything we do here is building on and applying what we've previously covered. This practical is meant to be challenging so don't stress yourself by attempting the assessment unprepared. </div>
 </div>
 
 Let's try a problem solving exercise:  
@@ -226,7 +267,6 @@ question(
 ```
 
 ```{r reading-ans}
-ans_conc <- median(test_data$concentration)
 question_text("What is the median of concentration?",
   answer(paste(ans_conc), correct = TRUE, message = random_praise()),
   allow_retry = TRUE,
@@ -402,11 +442,13 @@ If we want to see whether using a lid has an effect on our predator-prey interac
 
 ***
 
-#### Additive or interactive?
+### Hypotheses
 
  > The wording of the hypothesis will dictate the appropriate linear model and our expectations about the graph.
 
-Recall, we expect an initial *positive* relationship between prey density and the number of prey captured - the number of prey captured will increase with prey density until there are too many prey for a predator to handle and the number of prey captured will plateau. We can see this relationship in the previous graphs. So this needs to be in our hypothesis but we need to decide the nature of the relationship between the predictors.
+Recall, we expect an initial *positive* relationship between prey density and the number of prey captured - the number of prey captured will increase with prey density until there are too many prey for a predator to handle and the number of prey captured will plateau. 
+
+We also expect this positive relationship when we take the inverse of our variables - the linearised data. So "positive" needs to be in our hypothesis but we need to decide the nature of the relationship between the two predictors.
 
 ```{r interac}
 quiz(
@@ -427,13 +469,9 @@ quiz(
 )
 ```
 
-We could fit an interactive model to our data if we were more interested in finding a mathematical description of our data that **explains the most variation in prey captured using the simplest model possible** (model parsimony). So using a multiplicative models are instead a statistical representation of the data, rather than a theoretic model. 
+We could fit an interactive model to our data if we were more interested in finding a mathematical description of our data that **explains the most variation in prey captured using the simplest model possible** (model parsimony). So using multiplicative models are instead a statistical representation of the data, rather than a theoretic model. 
 
 Both are types of statistical models and valid in their own right but in this case an interaction doesn't quite match the goals of constructing a theoretic model of predator-prey interactions from fundamental observations.
-
-***
-
-### Hypotheses
 
 Foraging strategy determines the amount of prey captured but does not affect the number of prey present. And prey density determines the number of prey captured but does not influence the foraging strategy. This is based on our assumptions about the predator-prey interaction - the predator does not change foraging behaviour.
 
@@ -466,8 +504,12 @@ The code we use here can be applied to any dataset. You can try it with any biol
  
 We can ask the question "Does the relationship between shell length and width differ between colour morphs?". We can also phrase this as "Does the relationship between shell length and width depend on the colour of the crab?". Compared to a simple linear regression with one predictor variable (e.g. `CW`), this is a more complex question needing a more complex experimental design (two predictor variables) and thus a more complex statistical analysis.
 
-<div class="alert alert-success">
-Multiple regression allows us to ask "Does including information about our predictor variables improve our ability to detect/understand trends in our response variable?"
+<div class="panel panel-primary">
+  <div class="panel-heading">
+<h3 class="panel-title">Info!</h3>
+  </div>
+  <div class="panel-body">
+Multiple regression allows us to ask "Does including information about our predictor variables improve our ability to detect/understand trends in our response variable?" </div>
 </div>
 
 "Bigger" crabs are expected to be larger in width and length so we expect a positive relationship between these variables. Whether this relationship is *also* dependent on the colour of the crab is what we can find out! We don't expect colour morphs to influence carapace width, i.e. crabs don't change colour as they get bigger, so an additive model fits with our understanding of the biological system.
@@ -521,7 +563,7 @@ Now the intercept parameter ($\beta_{0_{colour}}$) specifies that it is dependen
 
 ### Characters or factors?
  
- > Remember in R, categorical data is are called **factors** and the sub-groups are called **levels**
+ > Categorical data is are called **factors** and the sub-groups are called **levels** in R
 
 In R, both the order of the predictor variables and the order of the sub-groups of a categorical variable are relevant because this is the order R partitions variation in the response variable to the predictor variables.
 
@@ -643,14 +685,19 @@ question("What is the paramterised model for orange crabs? To 1 decimal place",
 )
 ```
 
-<div class="alert alert-info">
-<strong>Info!</strong>  
-R shows the difference between parameter estimates so you need to calculate the correct values. They are the partial regression coefficients that show the change in the response variable with one predictor variable <strong>while holding all other predictor variables constant.</strong> 
-</div>
+<div class="panel panel-primary">
+  <div class="panel-heading">
+<h3 class="panel-title">Info!</h3>
+  </div>
+  <div class="panel-body">
+R shows the difference between parameter estimates so you need to calculate the correct values. They are the partial regression coefficients that show the change in the response variable with one predictor variable **while holding all other predictor variables constant**. 
 
 For example, using the mean value of orange crabs to estimate coefficients of blue crabs and vice versa, because the mean value of each of these groups represents the null hypothesis. 
 
-In other words, if we were to accept the null hypothesis that there is no relationship between shell width and colour on shell length, then the slope of the line should be 0 and the intercept of the line should be the sample mean of shell length (ignoring shell width and colours).
+In other words, if we were to accept the null hypothesis that there is no relationship between shell width and colour on shell length, then the slope of the line should be 0 and the intercept of the line should be the sample mean of shell length (ignoring shell width and colours).</div>
+</div>
+
+
 
 ***
 
@@ -737,7 +784,8 @@ Here are the hypotheses:
 H0: Carapace length increases with carapace width but does not differ between colour morphs  
 H1: Carapace length increases with carapace width and differs between colour morphs but the rate of size increases does not vary between colours
 
-We can test these hypotheses using the linear regression. It's important to understand these hypotheses graphically. Here are the two outcomes:
+We can test these hypotheses using the linear regression. It's important to understand these hypotheses graphically. Look at the following graphs:  
+
 ```{r hypo, fig.height=5}
 prey <- seq(0, 0.25, 0.01)
 type2 <- seq(0, 1, length.out = length(prey))
@@ -761,7 +809,7 @@ plot(rep(mean(type2), length(type2)) ~ prey, type = 'l', lwd = 4, ylab = "Respon
 
 ```{r lines}
 question_radio(
-  "Which of the graph above represents the null hypothesis?",
+  "Which of the graphs above represents the null hypothesis about crab size?",
   answer("Figure A"),
   answer("Figure B", correct = TRUE, message = "There is no effect of the second predictor variable so the regression lines for each sub-group are the same - this is effectively a simple linear regression!"),
   answer("Figure C"),
@@ -774,6 +822,8 @@ question_radio(
 Notice how the slopes of all the lines are the same. The difference between the coloured lines in Figure A is that the lines have different intercepts. We expected this based on the additive model.
 
 Unlike a simple regression, our hypotheses are not concerned about whether the slope is different to 0. We want to know if the lines have different *intercepts to each other*. Phrased differently, we need to test whether **the difference in the intercept is different to 0**.
+
+We could have multiple hypotheses that also test whether there *is* a trend in the data but the specific wording of our hypotheses above do not do so.
 
 We don't just need to know the difference, we need to statistically test this; whether an estimated/observed value of a sample is significantly different to a known population value. You've done this kind of test already.
 
@@ -799,10 +849,14 @@ question("Which of these statistical tests you've already learnt in this module 
 ))
 ```
 
-<div class="alert alert-danger">
-  <strong>Warning!</strong> Statistical significance is not the same thing as biological significance.  
+<div class="panel panel-danger">
+  <div class="panel-heading">
+<h3 class="panel-title">Remember!</h3>
+  </div>
+  <div class="panel-body">
+Statistical significance is not the same thing as biological significance.
 
-A relationship between two purely randomly generated numbers can be statistically significant but have no biological meaning. Details matter!
+A relationship between two purely randomly generated numbers can be statistically significant but have no biological meaning. A biologically meaningful relationship can be statistically non-significant. </div>
 </div>
 
 `R` automatically tests the following hypotheses as part of `lm`:
@@ -969,15 +1023,19 @@ question("Based on the summary of the linear regression you just did, which is t
          )
 ```
 
-Notice how the sentence does not include *significant* in the wording. Statistical significance or not is already implied by the wording of the sentence and the inclusion of the P value. The term can also be ambiguous.
+Notice how the sentence does not include *significant* in the wording. Statistical significance or not is already implied by the wording of the sentence and the inclusion of the P value. The term can also be ambiguous in meaning.
 
-Remember that biological significance is not the same as statistical significance. Biologically important patterns can be statistically non-significant and vice versa. And there are many ways that P values can be biased to give small or large values.
+<div class="panel panel-danger">
+  <div class="panel-heading">
+<h3 class="panel-title">Danger!</h3>
+  </div>
+  <div class="panel-body">
+There are many ways that P values can be biased or manipulated to give small or large values.
 
-<div class="alert alert-danger">
-  <strong>Warning!</strong> People's obsession over getting significant P values has driven a rise of unethical statistical practices (called P hacking or P fishing) which we do not want you as young scientists to fall into the habit of.
+People's obsession over getting significant P values has driven a rise of unethical statistical practices (called P hacking or P fishing) which we do not want you as young scientists to fall into the habit of.
+
+The point of statistical testing is to understand trends in data. Not to get a significant P value. Null or non-significant results are valid results. </div>
 </div>
-
-The point of statistical testing is to understand trends in data. Not to get a significant P value. Null or non-significant results are valid results. 
 
 ***
 
@@ -990,14 +1048,16 @@ Before we can do our `lm` in `R` we need to import the data and linearise the da
 **Step 1: Importing data**  
 First, we need to import the data in to R. This should be familiar to you from before. 
 
-<div class="alert alert-danger">
-  <strong>Warning!  
-  Don't use the code chunks in this tutorial to import data, it won't work. Make your own script (File -> New Script, or Ctrl(Cmd) + Shift + N). 
+<div class="panel panel-warning">
+  <div class="panel-heading">
+<h3 class="panel-title">Warning!</h3>
+  </div>
+  <div class="panel-body">
+Don't use the code chunks in this tutorial to import data, it won't work. Make your own script (File -> New Script, or Ctrl(Cmd) + Shift + N). 
 
-Don't write your code directly in the console either - you won't have a good record of what you've done (in case you wanted to use the code here to help you with your final report). 
+Don't write your code directly in the console either - you won't have a good record of what you've done and it is harder to troubleshoot. You may want to use the code here to help you with your final report or future projects.
 
-You can copy the code in this tutorial and **modify as appropriate for your data**.
-</strong>
+You can copy the code in this tutorial and **modify as appropriate for your data**. </div>
 </div>
 
 The examples here use mathematical notation as the variable names here but the class dataset uses the names from Part 1. You should know which notation matches with what variable description.
@@ -1009,8 +1069,14 @@ class_data <- read.csv("directory/folder/class_data.csv")
 ```
 This imports the spreadsheet into an R object called `class_data` but you can use whatever name you want. You need to replace the file address within the quotation marks with where ever you saved your file on your computer. File housekeeping is important!
 
-<div class="alert alert-info">
-<strong>Info!</strong> Refer to the previous drop in sessions and practicals to revise these basic steps. Make sure your address is correct and don't forget .csv at the end.
+<div class="panel panel-primary">
+  <div class="panel-heading">
+<h3 class="panel-title">Remember!</h3>
+  </div>
+  <div class="panel-body">
+Refer to the previous drop in sessions and practicals to revise these basic steps. Make sure your address is correct and don't forget .csv at the end.
+
+These are fundamental R skills. </div>
 </div>
 
 **Step 2: Linearising data**
@@ -1026,8 +1092,14 @@ Your column names can be whatever is meaningful to you. E.g. you don't *have* to
 
 When manipulating data like this, it's best practice to add new columns to the data, rather than overwrite the original column. That way, if you make a mistake it's easier to see what went wrong and you won't have to start from the beginning!
 
-<div class="alert alert-info">
-<strong>Info!</strong> `data$column` is the general structure to select a column in R. Make sure that your dataset name and your column names in your code matches your data name and columns.
+<div class="panel panel-primary">
+  <div class="panel-heading">
+<h3 class="panel-title">Remember!</h3>
+  </div>
+  <div class="panel-body">
+`data$column` is the general structure to select a column in R. THe dataset name and the column names in your code **must** exactly match your data name and columns. R is case sensitive.
+
+Make sure you're not making basic errors like using the wrong column name. </div>
 </div>
 
 Now let's linearise the predictor variable (`H`) to get $\frac{1}{H\times T_{total}}$. 
@@ -1037,13 +1109,18 @@ class_data$HT.1 <- 1/(class_data$H * class_data$T_total)
 ```
 Because we use a value of 1 minute for $T_{total}$, we are essentially dividing 1 by only prey density ($H$). Told you a value of 1 would make our maths easier!
 
-<div class="alert alert-danger">
-  <strong>Warning!</strong> Since we have done some division, it's a good time to check for any undefined values in case we divided by 0. 
-</div>
+<div class="panel panel-warning">
+  <div class="panel-heading">
+<h3 class="panel-title">Watch out!</h3>
+  </div>
+  <div class="panel-body">
+Since we have done some division, it's a good time to check for any undefined values in case we divided by 0. 
 
 In `R` undefined values are denoted as infinities (`Inf`). You can check how many infinities there are using `table(is.infinite(class_data$Ha.1))` - this will check whether each cell has undefined values (`is.infinite`) and give you logical `TRUE`/`FALSE` output, then tabulate the logic statements to count the number of `TRUE`/`FALSE` occurrences in the column `Ha.1`.
 
-We can replace the infinities with zeroes using `class_data$Ha.1 <- ifelse(class_data$Ha.1 == Inf, 0, class_data$Ha.1)`. You might recognise the if else statement and understand what's happening from previous lectures: **if** there is an undefined value, **then** replace that value with 0, **else** leave the value as is. We don't discard these observations because a value of 0 has biological meaning.  
+We can replace the infinities with zeroes using `class_data$Ha.1 <- ifelse(class_data$Ha.1 == Inf, 0, class_data$Ha.1)`. You might recognise the if else statement and understand what's happening from previous lectures: **if** there is an undefined value, **then** replace that value with 0, **else** leave the value as is. We don't discard these observations because a value of 0 has biological meaning. </div>
+</div>
+
 
 We now have all the correct columns to parameterise our functional response.
 
@@ -1052,7 +1129,18 @@ We now have all the correct columns to parameterise our functional response.
 **Step 3: Doing the additive linear regression**  
 If `lm` is the function to do a linear regression, `Ha.1` is the name of our response variable, `HT.1` is the name of the first predictor variable, `foraging_strategy` is the name of the second predictor variable, and the name of our dataset is `class_data`, you should be able to write the code for the linearised type II functional response (or replacing the respective components with the column name and dataset names you are using). 
 
-(Hint: It's exactly as we did for `crabs` - so you've done it already. Remember the order of the parameters - it matters to R)
+**Construct an additive linear model for our data.**  
+Then, you should be able to identify the values for the slope and intercept and thus parameterise the linearised function in Step 4.
+
+<div class="panel panel-primary">
+  <div class="panel-heading">
+<h3 class="panel-title">Hint</h3>
+  </div>
+  <div class="panel-body">
+The workflow is exactly as we did for `crabs` - so you've practised it already (ideally). Remember that R partitions variation sequentially and in alphabetical order for factors.
+
+If you didn't understand the previous material or you got some questions incorrect or you skipped bits, I recommend finishing them before progressing. Demonstrators cannot help you answer the assessment. </div>
+</div>
 
 ```{r error, echo = FALSE}
 quiz(caption = "Getting an error message?",
@@ -1080,11 +1168,14 @@ quiz(caption = "Getting an error message?",
               incorrect = "We don't throw out valid data"))
 ```
 
-**Construct an additive linear model for our data.**  
-Then, you should be able to identify the values for the slope and intercept and thus parameterise the linearised function in Step 4 - exactly as you did with the `crabs` dataset.
+<div class="panel panel-primary">
+  <div class="panel-heading">
+<h3 class="panel-title">Info!</h3>
+  </div>
+  <div class="panel-body">
+Linear regressions are always done on the entire data, not on averages. i.e. you wouldn't use the average of your replicates for each treatment for the underlying data. Data must be raw (unprocessed).
 
-<div class="alert alert-success">
-Linear regressions are always done on the entire data, not on averages. i.e. you wouldn't use the average of your replicates for each treatment for the underlying data. To fit a line to data, ordinary least squares regression depends on quantifying *variation* of observations around the mean (think back to how sampled data from a population is distributed). Averaging data removes that variation and thus there is less information for `R` to use (fewer degrees of freedom).
+To fit a line to data, ordinary least squares regression depends on quantifying *variation* of observations around the mean (think back to how sampled data from a population is distributed). Averaging data removes that variation and thus there is less information for `R` to use (fewer degrees of freedom). </div>
 </div>
 
 We won't plot our regression lines just yet but you should be able to interpret the R output as a graph by looking at the coefficient values. We will construct a graph later!
@@ -1092,8 +1183,15 @@ We won't plot our regression lines just yet but you should be able to interpret 
 **Step 4: Parameterising $a$ and $T_h$**  
 The final step is to get our unknown values of $a$ and $T_h$ for each type of foraging strategy from our linear regression. Since we know our partial regression takes the form $Y  = \beta_{0_{foraging \space strategy}} + \beta_1 X_1$ with separate intercepts for each sub-group of `foraging_strategy` and the same slope for both groups, and we know the linearised type II model is $\frac{1}{H_a}=\ \frac{1}{a}\times\frac{1}{H\times T_{total}}+\frac{T_h}{T_{total}}$, then you should have all the information to parameterise the type II model and derive values for $a$ and $T_h$ from the linear regression output for both foraging strategies.
 
-<div class="alert alert-success">
-It's time to answer the CA!. Remember to save and submit your answers. That's the end of the assessment but not the end of the practical. Keep going.
+<div class="panel panel-success">
+  <div class="panel-heading">
+<h3 class="panel-title">It's time to answer the CA!</h3>
+  </div>
+  <div class="panel-body">
+You have all the information you need.  
+Remember to save and submit your answers.   
+That's the end of the assessment but not the end of the practical.  
+Keep going. You're doing great! </div>
 </div>
 
 ***
@@ -1165,8 +1263,12 @@ Uh oh! We cannot distinguish between the colours of crabs! Time to learn more `R
 
 Colour is important when presenting data. Are the colours meaningful? Are they necessary? Can they be clearly distinguished? Are they appropriate for screens, for printing, or accessible for colour-blind people?
 
-<div class="alert alert-info">
-<strong>Info!</strong> Red-Green colour blindness is the most common form of colour blindness. A simple guideline is to avoid using red and green together where ever possible. Blue and orange are better contrasting colours (that's why they are common colour schemes for movie posters).
+<div class="panel panel-primary">
+  <div class="panel-heading">
+<h3 class="panel-title">Info!</h3>
+  </div>
+  <div class="panel-body">
+Red-Green colour blindness is the most common form of colour blindness. A simple guideline is to avoid using red and green together where ever possible. Blue and orange are better contrasting colours (that's why they are common colour schemes for movie posters). </div>
 </div>
 
 Colour in `R` is defined by `col`. So in a graph if I wanted to change the colour of the points from black (default) to red then I can either call `col = "red"` or `col = 2` as an argument within the `points()` function, because red is the second colour in the default R colour palette (black is 1). There are lots of colours to choose from (Google it for a full list). R also accepts hexidecimal RGB colour codes for custom colours (e.g. black is #000000).
@@ -1406,7 +1508,8 @@ question(
 )
 ```
 
-***gr
+***
+
 ## The $\beta_3$ coefficient
 
 The difference between an additive and interactive model is the inclusion of the coefficient $\beta_3$ to derive the full model:
@@ -1497,9 +1600,12 @@ Difference in slope for orange crabs compared to blue crabs = `r round(coef(crab
 
 ### Time to apply what you've learnt
 
+**Write down the parameterised equation of the interactive regression for blue and orange crabs before progressing.**
+
+Here's the partial regression equation:
+
 $$ shell \space length = \beta_{0_{colour}} + \beta_{1_{colour}} shell \space width + \varepsilon$$
 
-**Write down the parameterised equation of the interactive regression lines for blue and orange crabs before progressing.**
 
 ***
 
@@ -1510,9 +1616,15 @@ Did you get the parameterised partial regression equations below?
 *blue crab shell length* = `r round(coef(crabs_int)[1],2)` + `r round(coef(crabs_int)[2],2)` *shell width*  
 *orange crab shell length* = `r round(coef(crabs_int)[1] + coef(crabs_int)[3],2)` + `r round(coef(crabs_int)[2] + coef(crabs_int)[4],2)` *shell width*
 
-The good news is that was as hard as it gets in this module.  
-<div class="alert alert-success">
-Parameterising the equation is simply knowing what the coefficients represent and knowing which ones to add together
+
+<div class="panel panel-success">
+  <div class="panel-heading">
+<h3 class="panel-title">Good news!</h3>
+  </div>
+  <div class="panel-body">
+If you could get the equations above, then amazing! That's about as hard as it gets. 
+
+Parameterising the equation is simply knowing what the coefficients represent and knowing which ones to add together. The rest is being able to *use* the equations and interpret the R output. </div>
 </div>
 
 ***
@@ -1537,9 +1649,12 @@ Like with the additive model, the hypothesis tests on the coefficient estimates 
     * This tests whether there is an interaction between colour and shell width
     * If this is non-significant, then a multiplicative model is overly complex to describe our biological pattern (because it uses too many parameters) and perhaps an additive model is a better descriptor. 
     
-<div class="alert alert-info">
-<strong>Info!</strong> Aiming to minimise the number of parameters used in a linear model is the statistical concept of **model parsimony**. 
-</div>  
+<div class="panel panel-primary">
+<div class="panel-heading">
+<div class="panel-title">
+Aiming to minimise the number of parameters used in a linear model is the statistical concept of **model parsimony**. </div>
+</div>
+</div>
 
 ```{r random-test}
 quiz(caption = "Answer the following questions:",
@@ -1632,11 +1747,15 @@ Here's a summary of what we've done:
  * Wrote a results paragraph
  * Made a graph in R with appropriate labels and caption
  
-<div class="alert alert-success">
-We have followed a **workflow** of data analysis that you can apply to any data handling.
-</div>  
- 
+<div class="panel panel-success">
+  <div class="panel-heading">
+<h3 class="panel-title">Success!</h3>
+  </div>
+  <div class="panel-body">
 Over the course of the last practical and this one, we have done a crash course in the Scientific Method from formulating a hypothesis from a biological system (infection or predator/prey response) to evaluating hypotheses and every thing in between.
+
+We have followed a **workflow** of data handling analysis that you can apply to any data. </div>
+</div>
 
 One last summary quiz:
 ```{r coef-quiz, echo=FALSE}
