@@ -25,7 +25,8 @@ remotes::install_github("jacintak/biostats", build_vignettes = TRUE)
  * Removed simple regression and writing results paragraph
     * Integrated results into 3.0.3
  * Added praise and encouragement (3.0.2)
- * Branch `multi-reg` is a version of the practical focusing on multiple regression
+ * Simplified practical to focus on additive models (3.1.0)
+ * Added HTML coloured text boxes (3.1.1)
 
 
 
