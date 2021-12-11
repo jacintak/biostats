@@ -130,7 +130,11 @@ We use models to:
  * Make evidence-based decisions
      * Run simulations - "what if...?", what happens if we change something?
  
-If our model doesn't match what we observe from empirical data, that's OK! We can refine our model (our hypothesis) to better match what we observe. **That's the Scientific Method.** Remember, doing science isn't about "proving" a hypothesis or being "right" - it's when we "fail" or are wrong that progress happens.
+If our model doesn't match what we observe from empirical data, that's OK! We can refine our model (our hypothesis) to better match what we observe. **That's the Scientific Method.** 
+
+<div class="alert alert-info">
+**Remember**, doing science isn't about "proving" a hypothesis or being "right" - it's when we "fail" or are wrong that progress happens.
+</div> 
 
 We will see in the lectures that there is a trade-off between precision, generality and realism of models - there is no, one "perfect" model.
 
@@ -319,8 +323,10 @@ question(
 
 If you thought our model is too simplistic, you are probably right *but* in modelling philosophy some degree of simplification or abstraction is perfectly acceptable because *models are only representations of reality*, they are not meant to copy the real world right down to the minutiae.
 
-> Thus, one application of models is to consider them as hypotheses of biological systems - what we think are important components of the system.
-
+<div class="alert alert-success">
+Thus, one application of models is to consider them as hypotheses of biological systems - what we think are important components of the system.
+</div>  
+ 
 ***
 
 ### Functional responses
@@ -393,7 +399,7 @@ The mathematical model of the figure above is:
 
 $$H_a=\ \frac{a\times H\times T_{total}}{1+a\times H\times T_h}$$
 
-You should read the full derivation in the documentation file to see how we've turned our assumptions into mathematical expressions - run `vignette("TypeIImodels")` in Console or via the Packages tab (click biostats.tutorials -> User guides).
+You should read the full derivation in the documentation file to see how we've turned our assumptions into mathematical expressions - run `vignette("TypeIImodels")` in Console or via the Packages tab (click StatsModels -> User guides).
 
 Let's go through what the letters and numbers mean and how they link to our model assumptions.
 
@@ -528,11 +534,19 @@ How do your hypotheses compare to these?
 H0: There is no relationship between prey density and number of prey eaten  
 H1: There is a positive linear relationship between prey density and number of prey eaten
 
-Notice how the hypotheses is worded and the language used. **The wording of your hypothesis will dictate the best experimental design and statistical analysis to test your hypothesis!** Choose wisely. 
+Notice how the hypotheses is worded and the language used.
+
+<div class="alert alert-success">
+**The wording of your hypothesis will dictate the best experimental design and statistical analysis to test your hypothesis!** Choose wisely.
+</div> 
 
 The alternative hypothesis describes the direction but not the strength of the relationship. If you are less certain about your predicted outcomes you could be less specific if you wanted to (e.g. not describing the direction of the relationship if the expected relationship could also be negative). 
 
-There are no limits to how many hypotheses you have. You could have three hypotheses, a null and two alternatives - one for a positive relationship and one for a negative relationship. **Remember, as scientists we never try to "prove" hypotheses. We aim to gather evidence and see whether the evidence supports our hypothesis.**
+There are no limits to how many hypotheses you have. You could have three hypotheses, a null and two alternatives - one for a positive relationship and one for a negative relationship. 
+
+<div class="alert alert-danger">
+**Remember, as scientists we never try to "prove" hypotheses. We aim to gather evidence and see whether the evidence supports our hypothesis.**
+</div>
 
 It's good to be specific in your hypothesis if it is plausible in your biological system. For example, if we are testing whether a vaccine induces an immune response, the resulting immune response can only be positive - a negative immune response (i.e. becoming more susceptible to disease) is implausible (and unfortunate).
 
@@ -602,9 +616,12 @@ Although these constant parameters are unknown to us, we want to know their valu
 
 $$H_a=\ \frac{a\times H\times T_{total}}{1+a\times H\times T_h}$$
 
-> Remember: keep it simple! A more complex statistical analysis cannot fix issues arising from a badly designed experiment.
+<div class="alert alert-danger">
+**Remember**, keep it simple! A more complex statistical analysis cannot fix issues arising from a badly designed experiment.
+</div> 
 
 ***
+
 ###
 
 ```{r quiz3}
@@ -662,7 +679,10 @@ In other words, we generally want to know if the change in foraging strategy *im
 
 As a another example, a simplistic hypothesis is not an informative or helpful conclusion if we were testing a new vaccine and the vaccine made people *more susceptible* to disease yet we would need to accept our alternative hypothesis.
 
-> Remember, the alternative hypothesis is the outcome we would expect if there was an effect of the predictor on the response variable. The null hypothesis is what we expect when there is no effect (hence, null). Most of the time we want there to be an effect (what we hope is true about a biological system).
+<div class="alert alert-info">
+**Remember**, the alternative hypothesis is the outcome we would expect if there was an effect of the predictor on the response variable. The null hypothesis is what we expect when there is no effect (hence, null). Most of the time we want there to be an effect (what we hope is true about a biological system).
+</div> 
+
 
 ```{r genotype-quiz}
 quiz(
@@ -708,7 +728,9 @@ quiz(question_text(
 
 That's the end of Part B. We have designed an experiment and identified our hypotheses.  
 
-> Take a break. Check in with your demonstrator. Stand up. Shake your limbs. Breathe.
+<div class="alert alert-success">
+Take a break. Check in with your demonstrator. Stand up. Shake your limbs. Breathe.
+</div> 
 
 ```{r break-quiz2}
 question_radio(
@@ -847,7 +869,6 @@ The order of columns has to exactly match the order in the table. Your exact col
 
 > Remember to save your data regularly.
 
-
 ```{r radio1, echo = FALSE}
 quiz(
 question_radio(
@@ -891,7 +912,10 @@ question_checkbox(
 )
 ```
 
-> Information that isn't structured properly will have errors when imported into R. This is why we must always check that data imported properly every time we load data. This data will need to be **cleaned** before it can be analysed. See next section.
+<div class="alert alert-danger">
+**Danger!** Information that isn't structured properly will have errors when imported into R. This is why we must always check that data imported properly every time we load data. This data will need to be **cleaned** before it can be analysed. See next section.
+</div> 
+
 
 ***
 
@@ -974,8 +998,11 @@ Use the following check list to make sure you have done everything you need for 
 * Uploaded your dataset to Blackboard?
 * Done the CA questions?
 
-> That's a wrap! Well done for making it to the end. Check in with your demonstrator.  
-> Take a break. Stand up. Dance. Breathe.
+<div class="alert alert-success">
+That's a wrap! Well done for making it to the end. Check in with your demonstrator.  
+
+Take a break. Stand up. Dance. Breathe
+</div> 
 
 One last recap quiz:
 
