@@ -87,7 +87,15 @@ question_checkbox(
 Well done!  
 Your answers are saved if you open the tutorial again. You can reset your answers by clicking **Start Over** at the end of the menu. You can run these tutorials any time you like if you want to practice again. 
 
-Although you can come back to this tutorial at any time, I recommend taking your own notes for your reference. There are also discussion questions in bold that you should think about or write down an answer.  
+Although you can come back to this tutorial at any time, I recommend taking your own notes for your reference. 
+
+<div class="panel panel-info">
+  <div class="panel-heading">
+<h3 class="panel-title">Discussion</h3>
+  </div>
+  <div class="panel-body">
+These are discussion questions that you should think about or write down an answer. </div>
+</div>
 
 Click **Next Topic** to progress to the practical instructions.  
 You can navigate between topics using the buttons or the menu. You need to complete all the exercises to move ahead.
@@ -229,7 +237,7 @@ I recommend taking your time with these practical and the concepts because they 
 
 ***
 
-### Learning objectives
+#### Learning objectives
 
 This practical is split into three parts with distinct learning objectives (recommended time to spend):
 
@@ -254,13 +262,15 @@ This is the main activity of the practical.
  
 You will be uploading your data to Blackboard. In the next practical we will be analysing the aggregated & anonymised class data set and using that to answer CA questions.
 
-***
-
-### Continuous Assessment
-
+<div class="panel panel-primary">
+  <div class="panel-heading">
+<h3 class="panel-title">Continuous Assessment</h3>
+  </div>
+  <div class="panel-body">
 I recommend finishing the CA *before* Part C. The CA is worth 10% and is due at the end of the prac. There is a total of 10 marks. 
 
-The CA aims to assess your understanding of the concepts in this practical and your ability to apply the concepts in practice.
+The CA aims to assess your understanding of the concepts in this practical and your ability to apply the concepts in practice. </div>
+</div>
 
 ***
 
@@ -298,7 +308,13 @@ If we think about what we consider to be important in a predator-prey interactio
 
 These same statements can be applied to an infection response or to any analogous scenario - merely replace "predator" and "prey" with the relevant terms.
 
-**Would you agree with these statements? Or are they too simplistic of a complex biological system?**  
+<div class="panel panel-info">
+  <div class="panel-heading">
+<h3 class="panel-title">Discussion</h3>
+  </div>
+  <div class="panel-body">
+Would you agree with the above statements? Or are they too simplistic of a complex biological system? </div>
+</div>
 
 ```{r assumptions}
 quiz(caption = "First, a quick quiz on variables",
@@ -386,7 +402,13 @@ question_checkbox(
 
 ### A Type II functional response
 
-**How would you describe the below Type II relationship in words in a results section of a lab report?**  
+<div class="panel panel-info">
+  <div class="panel-heading">
+<h3 class="panel-title">Discussion</h3>
+  </div>
+  <div class="panel-body">
+How would you describe the below Type II relationship in words in a results section of a lab report? </div>
+</div>
 
 ```{r funct_resp, echo=FALSE, fig.cap= "Type II functional response of a predator-prey interaction"}
 prey <- seq(0, 60, 5)
@@ -418,7 +440,13 @@ Let's go through what the letters and numbers mean and how they link to our mode
 
 You'll see that we know the value of some of these parameters already and some we need to calculate from our data.
 
-**Variables or parameters? Which is which in our model?**
+<div class="panel panel-info">
+  <div class="panel-heading">
+<h3 class="panel-title">Discussion</h3>
+  </div>
+  <div class="panel-body">
+Variables or parameters? Which is which in our model? What information do we know and what do we need to find out? And how would you find it out? </div>
+</div>
 
 ### Quiz
 
@@ -450,7 +478,13 @@ The full derivation is accessible in `vignette("TypeIImodels")`, we won't go tho
  * $\frac{1}{H \times T_{total}}$ is the inverse of our predictor variable (prey density) and the total predator-prey interaction time
  * $\frac{T_h}{T_{total}}$ is our unknown handling time divided by the total predator-prey interaction time
 
-**Does the overall structure of the equation look familiar to you? (maybe from high school maths)**
+<div class="panel panel-info">
+  <div class="panel-heading">
+<h3 class="panel-title">Discussion</h3>
+  </div>
+  <div class="panel-body">
+Does the overall structure of the equation look familiar to you? (maybe from high school maths)</div>
+</div>
 
 The graph looks like this:
 ```{r tyepe2line, echo = FALSE, fig.cap= "Linearised type II functional response of a predator-prey interaction"}
@@ -501,15 +535,27 @@ $$T_h = T_{total} \times intercept$$
 
 Now we have our model, we can then ask "what if...?". What happens if we change things in the model? 
 
->For the rest of the practical we will look at the question:  
->**What happens to the number of prey a predator can eat when the number of prey in an area (the density) increases?**  
+<div class="panel panel-primary">
+  <div class="panel-heading">
+<h3 class="panel-title">For the rest of the practical we will look at the question:</h3>
+  </div>
+  <div class="panel-body">
+What happens to the number of prey a predator can eat when the number of prey in an area (the density) increases? </div>
+</div>
 
 Unlike the previous practical, we are going to investigate this question by conducting a real experiment and make the most of in-person teaching by working in groups! But it is possible to build an equivalent simulation in Scratch.
 
 Now we have our research question and a model, we implicitly have our hypotheses. 
 
-**Write down a null (H0) and alternative (H1) hypothesis before moving on to the next section.**  
-If you are not sure how to formulate a hypothesis, look back at previous material, then ask a demonstrator.
+<div class="panel panel-info">
+  <div class="panel-heading">
+<h3 class="panel-title">Discussion</h3>
+  </div>
+  <div class="panel-body">
+Write down a null (H0) and alternative (H1) hypothesis before moving on to the next section.
+
+If you are not sure how to formulate a hypothesis, look back at previous material. </div>
+</div>
 
 ***
 
@@ -588,7 +634,7 @@ The protocol is simple:
      * The predator must pick up the jar, unscrew the lid, drop in the counter, close the lid fully and place the jar back down on the table - all with their eyes closed
  4. You can replicate using a different “predator” (student) to take turns but you should use the same predator across all prey densities. 
 
-**The goal is to pick up as many counters as possible within a fixed time period.**
+ > **The goal is to pick up as many counters as possible within a fixed time period.**
 
 ***
 
@@ -601,7 +647,11 @@ Experiments consist of variables that are *controlled* or *manipulated*. The man
 
 We change the prey densities with each run of the experiment because it is the predictor variable. The different values of prey density is our **treatment**.
 
-How many prey densities should you use? **Generally, the more treatments, the better your data may capture some true biological relationship.** But more treatments means more work, time and effort! You need at least two treatments (two observations) to fit a straight line to data but there is no hard or fast rule for deciding these things. 
+How many prey densities should you use? 
+
+ > Generally, the more treatments, the better your data may capture some true biological relationship.
+ 
+But more treatments means more work, time and effort! You need at least two treatments (two observations) to fit a straight line to data but there is no hard or fast rule for deciding these things. 
 
 **For the purpose of this practical, we will decide on 10 treatments of prey density (do a minimum of 5 if you are running out of time). You are free to choose any 10 numbers from a range of 1 to 100.** 
 
@@ -611,7 +661,11 @@ We will collate the entire class' data so you don't have to choose the same numb
 
 ### Replication, replication, replication
 
-Replication is really important to increase the accuracy and precision of our data and make sure our results are not due to random chance. **Generally, the more replication the better! Again, the trade-off is more work, time, effort or computing power.** It also reduces the chances of making a type 1 or type 2 error. 
+Replication is really important to increase the accuracy and precision of our data and make sure our results are not due to random chance. 
+
+ > Generally, the more replication the better! 
+ 
+Again, the trade-off is more work, time, effort or computing power. It also reduces the chances of making a type 1 or type 2 error. 
 
 **For the purpose of this practical, we will use 3 replicates of prey density.** Three is usually a minimum number of replications. In a real-world scientific study, you may see higher replications.  
 
@@ -623,7 +677,7 @@ A replication of 3 means that we need to repeat our experiment three times for e
 
 In our experiment we have 1 predator moving at a constant speed (or tapping at a constant rate). These are constants that does not change - doing so would violate the assumptions of our model or turn these parameters into variables.
 
-Total foraging time is another constant. For simplicity, we will use a value of **1 minute** only so that we can divide by 1 and it makes our maths easier.
+Total foraging time is another constant. **For simplicity, we will use a value of *1 minute* only so that we can divide by 1 and it makes our maths easier.**
 
 The number of predators, speed and total time are all *parameters* and they are *constant* in a single experiment. Changing these would fundamentally change the experimental design and hypotheses tested. Changing these but keeping our hypotheses the same would be introducing additional variation into our data and increase the chance of making a type 2 error. Thus, sometimes parameters become variables; it all depends on the aim of the study.
 
@@ -690,9 +744,15 @@ In addition to the hypotheses before, we have two new hypotheses:
 H0: There is no difference in the number of prey eaten with prey density between foraging strategies  
 H1: There is a difference in the number of prey eaten with prey density between foraging strategies 
 
-It's often more interesting to formulate a more specific alternative hypothesis than just the opposite of the null hypothesis if we hypothesise there's a *direction* to the effect of the new predictor variable on the response variable
+It's often more interesting to formulate a more specific alternative hypothesis than just the opposite of the null hypothesis if we hypothesise there's a *direction* to the effect of the new predictor variable on the response variable.
 
-**Formulate a more specific hypothesis we can use as an alternative hypothesis.**
+<div class="panel panel-info">
+  <div class="panel-heading">
+<h3 class="panel-title">Discussion</h3>
+  </div>
+  <div class="panel-body">
+Formulate a more specific hypothesis we can use as an alternative hypothesis. </div>
+</div>
 
 In other words, we generally want to know if the change in foraging strategy *improves* the number of prey captured. If we used the original alternative hypothesis then we would accept that hypothesis even if the number of prey captured decreased.
 
@@ -775,7 +835,7 @@ Keep it up!
 
 > Now do the CA and hand it in for marking
 
-Don't forget to include your name and student number. Good luck!
+Good luck!
 
 ***
 
@@ -809,7 +869,9 @@ There are two general ways of presenting data in a spreadsheet (or as tabbed dat
 * Long - Variables are presented in one column, the corresponding value is presented in a second column. This format can be hard to interpret
 * Wide - Each variable is a separate column (many columns) and each row is a single observation. This is the way we are collecting data in class (see above criteria)
 
-As a general rule, aim to add rows (observations) not columns and columns should be independent of each other. For example, R analyses data in columns (arrays) so treatments of a predictor variable should be in the same column rather than in separate columns (data in columns are no longer independent). I'll demonstrate this below using the `PlantGrowth` dataset in R describing the weight of plants following one of three treatments:
+ > As a general rule, aim to add rows (observations) not columns and columns should be independent of each other. 
+ 
+For example, R analyses data in columns (arrays) so treatments of a predictor variable should be in the same column rather than in separate columns (data in columns are no longer independent). I'll demonstrate this below using the `PlantGrowth` dataset in R describing the weight of plants following one of three treatments:
 
 The dataset is already in a long format:
 ```{r long, echo = TRUE}
@@ -823,9 +885,18 @@ data.frame(ctrl = PlantGrowth[PlantGrowth$group == "ctrl",]$weight,
           trt2 = PlantGrowth[PlantGrowth$group == "trt2",]$weight)
 ```
 
-In this case, the wide format would be inappropriate for analysis because each row is not an observation, but three independent observations, and each column is not an independent variable but treatment levels of one variable. We would not be able to do stats on the wide format (e.g. a t-test) because the relevant data is split over multiple columns, rather than one column. We would need to use the long format (and a t-test is inappropriate for this dataset [**Why is a t-test inappropriate and which test would be?**]). 
+In this case, the wide format would be inappropriate for analysis because each row is not an observation, but three independent observations, and each column is not an independent variable but treatment levels of one variable. We would not be able to do stats on the wide format (e.g. a t-test) because the relevant data is split over multiple columns, rather than one column. We would need to use the long format (and a t-test is inappropriate for this dataset).
 
-Sometimes we need to convert the data structure from wide to long or vice versa. We won't be needing to do this in this module. That's why we are taking care with designing our data sheet to make it easier to analyse our data with minimal post-collection data manipulation.
+<div class="panel panel-info">
+  <div class="panel-heading">
+<h3 class="panel-title">Discussion</h3>
+  </div>
+  <div class="panel-body">
+Why is a t-test inappropriate for this dataset and which test would be?  
+You should be able to answer this because you've covered it in lectures!</div>
+</div>
+
+Sometimes we need to convert the data structure from wide to long or vice versa. We won't be needing to do this in this module because we are taking care with designing our data sheet to make it easier to analyse our data with minimal post-collection data manipulation.
 
 ### Filling in a data sheet 
 
@@ -859,6 +930,14 @@ Here are the rules we want you to apply here (these are not global standards and
      * ".csv", comma separated files are portable across platforms, use less memory and are easy for a computer to read - save your data in this format
  * Are all the necessary columns/information included and in the right order?
      * The order doesn't always matter but in this case it does for the automatic checking script
+     
+<div class="panel panel-primary">
+  <div class="panel-heading">
+<h3 class="panel-title">Info!</h3>
+  </div>
+  <div class="panel-body">
+These guidelines are how R reads data from a spreadsheet. Thus, following these best practices will prevent errors when importing data into R. </div>
+</div>
      
 ***
 

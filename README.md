@@ -26,7 +26,7 @@ remotes::install_github("jacintak/biostats", build_vignettes = TRUE)
     * Integrated results into 3.0.3
  * Added praise and encouragement (3.0.2)
  * Simplified practical to focus on additive models (3.1.0)
- * Added HTML coloured text boxes for emphasis (3.1.1)
+ * Added HTML coloured text boxes for emphasis (3.2.0)
 
 
 

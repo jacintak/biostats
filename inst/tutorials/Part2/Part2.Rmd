@@ -20,8 +20,7 @@ crabs_add <- lm(CL ~ CW + sp, crabs)
 crabs_int <- lm(CL ~ CW * sp, crabs)
 palette(c("#0072B2", "#D55E00"))
 tutorial_options(exercise.completion = FALSE)
-test_data <- data.frame(concentration = sample(size = 10, 1:20))
-ans_conc <- median(test_data$concentration)
+test_data <- data.frame(concentration = seq(1,20))
 ```
 
 ## How to use this worksheet
@@ -93,7 +92,15 @@ question_checkbox(
 Well done!  
 Your answers are saved if you open the tutorial again. You can reset your answers by clicking **Start Over** at the end of the menu. You can run these tutorials any time you like if you want to practice again. 
 
-Although you can come back to this tutorial at any time, I recommend taking your own notes for your reference. There are also discussion questions in bold that you should think about or write down an answer.  
+Although you can come back to this tutorial at any time, I recommend taking your own notes for your reference. 
+
+<div class="panel panel-info">
+  <div class="panel-heading">
+<h3 class="panel-title">Discussion</h3>
+  </div>
+  <div class="panel-body">
+These are discussion questions that you should think about or write down an answer. </div>
+</div>
 
 Click **Next Topic** to progress to the practical instructions.  
 You can navigate between topics using the buttons or the menu.  
@@ -268,7 +275,7 @@ question(
 
 ```{r reading-ans}
 question_text("What is the median of concentration?",
-  answer(paste(ans_conc), correct = TRUE, message = random_praise()),
+  answer(paste(median(test_data$concentration)), correct = TRUE, message = random_praise()),
   allow_retry = TRUE,
   incorrect = random_encouragement()
 )
@@ -517,7 +524,7 @@ Multiple regression allows us to ask "Does including information about our predi
 You'll notice that the structure of this data is intentionally the same as our functional response experiment. For the CA you will need to apply what you've learnt here to your own data.
 
 It always helps to see a graph of the data:
-```{r crab-graph, fig.cap= "Do you think the relationship between shell length and width differs with the colour of the crab?"}
+```{r crab-graph}
 plot(CL ~ CW, crabs, pch = 20, col = sp, bty = "l")
 legend("bottomright", bty = "n", c("Blue", "Orange"), pch = c(20, 20), col = c(1,2))
 ```
@@ -579,6 +586,16 @@ We will not do anything about this for now - in this case, it doesn't change our
 
 If you needed to change the order of the sub-groups you will need to change the variable to a factor (`as.factor`) and define the order of levels using `levels = c("level1", "level2")`. If we did this, then the slope coefficient uses `yes_lid` as the baseline and the final estimated coefficients are exactly the same, just reversed.
 
+```{r dummy}
+question_radio(
+  "If we reversed the level of colour (`sp`) in the `crabs` dataset from the default, what is the dummy variable of Blue crabs?",
+  answer("0"),
+  answer("1", correct = TRUE, message = "Orange is now the baseline."),
+  allow_retry = TRUE,
+  incorrect = "How are dummy variables assigned?"
+)
+```
+
 ***
 
 ### Fitting the model in `R`
@@ -618,7 +635,7 @@ $$CL = -0.67 + 0.88 CW + 1.09 sp + \varepsilon$$
 
 But let's look at the coefficients in more detail starting with the first two coefficients. The interpretation for these coefficients is the same as simple linear regression. There's the intercept `(Intercept)` ($\beta_0$) and there's the slope `CW` ($\beta_1$).
 
-Remember we are expecting *two* lines in our model - one for blue crabs and one for orange crabs. **Which line are these first two coefficients referring to?**
+Remember we are expecting *two* lines in our model - one for blue crabs and one for orange crabs. 
 
 ```{r coef-cals}
 quiz(
@@ -784,38 +801,52 @@ Here are the hypotheses:
 H0: Carapace length increases with carapace width but does not differ between colour morphs  
 H1: Carapace length increases with carapace width and differs between colour morphs but the rate of size increases does not vary between colours
 
-We can test these hypotheses using the linear regression. It's important to understand these hypotheses graphically. Look at the following graphs:  
+We can test these hypotheses using the linear regression. It's important to understand these hypotheses graphically. Look at the following graphs:
 
 ```{r hypo, fig.height=5}
 prey <- seq(0, 0.25, 0.01)
 type2 <- seq(0, 1, length.out = length(prey))
 par(mfrow = c(2,2), mar = c(4,4,2,1))
-plot(type2 ~ prey, type = 'l', lwd = 4, ylab = "Response variable", xlab = "Predictor variable",
+
+plot(rep(mean(type2), length(type2)) ~ prey, type = 'l', lwd = 4, ylab = "Response variable", xlab = "Predictor variable",
      xaxt='n', yaxt='n', bty = "l", ylim = c(0, 1.2), col = 3, main = "Figure A")
-lines(type2 + 0.2 ~ prey, lwd = 4, col = 2)
+lines(rep(mean(type2), length(type2)) + 0.2 ~ prey, lwd = 4, col = 2)
 legend("topleft", bty = "n", c("Group 1", "Group 2"), lwd = c(4, 4), col = c(3,2))
 
 plot(type2 ~ prey, type = 'l', lwd = 4, ylab = "Response variable", xlab = "Predictor variable",
      xaxt='n', yaxt='n', bty = "l", ylim = c(0, 1.2), main = "Figure B")
 
-plot(rep(mean(type2), length(type2)) ~ prey, type = 'l', lwd = 4, ylab = "Response variable", xlab = "Predictor variable",
+plot(type2 ~ prey, type = 'l', lwd = 4, ylab = "Response variable", xlab = "Predictor variable",
      xaxt='n', yaxt='n', bty = "l", ylim = c(0, 1.2), col = 3, main = "Figure C")
-lines(rep(mean(type2), length(type2)) + 0.2 ~ prey, lwd = 4, col = 2)
+lines(type2 + 0.2 ~ prey, lwd = 4, col = 2)
 legend("topleft", bty = "n", c("Group 1", "Group 2"), lwd = c(4, 4), col = c(3,2))
 
-plot(rep(mean(type2), length(type2)) ~ prey, type = 'l', lwd = 4, ylab = "Response variable", xlab = "Predictor variable",
-     xaxt='n', yaxt='n', bty = "l", ylim = c(0, 1.2), main = "Figure D")
+plot(type2 ~ prey, type = 'l', lwd = 4, ylab = "Response variable", xlab = "Predictor variable",
+     xaxt='n', yaxt='n', bty = "l", ylim = c(0, 1.2), col = 3, main = "Figure D")
+lines(seq(0, 0.6, length.out = length(prey)) ~ prey, lwd = 4, col = 2)
+legend("topleft", bty = "n", c("Group 1", "Group 2"), lwd = c(4, 4), col = c(3,2))
 ```
 
 ```{r lines}
-question_radio(
-  "Which of the graphs above represents the null hypothesis about crab size?",
-  answer("Figure A"),
-  answer("Figure B", correct = TRUE, message = "There is no effect of the second predictor variable so the regression lines for each sub-group are the same - this is effectively a simple linear regression!"),
-  answer("Figure C"),
-  answer("Figure D"),
-  allow_retry = TRUE,
-  incorrect = "What do the characteristics of the line(s) mean in words?"
+quiz(
+  question_radio(
+    "Which of the graphs above represents the null hypothesis about crab size?",
+    answer("Figure A"),
+    answer("Figure B", correct = TRUE, message = "There is no effect of the second predictor variable so the regression lines for each sub-group are the same - this is effectively a simple linear regression!"),
+    answer("Figure C"),
+    answer("Figure D"),
+    allow_retry = TRUE,
+    incorrect = "What do the characteristics of the line(s) mean in words?"
+  ),
+  question_radio(
+    "Which of the graphs above represents the alternative hypothesis about crab size?",
+    answer("Figure A"),
+    answer("Figure B"),
+    answer("Figure C", correct = TRUE, message = "The lines have the same slope and different intercepts"),
+    answer("Figure D"),
+    allow_retry = TRUE,
+    incorrect = "What do the characteristics of the line(s) mean in words?"
+  )
 )
 ```
 
@@ -957,13 +988,13 @@ The total amount of variation in the data (SSY) is the sum of all these rows in 
 ```{r anova-quiz}
 quiz(caption = "Based on the ANOVA table for the additive model on the crabs data:",
      question_text(
-       paste("What is the total amount of varation in the data?"),
-       answer(paste(9985.2+56.7+43.4), correct = TRUE, message = random_praise()),
+       paste("What is the total amount of varation in the data? To one decimal place."),
+       answer(paste(10085.3), correct = TRUE, message = random_praise()),
        allow_retry = TRUE,
        incorrect = "SSY is the sum of all SS."
      ),
      question_text(
-       paste("What is the F statistic of shell length?"),
+       paste("What is the F statistic of shell length? To 2 decimal places."),
        answer(paste(45308.97), correct = TRUE, message = random_praise()),
        allow_retry = TRUE,
        incorrect = random_encouragement()
@@ -1126,11 +1157,8 @@ We now have all the correct columns to parameterise our functional response.
 
  > **Remember how to problem solve and fix common coding problems from earlier**.
 
-**Step 3: Doing the additive linear regression**  
+**Step 3: Construct an additive linear model for your data**  
 If `lm` is the function to do a linear regression, `Ha.1` is the name of our response variable, `HT.1` is the name of the first predictor variable, `foraging_strategy` is the name of the second predictor variable, and the name of our dataset is `class_data`, you should be able to write the code for the linearised type II functional response (or replacing the respective components with the column name and dataset names you are using). 
-
-**Construct an additive linear model for our data.**  
-Then, you should be able to identify the values for the slope and intercept and thus parameterise the linearised function in Step 4.
 
 <div class="panel panel-primary">
   <div class="panel-heading">
@@ -1403,7 +1431,7 @@ abline(-0.6606, 0.8848, col = "blue")
 abline((-0.6606 + 1.0910), 0.8848, col = "orange")
 ```
 
-Here are the coefficients for the interactive linear model:  
+Here are the coefficients for the additive linear model:  
 ```{r int-coef}
 round(crabs_add$coefficients, 1) 
 ```
@@ -1427,6 +1455,8 @@ You need to change the point colours
 ```{r final-graph-test-hint-5}
 You need to add the regression lines separately, including the aesthetics
 ```
+
+***
 
 #### Other variables in `plot`
 
@@ -1486,9 +1516,15 @@ There are three steps:
 
 ### Practice: Graphing results with a caption
 
-Use your new found knowledge of making graphs in R to make a plot of our results from our predator-prey interaction response including appropriate axes labels with units. The aesthetics are up to you. Write a caption as well.
+<div class="panel panel-info">
+  <div class="panel-heading">
+<h3 class="panel-title">Discussion</h3>
+  </div>
+  <div class="panel-body">
+Use your new found knowledge of making graphs in R to make a plot of our results from our predator-prey interaction response including appropriate axes labels with units. The aesthetics are up to you. Write a caption as well.</div>
+</div>
 
-You can show it to your demonstrator for feedback.
+You can show your figure to your demonstrator for feedback.
 
 ***
 
@@ -1544,7 +1580,13 @@ question_text(
 
 ### Linear models with interactions in R
 
-> The structure of the `lm()` function for an interactive model is the same as the additive model but now the relationship between the predictor variables is denoted by `*` to indicate the interaction instead of `+`. 
+<div class="panel panel-primary">
+  <div class="panel-heading">
+<h3 class="panel-title">Info!</h3>
+  </div>
+  <div class="panel-body">
+The structure of the `lm()` function for an interactive model is the same as the additive model but now the relationship between the predictor variables is denoted by `*` to indicate the interaction instead of `+`.</div>
+</div>
 
 It's time to do the linear model.
 
@@ -1584,9 +1626,15 @@ question("What do the estimated coefficients for spO and CW:spO represent?",
 
 In the additive model we only needed to manually calculate the intercept by adding $\beta_0$ and $\beta_2$. Now, we **also** need to manually calculate the slope by adding $\beta_1$ and $\beta_3$.  
 
-> The coefficient estimate `CW:spO` is the **difference in the value of the slope for orange crabs relative to the slope for blue crabs** `CW`. This is $\beta_3$.
+<div class="panel panel-primary">
+  <div class="panel-heading">
+<h3 class="panel-title">Remember!</h3>
+  </div>
+  <div class="panel-body">
+The coefficient estimate `CW:spO` is the **difference in the value of the slope for orange crabs relative to the slope for blue crabs** `CW`. This is $\beta_3$. 
 
-Remember: blue is alphabetically before orange so R calculates the variances for blue crabs first, then orange crabs.  
+Blue is alphabetically before orange so R calculates the variances for blue crabs first, then orange crabs.</div>
+</div>
 
 We are given the slope for blue crabs already. We need to work out the slope for orange crabs by adding the coefficient estimates together.
 
@@ -1597,10 +1645,13 @@ Information provided from the `R` output:
 Slope for blue crabs = `r round(coef(crabs_int)[2],2)`  
 Difference in slope for orange crabs compared to blue crabs = `r round(coef(crabs_int)[4],2)`
 
-
-### Time to apply what you've learnt
-
-**Write down the parameterised equation of the interactive regression for blue and orange crabs before progressing.**
+<div class="panel panel-info">
+  <div class="panel-heading">
+<h3 class="panel-title">Time to apply what you've learnt</h3>
+  </div>
+  <div class="panel-body">
+Write down the parameterised equation of the interactive regression for blue and orange crabs before progressing.</div>
+</div>
 
 Here's the partial regression equation:
 
