@@ -6,9 +6,15 @@ output:
       progressive: true
       allow_skip: false
 runtime: shiny_prerendered
-subtitle: "2022"
+#subtitle: "2022"
 description: "2022 BYU22S01 Practical"
 ---
+
+<style type="text/css">
+  body{
+  font-size: 14pt;
+  }
+</style>
 
 ```{r setup, include=FALSE}
 library(learnr)
@@ -19,18 +25,18 @@ tutorial_options(exercise.completion = FALSE)
 
 ## How to use this worksheet
 
-This worksheet is an interactive document run through RStudio. It is made using the R package `learnr`, which you installed before the prac. The worksheet has interactive code chunks that you can use to enter `R` code and quizzes to test yourself - which makes this more fun than a regular word document or PDF and lets you practice R coding.
+This worksheet is an interactive document run through RStudio. It is made using the R package `learnr`, which you installed before the prac. The worksheet has interactive code chunks that you can use to enter R code and quizzes to test yourself -- which makes this more fun than a regular word document or PDF and lets you practice R coding.
 
 You can interact with this worksheet through the Tutorial tab in RStudio. This window can be resized and expanded. However, I recommend clicking the pop out button (in between the home icon and the stop icon) to open the tutorial in a separate window. 
 
 ***
 
 **Code chunks**  
-Code chunks are independent of the main RStudio Environment. Anything you type here will not be saved to memory, but you won't need to. Try it:  
-*Here's a simple exercise with an empty code chunk provided for entering the answer. Click __Run Code__ to run the code. The __Hint__ button will tell you a hint. If you are really stuck, the last hint may be the solution.*
+Code chunks are independent of the main RStudio Environment. Anything you type here will not be saved to memory, but you won't need to. 
 
-Write the R code required to add two plus two (the answer should be 4):
+Here's a simple exercise with an empty code chunk provided for entering the answer. Click __Run Code__ to run the code, keyboard shortcuts will work too. __Start Over__ resets the code chunk. The __Hints__ button will tell you a hint. If you are really stuck, the last hint may be the solution.
 
+*Write the R code required to add two plus two (the answer should be 4):*
 ```{r test, exercise=TRUE, exercise.lines = 5}
 
 ```
@@ -44,6 +50,14 @@ You need a + somewhere. You do not need =
 ```
 
 You can use RStudio and R scripts at the same time for trying things out or taking notes. 
+
+<div class="panel panel-success">
+  <div class="panel-heading">
+<h3 class="panel-title">Hint!</h3>
+  </div>
+  <div class="panel-body">
+You do not need to highlight the entire code to run it. Place your cursor on the code line you want to run, then press Ctrl (Cmd on Macs) + Enter. </div>
+</div>
 
 ***
 
@@ -85,7 +99,7 @@ question_checkbox(
 ***
 
 Well done!  
-Your answers are saved if you open the tutorial again. You can reset your answers by clicking **Start Over** at the end of the menu. You can run these tutorials any time you like if you want to practice again. 
+Your answers are saved if you open the tutorial again. You can reset *all* answers by clicking **Start Over** at the end of the menu. You can run these tutorials any time you like if you want to practice again. 
 
 Although you can come back to this tutorial at any time, I recommend taking your own notes for your reference. 
 
@@ -94,21 +108,28 @@ Although you can come back to this tutorial at any time, I recommend taking your
 <h3 class="panel-title">Discussion</h3>
   </div>
   <div class="panel-body">
-These are discussion questions that you should think about or write down an answer. </div>
+These are discussion questions that you should think about or write down an answer to. </div>
 </div>
 
-Click **Next Topic** to progress to the practical instructions.  
-You can navigate between topics using the buttons or the menu. You need to complete all the exercises to move ahead.
+Click **Next Topic** to move to the next section. You can navigate between topics using the buttons or the menu. You can access the menu if minimised by clicking the the title "Statistical Modelling Part 1".
+
+<div class="panel panel-warning">
+  <div class="panel-heading">
+<h3 class="panel-title">Warning!</h3>
+  </div>
+  <div class="panel-body">
+You need to complete all the exercises to move ahead. </div>
+</div>
 
 ***
 
 ## Introduction to statistical modelling
 
-Welcome! In the last two practicals (4 and 5) and in three lectures we will be looking at statistical modelling. 
+Welcome! In two practicals and in three lectures we will be looking at statistical modelling. 
 
 We have progressed beyond the realm of doing stats by hand and where t-tests are not appropriate for the types of data we will look at or the hypotheses we test. R will be the tool we will use.
 
-In these sessions, we will focus on the practical aspects of *applying* statistics (implementation & interpretation) with real data - not on the theory or mathematical proofs - in fact, nearly all the relevant theory has been introduced to you in previous lectures. Equations are kept to a minimum (promise). 
+In these sessions, we will focus on the practical aspects of *applying* statistics (implementation & interpretation) with real data -- not on the theory or mathematical proofs -- in fact, nearly all the relevant theory has been introduced to you in previous lectures. Equations are kept to a minimum (promise). 
 
 The practicals and lectures will feed off each other and these will also build upon the previous lectures and practicals. I expect you to be up to date with the module material. As this practical comes first, we will start with an introduction to statistical modelling that we will continue in the lectures.
 
@@ -120,7 +141,7 @@ Dr Jacinta Kong
 
 ### What is statistical modelling?
 
-Statistical modelling is an umbrella term in statistics, it can refer to many things and broadly speaking is a philosophical way of thinking about data.
+Statistical modelling is an umbrella term in statistics that refers to many things and broadly speaking is a philosophical way of thinking about data.
 
 A definition:
 
@@ -136,7 +157,7 @@ We use models to:
      * Formulate hypotheses
      * Make predictions
  * Make evidence-based decisions
-     * Run simulations - "what if...?", what happens if we change something?
+     * Run simulations -- "what if...?", what happens if we change something?
  
 If our model doesn't match what we observe from empirical data, that's OK! We can refine our model (our hypothesis) to better match what we observe. **That's the Scientific Method.** 
 
@@ -145,10 +166,10 @@ If our model doesn't match what we observe from empirical data, that's OK! We ca
 <h3 class="panel-title">Remember!</h3>
   </div>
   <div class="panel-body">
-Science isn't about "proving" a hypothesis or being "right" - it's when we "fail" or are wrong that progress happens. </div>
+Science isn't about "proving" a hypothesis or being "right" -- it's when we "fail" or are wrong that progress happens. </div>
 </div>
 
-We will see in the lectures that there is a trade-off between precision, generality and realism of models - there is no, one "perfect" model.
+We will see in the lectures that there is a trade-off between precision, generality and realism of models -- there is no, one "perfect" model.
 
 > To paraphrase: all models are wrong but some can be useful
 
@@ -158,9 +179,11 @@ We will see in the lectures that there is a trade-off between precision, general
 
 Distinguishing between variables and parameters is important in statistics, particularly for modelling.
 
-**Variables** - These are quantities that change with each iteration of a statistical model. E.g. the predictor (independent) variable and the response (dependent) variable.  
+**Variables**
+: These are quantities that change with each iteration of a statistical model. E.g. the predictor (independent) variable and the response (dependent) variable.  
 
-**Parameters** - These are quantities that do not change with each iteration of a statistical model. They are often a constant and often represent the assumptions about our biological system we make to model it. If we change the fundamental assumptions of the model, then the *value* of the parameter may change. Often the value of the parameter is **unknown** to us and need to be *parametrised* from empirical data.  
+**Parameters**
+: These are quantities that do not change with each iteration of a statistical model. They are often a constant and often represent the assumptions about our biological system we make to model it. If we change the fundamental assumptions of the model, then the *value* of the parameter may change. Often the value of the parameter is **unknown** to us and need to be **parametrised** from empirical data.  
 
 A variable could switch to being a parameter or vice versa depending on the experimental design and hypothesis tested, which in turn determines the statistical model. These decisions should be made when planning an experiment, not during or afterwards. 
 
@@ -174,8 +197,8 @@ Models can be characterised in several ways.
 
 Depending on what they describe:
 
- * **Theoretic models** describe processes - explored here
- * **Empirical models** describe data - explored in lectures and in practical 5
+ * **Theoretic models** describe processes -- explored here
+ * **Empirical models** describe data -- explored in lectures and in the next practical
 
 Some biological systems can be described both ways.
 
@@ -190,7 +213,7 @@ Models can be placed on a spectrum of simple to complex, and specific to general
  
 ***
 
-Models can also be described based on their precision, realism and generality. But these trade-off - No one model can perfectly capture all these qualities.
+Models can also be described based on their precision, realism and generality. But these trade-off -- No one model can perfectly capture all these qualities.
  
 > The best model to use depends on the intended question.
 
@@ -218,7 +241,7 @@ question(
   incorrect = random_encouragement()
 ),
 question_radio("Statistical models aim to accurately and precisely describe reality as it is",
-  answer("False", correct = TRUE, message = "Statistical models are descriptions or representations of what we *think* is important"),
+  answer("False", correct = TRUE, message = "How do you know that what you percieve is true? Or, how you you know you are not living in a simulation?"),
   answer("True",  message = "Statistical models are descriptions or representations of what we *think* is important"),
   allow_retry = TRUE
 )
@@ -231,7 +254,7 @@ question_radio("Statistical models aim to accurately and precisely describe real
 
 In these practicals we will look at a theoretic model of a predator-prey interaction. The aim is to understand how statistical models can be applied to biological data. 
 
-The majority of this practical will focus on the practicalities of designing experiments and collecting data, which we covered earlier in the module. The data collected in this practical must be submitted to Blackboard and will be used in the next practical.
+The majority of this practical will focus on the practicalities of designing experiments and collecting data, which we covered earlier in the module.
 
 I recommend taking your time with these practical and the concepts because they are fundamental to biological statistics you are likely to encounter again (plus are highly relevant to your final report). There is no need to rush.
 
@@ -241,22 +264,19 @@ I recommend taking your time with these practical and the concepts because they 
 
 This practical is split into three parts with distinct learning objectives (recommended time to spend):
 
-Part A: Building a theoretic model (20 mins)  
-**Learning objectives:**
+**Part A: Building a theoretic model (20 mins)**  
 
  * Know how a biological process can be described by a statistical model 
  * Understand how statistical models are applied to answer real world biological questions
 
-Part B: Designing an experiment (20 mins)  
-**Learning objectives:**
+**Part B: Designing an experiment (20 mins)**  
 
  * Apply your knowledge about experimental design and hypothesis formulation to a biological problem in practice
  
-Don't spend too long on Parts A and B = move through them and the CA quickly. Part C is the most important part and will take the most time. 
+Don't spend too long on Parts A and B, move through them and the CA quickly. Part C is the most important part and will take the most time. 
 
-Part C: Collecting data (**2 hours**) 
+**Part C: Collecting data (__2 hours__)**   
 This is the main activity of the practical.  
-**Learning objectives:** 
 
  * Know how to organise a spreadsheet and fill in a spreadsheet with data following the principles of tidy data
  
@@ -278,12 +298,11 @@ The CA aims to assess your understanding of the concepts in this practical and y
 
 In the previous practical you looked at a killer T cell digesting a pathogen. This infection response is a biological process and is analogous to a predator (e.g. a lion) hunting a prey (e.g. zebra), or a robot (a "predator") cleaning up an oil spill (its "prey").
 
-You started to compose a Scratch model. Although the Scratch model comprises of pictures and code blocks, under the hood these blocks represent computer code, and more abstractly a mathematical processes. Thus, the Scratch model is an implementation of a statistical model of a biological system - the infection response.
+You started to compose a Scratch model. Although the Scratch model comprises of pictures and code blocks, under the hood these blocks represent computer code, and more abstractly a mathematical processes. Thus, the Scratch model is an implementation of a statistical model of a biological system -- the infection response.
 
-This model was simple - too simple to be realistic. The killer T cell captured any and all pathogens touching it whereas in reality, a killer T cell may only target a few pathogens at a time or sequentially. This is also true for animal predators who hunt. Most predators need time to catch and process their food before their next meal.
+This model was simple -- too simple to be realistic. The killer T cell captured any and all pathogens touching it whereas in reality, a killer T cell may only target a few pathogens at a time or sequentially. This is also true for animal predators who hunt. Most predators need time to catch and process their food before their next meal.
 
-We can conceptualise a more realistic representation of an infection response, or more abstractly a predator-prey interaction. By breaking down what we observe to be important about the infection response into variables and assumptions, we can build our own theoretic model (describing a process) of an predator-prey interaction from the ground up.
-
+We can conceptualise a more realistic representation of an infection response, or more abstractly a predator-prey interaction. By breaking down what we observe to be important about the infection response into variables and assumptions, we can build our own theoretic model (describing a process) of an predator-prey interaction from scratch.
 
 ***
 
@@ -298,7 +317,7 @@ If we think about what we consider to be important in a predator-prey interactio
 
 * A predator randomly searches for prey
 * A predator can only "search" a fixed area per unit time (search rate)
-* A predator can only eat one prey at a time - it must "process" (i.e. digest) the prey before it can begin searching for the next one (handling time)
+* A predator can only eat one prey at a time -- it must "process" (i.e. digest) the prey before it can begin searching for the next one (handling time)
     * Handling time and searching activity are mutually exclusive
 * Prey randomly move around independently of the predator (e.g. it does not slow down or speed up when the prey is near)
 * Both the predator and the prey move at the same speed and at a constant speed
@@ -306,7 +325,7 @@ If we think about what we consider to be important in a predator-prey interactio
 * The numbers of predators and prey are fixed at the start of the experiment (i.e. they do not replicate while the model is running, prey numbers can only decrease, predator numbers stay the same)
 * Each predator-prey interaction lasts a fixed amount of time (total time)
 
-These same statements can be applied to an infection response or to any analogous scenario - merely replace "predator" and "prey" with the relevant terms.
+These same statements can be applied to an infection response or to any analogous scenario -- merely replace "predator" and "prey" with the relevant terms.
 
 <div class="panel panel-info">
   <div class="panel-heading">
@@ -346,7 +365,7 @@ If you thought our model is too simplistic, you are probably right *but* in mode
 <div class="panel panel-primary">
 <div class="panel-heading">
 <div class="panel-title">
-Thus, one application of models is to consider them as hypotheses of biological systems - what we think are important components of the system. </div>
+Thus, one application of models is to consider them as hypotheses of biological systems -- what we think are important components of the system. </div>
 </div>
 </div>
  
@@ -354,16 +373,20 @@ Thus, one application of models is to consider them as hypotheses of biological 
 
 ### Functional responses
 
-Infection responses, predator-prey interactions...they can be generally classified as **functional responses**. Luckily for us, there are already well known analytical (mathematical) models of functional response that we can use.
+Infection responses, predator-prey interactions... they can be generally classified as **functional responses**. Luckily for us, there are already well known analytical (mathematical) models of functional response that we can use.
 
-There are multiple types of functional responses (labelled with Roman numerals: I - IV). Each of these models represents a *different hypothesis* about functional responses and mathematically describes a *different relationship* between our two variables (e.g. the killer T cell and the pathogen, or a predator and its prey). The assumptions we make above are based on a **Type II functional response model** and is the one most appropriate for a predator-prey interaction scenario. You can read about the full maths by running `vignette("TypeII_models")`. We won't discuss the other types but you can read about them by running `vignette("functional_responses")`. 
+There are multiple types of functional responses (labelled with Roman numerals: I --- IV). Each of these models represents a *different hypothesis* about functional responses and mathematically describes a *different relationship* between our two variables (e.g. the killer T cell and the pathogen, or a predator and its prey). You can read about functional responses by running `vignette("functional_responses")`.
 
-The Type II functional response model is a good example of a general model - it has been used to describe animal predators eating prey (e.g. Holling's disc equations) or enzymes catalysing reactions (e.g. Michaelis-Menten equation). We can also use it to describe the immune response of the previous practical. It doesn't matter what the mathematical symbols represent biologically, maths is a universal language that describes the underlying biological process. Here, we are applying it to an general predator-prey scenario involving students and plastic counters.
+The assumptions we make above are based on a **Type II functional response model** and is the one most appropriate for a predator-prey interaction scenario. You can read about the full derivation by running `vignette("TypeII_models")`. 
+
+The Type II functional response model is a good example of a general model -- it has been used to describe animal predators eating prey (e.g. Holling's disc equations) or enzymes catalysing reactions (e.g. Michaelis-Menten equation). We can also use it to describe the immune response of the previous practical.
+
+It doesn't matter what the mathematical symbols represent biologically, maths is a universal language that describes the underlying biological process. Here, we are applying it to an general predator-prey scenario involving students and plastic counters.
 
 ***
 
 ```{r models-quiz}
-quiz(
+quiz(caption = "Test what you've learnt about statistical models so far:",
   question(
   "Which of these is not a rationale for using statistical models on biological data?",
   answer("To disprove a hypothesis", correct = TRUE, message = "Scientists don't 'prove' hypotheses"),
@@ -402,14 +425,6 @@ question_checkbox(
 
 ### A Type II functional response
 
-<div class="panel panel-info">
-  <div class="panel-heading">
-<h3 class="panel-title">Discussion</h3>
-  </div>
-  <div class="panel-body">
-How would you describe the below Type II relationship in words in a results section of a lab report? </div>
-</div>
-
 ```{r funct_resp, echo=FALSE, fig.cap= "Type II functional response of a predator-prey interaction"}
 prey <- seq(0, 60, 5)
 type2 <- (prey*0.7)/(1+(prey*0.7*0.15))
@@ -420,6 +435,13 @@ plot(type2~ prey,
      xaxt='n', yaxt='n')
 ```
 
+<div class="panel panel-info">
+  <div class="panel-heading">
+<h3 class="panel-title">Discussion</h3>
+  </div>
+  <div class="panel-body">
+How would you describe the Type II relationship in words in a results section of a lab report? </div>
+</div>
 
 Maybe something like:   
 "The number of prey eaten rapidly increases at low prey densities and gradually plateaus to a maximum number of prey eaten at higher prey densities."
@@ -428,12 +450,12 @@ The mathematical model of the figure above is:
 
 $$H_a=\ \frac{a\times H\times T_{total}}{1+a\times H\times T_h}$$
 
-You should read the full derivation in the documentation file to see how we've turned our assumptions into mathematical expressions - run `vignette("TypeIImodels")` in Console or via the Packages tab (click StatsModels -> User guides).
+You should read the full derivation in the documentation file to see how we've turned our assumptions into mathematical expressions -- run `vignette("TypeIImodels")` in Console or via the Packages tab (click StatsModels -> User guides).
 
 Let's go through what the letters and numbers mean and how they link to our model assumptions.
 
  * $H$ is the number of prey within a fixed area (prey density, number per area). This is our predictor variable that we decide before our experiment
- * $a$ is the search area per unit time of a prey. This is a parameter that we do not know and that we calculate from our data.
+ * $a$ is the search rate or attack rate. It is the search area per unit time of a prey. This is a parameter that we do not know and that we calculate from our data.
  * $H_a$ is the number of prey captured. We record this at the end of our experiment as our response variable.
  * $T_{total}$ is the total time a predator spent hunting prey (time). This is a constant that we decide before we start the experiment based on our assumptions.
  * $T_h$ is the time a predator spends digesting a single prey (time per prey). This is a parameter that we do not know and that we calculate from our data. In functional response models, this is called handling time.
@@ -467,13 +489,14 @@ question_checkbox(
 ### Finding our unknown parameters
 
 How do we estimate these unknown parameters from our data (e.g from the figure above)?  
-Actually, the hyperbolic nature of the Type II makes it challenging to extract this information - and certainly beyond the expectations of this module. *But* we can use mathemagics to turn this hyperbolic relationship into a straight line by a process called *linearising*. And straight lines are easier to manipulate or interpret - something we expect you to be able to do in this module.
+
+Actually, the hyperbolic nature of the Type II makes it challenging to extract this information -- and certainly beyond the expectations of this module. *But* we can use mathemagics to turn this hyperbolic relationship into a straight line by a process called *linearising*. And straight lines are easier to manipulate or interpret -- something we expect you to be able to do in this module.
 
 The linearised Type II equation is: 
 $$\frac{1}{H_a}=\ \frac{1}{a}\times\frac{1}{H\times T_{total}}+\frac{T_h}{T_{total}}$$
 The full derivation is accessible in `vignette("TypeIImodels")`, we won't go though how this is derived here, but you *do* need to understand this equation:
 
- * $\frac{1}{H_a}$ is the inverse of our response variable - the number of prey eaten 
+ * $\frac{1}{H_a}$ is the inverse of our response variable -- the number of prey eaten 
  * $\frac{1}{a}$ is the inverse of our unknown search rate parameter
  * $\frac{1}{H \times T_{total}}$ is the inverse of our predictor variable (prey density) and the total predator-prey interaction time
  * $\frac{T_h}{T_{total}}$ is our unknown handling time divided by the total predator-prey interaction time
@@ -599,7 +622,7 @@ The wording of your hypothesis will dictate the best experimental design and sta
 
 The alternative hypothesis describes the direction but not the strength of the relationship. If you are less certain about your predicted outcomes you could be less specific if you wanted to (e.g. not describing the direction of the relationship if the expected relationship could also be negative). 
 
-There are no limits to how many hypotheses you have. You could have three hypotheses, a null and two alternatives - one for a positive relationship and one for a negative relationship. 
+There are no limits to how many hypotheses you have. You could have three hypotheses, a null and two alternatives -- one for a positive relationship and one for a negative relationship. 
 
 <div class="panel panel-primary">
   <div class="panel-heading">
@@ -609,11 +632,11 @@ There are no limits to how many hypotheses you have. You could have three hypoth
 As scientists we never try to "prove" hypotheses. We aim to gather evidence and see whether the evidence supports our hypothesis. </div>
 </div>
 
-It's good to be specific in your hypothesis if it is plausible in your biological system. For example, if we are testing whether a vaccine induces an immune response, the resulting immune response can only be positive - a negative immune response (i.e. becoming more susceptible to disease) is implausible (and unfortunate).
+It's good to be specific in your hypothesis if it is plausible in your biological system. For example, if we are testing whether a vaccine induces an immune response, the resulting immune response can only be positive -- a negative immune response (i.e. becoming more susceptible to disease) is implausible (and unfortunate).
 
 Keep your hypothesis as simple as possible to investigate what you are interested in, in your biological system. A more complex hypothesis means a more complex statistical analysis is needed.
 
-Conducting a simple statistical analysis on a complex hypothesis and experimental design means that there is variation in your data that is not accounted for and could be affecting your response variable - it increases the chances of making a type II error (the meaningful biological relationship is hidden under statistical noise).
+Conducting a simple statistical analysis on a complex hypothesis and experimental design means that there is variation in your data that is not accounted for and could be affecting your response variable -- it increases the chances of making a type II error (the meaningful biological relationship is hidden under statistical noise).
 
 > **When in doubt, keep it simple.** 
 
@@ -623,18 +646,26 @@ Conducting a simple statistical analysis on a complex hypothesis and experimenta
 
 So, what is the actual experiment? You have been provided some plastic counters, a stopwatch, a piece of paper and a jar with a lid. You are the predator and the counters are your prey. The piece of paper is your arena and the jar is for collecting prey that you have captured. 
 
-You will be working in pairs - one of you will be the predator, the other will be the observer (keeping track of the time, recording the data). You will need a computer between you for entering and uploading data.
+You will be working in pairs -- one of you will be the predator, the other will be the observer (keeping track of the time, recording the data). You will need a computer between you for entering and uploading data.
 
 The protocol is simple:
 
- 1. Spread out the desired number of counters on the A4 sheet randomly. Do not move counters around once landed - Why not?
+ 1. Spread out the desired number of counters on the A4 sheet randomly. Do not move counters around once landed
  2. The predator will close their eyes and use their index finger to randomly tap around the arena at a constant search rate called out by the observer. The observer has a stop-watch and tells the predator when to tap.
  3. If the predator touches a counter, they need pick it up and “processes” it. The prey caught must be placed in the provided jar.
      * __The predator cannot hold the jar while searching for your prey because prey handling and prey search are mutually exclusive processes.__
-     * The predator must pick up the jar, unscrew the lid, drop in the counter, close the lid fully and place the jar back down on the table - all with their eyes closed
+     * The predator must pick up the jar, unscrew the lid, drop in the counter, close the lid fully and place the jar back down on the table -- all with their eyes closed
  4. You can replicate using a different “predator” (student) to take turns but you should use the same predator across all prey densities. 
 
  > **The goal is to pick up as many counters as possible within a fixed time period.**
+
+<div class="panel panel-info">
+  <div class="panel-heading">
+<h3 class="panel-title">Discussion</h3>
+  </div>
+  <div class="panel-body">
+Why should we not touch the counters after we have placed them on the paper? </div>
+</div>
 
 ***
 
@@ -669,13 +700,13 @@ Again, the trade-off is more work, time, effort or computing power. It also redu
 
 **For the purpose of this practical, we will use 3 replicates of prey density.** Three is usually a minimum number of replications. In a real-world scientific study, you may see higher replications.  
 
-A replication of 3 means that we need to repeat our experiment three times for every value of the treatment. Each replication should be independent of the others. Otherwise you risk *pseudoreplication* - not replicating when you think you are.
+A replication of 3 means that we need to repeat our experiment three times for every value of the treatment. Each replication should be independent of the others. Otherwise you risk *pseudoreplication* -- not replicating when you think you are.
 
 ***
 
 ### Identifying constant parameters
 
-In our experiment we have 1 predator moving at a constant speed (or tapping at a constant rate). These are constants that does not change - doing so would violate the assumptions of our model or turn these parameters into variables.
+In our experiment we have 1 predator moving at a constant speed (or tapping at a constant rate). These are constants that does not change -- doing so would violate the assumptions of our model or turn these parameters into variables.
 
 Total foraging time is another constant. **For simplicity, we will use a value of *1 minute* only so that we can divide by 1 and it makes our maths easier.**
 
@@ -735,11 +766,11 @@ That's not all we want to do today!
 
 What happens if our predator was more efficient? What would you change about the experiment to achieve this? How would this aim affect $H_a$ and the estimates of $a$ and $T_h$? For example, vaccines provide a chance for the immune system to "learn" how to eat prey (e.g. viruses). After this experience, immune systems become more efficient at destroying prey.   
 
-We will simulate a different predator behaviour by repeating our counter and jar experiment but this time, the jar does not have a lid so the predator does not need to open and close the lid when they are handing the counters. Here, we will call this variable **foraging strategy**.
+We will simulate a different predator behaviour by repeating our counter and jar experiment but this time, the jar does not have a lid so the predator does not need to open and close the lid when they are handing the counters. We will call this new variable **foraging strategy**.
 
 These two experiments are *independent*. If we want to compare the foraging properties between the two predators, we need to run the experiment again **keeping everything the same but changing only the variable of interest**.
 
-In addition to the hypotheses before, we have two new hypotheses:
+We can rephrase our two hypotheses to include the effect of foraging strategy:
 
 H0: There is no difference in the number of prey eaten with prey density between foraging strategies  
 H1: There is a difference in the number of prey eaten with prey density between foraging strategies 
@@ -808,6 +839,14 @@ quiz(question_text(
 
 ##
 
+<div class="panel panel-info">
+  <div class="panel-heading">
+<h3 class="panel-title">Discussion</h3>
+  </div>
+  <div class="panel-body">
+  Which of the statistical tests you've already learnt would you use to analyse the data if foraging strategy was the only predictor variable? </div>
+</div>
+
 That's the end of Part B. We have designed an experiment and identified our hypotheses.  
 
 <div class="panel panel-success">
@@ -866,8 +905,8 @@ You can read about tidy data [here](https://cran.r-project.org/web/packages/tidy
 
 There are two general ways of presenting data in a spreadsheet (or as tabbed data): 
 
-* Long - Variables are presented in one column, the corresponding value is presented in a second column. This format can be hard to interpret
-* Wide - Each variable is a separate column (many columns) and each row is a single observation. This is the way we are collecting data in class (see above criteria)
+* Long -- Variables are presented in one column, the corresponding value is presented in a second column. This format can be hard to interpret
+* Wide -- Each variable is a separate column (many columns) and each row is a single observation. This is the way we are collecting data in class (see above criteria)
 
  > As a general rule, aim to add rows (observations) not columns and columns should be independent of each other. 
  
@@ -908,9 +947,9 @@ Here are the rules we want you to apply here (these are not global standards and
      * All words including column headers should be in lower case, no spaces
  * Column headers should be informative
      * `pathogen_density` or `total_time` is good (even the mathematical notation like `H` or `Th` because it is standardised)
-     * `col1` or `pd` is bad - not easy to understand (e.g. acronyms not everyone uses)
- * No empty cells
-     * All cells should have a value. Put `NA` if empty
+     * `col1` or `pd` is bad -- not easy to understand (e.g. acronyms not everyone uses)
+ * **No empty cells**
+     * All cells should have a value. Put `NA` if there is no value
      * Every cell is a single value
  * Do not mix alphanumeric characters (e.g. l3773r5 & numb3r5)
      * Numeric columns should only contain numbers (0-9), no letters. Character strings should only contain letters (a-z), no numbers
@@ -919,17 +958,17 @@ Here are the rules we want you to apply here (these are not global standards and
      * No spaces between words. Use _ instead. E.g. `no_spaces`
      * No spaces before or after words
      * This rule doesn't apply to generic text fields for taking notes, comments or observations. It applies to treatments of a variable if they are described by strings, e.g. `no_fertiliser`, `yes_fertiliser`
- * Data is stored in rows and columns in a "wide" tidy format
+ * Data is stored in rows and columns in a tidy format
  * All data is presented together
-     * Not in multiple sheets - use a separate file if you must.
+     * Not in multiple sheets -- use a separate file if you must.
  * Data is raw
-     * Meaning it is not manipulated or processed after being recorded. We will do any data processing in `R` next prac
+     * Meaning it is not manipulated or processed after being recorded. We will do any data processing in R next prac
      * All data is presented, not summarised. E.g. as means 
  * Data is presented in a portable csv format
      * Not everyone has access to Excel. What if someone uses Google Sheets? ".xlsx" files are for Excel. 
-     * ".csv", comma separated files are portable across platforms, use less memory and are easy for a computer to read - save your data in this format
+     * ".csv" comma separated files are portable across platforms, use less memory and are easy for a computer to read -- save your data in this format
  * Are all the necessary columns/information included and in the right order?
-     * The order doesn't always matter but in this case it does for the automatic checking script
+    * Do not change the headers of the template
      
 <div class="panel panel-primary">
   <div class="panel-heading">
@@ -945,12 +984,12 @@ These guidelines are how R reads data from a spreadsheet. Thus, following these 
 
 When data is imported into a computer, the computer will classify it according to the type of data. Here are some common data types:
 
- * numeric - fields or cells that only contain numbers
- * string - strings of characters, i.e. text. Can be letters and numbers. Called `character` in `R`
- * date - for dates
- * logical - for logical statements, e.g. TRUE/FALSE
+ * numeric -- fields or cells that only contain numbers
+ * string -- strings of characters, i.e. text. Can be letters and numbers. Called `character` in R
+ * date -- for dates
+ * logical -- for logical statements, e.g. TRUE/FALSE
  
-These are the main data classes characterised by `R`. There may be other types in other programs (e.g. Access, SQL). In computer science, "fields" are like variables (i.e. columns) in `R`, so "predator density" and "total time" are fields.
+These are the main data classes characterised by R. There may be other types in other programs (e.g. Access, SQL). In computer science, variables (i.e. columns) in R are called fields, so "predator density" and "total time" are fields.
 
 ***
 
@@ -961,30 +1000,35 @@ See the table below for an example of column headers with no spaces and all cell
 | column_information            	| information_type 	| description 	|
 |-------------------------------	|------------------	|-------------	|
 | student_number                	| numeric          	    | your student number	|
-| total_time 	                    | numeric          	| in minutes, not seconds	|
+| total_time 	                    | numeric          	| in minutes	|
 | prey_density              	| numeric          	| NA          	|
 | replicate                     	| numeric          	| NA          	|
 | prey_eaten           	| numeric          	| NA          	|
 | foraging_strategy            	| character        	| `no_lid` for no lid or `yes_lid`	for a jar with a lid |
 
-These headers are pre-filled for you in the correct order on the template.  
+These headers are pre-filled for you in the correct order on the template. You do not need to change anything. The order of columns has to exactly match the order in the table. 
 
-The order of columns has to exactly match the order in the table. Your exact column header names can be different as long as they follow the criteria above (lowercase, no spaces, informative). 
-
-<div class="panel panel-primary">
+<div class="panel panel-warning">
   <div class="panel-heading">
-<h3 class="panel-title">Remember!</h3>
+<h3 class="panel-title">Warning!</h3>
   </div>
   <div class="panel-body">
-Save your data regularly! </div>
+  R is a computer program so you need to be specific about how you present information to it. For example, you may think having your treatments in individual tables separated by empty rows is sensible and logical but those empty cells mean missing data to a computer -- so the computer thinks you haven't filled in the data properly!
+  
+  Look at the how the `PlantGrowth` dataset above is laid out as an example of how your spreadsheet should look like.
+  
+  Even having a space within a field will be read as a unique word. E.g. `"cat"`, `"cat "` and `" cat"` would be read as three distinct inputs. 
+ </div>
 </div>
 
+ > Save your data regularly!
+
 ```{r radio1, echo = FALSE}
-quiz(
+quiz(caption = "Make sure you've inputted the data correctly!",
 question_radio(
-  "What should be entered in the cell under the column foraging_strategy when using a predator without experience",
-  answer("naive", correct = TRUE, message = random_praise()),
-  answer("experienced"),
+  "What should be entered in the cell under the column foraging_strategy when using a predator without experience?",
+  answer("yes_lid", correct = TRUE, message = random_praise()),
+  answer("no_lid"),
   allow_retry = TRUE,
   incorrect = random_encouragement()
 ),
@@ -1022,6 +1066,10 @@ question_checkbox(
 )
 ```
 
+***
+
+### Data cleaning
+
 <div class="panel panel-danger">
   <div class="panel-heading">
 <h3 class="panel-title">Danger!</h3>
@@ -1029,67 +1077,20 @@ question_checkbox(
   <div class="panel-body">
 Information that isn't structured properly will have errors when imported into R. This is why we must always check that data imported properly every time we load data. 
 
-This data will need to be **cleaned** before it can be analysed. See next section. So putting in the effort and attention to detail now will save future you a lot of avoidable stress! </div>
+This data will need to be **cleaned** before it can be analysed. So putting in the effort and attention to detail now will save future you a lot of avoidable stress! </div>
 </div>
-
-***
-
-### Data cleaning
 
 In data science, data usually needs to be processed before we can use it. The data needs to be checked and validated. Are all the fields entered correctly? Attention to detail is important in case it introduces mistakes in our data that may bias our analyses! How much do you trust your fellow students to have followed the previous instructions to the letter?
 
-Checking and correcting data is called **cleaning**. We take raw data and clean it up. Sometimes data cannot be fixed (e.g. errors of unknown origin), then the conservative approach is to exclude the observation which is a shame if lots of time and effort went in to collecting it.
+Checking and correcting data is called **cleaning**. We take raw data and clean it up. Sometimes data cannot be fixed (e.g. errors of unknown origin), then the conservative approach is to exclude the observation which is a shame if lots of time and effort (or money) went in to collecting it.
 
-In the real world, data is almost never clean and cleaning often takes longer than the actual analysis! Luckily, you won't need to do it for this prac. This is partly why we want to be particular with recording data - it will make automating the processes faster.
-
-Here is the function I will use to check a data sheet and decide to keep or discard it based on whether it meets *all* the data criteria. You have learnt about functions and if statements in `R` in your lectures already so you might be able to follow along (if not, don't worry - this is a more complex function than we would expect you to understand for this module):  
-
-```
-quality_check <- function(x){
-
-  pass <- 1
-  x <- as.data.frame(x)
-
-  # check if numeric
-  if((sum(str_detect(x[,2], "1")) < nrow(x)) == TRUE) {pass <- 0}  # check total time is 1
-  if(is(x[,3], "numeric") == FALSE){pass <- 0} # prey density
-  if(is(x[,4], "numeric") == FALSE){pass <- 0} # replication
-  if(is(x[,5], "numeric") == FALSE){pass <- 0} # prey caught
-
-  # check if character
-  if(is(x[,6], "character") == FALSE){pass <- 0} # efficiency
-  if((sum(str_detect(x[,6], "[0-9]")) != 0) == TRUE){pass <- 0}
-  if((sum(str_detect(x[,6], " ")) != 0) == TRUE){pass <- 0}
-  
-  # check correct number of observations
-  if(nrow(x) < 30){pass <- 0} # 30 rows
-  if(length(x) != 6){pass <- 0} # 6 columns
-
-  # check treatments and replications
-  if(length(unique(x[,3])) < 5){pass <- 0} # 5 treatments?
-  if(length(unique(x[,4])) != 3){pass <- 0} # 3 replications?
-  if((max(x[,3]) > 100) == TRUE){pass <- 0} # Does not exceed 100 prey density
-
-  # check lowercase
-  if((sum(names(x) != tolower(names(x))) != 0) == TRUE){pass <- 0} # are headers correct?
-  if((sum(x[,6] != tolower(x[,6])) != 0) == TRUE){pass <- 0}
-  
-  # check complete
-  if(sum(complete.cases(x)) != nrow(x)){pass <- 0} # missing values?
-
-  return(message(ifelse(pass==1, "Passed", "Failed")))
-}
-```
-
-You see that the function will take your data, then check whether all cells are filled and formatted correctly. Because the function uses square bracket subsetting for identifying columns, the order of the columns is very specific. Finally the data sheets gets assigned a 1 if it passes and a 0 if it fails with a little Pass/Fail message.
-
-Actually, you can check your own data to see if it would pass yourself if you run the above function so that it is saved into your R's memory then running the function itself like `quality_check(<name of your data>)`.
+In the real world, data is almost never clean and cleaning often takes longer than the actual analysis! It is a real pain! >:(
 
 ***
 
 ### Uploading your dataset to Blackboard
 
-Save your data sheet **as a csv file** (in Excel, click "Save As" and select csv file type). Your file name should be your student number and practical session separated by `_`. e.g. `12345_AM.csv` for the morning session.
+Save your data sheet **as a csv file** (click "Save As" and select csv file type). No other file types are accepted. Your file name should be your student number and practical session separated by `_`. e.g. `12345_AM.csv` for the morning session.
 
 Upload your csv file to the assignment link provided on Blackboard. **Only one person in the group needs to upload a file**.
 
@@ -1111,6 +1112,8 @@ Use the following check list to make sure you have done everything you need for 
 
 * Does your data sheet fully conform to the guidelines above?
 * Uploaded your dataset to Blackboard?
+    * Correct file type?
+    * Correct file name?
 * Done the CA questions?
 
 <div class="panel panel-success">
@@ -1121,39 +1124,6 @@ That's a wrap! Well done for making it to the end. Check in with your demonstrat
 Take a break. Stand up. Dance. Breathe. </div>
 </div>
 </div>
-
-One last recap quiz:
-
-```{r hypo, echo = FALSE}
-quiz(
-question("How many predators are in our experiment?",
-         answer("0"),
-         answer("1", correct = TRUE), message = random_praise(),
-         answer("2"),
-         answer("100"),
-         allow_retry = TRUE,
-         incorrect = random_encouragement()),
-  question_text(
-    paste("How many predictor variables are we using?"),
-    answer("2", correct = TRUE, message = random_praise()),
-    allow_retry = TRUE,
-    incorrect = random_encouragement()
-  ),
-  question_text(
-    paste("How many known constant parameters do we have?"),
-    answer("4", correct = TRUE, message = random_praise()),
-    allow_retry = TRUE,
-    incorrect = "Constant parameters are values we decide on before running a simulation"
-  ),
-  question_text(
-    paste("How many unknown constant parameters do we have?"),
-    answer("2", correct = TRUE, message = random_praise()),
-    allow_retry = TRUE,
-    incorrect = random_encouragement()
-  )
-)
-
-```
 
 ***
 

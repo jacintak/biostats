@@ -6,10 +6,15 @@ output:
       progressive: true
       allow_skip: false
 runtime: shiny_prerendered
-subtitle: "2022"
+#subtitle: "2022"
 description: "2022 BYU22S01 Practical"
 ---
 
+<style type="text/css">
+  body{
+  font-size: 14pt;
+  }
+</style>
 
 ```{r setup, include=FALSE}
 library(learnr)
@@ -20,23 +25,22 @@ crabs_add <- lm(CL ~ CW + sp, crabs)
 crabs_int <- lm(CL ~ CW * sp, crabs)
 palette(c("#0072B2", "#D55E00"))
 tutorial_options(exercise.completion = FALSE)
-test_data <- data.frame(concentration = seq(1,20))
 ```
 
 ## How to use this worksheet
 
-This worksheet is an interactive document run through RStudio. It is made using the R package `learnr`, which you installed before the prac. The worksheet has interactive code chunks that you can use to enter `R` code and quizzes to test yourself - which makes this more fun than a regular word document or PDF and lets you practice R coding.
+This worksheet is an interactive document run through RStudio. It is made using the R package `learnr`, which you installed before the prac. The worksheet has interactive code chunks that you can use to enter R code and quizzes to test yourself -- which makes this more fun than a regular word document or PDF and lets you practice R coding.
 
 You can interact with this worksheet through the Tutorial tab in RStudio. This window can be resized and expanded. However, I recommend clicking the pop out button (in between the home icon and the stop icon) to open the tutorial in a separate window. 
 
 ***
 
 **Code chunks**  
-Code chunks are independent of the main RStudio Environment. Anything you type here will not be saved to memory, but you won't need to. Try it:  
-*Here's a simple exercise with an empty code chunk provided for entering the answer. Click __Run Code__ to run the code. The __Hint__ button will tell you a hint. If you are really stuck, the last hint may be the solution.*
+Code chunks are independent of the main RStudio Environment. Anything you type here will not be saved to memory, but you won't need to. 
 
-Write the R code required to divide 10 by 5 (the answer should be 2):
+Here's a simple exercise with an empty code chunk provided for entering the answer. Click __Run Code__ to run the code, keyboard shortcuts will work too. __Start Over__ resets the code chunk. The __Hints__ button will tell you a hint. If you are really stuck, the last hint may be the solution.
 
+*Write the R code required to divide 10 by 5 (the answer should be 2):*
 ```{r test, exercise=TRUE, exercise.lines = 5}
 
 ```
@@ -50,6 +54,14 @@ You need a / somewhere. You do not need =
 ```
 
 You can use RStudio and R scripts at the same time for trying things out or taking notes. 
+
+<div class="panel panel-success">
+  <div class="panel-heading">
+<h3 class="panel-title">Hint!</h3>
+  </div>
+  <div class="panel-body">
+You do not need to highlight the entire code to run it. Place your cursor on the code line you want to run, then press Ctrl (Cmd on Macs) + Enter. </div>
+</div>
 
 ***
 
@@ -103,13 +115,13 @@ These are discussion questions that you should think about or write down an answ
 </div>
 
 Click **Next Topic** to progress to the practical instructions.  
-You can navigate between topics using the buttons or the menu.  
+You can navigate between topics using the buttons or the menu. You can access the menu if minimised by clicking the the title "Statistical Modelling Part 2". 
 
 <div class="panel panel-danger">
 <div class="panel-heading">
 <div class="panel-title">
 You must complete all the exercises to move ahead.  
-Do not skip exercises - This is the "practice" of the practical. </div>
+Do not skip exercises -- This is the "practice" of the practical. </div>
 </div>
 </div>
 
@@ -117,9 +129,9 @@ Do not skip exercises - This is the "practice" of the practical. </div>
 
 ## Practical outline
 
-Welcome to Part 2! We will continue to look at statistical modelling using the data we collected in the previous practical. 
+Welcome to Part 2! We will continue where we left off in Part 1 and progress through a **workflow** of conducting an experiment and analysing data.
 
-In this practical we aim to take a practical and hands-on approach to learning statistical modelling by using R and a real dataset you collected. We focus on the practicalities of *applying* statistics (implementation & interpretation) - not on the theory or mathematics (which was covered earlier in semester).
+We will explore *two* types of statistical modelling -- using linear regression (empiric model) to **parameterise** our function response model (theoretic model).
 
 **Learning objectives:**
 
@@ -129,31 +141,29 @@ In this practical we aim to take a practical and hands-on approach to learning s
  * Know what to include in a results paragraph
  * Know how to make a graph in R with appropriate labels and caption
 
-<div class="panel panel-primary">
-<div class="panel-heading">
-<div class="panel-title">
-We have covered all of these concepts in the lectures or previous practicals. This prac will reinforce and revise these concepts and allow you to practise them under supervision from the demonstrators. </div>
-</div>
-</div> 
-
-There are two goals here:
-
-1. A theory section where we will recap the lecture content and go over the practicalities of linear regression in R step by step using an example dataset. There are code chunks and revision questions. You can retry questions you get wrong - learning is about the process not the marks!
-2. A practice section where you will apply your new skills to the data you collected last practical. This is required to answer the CA. You will need access to the class dataset from the previous practical so save it somewhere you know.  
+We have covered all of these concepts in the lectures or previous practicals. This prac will reinforce and revise these concepts and allow you to practise them under supervision from the demonstrators.
 
 <div class="panel panel-primary">
 <div class="panel-heading">
 <div class="panel-title">
-Don't forget to answer the CA questions in a separate link. There are prompts that will tell you when to answer the questions. </div>
+I recommend taking your time and making sure you understand the content and are up to date with the module. This practical synthesises and integrates *everything* up to this point. There is no new material. </div>
 </div>
 </div> 
 
-The CA aims to assess your understanding of the concepts in this practical and your ability to apply the concepts in practice to new scenarios. The demonstrators aren't allowed to help you answer the CA directly but they can help you understand the theory parts so that you can answer the CA. 
+There are two activities:
+
+1. A step by step recap of the lecture content and the practicalities of linear regression in R using an example dataset. Work through the coding exercises and answer the questions *in order*.
+
+2. Testing your understanding of the content by applying what you've learnt from the example to the data you collected last practical. This is the assessment.
+
+Don't forget to answer the CA questions in a separate link. There are prompts that will tell you when to answer the questions. The demonstrators aren't allowed to help you answer the CA directly but they can help you understand the theory parts so that you can answer the CA. 
 
 <div class="panel panel-danger">
 <div class="panel-heading">
 <div class="panel-title">
-I do not recommend skipping the theory before attempting the CA - the theory section will go through all the steps you need for analysing your data. </div>
+I do not recommend skipping the theory before attempting the CA -- the theory section allow you to practice all the steps you need for analysing your data. 
+
+If you have no trouble with the example dataset, then you'll have no trouble with the CA.</div>
 </div>
 </div>
 
@@ -166,7 +176,7 @@ We don't expect you to be expert programmers but we *do* expect you to be able a
 
 In programming, it's *really easy* to make mistakes that breaks code. That is no means a reflection on you or your ability to code/learn.  
 
-If your code is not working take a moment to *breathe*. Then check for common, minor errors such as:
+If your code is not working take a moment to **breathe**. Then check for common, minor errors such as:
 
  * Spelling mistakes
  * Wrong dataset name
@@ -176,7 +186,7 @@ If your code is not working take a moment to *breathe*. Then check for common, m
  * Inconsistent cases (e.g. Uppercase)
  * Missed a step
  * Invalid syntax (e.g. spaces)
- * Duplicates of the same function with multiple errors - keep your scripts tidy!
+ * Duplicates of the same function with multiple errors -- keep your scripts tidy!
 
 These reading/typing mistakes are the majority of encountered errors. They are not a big deal and are easily corrected.
  
@@ -194,16 +204,20 @@ You can **and should** easily fix the above mistakes yourself! </div>
   <div class="panel-body">
 Do not take the code here for granted. One does not simply copy code from somewhere and blindly expect it to work.
 
-The point of learning to code is to not treat statistical software like a black box where you cannot see inside and you don't know where the numbers came from.
+The point of learning computation and programming is to not treat software like a black box where you cannot see inside and you don't know where the output came from or what they mean.
 
-You should aim to understand all the code here and describe what it's doing. </div>
+We expect you to know what the code means, describe what it's doing and know how to use it properly. </div>
 </div>
 
 *** 
 
 ### Talk to a rubber duck
 
-You need a clear idea of what you want to achieve in programming. Articulate in words to yourself what you aim to do, what you expect to see if it worked, what you did leading up to this point and what you think is happening to cause the error. This is called the rubber duck method - like you are explaining your problems to a rubber duck.
+ > Programming requires a clear idea of what you want to achieve. You need to do the thinking for the computer.
+ 
+One of the hardest thing about troubleshooting someone else's programming is that it's not clear what the problem is. When describing your problem, be comprehensive & give context. The more information you provide, the more information and context people have to help you.
+
+If something isn't working, can you articulate what you aim to do? What you expect to see if it worked? What you did leading up to this point? And what you think is happening to cause the error? This is called the **rubber duck method** -- like you are explaining your problems to a rubber duck. Notice, it's exactly like the Scientific Method.
 
 If there's an error message, read it. Error messages are the computer telling you what's wrong. Try googling the entire error message to see what other people have said. The entire error message is necessary, not just the last bit. 
 
@@ -212,21 +226,25 @@ If there's an error message, read it. Error messages are the computer telling yo
 <h3 class="panel-title">Let me google that for you</h3>
   </div>
   <div class="panel-body">
-There's no shame in googling everything - we do too and finding things out yourself part of learning to work independently or troubleshooting. </div>
+There's no shame in googling everything -- we do too and finding things out yourself part of learning to work independently or troubleshooting.
+
+We want you to know how to think for yourself!</div>
 </div>
 
-One of the hard things about troubleshooting someone else's programming is that it's not clear what the problem is. When describing your problem, be comprehensive & give context. Show the entire error message, not just parts of it. Trace your steps leading up to it. 
+Programming is **trial and error**. You shouldn't expect to get it on the first try. And that's OK -- it's part of the process. 
 
-The more information you provide, the more information and context people have to help you. That's why we might ask you to provide more information or ask further questions to troubleshoot. The first things we would check are the steps above (minor human errors), so if you've done those, then say what you've already checked and what causes you've ruled out. That gives us a starting point to assist you further.
+Challenge yourself to understand *why* something went wrong. You'll often find it's because you haven't proof-read your code carefully enough.
 
 <div class="panel panel-success">
   <div class="panel-heading">
 <h3 class="panel-title">Read carefully!</h3>
   </div>
   <div class="panel-body">
-Take the time to *synthesise* and *integrate* information so that you can apply it to *new scenarios* - that is the learning objective of your entire university degree. For example, what we do here builds upon everything you've done in this module!
+Take the time to *synthesise* and *integrate* information so that you can apply it to *new scenarios* -- that is the learning objective of your entire university degree. For example, what we do here builds upon everything you've done in this module!
 
 Properly read and digest the material you are given because almost all your modules will test your reading comprehension and attention to detail. And there's nothing in this practical that wasn't covered earlier in semester and in the lectures.
+
+This practical will get progressively more challenging so practice the basics before you progress to harder stuff or answer the assessment.
 
 Don't skim read. Take notes. Follow the written instructions. 
 
@@ -235,17 +253,13 @@ Learning is about the process and about your growth, not the end result or your 
 Try to enjoy the moment. Don't overthink it. </div>
 </div>
 
-Programming is **trial and error**. You shouldn't expect to get it on the first try. And that's OK - it's part of the process. 
-
 ###
 
-<div class="panel panel-primary">
+<div class="panel panel-warning">
   <div class="panel-heading">
-<h3 class="panel-title">Tips!</h3>
+<h3 class="panel-title">Be prepared!</h3>
   </div>
   <div class="panel-body">
-Take your time, work through the material in order and practice the basics before you progress to harder stuff. Refer to your lecture notes or previous practicals and integrate the information.  
-
 Unless you are 100% confident with data handling and doing multiple regressions in R, do not skip ahead to answer your assessment on the fly. 
 
 Everything we do here is building on and applying what we've previously covered. This practical is meant to be challenging so don't stress yourself by attempting the assessment unprepared. </div>
@@ -264,19 +278,6 @@ question(
   answer("Missing quotation marks"),
   allow_retry = TRUE,
   random_answer_order = TRUE,
-  incorrect = random_encouragement()
-)
-```
-
-*Enter in the correct code to calculate the median of `concentration`. `test_data` is already stored as an R object. Press Run Code.*
-```{r reading-exercise, exercise = TRUE}
-
-```
-
-```{r reading-ans}
-question_text("What is the median of concentration?",
-  answer(paste(median(test_data$concentration)), correct = TRUE, message = random_praise()),
-  allow_retry = TRUE,
   incorrect = random_encouragement()
 )
 ```
@@ -411,7 +412,6 @@ In the lectures, we saw that the structure of the appropriate linear model to fi
 ```{r quiz1}
 quiz(
   question("What is the difference between a simple linear regression and a multiple linear regression?",
-           answer("There is no difference"),
            answer("Simple linear regressions have two predictor variables, multiple linear regressions have one"),
            answer("Simple linear regressions have one predictor variable, multiple linear regressions have two or more", correct = TRUE, message = random_praise()),
            answer("Simple linear regressions have two response variables, multiple linear regressions have one"),
@@ -428,15 +428,6 @@ quiz(
            allow_retry = TRUE,
            random_answer_order = TRUE,
            incorrect = random_encouragement()
-  ),
-  question("Which type of regression so you think we can fit to this data?",
-           answer("Any type of regression will do"),
-           answer("Either type of multiple regression", correct = TRUE, message = "Technically, we could fit any of these to the data, but the interpretation and appropriateness varies"),
-           answer("Additive multiple regression"),
-           answer("Interactive multiple regression"),
-           allow_retry = TRUE,
-           random_answer_order = TRUE,
-           incorrect = random_encouragement()
   )
 )
 ```
@@ -445,7 +436,7 @@ If we did a simple linear regression with one predictor variable, we would have 
 
 By pooling foraging strategy, any variation in the data generated by foraging strategy is **unaccounted for**. Unaccounted variation may increase our chance of making a Type I or II error because foraging strategy **confounds** the effect of prey density. Phrased differently, the effect of prey density on numbers of prey captured is **masked** by the effect of foraging strategy. Thus, in this case, using a simple linear regression on a dataset with two or more predictor variables is not the best course of action for explaining as much variation in the data as we can.
 
-If we want to see whether using a lid has an effect on our predator-prey interaction response, we need to include the variable in our linear model *as well as our original predictor variable, prey density*.
+If we want to see whether using a lid has an effect on our predator-prey interaction response, we need to include the variable in our linear model *as well as our original predictor variable, prey density*. We need a multiple linear regression model.
 
 ***
 
@@ -453,9 +444,9 @@ If we want to see whether using a lid has an effect on our predator-prey interac
 
  > The wording of the hypothesis will dictate the appropriate linear model and our expectations about the graph.
 
-Recall, we expect an initial *positive* relationship between prey density and the number of prey captured - the number of prey captured will increase with prey density until there are too many prey for a predator to handle and the number of prey captured will plateau. 
+Recall, we expect an initial *positive* relationship between prey density and the number of prey captured -- the number of prey captured will increase with prey density until there are too many prey for a predator to handle and the number of prey captured will plateau. 
 
-We also expect this positive relationship when we take the inverse of our variables - the linearised data. So "positive" needs to be in our hypothesis but we need to decide the nature of the relationship between the two predictors.
+We also expect this positive relationship when we take the inverse of our variables -- the linearised data. So "positive" needs to be in our hypothesis but we need to decide the nature of the relationship between the two predictors.
 
 ```{r interac}
 quiz(
@@ -480,7 +471,7 @@ We could fit an interactive model to our data if we were more interested in find
 
 Both are types of statistical models and valid in their own right but in this case an interaction doesn't quite match the goals of constructing a theoretic model of predator-prey interactions from fundamental observations.
 
-Foraging strategy determines the amount of prey captured but does not affect the number of prey present. And prey density determines the number of prey captured but does not influence the foraging strategy. This is based on our assumptions about the predator-prey interaction - the predator does not change foraging behaviour.
+Foraging strategy determines the amount of prey captured but does not affect the number of prey present. And prey density determines the number of prey captured but does not influence the foraging strategy. This is based on our assumptions about the predator-prey interaction -- the predator does not change foraging behaviour.
 
 If the predator changed their foraging behaviour then there would be an interaction between the two predictor variables. This could be realistic. For example, animal predators might use different foraging strategies under different prey densities or they may switch to another strategy when prey density reaches a certain threshold. In fact, this is a Type III model, a sigmoidal function.
 
@@ -499,17 +490,25 @@ As we saw in the lectures, the theory behind all linear regressions is the same 
 
  > Variance in $Y$ is partitioned sequentially and in alphabetical order (unless otherwise asked to) in R 
  
-To practice fitting linear regression in `R`, we will use the dataset `crabs` - see `help(crabs)` for more information. You can also check the data using `str(crabs)`. This dataset is provided in `R` in the package `MASS`. I have already loaded the data for you within the tutorial so you don't need to do it but you will need to load it via `library(MASS)` if you want to try code in a script. What happens in the interactive tutorial is independent of R's Environment.
+To practice fitting linear regression in R, we will use the dataset `crabs` -- see `help(crabs)` for more information. You can also check the data using `str(crabs)`. This dataset is provided in R in the package `MASS`. I have already loaded the data for you within the tutorial so you don't need to do it but you will need to load it via `library(MASS)` if you want to try code in a script. What happens in the interactive tutorial is independent of R's Environment.
 
 There are three variables we will look at (carapace is the zoological term for shell):
 
- * `CL`: Carapace length (mm) - our response variable
- * `CW`: Carapace width (mm) - our predictor variable
+ * `CL`: Carapace length (mm) -- our response variable
+ * `CW`: Carapace width (mm) -- our predictor variable
  * `sp`: Colour morph (`B` or `O` for blue or orange crabs)
 
-The code we use here can be applied to any dataset. You can try it with any biological system of your choice in your own time. For example, `airquality` has environmental data or the Penguins [dataset](https://towardsdatascience.com/penguins-dataset-overview-iris-alternative-9453bb8c8d95) about penguins can be downloaded as a package.
+<div class="panel panel-primary">
+  <div class="panel-heading">
+<h3 class="panel-title">Info!</h3>
+  </div>
+  <div class="panel-body">
+The code we use here can be applied to any dataset. You can try it with any biological system of your choice in your own time. For example, `airquality` has environmental data or the Penguins [dataset](https://towardsdatascience.com/penguins-dataset-overview-iris-alternative-9453bb8c8d95) about penguins can be downloaded as a package. </div>
+</div>
  
-We can ask the question "Does the relationship between shell length and width differ between colour morphs?". We can also phrase this as "Does the relationship between shell length and width depend on the colour of the crab?". Compared to a simple linear regression with one predictor variable (e.g. `CW`), this is a more complex question needing a more complex experimental design (two predictor variables) and thus a more complex statistical analysis.
+We can ask the question "Does the relationship between shell length and width differ between colour morphs?". We can also phrase this as "Does the relationship between shell length and width depend on the colour of the crab?". 
+
+Compared to a simple linear regression with one predictor variable (e.g. `CW`), this is a more complex question needing a more complex experimental design (two predictor variables) and thus a more complex statistical analysis.
 
 <div class="panel panel-primary">
   <div class="panel-heading">
@@ -519,9 +518,7 @@ We can ask the question "Does the relationship between shell length and width di
 Multiple regression allows us to ask "Does including information about our predictor variables improve our ability to detect/understand trends in our response variable?" </div>
 </div>
 
-"Bigger" crabs are expected to be larger in width and length so we expect a positive relationship between these variables. Whether this relationship is *also* dependent on the colour of the crab is what we can find out! We don't expect colour morphs to influence carapace width, i.e. crabs don't change colour as they get bigger, so an additive model fits with our understanding of the biological system.
-
-You'll notice that the structure of this data is intentionally the same as our functional response experiment. For the CA you will need to apply what you've learnt here to your own data.
+"Bigger" crabs are expected to be larger in width and length so we expect a positive relationship between these variables. Whether this relationship is *also* dependent on the colour of the crab is what we can find out! We don't hypothesise colour morphs to influence carapace width, i.e. crabs don't change colour as they get bigger, so an additive model fits with our understanding of the biological system (assuming the growth rate of both colours are the same).
 
 It always helps to see a graph of the data:
 ```{r crab-graph}
@@ -539,17 +536,17 @@ $$Y = \beta_0 + \beta_1 X_1 + \beta_2 X_2 + \varepsilon$$
 
 Where $X_1$ is our first predictor variable and $X_2$ is our second predictor variable. 
 
-$\beta$ are the regression coefficients (also called terms) describing the variation in $Y$ attributed to each coefficient. The additive model has three terms that are unknown to us: $\beta_0$, $\beta_1$ and $\beta_2$. R's job is to find the values of these coefficients from empirical data.
+$\beta$ are the regression coefficients (also called terms) describing the variation in $Y$ attributed to each source of variation. The additive model has three terms that are unknown to us: $\beta_0$, $\beta_1$ and $\beta_2$. R's job is to find the values of these coefficients from empirical data.
 
-$\varepsilon$ is the random error (residual error) not accounted for by the model - it's always part of the equation but it's often ignored, much like $c$ in integration.
+$\varepsilon$ is the random error (residual error) not accounted for by the model -- it's always part of the equation but it's often ignored, much like $c$ in integration.
 
  > In additive models, the effect of one predictor on the response variable is **additive** or **independent** of the other.
 
-There is **no interaction** between the predictor variables colour or shell width (i.e. $\beta_3 = 0$). Thus the two fitted lines have the same slope ($\beta_1$) - hence they are sometimes called *fixed slopes* models. The model is described as a "**reduced**" model because it does not contains all possible terms - all predictor variables and all possible combinations of their interactions. 
+There is **no interaction** between the predictor variables colour or shell width (i.e. $\beta_3 = 0$). Thus the two fitted lines have the same slope ($\beta_1$) -- hence they are sometimes called *fixed slopes* models. The model is described as a "**reduced**" model because it does not contains all possible terms -- all predictor variables and all possible combinations of their interactions. 
 
  > Interactive models are considered "**full**" models if they contain all interactions in a fully crossed design.
 
-To estimate the $\beta$ coefficients, the ordinary least squares regression splits the dataset into its predictor variables and fit a model to each component - this is called **partial regression**. The goal is to assign as much variation in the data as possible to each predictor variable. This process requires a baseline variable that sets the contrast for assigning variation (i.e. what $\beta_0$ represents).
+To estimate the $\beta$ coefficients, the ordinary least squares regression splits the dataset into its predictor variables and fit a model to each component -- this is called **partial regression**. The goal is to assign as much variation in the data as possible to each predictor variable. This process requires a baseline variable that sets the contrast for assigning variation (i.e. what $\beta_0$ represents).
 
 **Dummy variables** are used with a **categorical predictor** to set the baseline for the ordinary least squares regression. Since Blue is alphabetically before Orange, Blue is the baseline contrast used in the partial regression process and assigned the dummy variable 0 in `crabs`. 
 
@@ -561,10 +558,12 @@ An orange crab gets a dummy variable of 1, thus:
 $$CL = \beta_0 + \beta_1 CW + \beta_2 sp \times 1 + \varepsilon$$
 becomes $CL = (\beta_0 + \beta_2) + \beta_1 CW$   
 
-In effect, we are fitting *two* lines to this data - one for each sub-category of colour. The technical term for each of these lines is a **partial regression line**. We can write these regression lines as:
+In effect, we are fitting *two* lines to this data -- one for each sub-category of colour. The technical term for each of these lines is a **partial regression line**. We can write these regression lines as:
 
 $$ shell \space length  = \beta_{0_{colour}} + \beta_{1} shell \space width + \varepsilon$$
-Now the intercept parameter ($\beta_{0_{colour}}$) specifies that it is dependent on the colour of the crab as we showed above: $\beta_{0_{colour}} = \beta_0 + \beta_2$.
+Now the intercept parameter ($\beta_{0_{colour}}$) specifies that it is dependent on the colour of the crab as we showed above:
+$$\beta_{0_{Blue}} = \beta_0$$
+$$\beta_{0_{Orange}} = \beta_0 + \beta_2$$.
 
 ***
 
@@ -572,19 +571,36 @@ Now the intercept parameter ($\beta_{0_{colour}}$) specifies that it is dependen
  
  > Categorical data is are called **factors** and the sub-groups are called **levels** in R
 
-In R, both the order of the predictor variables and the order of the sub-groups of a categorical variable are relevant because this is the order R partitions variation in the response variable to the predictor variables.
+Because R needs to attribute variation to every sub-group, the order of the subgroups is relevant. R shows you the **difference** between levels of a factor ($\beta$). The default order is in **alphabetical order** of the levels.
 
-The jar without a lid treatment is coded as `no_lid` and the jar with a lid treatment is coded as `yes_lid`. We can also think of jar with a lid as our experimental control and the jar without a lid as our experimental treatment. 
+This is relevant to the experimental design too. It may be helpful to think of the first level of a treatment and the first intercept ($\beta_0$) and slope estimate ($\beta_1$) as the control of your experiment because R uses these coefficients as the **baseline** for hypothesis tests.
 
-As R shows you the **difference** between levels of a treatment and estimates these parameters based on **alphabetical ordering** of the levels, it may be helpful to think of the first level of a treatment and the first intercept and slope estimate as the control of your experiment. In other words, like a baseline you are comparing to since this is what R is doing when evaluating the one sample t test on parameter estimates.
+For example, the jar without a lid treatment is coded as `no_lid` and the jar with a lid treatment is coded as `yes_lid`. We can also think of jar with a lid as our experimental control (a less efficient predator) and the jar without a lid as our experimental treatment (a more efficient predator). Our "control" group (`yes_lid`) is alphabetically after `no_lid`, so we have the reverse scenario.
 
-By default, foraging strategy is classified as a **character** vector because it is a field with strings (letters). Characters do not identify sub-groups thus there is no structure to this variable - they are simply a vector of strings. Both characters and factors are ways R stores categorical data, the difference being that factors have a specific order.
+By default, foraging strategy is classified as a **character** vector because it is a field with strings (letters). Characters do not identify sub-groups thus there is no structure to this variable -- they are simply a vector of strings. 
 
-Our "control" group (`yes_lid`) is alphabetically after `no_lid`, so we have the reverse scenario. Under the hood, R converts the `foraging_strategy` variable from a character vector to a **factor** when fitting the linear regression and the order of levels is assigned alphabetically.
+<div class="panel panel-primary">
+  <div class="panel-heading">
+<h3 class="panel-title">Info!</h3>
+  </div>
+  <div class="panel-body">
+Both characters and factors are ways R stores categorical data, the difference being that factors have a specific order. </div>
+</div>
 
-We will not do anything about this for now - in this case, it doesn't change our conclusions. R will use `no_lid` as the baseline contrast for $\beta_0$ and $\beta_1$. We just need to keep the order in mind when parameterising.
+To fit a linear regression, R converts the `foraging_strategy` variable from a character vector to a factor and the order of levels is assigned alphabetically. R will use `no_lid` as the baseline contrast for $\beta_0$ and $\beta_1$. We just need to keep the order in mind when parameterising.
 
-If you needed to change the order of the sub-groups you will need to change the variable to a factor (`as.factor`) and define the order of levels using `levels = c("level1", "level2")`. If we did this, then the slope coefficient uses `yes_lid` as the baseline and the final estimated coefficients are exactly the same, just reversed.
+We will not do anything about this for now -- in this case, it doesn't change our conclusions.
+
+<div class="panel panel-primary">
+  <div class="panel-heading">
+<h3 class="panel-title">Info!</h3>
+  </div>
+  <div class="panel-body">
+If you needed to change the order of the sub-groups you will need to change the variable to a factor (`as.factor`) and define the order of levels using `levels = c("level1", "level2")`.  
+`data$var <- as.factor(data$var, levels = c("level1", "level2")`.
+
+If we did this, then the regression uses `yes_lid` as the baseline ($\beta_0$ and $\beta_1$) and the dummy variables are reversed but the parameterised model is the same. </div>
+</div>
 
 ```{r dummy}
 question_radio(
@@ -592,13 +608,13 @@ question_radio(
   answer("0"),
   answer("1", correct = TRUE, message = "Orange is now the baseline."),
   allow_retry = TRUE,
-  incorrect = "How are dummy variables assigned?"
+  incorrect = "What is the order of the levels now?"
 )
 ```
 
 ***
 
-### Fitting the model in `R`
+### Fitting the model in R
 
 A linear regression in R with two predictor variables follows the general formula: 
 ```
@@ -607,7 +623,7 @@ lm(Y ~ X1 + X2, data)
 Where:
 
  * `X1` & `X2` are the two predictor variables
- * `+` indicates the relationship between the two predictors: a plus sign for an *additive* relationship
+ * `+` indicates the relationship between the two predictors: a plus sign for an **additive** relationship
  * `lm` stands for linear model
  * `Y` is our response variable
  * `data` is the name of our dataset 
@@ -627,7 +643,7 @@ Did you get some output ?
 It should tell us two things:
 
 1. Call is the formula used. It should be the same as the linear model code
-2. Coefficients are the estimated coefficients of the model. From left to right they are: $\beta_0$, $\beta_1$ and $\beta_2$.
+2. Coefficients are the estimated coefficients of the model. There should be three coefficients called `(Intercept)`, `CW` & `spO`. From left to right they are: $\beta_0$, $\beta_1$ and $\beta_2$.
 
 We can already substitute the estimated $\beta$ coefficients into the full expression of the linear model $Y = \beta_0 + \beta_1 X_1 + \beta_2 X_2 + \varepsilon$ for the crabs dataset as:
 
@@ -635,7 +651,15 @@ $$CL = -0.67 + 0.88 CW + 1.09 sp + \varepsilon$$
 
 But let's look at the coefficients in more detail starting with the first two coefficients. The interpretation for these coefficients is the same as simple linear regression. There's the intercept `(Intercept)` ($\beta_0$) and there's the slope `CW` ($\beta_1$).
 
-Remember we are expecting *two* lines in our model - one for blue crabs and one for orange crabs. 
+<div class="panel panel-primary">
+  <div class="panel-heading">
+<h3 class="panel-title">Info!</h3>
+  </div>
+  <div class="panel-body">
+Coefficients are named based on what variation in $Y$ they contribute to. So the slope coefficient is called `CW` because it how much shell length changes with shell width. </div>
+</div>
+
+Remember we are expecting *two* lines in our model -- one for blue crabs and one for orange crabs. 
 
 ```{r coef-cals}
 quiz(
@@ -683,7 +707,9 @@ Halfway there! Now for the orange crabs!
 
 Since we expect the slope of the regression for orange crabs is the same as blue crabs, we already know the value of $\beta_{1}$ is `r round(coef(crabs_add)[2],1)`. But we need to manually calculate the intercept for orange crabs.
 
-The estimate for `spO` is $\beta_2$, which is the **difference in the intercept between orange crabs and blue crabs**. To calculate the intercept for orange crabs we need to add the estimated coefficient of the intercept for blue crabs ($\beta_0$) with the difference ($\beta_2$): $\beta_{0_{colour}} = \beta_0 + \beta_2$. 
+The estimate for `spO` is $\beta_2$, which is the **difference in the intercept between orange crabs and blue crabs**. Or the additional variation in shell length attributed to colour, while pooling for shell width. 
+
+To calculate the intercept for orange crabs we need to add the estimated coefficient of the intercept for blue crabs ($\beta_0$) with the difference ($\beta_2$): $\beta_{0_{Orange}} = \beta_0 + \beta_2$. 
 
 Now that you know how to parameterise the linear regression for orange crabs:  
 ```{r showaddcoef}
@@ -823,7 +849,7 @@ legend("topleft", bty = "n", c("Group 1", "Group 2"), lwd = c(4, 4), col = c(3,2
 
 plot(type2 ~ prey, type = 'l', lwd = 4, ylab = "Response variable", xlab = "Predictor variable",
      xaxt='n', yaxt='n', bty = "l", ylim = c(0, 1.2), col = 3, main = "Figure D")
-lines(seq(0, 0.6, length.out = length(prey)) ~ prey, lwd = 4, col = 2)
+lines(seq(0, 0.6, length.out = length(prey))+0.1 ~ prey, lwd = 4, col = 2)
 legend("topleft", bty = "n", c("Group 1", "Group 2"), lwd = c(4, 4), col = c(3,2))
 ```
 
@@ -850,13 +876,13 @@ quiz(
 )
 ```
 
-Notice how the slopes of all the lines are the same. The difference between the coloured lines in Figure A is that the lines have different intercepts. We expected this based on the additive model.
+Notice how the slopes of all the lines are the same. We expected this based on the additive model maths.
 
-Unlike a simple regression, our hypotheses are not concerned about whether the slope is different to 0. We want to know if the lines have different *intercepts to each other*. Phrased differently, we need to test whether **the difference in the intercept is different to 0**.
+ We want to know if the lines have different *intercepts to each other*. Phrased differently, we need to test whether **the difference in the intercept is different to 0**.
 
-We could have multiple hypotheses that also test whether there *is* a trend in the data but the specific wording of our hypotheses above do not do so.
+We could have more hypotheses that also test whether there *is* a positive relationship in the data or not (i.e. is the slope = 0?) but the specific wording of our hypotheses above do not do so.
 
-We don't just need to know the difference, we need to statistically test this; whether an estimated/observed value of a sample is significantly different to a known population value. You've done this kind of test already.
+We don't just need to know the difference, we need to statistically test this; whether an estimated/observed value of a sample is significantly different to a known population value. You've leant about this kind of test already.
 
 ```{r tests}
 quiz(
@@ -890,7 +916,7 @@ Statistical significance is not the same thing as biological significance.
 A relationship between two purely randomly generated numbers can be statistically significant but have no biological meaning. A biologically meaningful relationship can be statistically non-significant. </div>
 </div>
 
-`R` automatically tests the following hypotheses as part of `lm`:
+R automatically tests the following hypotheses as part of `lm`:
 
 H0: The difference is equal to 0  
 H1: The difference is not equal to 0
@@ -948,6 +974,16 @@ quiz(caption = "Look at the information for $\\beta_2$, the difference in the in
 )
 ```
 
+<div class="panel panel-primary">
+  <div class="panel-heading">
+<h3 class="panel-title">Info!</h3>
+  </div>
+  <div class="panel-body">
+The one sample t-test is done on each coefficient. The hypotheses are are same. The test can also be phrased as "Does the coefficient explain a significant amount of additional variation in $Y$?".
+
+For example, if we ran a multiplicative model with a $\beta_3$ term, then the t-test will determine whether there is an interaction or not. If the t-test was not significant, then the interaction does not explain more variation and an additive model without an interaction is more appropriate. This is an example of model selection. </div>
+</div>
+
 ***
 
 ### The ANOVA table
@@ -969,8 +1005,8 @@ What is the function to get the ANOVA table and where does it go?
 Let's go through each column in the R output:
 
  1. The first column are all the sources of variation in shell length: shell width and colour morph
- 2. `Df` stands for Degrees of Freedom (df) - this is a measure of how much information R had to fit the model. For example, the degrees of freedom of $\varepsilon$ is the total number of observations - the number of terms - 1. Thus 1 + 1 + 197 + 1 = 200 observations in the dataset.
- 3. `Sum Sq` are the Sum of Squares (SS), $\sum \varepsilon ^2$, from the ordinary least squares regression - the goal is to make these as small as possible
+ 2. `Df` stands for Degrees of Freedom (df) -- this is a measure of how much information R had to fit the model. For example, the degrees of freedom of $\varepsilon$ is the total number of observations - the number of terms - 1. Thus 1 + 1 + 197 + 1 = 200 observations in the dataset.
+ 3. `Sum Sq` are the Sum of Squares (SS), $\sum \varepsilon ^2$, from the ordinary least squares regression -- the goal is to make these as small as possible
  4. `Mean Sq` are the Mean Sum of Squares (MS). Since SS depend on the complexity of the model as described by the degrees of freedom, it's useful to standardise SS by df. This is effectively the average variation (like the sum of the error divided by the number of observations).
  5. `F value` is the F statistic. Also called the F ratio because it is the ratio between the MS of each term and the MS of the residuals
  6. `Pr(>F)` is the P value of the F statistic. The asterisks help you categorise the P values. This is another way to test whether a predictor variable or term explains a significant amount of variation in the response variable.
@@ -981,7 +1017,7 @@ There are three rows describing the variation in shell length:
 
  1. Variation attributed to shell width
  2. Variation attributed to colour morph
- 3. Variation not attributed to either shell width or colour morph - the left over variation
+ 3. Variation not attributed to either shell width or colour morph -- the left over variation
  
 The total amount of variation in the data (SSY) is the sum of all these rows in the column `Sum Sq`.
 
@@ -1018,6 +1054,14 @@ quiz(caption = "Based on the ANOVA table for the additive model on the crabs dat
 )
 ```
 
+<div class="panel panel-primary">
+  <div class="panel-heading">
+<h3 class="panel-title">Info!</h3>
+  </div>
+  <div class="panel-body">
+You may see that the `crabs` dataset with a continuous and categorical predictor variable is analysed using an Analysis of Covariance (ANCOVA). ANCOVAs and ANOVA are simply another way of expressing a linear regression. The additive model we've done here is the same as an ANCOVA. </div>
+</div>
+
 ***
 
 ### Putting results into sentences
@@ -1038,7 +1082,7 @@ A results sentence needs at a minimum:
  * The P value
      * Really small or large P values can be summarised. E.g. P < 0.001
  
-P values should never be reported on their own - they are also meaningless without the test statistic and context.
+P values should never be reported on their own -- they are also meaningless without the test statistic and context.
 
 All the above information is given to you in `summary` or the ANOVA table. The degrees of freedom of a linear regression are found at the bottom of `summary` (`Residual standard error`).
 
@@ -1072,9 +1116,9 @@ The point of statistical testing is to understand trends in data. Not to get a s
 
 ### Practice: Exploring a Type II functional response
 
-Remember we had some unknown parameters in our predator-prey functional response model? The search rate, $a$, and the handling time, $T_h$. We need to find the value of those parameters from the slope and the intercept of our linearised Type II dataset - exactly like we did for the `crabs` example. We can use the `lm` function on our predator-prey model data to parameterise our model.
+Remember we had some unknown parameters in our predator-prey functional response model? The search rate, $a$, and the handling time, $T_h$. We need to find the value of those parameters from the slope and the intercept of our linearised Type II dataset -- exactly like we did for the `crabs` example. We can use the `lm` function on our predator-prey model data to parameterise our model.
 
-Before we can do our `lm` in `R` we need to import the data and linearise the data.
+Before we can do our `lm` in R we need to import the data and linearise the data.
 
 **Step 1: Importing data**  
 First, we need to import the data in to R. This should be familiar to you from before. 
@@ -1086,7 +1130,7 @@ First, we need to import the data in to R. This should be familiar to you from b
   <div class="panel-body">
 Don't use the code chunks in this tutorial to import data, it won't work. Make your own script (File -> New Script, or Ctrl(Cmd) + Shift + N). 
 
-Don't write your code directly in the console either - you won't have a good record of what you've done and it is harder to troubleshoot. You may want to use the code here to help you with your final report or future projects.
+Don't write your code directly in the console either -- you won't have a good record of what you've done and it is harder to troubleshoot. You may want to use the code here to help you with your final report or future projects.
 
 You can copy the code in this tutorial and **modify as appropriate for your data**. </div>
 </div>
@@ -1147,7 +1191,7 @@ Because we use a value of 1 minute for $T_{total}$, we are essentially dividing 
   <div class="panel-body">
 Since we have done some division, it's a good time to check for any undefined values in case we divided by 0. 
 
-In `R` undefined values are denoted as infinities (`Inf`). You can check how many infinities there are using `table(is.infinite(class_data$Ha.1))` - this will check whether each cell has undefined values (`is.infinite`) and give you logical `TRUE`/`FALSE` output, then tabulate the logic statements to count the number of `TRUE`/`FALSE` occurrences in the column `Ha.1`.
+In R undefined values are denoted as infinities (`Inf`). You can check how many infinities there are using `table(is.infinite(class_data$Ha.1))` -- this will check whether each cell has undefined values (`is.infinite`) and give you logical `TRUE`/`FALSE` output, then tabulate the logic statements to count the number of `TRUE`/`FALSE` occurrences in the column `Ha.1`.
 
 We can replace the infinities with zeroes using `class_data$Ha.1 <- ifelse(class_data$Ha.1 == Inf, 0, class_data$Ha.1)`. You might recognise the if else statement and understand what's happening from previous lectures: **if** there is an undefined value, **then** replace that value with 0, **else** leave the value as is. We don't discard these observations because a value of 0 has biological meaning. </div>
 </div>
@@ -1165,7 +1209,7 @@ If `lm` is the function to do a linear regression, `Ha.1` is the name of our res
 <h3 class="panel-title">Hint</h3>
   </div>
   <div class="panel-body">
-The workflow is exactly as we did for `crabs` - so you've practised it already (ideally). Remember that R partitions variation sequentially and in alphabetical order for factors.
+The workflow is exactly as we did for `crabs` -- so you've practised it already (ideally). Remember that R partitions variation sequentially and in alphabetical order for factors.
 
 If you didn't understand the previous material or you got some questions incorrect or you skipped bits, I recommend finishing them before progressing. Demonstrators cannot help you answer the assessment. </div>
 </div>
@@ -1203,7 +1247,7 @@ quiz(caption = "Getting an error message?",
   <div class="panel-body">
 Linear regressions are always done on the entire data, not on averages. i.e. you wouldn't use the average of your replicates for each treatment for the underlying data. Data must be raw (unprocessed).
 
-To fit a line to data, ordinary least squares regression depends on quantifying *variation* of observations around the mean (think back to how sampled data from a population is distributed). Averaging data removes that variation and thus there is less information for `R` to use (fewer degrees of freedom). </div>
+To fit a line to data, ordinary least squares regression depends on quantifying *variation* of observations around the mean (think back to how sampled data from a population is distributed). Averaging data removes that variation and thus there is less information for R to use (fewer degrees of freedom). </div>
 </div>
 
 We won't plot our regression lines just yet but you should be able to interpret the R output as a graph by looking at the coefficient values. We will construct a graph later!
@@ -1234,9 +1278,9 @@ Visualising data is very important for understanding our data and for communicat
 
 > The general formula to plot a scatter graph is `plot(response ~ predictor, data)`
 
-If our data is categorised (e.g. `sp` in `crabs` has `B` or `O`), then we need to plot our points for each group separately. We can do this by calling a plot with no points using `plot(response ~ predictor, data, type = "n")` where `"n"` tells `R` not to plot anything. Then we add points manually with `points(response ~ predictor, data[data$group == "subsetA",])` for each sub-category.
+If our data is categorised (e.g. `sp` in `crabs` has `B` or `O`), then we need to plot our points for each group separately. We can do this by calling a plot with no points using `plot(response ~ predictor, data, type = "n")` where `"n"` tells R not to plot anything. Then we add points manually with `points(response ~ predictor, data[data$group == "subsetA",])` for each sub-category.
 
-We need to subset our data (like we did in previous pracs) so that `R` only plots the sub-categories of data.
+We need to subset our data (like we did in previous pracs) so that R only plots the sub-categories of data.
 
 *Using the crabs dataset, modify the code below to plot crab shell length (response) against crab shell width (predictor) for __only blue crabs__.*
 ```{r graph, exercise=TRUE, exercise.lines = 5}
@@ -1263,7 +1307,7 @@ plot(CL ~ CW, crabs, type = "n")
 points(CL ~ CW, crabs[crabs$sp == "B",])
 ```
 
-*Now add the orange crabs to plot all the data - You have to start the code from the beginning.*
+*Now add the orange crabs to plot all the data -- You have to start the code from the beginning.*
 ```{r orangec, exercise=TRUE, exercise.lines = 5}
 plot(response ~ predictor, data, type = "n")
 points(response ~ predictor, data[data$group == "subsetA",])
@@ -1283,7 +1327,7 @@ points(CL ~ CW, crabs[crabs$sp == "B",])
 points(CL ~ CW, crabs[crabs$sp == "O",])
 ```
 
-Uh oh! We cannot distinguish between the colours of crabs! Time to learn more `R` to add more features to the graph.
+Uh oh! We cannot distinguish between the colours of crabs! Time to learn more R to add more features to the graph.
 
 ***
 
@@ -1299,7 +1343,7 @@ Colour is important when presenting data. Are the colours meaningful? Are they n
 Red-Green colour blindness is the most common form of colour blindness. A simple guideline is to avoid using red and green together where ever possible. Blue and orange are better contrasting colours (that's why they are common colour schemes for movie posters). </div>
 </div>
 
-Colour in `R` is defined by `col`. So in a graph if I wanted to change the colour of the points from black (default) to red then I can either call `col = "red"` or `col = 2` as an argument within the `points()` function, because red is the second colour in the default R colour palette (black is 1). There are lots of colours to choose from (Google it for a full list). R also accepts hexidecimal RGB colour codes for custom colours (e.g. black is #000000).
+Colour in R is defined by `col`. So in a graph if I wanted to change the colour of the points from black (default) to red then I can either call `col = "red"` or `col = 2` as an argument within the `points()` function, because red is the second colour in the default R colour palette (black is 1). There are lots of colours to choose from (Google it for a full list). R also accepts hexidecimal RGB colour codes for custom colours (e.g. black is #000000).
 
 *Change the colour of the points to their relevant colour (blue or orange)*
 ```{r col, exercise=TRUE, exercise.lines = 5, exercise.eval = TRUE}
@@ -1323,7 +1367,7 @@ points(CL ~ CW, crabs[crabs$sp == "O",], col = "orange")
 
 #### Shapes
 
-Shapes are important because it makes the points stand out. It can also be used to distinguish between groups of data on the same graph. Sometimes it's necessary to change colour *and* shape to make it easier to distinguish between groups - redundancy is acceptable and encouraged in graphical design.
+Shapes are important because it makes the points stand out. It can also be used to distinguish between groups of data on the same graph. Sometimes it's necessary to change colour *and* shape to make it easier to distinguish between groups -- redundancy is acceptable and encouraged in graphical design.
 
 The shape of the points are coded `pch = <number>` as an argument within `plot()` or `points()`. There are lots of options designated a number from 1 to 25. (Google "R pch" for the full list). 1 is the default open circle. A filled circle is 16.
 
@@ -1349,7 +1393,7 @@ This graph is fine but if we were to put this in a professional scientific paper
 
 #### Axes labels
 
-The `R` code to change the labels on a graph are `xlab` and `ylab` for the x axis and y axis, respectively. These are called within the `plot()` function like:
+The R code to change the labels on a graph are `xlab` and `ylab` for the x axis and y axis, respectively. These are called within the `plot()` function like:
 ```
 plot(response ~ predictor, data, xlab = "label", ylab = "label")
 ```
@@ -1410,7 +1454,7 @@ plot(CL ~ CW, crabs)
 abline(-0.662, 0.9)
 ```
 
-The same code is used to plot either regression line for a multiplicative regression - you just need to use the slope and intercept values you want!
+The same code is used to plot either regression line for a multiplicative regression -- you just need to use the slope and intercept values you want!
 
 You can also change the colour, type and width of the line as arguments within `abline()`.
 
@@ -1436,7 +1480,7 @@ Here are the coefficients for the additive linear model:
 round(crabs_add$coefficients, 1) 
 ```
 
-*Change the basic crabs graph to match the graph above - this graph is suitable for a scientific report*
+*Change the basic crabs graph to match the graph above -- this graph is suitable for a scientific report*
 ```{r final-graph-test, exercise=TRUE, exercise.lines = 6, exercise.eval = TRUE}
 plot(CL ~ CW, crabs)
 ```
@@ -1461,7 +1505,7 @@ You need to add the regression lines separately, including the aesthetics
 #### Other variables in `plot`
 
 **Borders**   
-A border around the plot is plotted by default. This is dictated by the default `bty = "o"`. You can remove the border entirely with `bty = "n"` and you can plot only the bottom and right border (axes) with `bty = "l"` - that's a lowercase L, not a number 1. Borders also apply to legends.
+A border around the plot is plotted by default. This is dictated by the default `bty = "o"`. You can remove the border entirely with `bty = "n"` and you can plot only the bottom and right border (axes) with `bty = "l"` -- that's a lowercase L, not a number 1. Borders also apply to legends.
 
 **Legends**  
 Figure legends can be added using `legend`. Check out the help file for details because you need to set:
@@ -1565,7 +1609,9 @@ We won't fit an interactive model to our data but we will explore fitting intera
 We can write the full model in the partial equation form as:
 
 $$ shell \space length = \beta_{0_{colour}} + \beta_{1_{colour}} shell \space width + \varepsilon$$
-Now, both $\beta_0$ and $\beta_1$ vary according to colour, where $\beta_{1_{colour}} = \beta_1 + \beta_3$: the slope of the line and how the slope of the line changes with sub-groups of colour.
+Now, both $\beta_0$ and $\beta_1$ vary according to colour, where:
+$$\beta_{1_{Blue}} = \beta_1$$
+$$\beta_{1_{Orange}} = \beta_1 + \beta_3$$
 
 ```{r quiz3}
 question_text(
@@ -1594,11 +1640,11 @@ It's time to do the linear model.
 ```{r random, exercise = TRUE, exercise.lines = 5}
 lm(CL ~ CW + sp, crabs)
 ```
-```{r random-hint}
+```{r random-hint-1}
 What's the difference in the R formula between an additive model and a multiplicative model?
 ```
-```{r random-solution}
-lm(CL ~ CW * sp, crabs)
+```{r random-hint-2}
+Do you think it's a + or a * between the predictors?
 ```
 
 As expected, we see that there are **four** coefficients. From left to right they are $\beta_0$, $\beta_1$, $\beta_2$ and $\beta_3$ in the full model $Y = \beta_0 + \beta_1 X_1 + \beta_2 X_2 + \beta_3 X_1 X_2 + \varepsilon$. These represent the baseline intercept and slope, and the difference in the intercept and slope, respectively.
@@ -1641,7 +1687,7 @@ We are given the slope for blue crabs already. We need to work out the slope for
 What we need:  
 Parametrised slope for orange crabs = Slope for blue crabs $\beta_1$ + difference in slope for orange crabs compared to blue crabs $\beta_3$  
 
-Information provided from the `R` output:  
+Information provided from the R output:  
 Slope for blue crabs = `r round(coef(crabs_int)[2],2)`  
 Difference in slope for orange crabs compared to blue crabs = `r round(coef(crabs_int)[4],2)`
 
@@ -1650,12 +1696,13 @@ Difference in slope for orange crabs compared to blue crabs = `r round(coef(crab
 <h3 class="panel-title">Time to apply what you've learnt</h3>
   </div>
   <div class="panel-body">
-Write down the parameterised equation of the interactive regression for blue and orange crabs before progressing.</div>
-</div>
+Write down the parameterised equation of the interactive regression for blue and orange crabs before progressing.
 
 Here's the partial regression equation:
+$$ shell \space length = \beta_{0_{colour}} + \beta_{1_{colour}} shell \space width + \varepsilon$$</div>
+</div>
 
-$$ shell \space length = \beta_{0_{colour}} + \beta_{1_{colour}} shell \space width + \varepsilon$$
+
 
 
 ***
@@ -1686,7 +1733,7 @@ The `summary` of the linear model is the same as the additive model.
 
 *Complete the code to get the `summary()` of our multiplicative model*
 ```{r summary-random, exercise = TRUE, exercise.lines = 5}
-lm(CL ~ CW * sp, crabs)
+(~ CW * sp, crabs)
 ```
 
 H0: There is no effect of shell width or colour or their interaction on shell length  
@@ -1694,9 +1741,9 @@ H1: There is an effect of shell width or colour or their interaction on shell le
 
 Like with the additive model, the hypothesis tests on the coefficient estimates for the slope are the important ones:
 
-* `CW` - This tests whether the slope of blue crabs is different to 0
+* `CW` -- This tests whether the slope of blue crabs is different to 0
     * This gives an indication of whether shell width can predict shell length
-* `CW:spO` - This tests whether the slope for orange crabs is different to blue crabs
+* `CW:spO` -- This tests whether the slope for orange crabs is different to blue crabs
     * This tests whether there is an interaction between colour and shell width
     * If this is non-significant, then a multiplicative model is overly complex to describe our biological pattern (because it uses too many parameters) and perhaps an additive model is a better descriptor. 
     
