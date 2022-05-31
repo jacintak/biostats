@@ -141,7 +141,7 @@ We will explore *two* types of statistical modelling -- using linear regression 
  * Know what to include in a results paragraph
  * Know how to make a graph in R with appropriate labels and caption
 
-We have covered all of these concepts in the lectures or previous practicals. This prac will reinforce and revise these concepts and allow you to practise them under supervision from the demonstrators.
+We have covered all of these concepts in the lectures or previous practicals. This prac will reinforce and revise these concepts and allows you to practise them under supervision of the demonstrators.
 
 <div class="panel panel-primary">
 <div class="panel-heading">
@@ -161,9 +161,9 @@ Don't forget to answer the CA questions in a separate link. There are prompts th
 <div class="panel panel-danger">
 <div class="panel-heading">
 <div class="panel-title">
-I do not recommend skipping the theory before attempting the CA -- the theory section allow you to practice all the steps you need for analysing your data. 
+I do not recommend skipping the theory before attempting the CA -- the theory section allows you to practice all the steps you need for analysing your data. 
 
-If you have no trouble with the example dataset, then you'll have no trouble with the CA.</div>
+If you have no trouble with the example dataset, then you'll have no trouble with the CA or any experimental design.</div>
 </div>
 </div>
 
@@ -1066,32 +1066,45 @@ You may see that the `crabs` dataset with a continuous and categorical predictor
 
 ### Putting results into sentences
 
- > Always place your statsitical analysis into the wider context of your hypotheses and aims. 
+ > Statistical analyses need to be interpreted into full sentences, within a results section
  
-Communicating our results is important. 
+Always place your statistical analysis into the wider context of your hypotheses and aims. Demonstrate your understanding by justifying your choices and interpreting the output.
 
-Statistical analyses need to be written into sentences, within a results section. Screenshots of R output are not appropriate because the output has no meaning to someone else. ANOVA tables should be nicely formatted in a proper table with the correct column names.
+ANOVA tables should be nicely formatted in a proper table with the correct column names. Don't copy directly from R as is.
 
-A results sentence needs at a minimum:
+When reporting summary statistics, describe an average with a measure of spread. You need to give a sense of the distribution of points so means on their own are not that informative. Include the range or standard error or standard deviation. E.g. "Mean carapace length was $32.1 \pm 0.5$ (mean $\pm$ standard error)".
+
+<div class="panel panel-warning">
+  <div class="panel-heading">
+<h3 class="panel-title">Be comprehensive!</h3>
+  </div>
+  <div class="panel-body">
+R output **should not** be presented as a figure or screenshots. Do not copy and paste directly into a report -- this output is meaningless to a reader because they do not know your data like you do or your workflow. 
+
+**P values should never be reported on their own** -- they are also meaningless without the test statistic and degrees of freedom used to calculate them. P value of what?
+
+ </div>
+</div>
+
+A results sentence needs at a *minimum*:
 
  * The main result
  * The name of the statistical test
  * The test statistic and degrees of freedom
-     * Df can be written as a subscript to the test statistic (e.g. $t_{14}$) or reported as df = 14.
+     * Df can be written as a subscript to the test statistic (e.g. $t_{14}$) or reported as df = 14
      * F statistic need the degrees of freedom for the within & among error. E.g. $F_{1,25}$
  * The P value
-     * Really small or large P values can be summarised. E.g. P < 0.001
+     * Really small or large P values can be summarised. E.g. P < 0.001. Don't write out many decimal places
+ * Reference to any relevant figures or tables
  
-P values should never be reported on their own -- they are also meaningless without the test statistic and context.
-
 All the above information is given to you in `summary` or the ANOVA table. The degrees of freedom of a linear regression are found at the bottom of `summary` (`Residual standard error`).
 
 ```{r conclusion}
 question("Based on the summary of the linear regression you just did, which is the most appropriate sentence reporting the results?",
-         answer("There is an effect of shell width or colour on shell length (linear regression, $t_{197}$ = 16, P < 0.01)", correct = TRUE, message = random_praise()),
-                  answer("There is an effect of shell width or colour on shell length (linear regression, $t$ = 16, P < 0.01)", message = "Does this include all ther information to understand the analysis?"),
-         answer("There is an effect of shell width or colour on shell length ($t_{197}$ = 16, P < 0.01)", message = "Does this include all ther information to understand the analysis?"),
-         answer("There is an effect of shell width or colour on shell length (P < 0.01)", message = "P values are never reported on their own"),
+         answer("There is an effect of shell width or colour on shell length (Fig. 1, linear regression, $t_{197}$ = 16, P < 0.01)", correct = TRUE, message = random_praise()),
+                  answer("There is an effect of shell width or colour on shell length (Fig. 1, linear regression, $t$ = 16, P < 0.01)", message = "Does this include all ther information to understand the analysis?"),
+         answer("There is an effect of shell width or colour on shell length (Fig. 1, $t_{197}$ = 16, P < 0.01)", message = "Does this include all ther information to understand the analysis?"),
+         answer("There is an effect of shell width or colour on shell length (Fig. 1, P < 0.01)", message = "P values are never reported on their own"),
          allow_retry = TRUE,
          random_answer_order = TRUE,
          incorrect = random_encouragement()
@@ -1111,6 +1124,8 @@ People's obsession over getting significant P values has driven a rise of unethi
 
 The point of statistical testing is to understand trends in data. Not to get a significant P value. Null or non-significant results are valid results. </div>
 </div>
+
+Check any published scientific paper to see how they've reported their results. Or any guide to scientific writing.
 
 ***
 

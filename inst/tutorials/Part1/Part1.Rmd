@@ -62,7 +62,7 @@ You do not need to highlight the entire code to run it. Place your cursor on the
 ***
 
 **Quizzes**  
-**Quizzes here are not part of the CA.** The questions are meant to check you understand the material and your answers are not visible to anyone else. The CA is accessed separately.
+**Quizzes here are not part of the CA.** The questions are meant to check you understand the material and your answers are not visible to anyone else. If you can answer the quizzes correctly, then the CA will be no trouble to you.
 
 *Here's a quiz. Try it out to see how it works. Click __submit__ and it will tell you what you got correct. What happens when you put an incorrect answer in?*
 ```{r test-quiz}
@@ -108,7 +108,7 @@ Although you can come back to this tutorial at any time, I recommend taking your
 <h3 class="panel-title">Discussion</h3>
   </div>
   <div class="panel-body">
-These are discussion questions that you should think about or write down an answer to. </div>
+Blue boxes are discussion questions that you should think about or write down an answer to. </div>
 </div>
 
 Click **Next Topic** to move to the next section. You can navigate between topics using the buttons or the menu. You can access the menu if minimised by clicking the the title "Statistical Modelling Part 1".
@@ -118,7 +118,7 @@ Click **Next Topic** to move to the next section. You can navigate between topic
 <h3 class="panel-title">Warning!</h3>
   </div>
   <div class="panel-body">
-You need to complete all the exercises to move ahead. </div>
+You need to complete all the exercises to move ahead. All the exercises are learning outcomes of this module, are also covered in the lectures, and are relevant to the CA! </div>
 </div>
 
 ***
@@ -127,11 +127,11 @@ You need to complete all the exercises to move ahead. </div>
 
 Welcome! In two practicals and in three lectures we will be looking at statistical modelling. 
 
-We have progressed beyond the realm of doing stats by hand and where t-tests are not appropriate for the types of data we will look at or the hypotheses we test. R will be the tool we will use.
+We have progressed beyond the realm of doing stats by hand and basic statistical tests like t-tests are not appropriate for the types of data we will look at or the hypotheses we test. R will be the tool we will use.
 
-In these sessions, we will focus on the practical aspects of *applying* statistics (implementation & interpretation) with real data -- not on the theory or mathematical proofs -- in fact, nearly all the relevant theory has been introduced to you in previous lectures. Equations are kept to a minimum (promise). 
+In these sessions, we will focus on the practical aspects of **applying** statistics (implementation & interpretation) with real data -- not on the theory or mathematical proofs -- in fact, nearly all the relevant theory has been introduced to you in previous lectures. Equations are kept to a minimum (promise). 
 
-The practicals and lectures will feed off each other and these will also build upon the previous lectures and practicals. I expect you to be up to date with the module material. As this practical comes first, we will start with an introduction to statistical modelling that we will continue in the lectures.
+The practicals and lectures will feed off each other and these will also build upon the previous lectures and practicals. All concepts in this practical are assessable and relevant to the lectures. I expect you to be up to date with the module material. As this practical comes first, we will start with an introduction to statistical modelling that we will continue in the lectures.
 
 The demonstrators are available if you have questions about the concepts or have technical issues with running the practical. Do talk to them. They will be checking in and making sure you are keeping to time.
 
@@ -179,11 +179,11 @@ We will see in the lectures that there is a trade-off between precision, general
 
 Distinguishing between variables and parameters is important in statistics, particularly for modelling.
 
-**Variables**
-: These are quantities that change with each iteration of a statistical model. E.g. the predictor (independent) variable and the response (dependent) variable.  
+**Variables**  
+These are quantities that change with each iteration of a statistical model. E.g. the predictor (independent) variable and the response (dependent) variable.  
 
-**Parameters**
-: These are quantities that do not change with each iteration of a statistical model. They are often a constant and often represent the assumptions about our biological system we make to model it. If we change the fundamental assumptions of the model, then the *value* of the parameter may change. Often the value of the parameter is **unknown** to us and need to be **parametrised** from empirical data.  
+**Parameters**  
+These are quantities that do not change with each iteration of a statistical model. They are often a constant and often represent the assumptions about our biological system we make to model it. If we change the fundamental assumptions of the model, then the *value* of the parameter may change. Often the value of the parameter is **unknown** to us and need to be **parametrised** from empirical data.  
 
 A variable could switch to being a parameter or vice versa depending on the experimental design and hypothesis tested, which in turn determines the statistical model. These decisions should be made when planning an experiment, not during or afterwards. 
 
@@ -566,7 +566,7 @@ Now we have our model, we can then ask "what if...?". What happens if we change 
 What happens to the number of prey a predator can eat when the number of prey in an area (the density) increases? </div>
 </div>
 
-Unlike the previous practical, we are going to investigate this question by conducting a real experiment and make the most of in-person teaching by working in groups! But it is possible to build an equivalent simulation in Scratch.
+Unlike the previous practical, we are going to investigate this question by conducting a real experiment but it is possible to build an equivalent simulation in Scratch.
 
 Now we have our research question and a model, we implicitly have our hypotheses. 
 
@@ -617,10 +617,10 @@ Notice how the hypotheses is worded and the language used.
 <h3 class="panel-title">Choose wisely!</h3>
   </div>
   <div class="panel-body">
-The wording of your hypothesis will dictate the best experimental design and statistical analysis to test your hypothesis! </div>
+The wording of your hypothesis will dictate the best experimental design and statistical analysis to test your hypothesis! Think carefully about the details. </div>
 </div>
 
-The alternative hypothesis describes the direction but not the strength of the relationship. If you are less certain about your predicted outcomes you could be less specific if you wanted to (e.g. not describing the direction of the relationship if the expected relationship could also be negative). 
+The alternative hypothesis describes the direction but not the strength of the relationship. If you are less certain about your predicted outcomes you could be less specific if you wanted to (e.g. "There is a linear relationship between prey density and number of prey eaten" means the hypothesised relationship could be positive *or* negative). 
 
 There are no limits to how many hypotheses you have. You could have three hypotheses, a null and two alternatives -- one for a positive relationship and one for a negative relationship. 
 
@@ -629,10 +629,10 @@ There are no limits to how many hypotheses you have. You could have three hypoth
 <h3 class="panel-title">Remember!</h3>
   </div>
   <div class="panel-body">
-As scientists we never try to "prove" hypotheses. We aim to gather evidence and see whether the evidence supports our hypothesis. </div>
+As scientists we never try to "prove" or "disprove" hypotheses. We aim to gather evidence and see whether the evidence **supports** our hypothesis. </div>
 </div>
 
-It's good to be specific in your hypothesis if it is plausible in your biological system. For example, if we are testing whether a vaccine induces an immune response, the resulting immune response can only be positive -- a negative immune response (i.e. becoming more susceptible to disease) is implausible (and unfortunate).
+It's better to be specific in your hypothesis if it is plausible in your biological system. For example, if we are testing whether a vaccine induces an immune response, the resulting immune response can only be positive -- a negative immune response (i.e. becoming more susceptible to disease) is implausible (and unfortunate).
 
 Keep your hypothesis as simple as possible to investigate what you are interested in, in your biological system. A more complex hypothesis means a more complex statistical analysis is needed.
 
@@ -836,6 +836,20 @@ quiz(question_text(
 )
 ```
 
+<div class="panel panel-primary">
+  <div class="panel-heading">
+<h3 class="panel-title">Details matter!</h3>
+  </div>
+  <div class="panel-body">
+Thinking ahead, you should also be careful how you describe the relationship between multiple predictor variables in your hypothesis. Predictor variables can be **independent** or they can **affect** each other's influence on the response variable. 
+
+Consider these sentences with two predictor variables that describe the same relationship with Y, but different relationships between X1 and X2:
+
+* Y decreases with X1 and X2 but the relationship does not differ between X1 and X2
+* Y decreases with X1 and X2 and the relationship differs between X1 and X2 
+
+These could be a set of hypotheses. How would you expect the graphs of these relationships to look like?</div>
+</div>
 
 ##
 
