@@ -17,7 +17,8 @@ remotes::install_github("jacintak/biostats", build_vignettes = TRUE)
 
 # Developer notes
 
-2022 version is 3.0. 2021 version is 2.0 (last tag v2.2.4). Built with `learnr` v0.10.1 (CRAN)
+2022 version is 3.0.  
+2021 version is 2.0 (last tag v2.2.4). Built with `learnr` v0.10.1 (CRAN)
 
 3.0 Updates:
 
@@ -27,3 +28,4 @@ remotes::install_github("jacintak/biostats", build_vignettes = TRUE)
  * Added praise and encouragement (3.0.2)
  * Simplified practical to focus on additive models (3.1.0)
  * Aesthetic updates: HTML boxes, font size, em dash (3.1.1)
+ * Text updates and removed multiplicative regression (3.2.0)
