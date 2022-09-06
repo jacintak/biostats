@@ -135,13 +135,13 @@ We will explore *two* types of statistical modelling -- using linear regression 
 
 **Learning objectives:**
 
- * Know how to parametrise a linear regression in R with biological data
+ * Know how to parameterised a linear regression in R with biological data
  * Know how to use linear models to predict new values
  * Know how to interpret linear regression output to test hypotheses
  * Know what to include in a results paragraph
  * Know how to make a graph in R with appropriate labels and caption
 
-We have covered all of these concepts in the lectures or previous practicals. This prac will reinforce and revise these concepts and allows you to practise them under supervision of the demonstrators.
+We have covered all of these concepts in the lectures or previous practicals. This prac will reinforce and revise these concepts and allows you to practice them under supervision of the demonstrators.
 
 <div class="panel panel-primary">
 <div class="panel-heading">
@@ -152,25 +152,15 @@ I recommend taking your time and making sure you understand the content and are 
 
 There are two activities:
 
-1. A step by step recap of the lecture content and the practicalities of linear regression in R using an example dataset. Work through the coding exercises and answer the questions *in order*.
+1. A step by step recap of the lecture content and the practicalities of linear regression in R using a worked example. Work through the coding exercises and answer the questions *in order*.
 
-2. Testing your understanding of the content by applying what you've learnt from the example to the data you collected last practical. This is the assessment.
+2. Applying your understanding of the content from the example to the data you collected last practical. This is the assessment.
 
 Don't forget to answer the CA questions in a separate link. There are prompts that will tell you when to answer the questions. The demonstrators aren't allowed to help you answer the CA directly but they can help you understand the theory parts so that you can answer the CA. 
-
-<div class="panel panel-danger">
-<div class="panel-heading">
-<div class="panel-title">
-I do not recommend skipping the theory before attempting the CA -- the theory section allows you to practice all the steps you need for analysing your data. 
-
-If you have no trouble with the example dataset or the lecture content, then you'll have no trouble with the CA or your final report.</div>
-</div>
-</div>
 
 ***
 
 ## How to problem solve
-### Some general advice for programming and learning
 
 We don't expect you to be expert programmers but we *do* expect you to be able and willing to figure things out yourself (problem solving).
 
@@ -193,76 +183,43 @@ These reading/typing mistakes are the majority of encountered errors. They are n
 <div class="panel panel-primary">
 <div class="panel-heading">
 <div class="panel-title">
-You can **and should** easily fix the above mistakes yourself! </div>
+You can **and should** easily fix the above mistakes yourself!  
+We want you to know how to work problems out independently.
+</div>
 </div>
 </div> 
 
-<div class="panel panel-danger">
-  <div class="panel-heading">
-<h3 class="panel-title">Danger!</h3>
-  </div>
-  <div class="panel-body">
-Do not take the code here for granted. One does not simply copy code from somewhere and blindly expect it to work.
-
-The point of learning computation and programming is to not treat software like a black box where you cannot see inside and you don't know where the output came from or what they mean.
-
-We expect you to know what the code means, describe what it's doing and know how to use it properly. </div>
-</div>
 
 *** 
 
-### Talk to a rubber duck
+### Be clear about your problem
 
- > Programming requires a clear idea of what you want to achieve. You need to do the thinking for the computer.
+ > Programming requires a clear idea of what you want to achieve.  
+ > You need to do the thinking for the computer.
  
-One of the hardest thing about troubleshooting someone else's programming is that it's not clear what the problem is. When describing your problem, be comprehensive & give context. The more information you provide, the more information and context people have to help you.
+One of the hardest thing about troubleshooting someone else's programming is that we cannot read your mind. When describing your problem, be comprehensive & give context. The more information you provide, the more information and context people have to help you.
 
-If something isn't working, can you articulate what you aim to do? What you expect to see if it worked? What you did leading up to this point? And what you think is happening to cause the error? This is called the **rubber duck method** -- like you are explaining your problems to a rubber duck. Notice, it's exactly like the Scientific Method.
+If something isn't working, can you articulate what you aim to do? What you expect to see if it worked? What you did leading up to this point? And what you think is happening to cause the error?
 
-If there's an error message, read it. Error messages are the computer telling you what's wrong. Try googling the entire error message to see what other people have said. The entire error message is necessary, not just the last bit. 
+This is called the **rubber duck method** -- like you are explaining your problems to a rubber duck. Notice, it's exactly like the Scientific Method.
 
-<div class="panel panel-primary">
-  <div class="panel-heading">
-<h3 class="panel-title">Let me google that for you</h3>
-  </div>
-  <div class="panel-body">
-There's no shame in googling everything -- we do too and finding things out yourself part of learning to work independently or troubleshooting.
-
-We want you to know how to think for yourself!</div>
-</div>
-
-Programming is **trial and error**. You shouldn't expect to get it on the first try. And that's OK -- it's part of the process. 
-
-Challenge yourself to understand *why* something went wrong. You'll often find it's because you haven't proof-read your code carefully enough.
+If there's an error message, read it. Error messages are the computer telling you what's wrong. Try googling the entire error message to see what other people have said. The entire error message is necessary for context, not just the last bit. 
 
 <div class="panel panel-success">
   <div class="panel-heading">
-<h3 class="panel-title">Read carefully!</h3>
+<h3 class="panel-title">Some general advice</h3>
   </div>
   <div class="panel-body">
-Take the time to *synthesise* and *integrate* information so that you can apply it to *new scenarios* -- that is the learning objective of your entire university degree. For example, what we do here builds upon everything you've done in this module!
+Programming is **trial and error**. You shouldn't expect to get it on the first try. And that's OK -- it's part of the process. 
 
-Properly read and digest the material you are given because almost all your modules will test your reading comprehension and attention to detail. And there's nothing in this practical that wasn't covered earlier in semester and in the lectures.
+You'll often find it's because you haven't proof-read your code carefully enough for the mistakes above.
 
-This practical will get progressively more challenging so practice the basics before you progress to harder stuff or answer the assessment.
+Practice the basics before you progress to harder stuff or answer the assessment. Take good notes.
 
-Don't skim read. Take notes. Follow the written instructions. 
+Learning is about the process and about your growth, not the end result or your grade. Apply your knowledge to new scenarios.
 
-Learning is about the process and about your growth, not the end result or your grade. 
-
-Try to enjoy the moment. Don't overthink it. </div>
+Don't over-think it. 
 </div>
-
-###
-
-<div class="panel panel-warning">
-  <div class="panel-heading">
-<h3 class="panel-title">Be prepared!</h3>
-  </div>
-  <div class="panel-body">
-Unless you are 100% confident with data handling and doing multiple regressions in R, do not skip ahead to answer your assessment on the fly. 
-
-Everything we do here is building on and applying what we've previously covered. This practical is meant to be challenging so don't stress yourself by attempting the assessment unprepared. </div>
 </div>
 
 Let's try a problem solving exercise:  
@@ -281,6 +238,30 @@ question(
   incorrect = random_encouragement()
 )
 ```
+
+***
+
+### Two pitfalls to avoid
+
+<div class="panel panel-danger">
+  <div class="panel-heading">
+<h3 class="panel-title">Danger!</h3>
+  </div>
+  <div class="panel-body">
+**1. Do not take the code here for granted** 
+
+The point of learning computation and programming is to not treat software like a black box where you cannot see inside and you don't know where the output came from or what they mean.
+
+Every dataset is different, so code you copy from someone else is not guaranteed to work with your dataset first time. For example, you may be using different column names.
+
+***
+
+**2. Do not skip questions or exercises to answer your assessment on the fly**
+
+All the activities and quiz questions will give you the knowledge to do the assessment -- do these first. Don't do the assessment questions at the same time as the practical exercises.
+
+</div>
+</div>
 
 ***
 
@@ -343,23 +324,11 @@ $$H_a=\ \frac{a\times H\times T_{total}}{1+a\times H\times T_h}$$
 
 The model is not linear.
 
-```{r linear, echo=FALSE}
-question("Why is the Type II model not linear?",
-         answer("It has parameters that are divided by another parameter", correct = TRUE, message = random_praise()),
-         answer("It has parameters that aren't exponents"),
-         answer("It does not have a slope parameter"),
-         answer("It does not have an intercept parameter"),
-         allow_retry = TRUE,
-         random_answer_order = TRUE,
-         incorrect = random_encouragement()
-)
-```
-
 The aim of the practical was to **find the unknown values of search rate, $a$ and handling time, $T_h$** and we hypothesised that these values will change depending on the type of jar used (foraging strategy). 
 
  > The process of estimating the value of unknown parameters in a statistical model is called **parameterising**.
 
-Non-linear methods of parametrising these equations are beyond the scope of this module. But we can use algebra to make this equation linear and therefore we can use linear regression to get an estimate for the unknown parameters (see `vignette("TypeII_models")` to refresh your memory).
+Non-linear methods of parameterising these equations are beyond the scope of this module. But we can use algebra to make this equation linear and therefore we can use linear regression to get an estimate for the unknown parameters (see `vignette("TypeII_models")` to refresh your memory).
 
 We then get a model:
 
@@ -374,7 +343,7 @@ plot(type2 ~ prey , type = 'l', lwd = 4, ylab = "1/Ha, Prey captured", xlab = "1
      xaxt='n', yaxt='n')
 ```
 
-Now we can fit a linear model and find the values of search rate and handling time from the slope and intercept of the linear regression.
+Now we can fit a linear model and find the values of search rate ($a$) and handling time ($T_h$) from the slope and intercept of the linear regression.
 
 $$ \beta_1 = \frac{1}{a}$$
 and
@@ -384,23 +353,39 @@ $$ \beta_0 = \frac{T_h}{T_{total}}$$
 
 ### Which linear model?
 
-In the lectures, we saw that the structure of the appropriate linear model to fit depends on the characteristics of the data, the experimental design and the hypothesis. We looked at cases with one predictor variable (simple regression) and with two predictor variables (multiple regression). There are also two types of multiple regression: additive and interactive/multiplicative.
+#### Simple or multiple regression?
+In the lectures, we saw that the structure of the appropriate linear model to fit depends on the characteristics of the data, the experimental design and the hypothesis. We looked at cases with one predictor variable (simple regression) and with two predictor variables (multiple regression). 
 
 If we did a simple linear regression with one predictor variable, we would have ignored foraging strategy meaning we have **pooled** observations for foraging strategy.
 
-By pooling foraging strategy, any variation in the data generated by foraging strategy is **unaccounted for**. Unaccounted variation may increase our chance of making a Type I or II error because foraging strategy **confounds** the effect of prey density. Phrased differently, the effect of prey density on numbers of prey captured is **masked** by the effect of foraging strategy. Thus, in this case, using a simple linear regression on a dataset with two or more predictor variables is not the best course of action for explaining as much variation in the data as we can.
+By pooling foraging strategy, any variation in the data generated by foraging strategy is **unaccounted for**. Unaccounted variation may increase our chance of making a Type I or II error because foraging strategy **confounds** the effect of prey density. 
+
+Phrased differently, the effect of prey density on numbers of prey captured is **masked** by the effect of foraging strategy. Thus, in this case, using a simple linear regression on a dataset with two or more predictor variables is not the best course of action for explaining as much variation in the data as we can.
 
 If we want to see whether using a lid has an effect on our predator-prey interaction response, we need to include the variable in our linear model *as well as our original predictor variable, prey density*. We need a multiple linear regression model.
 
+<div class="panel panel-warning">
+  <div class="panel-heading">
+<h3 class="panel-title">Plan ahead!</h3>
+  </div>
+  <div class="panel-body">
+Confounding variation from doing a test that is too simple for the experimental design can drastically change the conclusion of the analysis! See **Simpson's paradox**.
+</div>
+</div>
+
 ***
 
-### Hypotheses
+#### Additive or multiplicative model?
 
- > The wording of the hypothesis will dictate the appropriate linear model and our expectations about the graph.
+There are also two types of multiple regression: additive and interactive/multiplicative.
 
-Recall, we expect an initial *positive* relationship between prey density and the number of prey captured -- the number of prey captured will increase with prey density until there are too many prey for a predator to handle and the number of prey captured will plateau. 
+We could fit an interactive model to our data if we were more interested in finding a mathematical description of our data that **explains the most variation in prey captured using the simplest model possible** (model parsimony). So using multiplicative models are instead a statistical representation of the data, rather than a theoretic model. 
 
-We also expect this positive relationship when we take the inverse of our variables -- the linearised data. So "positive" needs to be in our hypothesis but we need to decide the nature of the relationship between the two predictors.
+Both are types of statistical models and valid in their own right but in this case an interaction doesn't match the goals of constructing a theoretic model of predator-prey interactions from fundamental observations.
+
+Foraging strategy determines the amount of prey captured but does not affect the number of prey present. And prey density determines the number of prey captured but does not influence the foraging strategy. This is based on our assumptions about the predator-prey interaction -- the predator does not change foraging behaviour.
+
+If the predator changed their foraging behaviour then there would be an interaction between the two predictor variables. This could be realistic. For example, animal predators might use different foraging strategies under different prey densities or they may switch to another strategy when prey density reaches a certain threshold. In fact, this is a Type III functional response.
 
 ```{r interac}
 quiz(
@@ -421,25 +406,36 @@ quiz(
 )
 ```
 
-We could fit an interactive model to our data if we were more interested in finding a mathematical description of our data that **explains the most variation in prey captured using the simplest model possible** (model parsimony). So using multiplicative models are instead a statistical representation of the data, rather than a theoretic model. 
+***
 
-Both are types of statistical models and valid in their own right but in this case an interaction doesn't quite match the goals of constructing a theoretic model of predator-prey interactions from fundamental observations.
+### Hypotheses
 
-Foraging strategy determines the amount of prey captured but does not affect the number of prey present. And prey density determines the number of prey captured but does not influence the foraging strategy. This is based on our assumptions about the predator-prey interaction -- the predator does not change foraging behaviour.
+<div class="panel panel-primary">
+  <div class="panel-heading">
+<h3 class="panel-title">Info!</h3>
+  </div>
+  <div class="panel-body">
+The wording of the hypothesis will dictate the appropriate linear model, statistical test, and our expectations about the graph.
+</div>
+</div>
 
-If the predator changed their foraging behaviour then there would be an interaction between the two predictor variables. This could be realistic. For example, animal predators might use different foraging strategies under different prey densities or they may switch to another strategy when prey density reaches a certain threshold. In fact, this is a Type III model, a sigmoidal function.
+Following the Type II model, the number of prey captured will increase with prey density until there are too many prey for a predator to handle and the number of prey captured will plateau. 
 
-An appropriate set of hypotheses are:  
+Following the linearised Type II model, we expect a positive relationship between the two predictors.
 
-H0: The inverse of the number of prey captured increases with the inverse of prey density but does not differ between foraging strategies  
-H1: The inverse of the number of prey captured increases with the inverse of prey density and is higher with the more efficient foraging strategies but the rate of prey captured does not vary
+We also had predictions about how foraging strategy affected the parameters of the Type II model -- handling time and search rate (or attack rate).
+
+Our hypotheses are:  
+
+H0: The number of prey captured increases with prey density but does not differ between foraging strategies  
+H1: The number of prey captured increases with prey density and is higher with the more efficient foraging strategies (shorter handling time) but the search rate does not vary
 
 <div class="panel panel-info">
   <div class="panel-heading">
 <h3 class="panel-title">Discussion</h3>
   </div>
   <div class="panel-body">
-What would you expect to see graphically for these hypotheses?
+How would your data look like to support these hypotheses?
 </div>
 </div>
 
@@ -465,12 +461,12 @@ There are three variables we will look at (carapace is the zoological term for s
 <h3 class="panel-title">Info!</h3>
   </div>
   <div class="panel-body">
-The code we use here can be applied to any dataset. You can try it with any biological system of your choice in your own time. For example, `airquality` has environmental data or the Penguins [dataset](https://towardsdatascience.com/penguins-dataset-overview-iris-alternative-9453bb8c8d95) about penguins can be downloaded as a package. </div>
+The code we use here can be applied to any dataset. You can try it in your own time. For example, `airquality` has environmental data or the Penguins [dataset](https://towardsdatascience.com/penguins-dataset-overview-iris-alternative-9453bb8c8d95) about penguins can be downloaded as a package. </div>
 </div>
  
 We can ask the question "Does the relationship between shell length and width differ between colour morphs?". We can also phrase this as "Does the relationship between shell length and width depend on the colour of the crab?". 
 
-Compared to a simple linear regression with one predictor variable (e.g. `CW`), this is a more complex question needing a more complex experimental design (two predictor variables) and thus a more complex statistical analysis.
+Compared to a simple linear regression with one predictor variable (e.g. `CW`), this is a more **complex question** needing a more complex experimental design (two predictor variables) and thus a more **complex statistical analysis**.
 
 <div class="panel panel-primary">
   <div class="panel-heading">
@@ -510,7 +506,9 @@ There is **no interaction** between the predictor variables colour or shell widt
 
  > Interactive models are considered "**full**" models if they contain all interactions in a fully crossed design.
 
-To estimate the $\beta$ coefficients, the ordinary least squares regression splits the dataset into its predictor variables and fits a model to each component -- this is called **partial regression**. The goal is to assign as much variation in the data as possible to each predictor variable. This process requires a baseline variable that sets the contrast for assigning variation (i.e. what $\beta_0$ represents).
+To estimate the $\beta$ coefficients, the ordinary least squares regression splits the dataset into its predictor variables and fits a model to each component -- this is called **partial regression**. 
+
+The goal is to assign as much variation in the data as possible to each predictor variable. This process requires a baseline variable that sets the contrast for assigning variation (i.e. what $\beta_0$ represents).
 
 **Dummy variables** are used with a **categorical predictor** to set the baseline for the ordinary least squares regression. Since Blue is alphabetically before Orange, Blue is the baseline contrast used in the partial regression process and assigned the dummy variable 0 in `crabs`. 
 
@@ -612,7 +610,7 @@ lm(CL ~ CW + sp)
 Are all components of the lm function included?
 ```
 
-Did you get some output ?  
+Did you get some output when you ran the model?  
 It should tell us two things:
 
 1. Call is the formula used. It should be the same as the linear model code
@@ -702,8 +700,6 @@ For example, using the mean value of orange crabs to estimate coefficients of bl
 
 In other words, if we were to accept the null hypothesis that there is no relationship between shell width and colour on shell length, then the slope of the line should be 0 and the intercept of the line should be the sample mean of shell length (ignoring shell width and colours).</div>
 </div>
-
-
 
 ***
 
@@ -845,7 +841,7 @@ Notice how the slopes of all the lines are the same. We expected this based on t
 
 We could have more hypotheses that also test whether there *is* a positive relationship in the data or not (i.e. is the slope = 0?) but the specific wording of our hypotheses above do not do so.
 
-We don't just need to know the difference, we need to statistically test this; whether an estimated/observed value of a sample is significantly different to a known population value. You've leant about this kind of test already.
+We don't just need to know the difference, we need to statistically test this; whether an estimated/observed value of a sample is significantly different to a known population value. You've learnt about this kind of test already.
 
 ```{r tests}
 quiz(
@@ -942,78 +938,9 @@ quiz(caption = "Look at the information for $\\beta_2$, the difference in the in
 <h3 class="panel-title">Info!</h3>
   </div>
   <div class="panel-body">
-The one sample t-test is done on each coefficient. The hypotheses are are same. The test can also be phrased as "Does the coefficient explain a significant amount of additional variation in $Y$?".
+The one sample t-test is done on each coefficient. The hypotheses are the same. The test can also be phrased as "Does the coefficient explain a significant amount of additional variation in $Y$?".
 
 For example, if we ran a multiplicative model with a $\beta_3$ term, then the t-test will determine whether there is an interaction or not. If the t-test was not significant, then the interaction does not explain more variation and an additive model without an interaction is more appropriate. This is an example of model selection. </div>
-</div>
-
-***
-
-### The ANOVA table
-
-ANOVA tables show the Sum of Squares (SS) of the linear model. This is the variation partitioned to each model coefficient.
-
-> Variance of predictors (SS) is partitioned out from total SS in the order it is entered in to R
-
-We can look at the ANOVA table for an linear model with `anova(lm(<linear model>))`. We expect to see a row for each term in the model, plus the residual variation, $\varepsilon$. From all the Sum of Squares, we can calculate the total variation in the data (SSY) and calculate metrics like the coefficient of determination $R^2$.
-
-*Complete the code to get the ANOVA table of the `crabs` additive model*:
-```{r add-anova, exercise = TRUE}
-lm(CL ~ CW + sp, crabs)
-```
-```{r add-anova-hint}
-What is the function to get the ANOVA table and where does it go?
-```
-
-Let's go through each column in the R output:
-
- 1. The first column are all the sources of variation in shell length: shell width and colour morph
- 2. `Df` stands for Degrees of Freedom (df) -- this is a measure of how much information R had to fit the model. For example, the degrees of freedom of $\varepsilon$ is the total number of observations - the number of terms - 1. Thus 1 + 1 + 197 + 1 = 200 observations in the dataset.
- 3. `Sum Sq` are the Sum of Squares (SS), $\sum \varepsilon ^2$, from the ordinary least squares regression -- the goal is to make these as small as possible
- 4. `Mean Sq` are the Mean Sum of Squares (MS). Since SS depend on the complexity of the model as described by the degrees of freedom, it's useful to standardise SS by df. This is effectively the average variation (like the sum of the error divided by the number of observations).
- 5. `F value` is the F statistic. Also called the F ratio because it is the ratio between the MS of each term and the MS of the residuals
- 6. `Pr(>F)` is the P value of the F statistic. The asterisks help you categorise the P values. This is another way to test whether a predictor variable or term explains a significant amount of variation in the response variable.
-     * If significant, the model term explains a significant amount of variation
-     * If not significant, the model term does not explain a significant amount of variation
-
-There are three rows describing the variation in shell length: 
-
- 1. Variation attributed to shell width
- 2. Variation attributed to colour morph
- 3. Variation not attributed to either shell width or colour morph -- the left over variation
- 
-The total amount of variation in the data (SSY) is the sum of all these rows in the column `Sum Sq`.
-
-```{r anova-quiz}
-quiz(caption = "Based on the ANOVA table for the additive model on the crabs data:",
-     question_text(
-       paste("What is the total amount of varation in the data? To one decimal place."),
-       answer(paste(10085.3), correct = TRUE, message = random_praise()),
-       allow_retry = TRUE,
-       incorrect = "SSY is the sum of all SS."
-     ),
-     question_text(
-       paste("What is the F statistic of shell length? To 2 decimal places."),
-       answer(paste(45308.97), correct = TRUE, message = random_praise()),
-       allow_retry = TRUE,
-       incorrect = random_encouragement()
-     ),
-     question_radio(
-       "Based on the F-tests in the ANOVA table, would you accept or reject our null hypothesis about crabs?",
-       answer("Accept"),
-       answer("Reject", correct = TRUE, message = "If H0 was supported, then the P value of sp would not be significant."),
-       allow_retry = TRUE,
-       incorrect = random_encouragement()
-     )
-)
-```
-
-<div class="panel panel-primary">
-  <div class="panel-heading">
-<h3 class="panel-title">Info!</h3>
-  </div>
-  <div class="panel-body">
-You may see that the `crabs` dataset with a continuous and categorical predictor variable is analysed using an Analysis of Covariance (ANCOVA). ANCOVAs and ANOVA are simply another way of expressing a linear regression. The additive model we've done here is the same as an ANCOVA. </div>
 </div>
 
 ***
@@ -1120,9 +1047,8 @@ This imports the spreadsheet into an R object called `class_data` but you can us
 <h3 class="panel-title">Remember!</h3>
   </div>
   <div class="panel-body">
-Refer to the previous practicals to revise these basic steps. Make sure your address is correct and don't forget .csv at the end.
-
-These are fundamental R skills. </div>
+Make sure you adapt code to match your dataset. Don't take code for granted!
+</div>
 </div>
 
 ***
@@ -1147,7 +1073,8 @@ When manipulating data like this, it's best practice to add new columns to the d
   <div class="panel-body">
 `data$column` is the general structure to select a column in R. The dataset name and the column names in your code **must exactly match** your data name and columns. R is case sensitive.
 
-Make sure you're not making basic errors like using the wrong column name. </div>
+Make sure you're not making basic errors like using the wrong column name. Remember, problem solving is fundamental to coding.
+</div>
 </div>
 
 Now let's linearise the predictor variable (`H`) to get $\frac{1}{H\times T_{total}}$. 
@@ -1172,8 +1099,6 @@ You might recognise the if else statement and understand what's happening from p
 </div>
 
 We now have all the correct columns to parameterise our functional response.
-
- > **Remember how to problem solve and fix common coding problems from earlier**.
  
 ***
 
@@ -1185,9 +1110,10 @@ If `lm` is the function to do a linear regression, `Ha.1` is the name of our res
 <h3 class="panel-title">Hint</h3>
   </div>
   <div class="panel-body">
-The workflow is exactly as we did for `crabs` -- so you've practised it already (ideally). Remember that R partitions variation sequentially and in alphabetical order for factors.
+The workflow is exactly as we did for `crabs` -- so you've practised it already! Remember that R partitions variation sequentially and in alphabetical order for factors.
 
-If you didn't understand the previous material or you got some questions incorrect or you skipped bits, I recommend finishing them before progressing. Demonstrators cannot help you answer the assessment. </div>
+If you didn't understand the previous material or you got some questions incorrect or you skipped bits, I recommend finishing them before progressing. Demonstrators cannot help you answer the assessment. 
+</div>
 </div>
 
 
@@ -1214,7 +1140,9 @@ The final step is to get our unknown values of $a$ and $T_h$ for each type of fo
 <h3 class="panel-title">It's time to answer the CA!</h3>
   </div>
   <div class="panel-body">
-You have all the information you need.  
+You have all the information you need to answer the CA.  
+Make sure you've completed all the exercise up to this point.  
+
 Remember to save and submit your answers.   
 That's the end of the assessment but not the end of the practical.  
 Keep going. You're doing great! </div>
@@ -1226,7 +1154,7 @@ Keep going. You're doing great! </div>
 
 Visualising data is very important for understanding our data and for communicating our data to others. For example, in a written report.
 
-`plot` is the general plot function. Boxplots (`boxplot`) and bar plots (`barplot`) have their own plotting commands. You can add error bars using `arrows`.
+`plot` is the general plot function. Box-plots (`boxplot`) and bar plots (`barplot`) have their own plotting commands. You can add error bars using `arrows`.
 
 ### Theory
 
@@ -1419,7 +1347,7 @@ You can also change the colour, type and width of the line as arguments within `
 
 #### A final graphing test
 
-Let's integrate everything we've leant today and plot the graph of our additive linear model with the correct regression lines.
+Let's integrate everything we've learnt today and plot the graph of our additive linear model with the correct regression lines.
 
 ```{r final-graph, fig.cap= "A complete graph for a scientific report"}
 plot(CL ~ CW, crabs, type = "n", xlab = "Width (mm)", ylab = "Length (mm)")
@@ -1539,7 +1467,7 @@ Here's a summary of what we've done:
 
  * Imported data into R
  * Manipulated data in R, including cleaning
- * Parametrised a linear regression in R with biological data
+ * Parameterised a linear regression in R with biological data
  * Made predictions with linear models
  * Interpreted linear regression output to test hypotheses
  * Wrote a results paragraph
