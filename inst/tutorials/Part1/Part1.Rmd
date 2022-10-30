@@ -259,7 +259,7 @@ You will be uploading your data to Blackboard. In the next practical we will be 
 <h3 class="panel-title">Continuous Assessment</h3>
   </div>
   <div class="panel-body">
-I recommend finishing the CA *before* Part C. The CA is worth 10% and is due at the end of the prac. There is a total of 10 marks. 
+I recommend finishing the CA *after* Part B and *before* Part C. The CA is due at the end of the prac. 
 
 The CA aims to assess your understanding of the concepts in this practical and your ability to apply the concepts in practice. </div>
 </div>
