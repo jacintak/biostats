@@ -325,7 +325,7 @@ Infection responses, predator-prey interactions... they can be generally classif
 
 There are multiple types of functional responses (labelled with Roman numerals: I --- IV). Each of these models represents a *different hypothesis* about functional responses and mathematically describes a *different relationship* between our two variables (e.g. the killer T cell and the pathogen, or a predator and its prey). You can read more about functional responses by running `vignette("functional_responses")`.
 
-The assumptions we make above are based on a **Type II functional response model** and is the one most appropriate for a predator-prey interaction scenario. You can read about the full derivation by running `vignette("TypeII_models")`. 
+The assumptions we make above are based on a **Type II functional response model**, which is common in biology. You can read about the full derivation by running `vignette("TypeII_models")`. 
 
 The Type II functional response model is a good example of a general model -- it has been used to describe animal predators eating prey (e.g. Holling's disc equations) or enzymes catalysing reactions (e.g. Michaelis-Menten equation). We can also use it to describe the immune response of the previous practical.
 
