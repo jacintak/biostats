@@ -1,6 +1,6 @@
 # Statistical Modelling
 
-These are interactive tutorials created using `learnr`. They are two practicals (3 hours) about experimental design and data analysis using statistical models based on functional responses.
+These are interactive tutorials created using `learnr`. They are two practicals (3 hours each) about statistical modelling and experimental design. Functional responses are used as the example model.
 
 1. Part 1 - Constructing a statistical model based on functional responses and predator-prey interactions. Design and conduct an experiment (Holling's disc equation experiment)
 2. Part 2 - Analyse data collected in Part 1 using multiple linear regression. Visualise the data graphically.
@@ -17,9 +17,7 @@ remotes::install_github("jacintak/biostats", build_vignettes = TRUE)
 
 # Developer notes
 
-2022 version is 3.0.  
-2021 version is 2.0 (last tag v2.2.4). Built with `learnr` v0.10.1 (CRAN)
-
+2022 version is 3.0. Last tag v3.3.2b. Built with `learnr` v0.11.1 (CRAN)    
 3.0 Updates:
 
  * Text and question updates
@@ -30,3 +28,6 @@ remotes::install_github("jacintak/biostats", build_vignettes = TRUE)
  * Aesthetic updates: HTML boxes, font size, em dash (3.1.1)
  * Text updates and removed multiplicative regression (3.2.0)
  * Removed ANOVA and some quizzes (3.3.0)
+ 
+2021 version is 2.0. Last tag v2.2.4. Built with `learnr` v0.10.1 (CRAN)
+
