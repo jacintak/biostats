@@ -31,3 +31,14 @@ remotes::install_github("jacintak/biostats", build_vignettes = TRUE)
  
 2021 version is 2.0. Last tag v2.2.4. Built with `learnr` v0.10.1 (CRAN)
 
+# Known issues
+
+ * Sometimes a trailing garbage issue (see (example)[https://github.com/rstudio/learnr/issues/597]) - reinstall package is easiest solution
+ * HTTP error 403. API rate limit exceeded - Seems to be a GitHub access issue. No known workaround.
+ * Package not found/write permission denied - Check all packages are up to date and user has administrator rights. Reinstall packages if necessary.
+ * Try installing locally if `install_github` does not work
+ 
+# Installing locally
+```
+remotes::install_local(path = "<path to zip>.zip", build_vignettes = TRUE) # using zip from GitHub
+```
