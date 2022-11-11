@@ -40,7 +40,7 @@ Each of the functional responses (Type I, II or III) can be described by a mathe
 ## Type I
 Prey density alone determines the response of the predator (prey dependent). Found in passive predators, such as spiders. The number of flies caught in a web is proportional to the density of the flies (more of them bump into the web, if more are flying around). In this case, prey mortality due to predation is constant (Figure 1).
 
-```{r funct_resp1, echo=FALSE, fig.margin=TRUE, fig.height=5, fig.cap="Type I"}
+```{r funct_resp1, echo=FALSE, fig.margin=TRUE, fig.height=5, fig.cap="Figure 1. Type I Functional Response."}
 prey <- seq(0, 60, 5)
 type1 <- 0.15 * prey
 
@@ -51,12 +51,12 @@ Type I functional responses assume that the number of prey caught is only determ
 
 $$Number\ of\ prey\ caught = probability\ of\ being\ caught \times prey\ density$$
 
-Notice this is in the form $y = \beta x + \alpha$. We can easily find out the unknown parameters using simple regression which will tell us the intercept and slope. 
+Notice this is in the form $y = \beta_1 x + \beta_0$. We can easily find out the unknown parameters using simple regression which will tell us the intercept and slope. 
 
 ## Type II
 Both predator and prey populations affect the functional response (predator dependent). This is the most typical form and corresponds to the calculations shown below from Holling’s original experiment. Search rate and area of discovery is constant. The plateau represents the point where the predator is saturated. Prey mortality declines with prey density. Predators of this type cause maximal mortality at low prey density (Figure 2). For example, small mammals destroy most of the gypsy moth pupae in small populations of gypsy moths. In high-density defoliating populations, however, small mammals only kill a negligible proportion of the total number of pupae.
 
-```{r funct_resp2, echo=FALSE, fig.margin=TRUE, fig.height=5, fig.cap="Type II"}
+```{r funct_resp2, echo=FALSE, fig.margin=TRUE, fig.height=5, fig.cap="Figure 2. Type II Functional Response."}
 prey <- seq(0, 60, 5)
 type2 <- (prey*0.7)/(1+(prey*0.7*0.15))
 
@@ -69,7 +69,7 @@ See [companion vignette for deriving Type II models](TypeII_models.html) for mor
 ## Type III
 This occurs in predators which increase their search activity with increasing prey density, i.e. they get better over time (Figure 3, blue line). For example, many predators respond to the chemical scents and odours emitted by their prey and they then increase their activity in response to these increasing signals from more and more prey. Polyphagous vertebrate predators (predators that consume many different types of prey) such as birds are able to switch to the most abundant prey species by learning to recognise it visually. Mortality initially increases with increasing density of the prey, but then declines.  
 
-```{r funct_resp, echo=FALSE, fig.margin=TRUE, fig.height=5, fig.cap="All types"}
+```{r funct_resp, echo=FALSE, fig.margin=TRUE, fig.height=5, fig.cap="Figure 3. Types I (black), II (red) & III (blue) Functional Responses."}
 prey <- seq(0, 60, 5)
 type1 <- 0.15 * prey
 type2 <- (prey*0.7)/(1+(prey*0.7*0.15))
@@ -79,6 +79,5 @@ plot(type1~ prey, type = 'l', lwd = 4, xlab = "Prey density", ylab = "Number of 
 lines(type2~ prey, col="red",lwd=4)
 lines(type3~ prey, col="blue",lwd=4)
 legend("bottomright",legend = c("Type I", "Type II", "Type III"), lwd = c(4,4,4), col = c("black", "red", "blue"), bty = "n")
-
 ```
 

@@ -17,7 +17,7 @@ remotes::install_github("jacintak/biostats", build_vignettes = TRUE)
 
 # Developer notes
 
-2022 version is 3.0. Last tag v3.3.2b. Built with `learnr` v0.11.1 (CRAN)    
+2022 version is 3.0. Last tag v3.3.3. Built with `learnr` v0.11.2 (CRAN)    
 3.0 Updates:
 
  * Text and question updates
@@ -28,6 +28,7 @@ remotes::install_github("jacintak/biostats", build_vignettes = TRUE)
  * Aesthetic updates: HTML boxes, font size, em dash (3.1.1)
  * Text updates and removed multiplicative regression (3.2.0)
  * Removed ANOVA and some quizzes (3.3.0)
+ * Built with `learnr` v0.11.2. Vignettes notation updated (3.3.3)
  
 2021 version is 2.0. Last tag v2.2.4. Built with `learnr` v0.10.1 (CRAN)
 
