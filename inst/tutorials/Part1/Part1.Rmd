@@ -468,19 +468,28 @@ $$T_h = T_{total} \times intercept$$
 
 Now we have our model, we need to **parameterise** it and find the values of our unknown parameters.
 
+Unlike the previous practical, we are going to investigate this question by conducting a real experiment but it is possible to build an equivalent simulation in Scratch.
+
+***
+
+## Working with a parameterised model
+
+Once we've collected data, we can use our parameterised Type II functional response to make **predictions** about our predator-prey system. 
+
+For example, how many counters would a student pick up if there were 50 counters?
+
+If you know the handling time and the search rate then making predictions requires substituting all your known information into the equation and solving linear algebra! 
+
+Using either the non-linearised or the linearised model works. Remember that the linearised model uses the **inverse** of prey density and prey captured as the predictor and response variables so don't forget to convert inverted data in to non-inverted data and vice versa.
+
 <div class="panel panel-primary">
   <div class="panel-heading">
 <h3 class="panel-title">For the rest of the practical we will look at the question:</h3>
   </div>
   <div class="panel-body">
-What are the values of our unknown parameters, handling time and search rate? </div>
+What are the values of our unknown parameters, handling time and search rate? 
 </div>
-
-Unlike the previous practical, we are going to investigate this question by conducting a real experiment but it is possible to build an equivalent simulation in Scratch.
-
-***
-
-##
+</div>
 
 That's the end of Part A. Check in with your demonstrator. Take a break. Stand up. Shake your limbs. Breathe.
 
@@ -822,7 +831,7 @@ Keep it up!
 ## 
 
 
-> Now do the CA and hand it in for marking
+> Now do the CA and hand it in for marking. Then do Part C. Start your experiment after you've worked through Part C.
 
 Good luck!
 
@@ -834,33 +843,25 @@ Planning about collecting data *before* collecting any data will save you a lot 
 
 Scientists often work in teams, which means that several people might collect data. This means that every person must collect data in a consistent way so that all the data can be aggregated. It also means that what information to collect and how it is stored or shared needs to be agreed on before anyone starts. One might also need to consider any laws or regulations for how data is collected (e.g. research ethics, privacy laws). 
 
-Having a standardised data sheet and way of data entry is key to maintain consistency and minimise data loss.
+Having a standardised data sheet and way of data entry is key to **maintain consistency and minimise data loss**.
 
 ### Tidy data
 
-Tidy data is set of principles for organising data sheets and filling in data. It is designed in a way to make data analysis easier and reduces the amount of work required to *prepare* your data for analysis.
+Tidy data is set of principles for organising data sheets and filling in data. It is designed in a way to make data analysis easier and reduces the amount of work required to *prepare* your data for analysis later on.
 
 In short: 
 
  * Every column is a variable
  * Every row is an observation
  * No empty cells
+ 
+As a general rule, aim to add rows (observations) not columns and columns should be independent of each other.
 
 You can read more about tidy data [here](https://cran.r-project.org/web/packages/tidyr/vignettes/tidy-data.html).
 
 > To paraphrase another quote:  
 > All data has a place and all data is in its place
 
-### Long vs Wide data
-
-There are two general ways of presenting data in a spreadsheet (or as tabbed data): 
-
-* Long -- Variables are presented in one column, the corresponding value is presented in a second column. This format can be hard to interpret
-* Wide -- Each variable is a separate column (many columns) and each row is a single observation. This is the way we are collecting data in class (see above criteria)
-
- > As a general rule, aim to add rows (observations) not columns and columns should be independent of each other. 
-
-Certain types of data analysis require a wide or long format. Sometimes we need to convert the data structure from wide to long or vice versa. We won't be needing to do this in this module because we are taking care with designing our data sheet to make it easier to analyse our data with minimal post-collection data manipulation.
 
 ### Filling in a data sheet 
 
@@ -868,19 +869,19 @@ To help you, there is a data sheet template on blackboard you can fill in.
 
 Here are the rules we want you to apply here (these are not global standards and may vary elsewhere):
 
- * CaSe coNsistEncy in all text
+ * **CaSe coNsistEncy** in all text
      * All words including column headers should be in lower case, no spaces
  * Column headers should be informative
      * `pathogen_density` or `total_time` is good (even the mathematical notation like `H` or `Th` because it is standardised)
      * `col1` or `pd` is bad -- not easy to understand (e.g. acronyms not everyone uses)
-     * The column headers in the template are pre-filled. You do not need to change them.
- * **No empty cells**
+     * The column headers in the template are pre-filled. **You do not need to change them.**
+ * **No empty cells in any column**
      * All cells should have a value. Put `NA` if there is no value
      * Every cell is a single value
  * Do not mix alphanumeric characters (e.g. l3773r5 & numb3r5)
      * Numeric columns should only contain numbers (0-9), no letters. Character strings should only contain letters (a-z), no numbers
      * Avoid special characters (e.g. (), ~, &, / etc.)
- * No spaces (called whitespace in computing)
+ * **No spaces** (called whitespace in computing)
      * No spaces between words. Use _ instead. E.g. `no_spaces`
      * No spaces before or after words
      * This rule doesn't apply to generic text fields for taking notes, comments or observations. It applies to treatments of a variable if they are described by strings, e.g. `no_fertiliser`, `yes_fertiliser`
@@ -895,14 +896,13 @@ Here are the rules we want you to apply here (these are not global standards and
      * Not everyone has access to Excel. What if someone uses Google Sheets? ".xlsx" files are for Excel. 
      * ".csv" comma separated files are portable across platforms, use less memory and are easy for a computer to read -- **save your data as csv**
  * Are all the necessary columns/information included and in the right order?
-    * Do not change the headers of the template
      
 <div class="panel panel-primary">
   <div class="panel-heading">
 <h3 class="panel-title">Info!</h3>
   </div>
   <div class="panel-body">
-These guidelines are how R reads data from a spreadsheet. Thus, following these best practices will prevent errors when importing data into R. 
+These guidelines match how R reads data from a spreadsheet. Thus, following these best practices will prevent errors when importing data into R. 
 
 We want you to follow these rules *exactly* because we will collate your datasheets across the class.
 </div>
@@ -910,7 +910,7 @@ We want you to follow these rules *exactly* because we will collate your datashe
      
 ***
 
-#### Database lingo
+#### Data types
 
 When data is imported into a computer, the computer will classify it according to the type of data. Here are some common data types:
 
@@ -921,16 +921,11 @@ When data is imported into a computer, the computer will classify it according t
  
 These are the main data classes characterised by R. There may be other types in other programs (e.g. Access, SQL). In computer science, variables (i.e. columns) in R are called fields, so "predator density" and "total time" are fields.
 
-***
-
-### Do your experiment & collect your data
-
 See the table below for an example of column headers with no spaces and all cells with a single value. These are the information you need to provide in your data sheet and the type of data they are:
 
 | column_information            	| information_type 	| description 	|
 |-------------------------------	|------------------	|-------------	|
-| student_number                	| numeric          	    | your student number	|
-| total_time 	                    | numeric          	| in minutes	|
+| total_time 	                    | numeric          	| in minutes (i.e. `1`)	|
 | prey_density              	| numeric          	| NA          	|
 | replicate                     	| numeric          	| NA          	|
 | prey_eaten           	| numeric          	| NA          	|
@@ -945,7 +940,7 @@ These headers are pre-filled for you in the correct order on the template. You d
   <div class="panel-body">
   R is a computer program so you need to be specific about how you present information to it. For example, you may think having your treatments in individual tables separated by empty rows is sensible and logical but those empty cells mean missing data to a computer -- so the computer thinks you haven't filled in the data properly!
   
-  A space counts as a character so `"cat"`, `"cat "` and `" cat"` would be read as three distinct inputs. This kind of human error can mess up your analysis but is very common.
+  A space counts as a character so `"cat"`, `"cat "` and `" cat"` would be read as three unique inputs. This kind of human error can mess up your analysis but is very common.
  </div>
 </div>
 
@@ -954,7 +949,7 @@ These headers are pre-filled for you in the correct order on the template. You d
 ```{r radio1, echo = FALSE}
 quiz(caption = "Make sure you've inputted the data correctly!",
 question_radio(
-  "What should be entered in the cell under the column foraging_strategy when using a predator without experience?",
+  "What should be entered in the cell under the column foraging_strategy when simulating an inexperienced predator?",
   answer("yes_lid", correct = TRUE, message = random_praise()),
   answer("no_lid"),
   allow_retry = TRUE,
@@ -970,25 +965,11 @@ question_radio(
   random_answer_order = TRUE,
   incorrect = random_encouragement()
 ),
-question_checkbox(
-  "Which of these are classified as character fields? Select all that apply.",
-  answer("25"),
-  answer("Apple", correct = TRUE),
-  answer("Or4nge", correct = TRUE),
-  answer("ten_10", correct = TRUE),
-  answer("0.009"),
+question_radio(
+  "What should be entered in the cell under the column foraging_strategy when simulating an experienced predator?",
+  answer("no_lid", correct = TRUE, message = random_praise()),
+  answer("yes_lid"),
   allow_retry = TRUE,
-  random_answer_order = TRUE,
-  incorrect = random_encouragement()
-),
- question(
-  "What gets coded in R when you have empty cells in your csv?",
-  answer("NaN"),
-  answer("NA", correct = TRUE, message = random_praise()),
-  answer(" "),
-  answer("Empty"),
-  allow_retry = TRUE,
-  random_answer_order = TRUE,
   incorrect = random_encouragement()
 )
 )
@@ -1008,9 +989,7 @@ Information that isn't structured properly will have errors when imported into R
 This data will need to be **cleaned** before it can be analysed. So putting in the effort and attention to detail now will save future you a lot of avoidable stress! </div>
 </div>
 
-In data science, data usually needs to be processed before we can use it. The data needs to be checked and validated. Are all the fields entered correctly?
-
-Attention to detail is important in case it introduces mistakes in our data that may bias our analyses! How much do you trust your fellow students to have followed the previous instructions to the letter?
+In data science, data usually needs to be processed before we can use it. The data needs to be checked and validated. Are all the fields entered correctly? Attention to detail is important in case it introduces mistakes in our data that may bias our analyses!
 
 Checking and correcting data is called **cleaning**. We take raw data and clean it up. Sometimes data cannot be fixed (e.g. errors of unknown origin), then the conservative approach is to exclude the observation which is a shame if lots of time and effort (or money) went in to collecting it. Cleaning often takes longer than the actual analysis! It is a real pain! >:(
 
@@ -1020,19 +999,7 @@ In the real world, human-collected data is almost never clean because humans are
 
 ### Uploading your dataset to Blackboard
 
-Save your data sheet **as a csv file** (click "Save As" and select csv file type). No other file types are accepted. Your file name should be each of your student numbers and practical session separated by `_`. e.g. `54321_12345_AM.csv` for the morning session.
-
-Upload your csv file to the assignment link provided on Blackboard. **Only one person in the group needs to upload a file**.
-
-```{r radio2, echo = FALSE}
-question_radio(
-  "Why do we prefer to use comma separated values files?",
-  answer("They save data in a easy to read format with less data loss and smaller file sizes", correct = TRUE, message = random_praise()),
-  answer("They save lots of metadata like colour or font formatting"),
-  allow_retry = TRUE,
-  incorrect = random_encouragement()
-)
-```
+Save your data sheet **as a csv file** (click "Save As" and select csv file type). No other file types are accepted. **Only one person in the group needs to upload a file**.
 
 ***
 
@@ -1041,6 +1008,9 @@ question_radio(
 Use the following check list to make sure you have done everything you need for this practical.  
 
 * Does your data sheet fully conform to the guidelines above?
+    * Foraging strategy conforms to guidelines?
+    * Correctly formatted numeric columns?
+    * No empty cells anywhere?
 * Uploaded your dataset to Blackboard?
     * Correct file type?
     * Correct file name?

@@ -160,65 +160,29 @@ Don't forget to answer the CA questions in a separate link. There are prompts th
 
 ***
 
-## How to problem solve
+### Two pitfalls to avoid
 
-We don't expect you to be expert programmers but we *do* expect you to be able and willing to figure things out yourself (problem solving).
-
-In programming, it's *really easy* to make mistakes that breaks code. That is no means a reflection on you or your ability to code/learn.  
-
-If your code is not working take a moment to **breathe**. Then check for common, minor errors such as:
-
- * Spelling mistakes
- * Wrong dataset name
- * Wrong variable (column) name
- * Missing or wrong quotation mark
- * Missing bracket
- * Inconsistent cases (e.g. Uppercase)
- * Missed a step
- * Invalid syntax (e.g. spaces)
- * Duplicates of the same function with multiple errors -- keep your scripts tidy!
-
-These reading/typing mistakes are the majority of encountered errors. They are not a big deal and are easily corrected.
- 
-<div class="panel panel-primary">
-<div class="panel-heading">
-<div class="panel-title">
-You can **and should** easily fix the above mistakes yourself!  
-We want you to know how to work problems out independently.
-</div>
-</div>
-</div> 
-
-
-*** 
-
-### Be clear about your problem
-
- > Programming requires a clear idea of what you want to achieve.  
- > You need to do the thinking for the computer.
- 
-One of the hardest thing about troubleshooting someone else's programming is that we cannot read your mind. When describing your problem, be comprehensive & give context. The more information you provide, the more information and context people have to help you.
-
-If something isn't working, can you articulate what you aim to do? What you expect to see if it worked? What you did leading up to this point? And what you think is happening to cause the error?
-
-This is called the **rubber duck method** -- like you are explaining your problems to a rubber duck. Notice, it's exactly like the Scientific Method.
-
-If there's an error message, read it. Error messages are the computer telling you what's wrong. Try googling the entire error message to see what other people have said. The entire error message is necessary for context, not just the last bit. 
-
-<div class="panel panel-success">
+<div class="panel panel-danger">
   <div class="panel-heading">
-<h3 class="panel-title">Some general advice</h3>
+<h3 class="panel-title">Danger!</h3>
   </div>
   <div class="panel-body">
-Programming is **trial and error**. You shouldn't expect to get it on the first try. And that's OK -- it's part of the process. 
+**1. Do not take the code here for granted** 
 
-You'll often find it's because you haven't proof-read your code carefully enough for the mistakes above.
+The point of learning computation and programming is to not treat software like a black box where you cannot see inside and you don't know where the output came from or what they mean.
 
-Practice the basics before you progress to harder stuff or answer the assessment. Take good notes.
+Every dataset is different, so code you copy from someone else is not guaranteed to work with your dataset first time. For example, you may be using different column names.
 
-Learning is about the process and about your growth, not the end result or your grade. Apply your knowledge to new scenarios.
+You can **and should** easily fix common coding typos yourself!  
+We want you to know how to work problems out independently.
 
-Don't over-think it. 
+***
+
+**2. Do not skip questions or exercises to answer your assessment on the fly**
+
+All the activities and quiz questions will give you the knowledge to do the assessment -- do these first. Don't do the assessment questions at the same time as the practical exercises.
+
+If something does not look correct, first check that you have not missed a step.
 </div>
 </div>
 
@@ -239,29 +203,6 @@ question(
 )
 ```
 
-***
-
-### Two pitfalls to avoid
-
-<div class="panel panel-danger">
-  <div class="panel-heading">
-<h3 class="panel-title">Danger!</h3>
-  </div>
-  <div class="panel-body">
-**1. Do not take the code here for granted** 
-
-The point of learning computation and programming is to not treat software like a black box where you cannot see inside and you don't know where the output came from or what they mean.
-
-Every dataset is different, so code you copy from someone else is not guaranteed to work with your dataset first time. For example, you may be using different column names.
-
-***
-
-**2. Do not skip questions or exercises to answer your assessment on the fly**
-
-All the activities and quiz questions will give you the knowledge to do the assessment -- do these first. Don't do the assessment questions at the same time as the practical exercises.
-
-</div>
-</div>
 
 ***
 
@@ -343,7 +284,7 @@ plot(type2 ~ prey , type = 'l', lwd = 4, ylab = "1/Ha, Prey captured", xlab = "1
      xaxt='n', yaxt='n')
 ```
 
-Now we can fit a linear model and find the values of search rate ($a$) and handling time ($T_h$) from the slope and intercept of the linear regression.
+Now we can fit a linear model where the response variable is $\frac{1}{H_a}$ and the predictor variable is $\frac{1}{H \times T_{total}}$, and find the values of search rate ($a$) and handling time ($T_h$) from the slope and intercept of the linear regression.
 
 $$ \beta_1 = \frac{1}{a}$$
 and
@@ -882,12 +823,12 @@ H1: The difference is not equal to 0
 
 To see more information about our linear regression we need to ask to see the `summary` of our linear regression by placing our `lm` function within `summary(lm())`.
 
-*Enter the code to check the `summary()` of the additive linear regression for the `crabs` dataset:*
+*Enter the code to check the `summary()` of the __additive linear regression__ for the `crabs` dataset:*
 ```{r fixed-summary, exercise = TRUE}
 
 ```
 ```{r fixed-summary-hint-1}
-Check the summary of the model with summary(). What goes inside summary()?
+Check the summary of the model with summary(). What goes inside summary()? We are not looking for summary statistics of the dataset
 ```
 ```{r fixed-summary-hint-2}
 What goes inside lm()?
@@ -1100,6 +1041,19 @@ You might recognise the if else statement and understand what's happening from p
 
 We now have all the correct columns to parameterise our functional response.
  
+Remember the graph looks like this now:
+
+```{r tyepe2line2, echo = FALSE, fig.cap= "Linearised type II functional response of an predator-prey response"}
+prey <- seq(0, 0.25, 0.01)
+type2 <- seq(0, 1, length.out = length(prey))
+plot(type2 ~ prey , type = 'l', lwd = 4, ylab = "1/Ha, Prey captured", xlab = "1/H Total time, Prey density",
+     xaxt='n', yaxt='n')
+```
+
+And the equation of the line is:
+
+$$\frac{1}{H_a}=\ \frac{1}{a}\times\frac{1}{H\times T_{total}}+\frac{T_h}{T_{total}}$$
+
 ***
 
 **Step 3: Construct an additive linear model for your data**  

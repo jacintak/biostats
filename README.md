@@ -17,6 +17,9 @@ remotes::install_github("jacintak/biostats", build_vignettes = TRUE)
 
 # Developer notes
 
+2023 version is 3.4
+ * Removed troubleshooting tips from start of Part 2. Added reminder about linearised graph.
+
 2022 version is 3.0. Last tag v3.3.3. Built with `learnr` v0.11.2 (CRAN)    
 3.0 Updates:
 
